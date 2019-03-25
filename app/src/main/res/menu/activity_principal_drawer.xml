@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group>
+        <item
+                android:id="@+id/nav_reportes"
+                android:icon="@mipmap/reportesiconsmall"
+                android:title="Reportes"/>
+        <item
+                android:id="@+id/nav_robo"
+                android:icon="@mipmap/serieiconsmall"
+                android:title="Me robaron mi bici..."/>
+        <item
+                android:id="@+id/nav_slideshow"
+                android:icon="@mipmap/buscaricon"
+                android:title="# serie con reporte"/>
+        <item
+                android:id="@+id/nav_manage"
+                android:icon="@mipmap/tipsicon"
+                android:title="Tips"/>
+
+        <item
+                android:id="@+id/nav_share"
+                android:icon="@mipmap/contactoiconsmall"
+                android:title="Contáctanos"/>
+        <item
+                android:id="@+id/nav_send"
+                android:icon="@mipmap/acercaicon"
+                android:title="Acerca de"/>
+
+        <item
+                android:id="@+id/nav_settings"
+                android:icon="@mipmap/ajustesicon"
+                android:title="Ajustes"/>
+
+        <item
+                android:id="@+id/nav_login"
+                android:icon="@mipmap/saliricon"
+                android:title="Iniciar sesión"/>
+    </group>
+
+    <!--item android:title="">
+        <menu>
+
+
+        </menu>
+    </item-->
+</menu>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "896536123930",
+    "firebase_url": "https://rare-study-233221.firebaseio.com",
+    "project_id": "rare-study-233221",
+    "storage_bucket": "rare-study-233221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896536123930:android:16e97a774bdcc943",
+        "android_client_info": {
+          "package_name": "com.bicisos.i7.bicisos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896536123930-ckp46r7e7nng4a3bgg9j8on7retftce4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkQLb_wCc2R_SC_XiHmcrNx-CFNWpnieg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
