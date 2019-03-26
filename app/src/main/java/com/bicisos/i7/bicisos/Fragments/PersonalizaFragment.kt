@@ -1,5 +1,6 @@
 package com.bicisos.i7.bicisos.Fragments
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Context
@@ -18,6 +19,7 @@ import android.content.Intent
 import android.widget.Toast
 import android.content.ClipData
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.provider.MediaStore
@@ -26,11 +28,12 @@ import kotlinx.android.synthetic.main.photos.view.*
 import org.jetbrains.anko.AlertDialogBuilder
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import android.support.v4.content.ContextCompat.checkSelfPermission
+import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.nio.file.Files.exists
-
-
-
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,11 +55,16 @@ class PersonalizaFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnPersonalizaListener? = null
 
-    public var REQUEST_CODE_CAMERA = 1
-    public var imagesEncodedList : ArrayList<String>? = null
+    var REQUEST_CODE_CAMERA = 1
+    var PICK_FROM_GALLERY = 2
+    var imagesEncodedList : ArrayList<String>? = null
+    var photosBool: ArrayList<Boolean>? = null
 
     lateinit var mBuilder : AlertDialog.Builder
     lateinit var mAlertDialog : AlertDialog
+    lateinit var mDialogView : View
+
+    var index: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,24 +102,57 @@ class PersonalizaFragment : Fragment() {
             listener?.onFragmentInteraction("")
         }
 
+        photosBool = ArrayList<Boolean>()
+        photosBool!!.add(false)
+        photosBool!!.add(false)
+        photosBool!!.add(false)
+        photosBool!!.add(false)
+
+        index = -1
+
         imagesEncodedList = ArrayList<String>()
+        imagesEncodedList!!.add("")
+        imagesEncodedList!!.add("")
+        imagesEncodedList!!.add("")
+        imagesEncodedList!!.add("")
+
         takePictures.setOnClickListener {
-            //open view to get pictures...get gallery and pic max 4 photos
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
+            try {
+                if (checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY);
+                } else {
+                    //open view to get pictures...get gallery and pic max 4 photos
+                    val intent = Intent()
+                    intent.type = "image/*"
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                    intent.action = Intent.ACTION_GET_CONTENT
+                    startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace();
+            }
         }
+    }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
+        if(requestCode == REQUEST_CODE_CAMERA){
+            if(permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[0] == (PackageManager.PERMISSION_GRANTED))
+            {
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         try {
             // When an Image is picked
             var imageEncoded: String
-            imagesEncodedList!!.clear()
 
             if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && null != data) {
                 // Get the Image from data
@@ -134,7 +175,11 @@ class PersonalizaFragment : Fragment() {
 
                         val columnIndex = cursor.getColumnIndex(filePathColumn[0])
                         imageEncoded = cursor.getString(columnIndex)
-                        imagesEncodedList!!.add(imageEncoded)
+                        if (index != -1) {
+                            imagesEncodedList!![index] = imageEncoded
+                        }else{
+                            imagesEncodedList!![i] = (imageEncoded)
+                        }
                         cursor.close()
                     }
 
@@ -156,50 +201,90 @@ class PersonalizaFragment : Fragment() {
 
                         val columnIndex = cursor.getColumnIndex(filePathColumn[0])
                         imageEncoded = cursor.getString(columnIndex)
-                        imagesEncodedList!!.add(imageEncoded)
+
+                        if (index != -1) {
+                            imagesEncodedList!![index] = imageEncoded
+                        }else{
+                            imagesEncodedList!![0]=(imageEncoded)
+                        }
                         cursor.close()
 
                         loadPohots()
                     }
                 }
             } else {
-                Toast.makeText(activity!!, "You haven't picked Image",Toast.LENGTH_LONG).show()
+                Toast.makeText(activity!!, "Selecciona una imagen...",Toast.LENGTH_LONG).show()
             }
         } catch (e: Exception) {
-            Toast.makeText(activity!!, "Something went wrong", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity!!, "Algo salio mal...", Toast.LENGTH_LONG).show()
         }
 
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     fun loadPohots(){
+        mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.photos, null)
 
+        //event when click item
         val click = View.OnClickListener{
-            //preguntar por borrar foto o tomar nueva
-            Log.e("tag",it.tag.toString())
-            val alertanother = AlertDialog.Builder(activity!!)
-            alertanother.setTitle("Tomar foto")
 
-            alertanother.setPositiveButton("Tomar otra foto", DialogInterface.OnClickListener { dialogInterface, i ->
+            index = it.tag.toString().toInt()
+
+            //preguntar por borrar foto o tomar nueva
+            if (photosBool!![it.tag.toString().toInt()]){
+
+                val alertanother = AlertDialog.Builder(activity!!)
+                alertanother.setTitle("Tu bici...")
+                val options = arrayOf<CharSequence>("Elegir otra foto", "Borrar foto", "Cancelar")
+                alertanother.setItems(options) { dialog, item ->
+
+                    if (options[item] == "Elegir otra foto") {
+                        dialog.dismiss()
+                        val intent = Intent()
+                        intent.type = "image/*"
+                        //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                        intent.action = Intent.ACTION_GET_CONTENT
+                        mAlertDialog.dismiss()
+                        startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
+
+                    } else if (options[item] == "Borrar foto") {
+                        imagesEncodedList!![index] = ""
+                        when (index) {
+                            0 -> {
+                                photosBool!![0] = false
+                                mDialogView.bici1.setImageResource(R.mipmap.bicia)
+                            }
+                            1 -> {
+                                photosBool!![1] = false
+                                mDialogView.bici2.setImageResource(R.mipmap.bicia)
+                            }
+                            2 -> {
+                                photosBool!![2] = false
+                                mDialogView.bici3.setImageResource(R.mipmap.bicia)
+                            }
+                            3 -> {
+                                photosBool!![3] = false
+                                mDialogView.bici4.setImageResource(R.mipmap.bicia)
+                            }
+                        }
+                        dialog.dismiss()
+                    } else if (options[item] == "Cancelar") {
+                        dialog.dismiss()
+                    }
+                }
+
+                val alert = alertanother.create()
+                alert.show()
+            }else{
+                //si la foto no esta, abrimos galeria de una
                 val intent = Intent()
                 intent.type = "image/*"
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
-
-            })
-            alertanother.setNegativeButton("Borrar foto", DialogInterface.OnClickListener { dialogInterface, i ->
-
-            })
-            alertanother.setNeutralButton("Cancelar", DialogInterface.OnClickListener { dialogInterface, i ->
-
-            })
-
-            val alert = alertanother.create()
-            alert.show()
+                mAlertDialog.dismiss()
+                startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
+            }
         }
-
-        val mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.photos, null)
 
         //AlertDialogBuilder
         mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
@@ -209,40 +294,160 @@ class PersonalizaFragment : Fragment() {
         mDialogView.bici3.setOnClickListener(click)
         mDialogView.bici4.setOnClickListener(click)
         mDialogView.aceptarAction.setOnClickListener {
-            Log.e("tag","aceptar action")
-            if (mAlertDialog != null) {
-                mAlertDialog.dismiss()
-            }
+            Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
+            mAlertDialog.dismiss()
         }
 
-        var i = 0
+        //cargarFotos()
+        var i = -1
         imagesEncodedList!!.forEach {
-            val imgFile = File(it)
+            try {
+                val imgFile = File(it)
+                i++
+                if (imgFile.exists()) {
 
-            if (imgFile.exists()) {
-                val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+                    val options = BitmapFactory.Options()
+                    options.inJustDecodeBounds = true
+                    //options.inSampleSize = calculateInSampleSize(options,mDialogView.bici1.width,mDialogView.bici1.height)
+                    //options.inJustDecodeBounds = false
 
-                when (i) {
-                    0 -> {
-                        mDialogView.bici1.setImageBitmap(myBitmap)
+                    val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),options)
+                    val widht = options.outWidth
+                    val height = options.outHeight
+                    var finalW = 0
+                    var finalH = 0
+                    if (widht > height){
+                        finalW = 250
+                        finalH = 200
+                    }else if(widht == height){
+                        finalW = 250
+                        finalH = 250
+                    }else{
+                        finalW = 200
+                        finalH = 250
                     }
-                    1 -> {
-                        mDialogView.bici2.setImageBitmap(myBitmap)
-                    }
-                    2 -> {
-                        mDialogView.bici3.setImageBitmap(myBitmap)
-                    }
-                    3 -> {
-                        mDialogView.bici4.setImageBitmap(myBitmap)
+
+                    when (i) {
+                        0 -> {
+                            photosBool!![0] = true
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici1.width, mDialogView.bici1.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici1);*/
+                            //mDialogView.bici1.setImageBitmap(compressedBitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW, finalH)
+                                //.centerCrop()
+                                .into(mDialogView.bici1)
+                        }
+                        1 -> {
+                            photosBool!![1] = true
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici2.width, mDialogView.bici2.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici2);*/
+                            //mDialogView.bici2.setImageBitmap(compressedBitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW,finalH)
+                                .into(mDialogView.bici2)
+                        }
+                        2 -> {
+                            photosBool!![2] = true
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici3.width, mDialogView.bici3.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici3);*/
+                            //mDialogView.bici3.setImageBitmap(compressedBitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW, finalH)
+                                .into(mDialogView.bici3)
+                        }
+                        3 -> {
+                            photosBool!![3] = true
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW, finalH)
+                                .into(mDialogView.bici4)
+                            //mDialogView.bici4.setImageBitmap(compressedBitmap)
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici4.width, mDialogView.bici4.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici4);*/
+                        }
                     }
                 }
-                i++
+            }catch (e: Exception){
+                Log.w("warning","error al elegir archivo")
             }
-
         }
 
         mAlertDialog = mBuilder.show()
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
+    }
+
+    fun cargarFotos(){
+        var i = -1
+        imagesEncodedList!!.forEach {
+            try {
+                val imgFile = File(it)
+                i++
+                if (imgFile.exists()) {
+                    val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+
+                    when (i) {
+                        0 -> {
+                            photosBool!![0] = true
+                            mDialogView.bici1.setImageBitmap(myBitmap)
+                        }
+                        1 -> {
+                            photosBool!![1] = true
+                            mDialogView.bici2.setImageBitmap(myBitmap)
+                        }
+                        2 -> {
+                            photosBool!![2] = true
+                            mDialogView.bici3.setImageBitmap(myBitmap)
+                        }
+                        3 -> {
+                            photosBool!![3] = true
+                            mDialogView.bici4.setImageBitmap(myBitmap)
+                        }
+                    }
+                }
+            }catch (e: Exception){
+                Log.w("warning","error al elegir archivo")
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
