@@ -3,7 +3,7 @@ package com.bicisos.i7.bicisos.Fragments
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.Context
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,10 +15,7 @@ import com.bicisos.i7.bicisos.Adapters.CustomBici
 
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.fragment_personaliza.*
-import android.content.Intent
 import android.widget.Toast
-import android.content.ClipData
-import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -33,6 +30,7 @@ import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.nio.file.Files.exists
 
 // TODO: Rename parameter arguments, choose names that match
@@ -117,19 +115,37 @@ class PersonalizaFragment : Fragment() {
         imagesEncodedList!!.add("")
 
         takePictures.setOnClickListener {
-            try {
-                if (checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY);
-                } else {
-                    //open view to get pictures...get gallery and pic max 4 photos
-                    val intent = Intent()
-                    intent.type = "image/*"
-                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                    intent.action = Intent.ACTION_GET_CONTENT
-                    startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
+            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            val fotos : String = editor.getString("fotos","null")!!
+            if (fotos.equals("null"))
+            {
+                try {
+                    if (checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY);
+                    } else {
+                        //open view to get pictures...get gallery and pic max 4 photos
+                        val intent = Intent()
+                        intent.type = "image/*"
+                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                        intent.action = Intent.ACTION_GET_CONTENT
+                        startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace();
                 }
-            } catch (e: Exception) {
-                e.printStackTrace();
+            }
+            else{
+                //ya tengo fotos...entonces cargo fotos
+                val wrapper = ContextWrapper(context)
+                val directory = wrapper.getDir("profile", Context.MODE_PRIVATE);
+                for(i in 0..3){
+                    val temp = File(directory,"bici"+i)
+                    if(temp.exists()){
+                        imagesEncodedList!![i] = temp.absolutePath
+                    }
+                }
+
+                loadPohots()
             }
         }
     }
@@ -248,6 +264,12 @@ class PersonalizaFragment : Fragment() {
                         startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
 
                     } else if (options[item] == "Borrar foto") {
+
+                        val imgFile = File(imagesEncodedList!![index])
+                        if(imgFile.exists()){
+                            imgFile.delete()
+                        }
+
                         imagesEncodedList!![index] = ""
                         when (index) {
                             0 -> {
@@ -288,6 +310,7 @@ class PersonalizaFragment : Fragment() {
 
         //AlertDialogBuilder
         mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
+        val wrapper = ContextWrapper(context)
 
         mDialogView.bici1.setOnClickListener(click)
         mDialogView.bici2.setOnClickListener(click)
@@ -296,6 +319,39 @@ class PersonalizaFragment : Fragment() {
         mDialogView.aceptarAction.setOnClickListener {
             Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
             mAlertDialog.dismiss()
+
+            val directory = wrapper.getDir("profile", Context.MODE_PRIVATE);
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+            var i = 0
+
+            imagesEncodedList!!.forEach {
+                try {
+                    val imgFile = File(it)
+                    if (imgFile.exists()) {
+                        val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+                        val temp = File(directory,"bici"+i)
+                        try {
+                            val fos = FileOutputStream(temp)
+                            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                            fos.close()
+                        } catch (e: Exception) {
+                            Log.e("SAVE_IMAGE", e.message, e)
+                        }
+
+                        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                        editor.putString("fotos","1")
+                        editor.apply()
+
+                    }else{
+
+                    }
+                }catch(e:Exception){
+                    Log.w("tag","error al guardar archivo")
+                }
+                i++
+            }
         }
 
         //cargarFotos()
@@ -311,7 +367,6 @@ class PersonalizaFragment : Fragment() {
                     //options.inSampleSize = calculateInSampleSize(options,mDialogView.bici1.width,mDialogView.bici1.height)
                     //options.inJustDecodeBounds = false
 
-                    val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath(),options)
                     val widht = options.outWidth
                     val height = options.outHeight
                     var finalW = 0
@@ -414,40 +469,6 @@ class PersonalizaFragment : Fragment() {
         }
 
         return inSampleSize
-    }
-
-    fun cargarFotos(){
-        var i = -1
-        imagesEncodedList!!.forEach {
-            try {
-                val imgFile = File(it)
-                i++
-                if (imgFile.exists()) {
-                    val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
-
-                    when (i) {
-                        0 -> {
-                            photosBool!![0] = true
-                            mDialogView.bici1.setImageBitmap(myBitmap)
-                        }
-                        1 -> {
-                            photosBool!![1] = true
-                            mDialogView.bici2.setImageBitmap(myBitmap)
-                        }
-                        2 -> {
-                            photosBool!![2] = true
-                            mDialogView.bici3.setImageBitmap(myBitmap)
-                        }
-                        3 -> {
-                            photosBool!![3] = true
-                            mDialogView.bici4.setImageBitmap(myBitmap)
-                        }
-                    }
-                }
-            }catch (e: Exception){
-                Log.w("warning","error al elegir archivo")
-            }
-        }
     }
 
     override fun onAttach(context: Context) {
