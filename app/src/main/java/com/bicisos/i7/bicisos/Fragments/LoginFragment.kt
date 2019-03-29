@@ -96,6 +96,7 @@ class LoginFragment : Fragment() {
             override fun onSuccess(loginResult: LoginResult) {
                 // App code
                 Log.w("access",loginResult.accessToken.token)
+
                 handleFacebookAccessToken(loginResult.accessToken.token)
             }
 
@@ -139,9 +140,10 @@ class LoginFragment : Fragment() {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("tag", "signInWithCredential:success")
                 val user = auth.currentUser
-                Toast.makeText(activity,"logrado "+user.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
                 val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","1")
+                editor.putString("nombre",user.displayName)
                 editor.apply()
 
                 listener!!.sendActivity("")

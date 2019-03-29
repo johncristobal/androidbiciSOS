@@ -2,7 +2,9 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <device id="Nexus One" />
+      </config>
     </shared>
   </component>
   <component name="CMakeSettings">
@@ -12,6 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37920758-b520-43f6-ac91-a10b0256f24e" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/backbrown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
@@ -23,7 +26,6 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_core_runtime_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_core_runtime_1_1_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_livedata_1_1_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__android_arch_lifecycle_livedata_1_1_1.xml" afterDir="false" />
@@ -91,7 +93,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_measurement_connector_impl_17_0_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_measurement_connector_impl_17_0_5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BiciSOSAndroid.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BiciSOSAndroid.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/androidbiciSOS.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_personaliza.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_personaliza.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -114,47 +126,49 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="google_maps_api.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="PrincipalActivity.kt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="367">
+              <caret line="53" column="12" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="12" />
+              <folding>
+                <element signature="e#43#891#0" expanded="true" />
+                <element signature="e#1924#1955#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="photos.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/photos.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
+      <file leaf-file-name="PersonalizaFragment.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="455">
-              <caret line="69" column="49" selection-start-line="69" selection-start-column="49" selection-end-line="69" selection-end-column="49" />
+            <state relative-caret-position="79">
+              <caret line="82" selection-start-line="82" selection-end-line="84" selection-end-column="39" />
+              <folding>
+                <element signature="e#2889#2920#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="backbutton.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbutton.xml">
+      <file leaf-file-name="LoginFragment.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="37" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="colors.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="34" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="34" />
+            <state relative-caret-position="228">
+              <caret line="146" column="30" lean-forward="true" selection-start-line="146" selection-start-column="30" selection-end-line="146" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="resourceFile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -175,14 +189,14 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="androidbiciSOS" />
+              <option name="name" value="BiciSOSAndroid" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="androidbiciSOS" />
+                <option name="name" value="BiciSOSAndroid" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
@@ -200,7 +214,7 @@
           <value>
             <list>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of root project 'androidbiciSOS'." />
+                <option name="description" value="Displays the sub-projects of root project 'BiciSOSAndroid'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="projects" />
               </ExternalTaskPojo>
@@ -284,7 +298,7 @@
                 <option name="name" value="compileDebugAndroidTestJavaWithJavac" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by root project 'androidbiciSOS'. [incubating]" />
+                <option name="description" value="Displays the components produced by root project 'BiciSOSAndroid'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="components" />
               </ExternalTaskPojo>
@@ -568,12 +582,12 @@
                 <option name="name" value="generateDebugAssets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the dependent components of components in root project 'androidbiciSOS'. [incubating]" />
+                <option name="description" value="Displays the dependent components of components in root project 'BiciSOSAndroid'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependentComponents" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all buildscript dependencies declared in root project 'androidbiciSOS'." />
+                <option name="description" value="Displays all buildscript dependencies declared in root project 'BiciSOSAndroid'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildEnvironment" />
               </ExternalTaskPojo>
@@ -698,7 +712,7 @@
                 <option name="name" value="bundleRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of root project 'androidbiciSOS'. [incubating]" />
+                <option name="description" value="Displays the configuration model of root project 'BiciSOSAndroid'. [incubating]" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="model" />
               </ExternalTaskPojo>
@@ -711,7 +725,7 @@
                 <option name="name" value="reportSourceSetTransformAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project 'androidbiciSOS' (some of the displayed tasks may belong to subprojects)." />
+                <option name="description" value="Displays the tasks runnable from root project 'BiciSOSAndroid' (some of the displayed tasks may belong to subprojects)." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="tasks" />
               </ExternalTaskPojo>
@@ -729,7 +743,7 @@
                 <option name="name" value="bundleDebugAndroidTestResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in root project 'androidbiciSOS'." />
+                <option name="description" value="Displays all dependencies declared in root project 'BiciSOSAndroid'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencies" />
               </ExternalTaskPojo>
@@ -834,7 +848,7 @@
                 <option name="name" value="packageAppClassesReleaseUnitTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in root project 'androidbiciSOS'." />
+                <option name="description" value="Displays the insight into a specific dependency in root project 'BiciSOSAndroid'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="dependencyInsight" />
               </ExternalTaskPojo>
@@ -1085,7 +1099,7 @@
                 <option name="name" value="processReleaseGoogleServices" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of root project 'androidbiciSOS'." />
+                <option name="description" value="Displays the properties of root project 'BiciSOSAndroid'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="properties" />
               </ExternalTaskPojo>
@@ -2374,7 +2388,7 @@
                   </entry>
                 </map>
               </option>
-              <option name="name" value="androidbiciSOS" />
+              <option name="name" value="BiciSOSAndroid" />
               <option name="projectBuildClasspath">
                 <list>
                   <option value="$USER_HOME$/.gradle/wrapper/dists/gradle-4.6-all/bcst21l2brirad8k2ben1letg/gradle-4.6/src/ide" />
@@ -2537,64 +2551,89 @@
       </map>
     </option>
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/backbrown.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_personaliza.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="826" />
+    <option name="width" value="1280" />
+    <option name="height" value="727" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
             <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
             </path>
             <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
             </path>
             <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="bicisos" type="cbb59c9e:AndroidPsiDirectoryNode" />
             </path>
             <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="bicisos" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="Activities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="bicisos" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="Fragments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
               <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="androidbiciSOS" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -2730,60 +2769,96 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="826" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="727" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Android Profiler" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info id="Image Layers" />
-      <window_info id="Build Variants" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Preview" weight="0.3297568" />
-      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Preview" order="3" weight="0.32956383" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Logcat" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Logcat" order="7" />
       <window_info id="Captures" order="2" weight="0.25" />
-      <window_info id="Capture Tool" />
-      <window_info id="Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
-      <window_info anchor="bottom" id="Build" weight="0.32921812" />
-      <window_info anchor="right" id="Gradle" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24959612" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32784185" />
+      <window_info anchor="right" id="Android WiFi ADB" order="4" />
+      <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.33772653" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt</url>
+          <line>97</line>
+          <properties />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt</url>
+          <line>116</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt</url>
+          <line>140</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="3" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="e#43#891#0" expanded="true" />
+            <element signature="e#1924#1955#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
+        <state relative-caret-position="420">
           <caret line="28" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/photos.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
+        <state relative-caret-position="1035">
           <caret line="69" column="49" selection-start-line="69" selection-start-column="49" selection-end-line="69" selection-end-column="49" />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbutton.xml">
@@ -2797,6 +2872,102 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="34" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/debug/res/values/google_maps_api.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/photos.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="69" column="49" selection-start-line="69" selection-start-column="49" selection-end-line="69" selection-end-column="49" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbutton.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbrown.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="30" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="77" column="41" selection-start-line="77" selection-start-column="41" selection-end-line="77" selection-end-column="41" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_personaliza.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="211" column="48" selection-start-line="211" selection-start-column="48" selection-end-line="211" selection-end-column="48" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="146" column="30" lean-forward="true" selection-start-line="146" selection-start-column="30" selection-end-line="146" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="28" column="58" lean-forward="true" selection-start-line="28" selection-start-column="58" selection-end-line="28" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="82" selection-start-line="82" selection-end-line="84" selection-end-column="39" />
+          <folding>
+            <element signature="e#2889#2920#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="53" column="12" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="12" />
+          <folding>
+            <element signature="e#43#891#0" expanded="true" />
+            <element signature="e#1924#1955#1" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

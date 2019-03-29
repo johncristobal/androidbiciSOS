@@ -26,7 +26,13 @@ class SesionActivity : AppCompatActivity(), LoginFragment.Datalistener, Personal
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sesion)
 
-        supportFragmentManager.beginTransaction().add(R.id.container, PersonalizaFragment.newInstance("","")).commit()
+        if (AccessToken.getCurrentAccessToken() != null) {
+            supportFragmentManager.beginTransaction().add(R.id.container, PersonalizaFragment.newInstance("", ""))
+                .commit()
+        }else{
+            supportFragmentManager.beginTransaction().add(R.id.container, LoginFragment.newInstance("", ""))
+                .commit()
+        }
     }
 
     override fun sendActivity(message: String) {

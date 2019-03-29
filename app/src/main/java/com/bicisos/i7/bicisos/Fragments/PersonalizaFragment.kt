@@ -80,6 +80,10 @@ class PersonalizaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val name = prefs.getString("nombre","null")
+        editTextNombrePer.setText(name)
+
         listaimagenes.layoutManager = LinearLayoutManager(activity!!,LinearLayoutManager.HORIZONTAL,false)
 
         val imagenes = ArrayList<Int>()

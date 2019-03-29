@@ -1,5 +1,6 @@
 package com.bicisos.i7.bicisos.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -19,6 +20,7 @@ import com.facebook.FacebookCallback
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_personaliza.*
 
 
 class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -45,15 +47,18 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val mapFragment = MapFragment()
         supportFragmentManager.beginTransaction().add(R.id.container,mapFragment).commit()
 
+        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val sesion = prefs.getString("sesion","null")
+        val nombre = prefs.getString("nombre","null")
+        if (sesion!!.equals("1")){
+            
+        }
+
         //click button to laucnn navigationdrawaner
         openMenu.setOnClickListener { view ->
             drawer_layout.openDrawer(GravityCompat.START)
         }
-
-
     }
-
-
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {

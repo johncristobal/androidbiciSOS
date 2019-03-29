@@ -102,7 +102,7 @@
                     android:inputType="textPersonName"
                     android:background="@drawable/backinput"
                     android:ems="10"
-                    android:id="@+id/editText"
+                    android:id="@+id/editTextNombrePer"
                     android:layout_marginTop="8dp"
                     android:textSize="16sp"
                     android:layout_marginStart="8dp"
@@ -209,6 +209,7 @@
                 <Button
                         android:text="Más tarde"
                         android:layout_gravity="end"
+                        android:visibility="gone"
                         android:layout_width="120dp"
                         android:background="@drawable/backbutton"
                         android:layout_height="30dp"
