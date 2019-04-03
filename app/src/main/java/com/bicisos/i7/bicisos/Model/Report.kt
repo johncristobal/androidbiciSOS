@@ -1,9 +1,6 @@
 package com.bicisos.i7.bicisos.Model
 
-public class Report (
-    val id: Int,
-    val imageUrl: String,
-    val textTitle: String
-)
+data class Report (val id: String, val imageUrl: String, val textTitle: String)
 {
+    constructor() : this ("","","")
 }
