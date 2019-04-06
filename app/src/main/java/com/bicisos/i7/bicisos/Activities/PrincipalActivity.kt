@@ -21,10 +21,11 @@ import com.facebook.login.LoginManager
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_personaliza.*
+import kotlinx.android.synthetic.main.nav_header_principal.*
+import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 
 class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,19 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         val sesion = prefs.getString("sesion","null")
         val nombre = prefs.getString("nombre","null")
         if (sesion!!.equals("1")){
-            
+            //ocultar iniciar sesion
+            val menu = nav_view.menu
+            menu.getItem(7).title = "Cerrar sesión"
+            nav_view.getHeaderView(0).nombrText.text = nombre
+            val biciRes = prefs.getInt("biciRes",0)
+            nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
+            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+                val intent = Intent(this,SesionActivity::class.java)
+                startActivity(intent)
+            }
+        }else{
+            nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
+            nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
         }
 
         //click button to laucnn navigationdrawaner
@@ -109,12 +122,41 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_login -> {
                 //sesion
-                val intent = Intent(this,SesionActivity::class.java)
-                startActivity(intent)
+                val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val sesion = prefs.getString("sesion","null")
+                if (sesion!!.equals("1")) {
+                    //cerrar sesion auth....
+                }
+                else {
+                    val intent = Intent(this, SesionActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val sesion = prefs.getString("sesion","null")
+        val nombre = prefs.getString("nombre","null")
+        if (sesion!!.equals("1")){
+            //ocultar iniciar sesion
+            val menu = nav_view.menu
+            menu.getItem(7).title = "Cerrar sesión"
+            nav_view.getHeaderView(0).nombrText.text = nombre
+            val biciRes = prefs.getInt("biciRes",0)
+            nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
+            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+                val intent = Intent(this,SesionActivity::class.java)
+                startActivity(intent)
+            }
+        }else{
+            nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
+            nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
+        }
     }
 }

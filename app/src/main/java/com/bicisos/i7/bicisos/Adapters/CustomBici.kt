@@ -11,9 +11,7 @@ import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.imagen_bici.view.*
 
-class CustomBici (val context: Context, val imagenes: ArrayList<Int>) : RecyclerView.Adapter<CustomBici.ViewHolder>() {
-
-    var index = -1
+class CustomBici (val context: Context, val imagenes: ArrayList<Int>, var index: Int) : RecyclerView.Adapter<CustomBici.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
 
@@ -33,12 +31,18 @@ class CustomBici (val context: Context, val imagenes: ArrayList<Int>) : Recycler
         p0.imagenBici.setOnClickListener {
             index=p1
             notifyDataSetChanged()
+
+            val editor = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE)
+            editor.edit().putInt("bici",p1).apply()
+            editor.edit().putInt("biciRes",imagenes[p1]).apply()
+
             /*doAsync {
                 var result = ApiClient().callTalleres()
                 uiThread {
                     Log.e("main", result!![0].coordinates)
                 }
             }*/
+
         }
 
         if(index==p1){

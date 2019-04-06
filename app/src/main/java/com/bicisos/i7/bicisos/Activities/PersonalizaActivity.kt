@@ -22,7 +22,7 @@ class PersonalizaActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }*/
 
-        listaimagenes.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        /*listaimagenes.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
 
         val imagenes = ArrayList<Int>()
         imagenes.add(R.mipmap.bicia)
@@ -32,6 +32,6 @@ class PersonalizaActivity : AppCompatActivity() {
 
         val adapter = CustomBici(this,imagenes)
 
-        listaimagenes.adapter = adapter
+        listaimagenes.adapter = adapter*/
     }
 }

@@ -80,9 +80,20 @@ class PersonalizaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
         val name = prefs.getString("nombre","null")
-        editTextNombrePer.setText(name)
+        if (!name!!.equals("null")) {
+            editTextNombrePer.setText(name)
+        }
+        val serie = prefs.getString("serie","null")
+        if (!serie!!.equals("null")) {
+            editTextSerie.setText(serie)
+        }
+        val desc = prefs.getString("desc","null")
+        if (!desc!!.equals("null")) {
+            editTextDesc.setText(desc)
+        }
+        val bici = prefs.getInt("bici",-1)
 
         listaimagenes.layoutManager = LinearLayoutManager(activity!!,LinearLayoutManager.HORIZONTAL,false)
 
@@ -92,15 +103,29 @@ class PersonalizaFragment : Fragment() {
         imagenes.add(R.mipmap.bicic)
         imagenes.add(R.mipmap.bicid)
 
-        val adapter = CustomBici(activity!!,imagenes)
+        val adapter = CustomBici(activity!!,imagenes,bici)
 
         listaimagenes.adapter = adapter
 
         buttonAceptar.setOnClickListener {
+
+            //antes de finishm tenemos que guardar el num de serie, la bici que eligio, las caracteristicas
+            //bici la guardamos al dar clic
+            //salvemos lo demas
+            val editor = prefs.edit()
+            editor.putString("serie",editTextSerie.text.toString());
+            editor.putString("desc",editTextDesc.text.toString());
+            editor.apply()
+
             listener?.onFragmentInteraction("")
         }
 
         buttonDespues.setOnClickListener {
+            val editor = prefs.edit()
+            editor.putString("serie",editTextSerie.text.toString());
+            editor.putString("desc",editTextDesc.text.toString());
+            editor.apply()
+
             listener?.onFragmentInteraction("")
         }
 

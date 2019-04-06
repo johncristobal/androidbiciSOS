@@ -129,6 +129,14 @@ class LoginFragment : Fragment() {
                 }
             }
         )
+
+        imageViewClose.setOnClickListener {
+            listener!!.sendActivity("")
+        }
+
+        textViewRegister.setOnClickListener {
+            Log.w("tag","registrando")
+        }
     }
 
     private fun handleFacebookAccessToken(token: String) {
