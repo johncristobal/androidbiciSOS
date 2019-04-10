@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import com.bicisos.i7.bicisos.Adapters.CustomReport
+import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
 import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.R
@@ -19,10 +20,11 @@ import com.google.firebase.database.*
 
 import kotlinx.android.synthetic.main.content_reportes.*
 
-class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener {
+class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal {
 
     var context = this
     val reportFrag = ReportFragment.newInstance("","")
+    val finalReportFrag = FinalReporteFragment.newInstance("","")
     companion object {
         val reportes = ArrayList<Report>()
     }
@@ -64,15 +66,9 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
     fun saveReporte(){
 
-        /*val mDatabase = FirebaseDatabase.getInstance().getReference()
-        val key = mDatabase.child("reportes").push().key
-        mDatabase.child("reportes").child(key!!).setValue(Report(key,"url","title"))
-        */
-
         //mostrar frame con datos de reporte
         layoutReporte.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().add(R.id.reporte,reportFrag).commit()
-
 
     }
 
@@ -110,6 +106,17 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
     override fun onFragmentInteraction(message: String) {
         //reload data to show new report on recyclerview
+        if (message.equals("listo")){
+            //supportFragmentManager.beginTransaction().remove(reportFrag).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.reporte,finalReportFrag).commit()
+
+        }else {
+            layoutReporte.visibility = View.INVISIBLE
+            supportFragmentManager.beginTransaction().remove(reportFrag).commit();
+        }
+    }
+
+    override fun onFragmentInteractionFinal(message: String) {
         layoutReporte.visibility = View.INVISIBLE
         supportFragmentManager.beginTransaction().remove(reportFrag).commit();
     }

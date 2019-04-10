@@ -107,9 +107,19 @@
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
+                android:gravity="end"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+            <Button
+                    android:text="CANCELAR"
+                    android:layout_gravity="end"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/amarillo"
+                    android:background="@drawable/backbrown"
+                    android:layout_height="30dp"
+                    android:id="@+id/buttonCancelar"/>
 
             <Button
                     android:text="REPORTAR"

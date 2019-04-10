@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.R
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.custom_reporte.view.*
 
 class CustomReport(val context: Context, val reportes: ArrayList<Report>) : RecyclerView.Adapter<CustomReport.ViewHolder>(){
@@ -23,8 +26,20 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>) : Recy
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
 
-        p0.textTitle.text = reportes[p1].textTitle
-        p0.textDetalle.text = "lOREM IPSUM lOREM IPSUM lOREM IPSUM lOREM IPSUM lOREM IPSUM lOREM IPSUM lOREM IPSUM lOREM IPSUM"
+        p0.textTitle.text = reportes[p1].name
+        p0.textDetalle.text =  reportes[p1].description
+
+        val idd =  reportes[p1].id
+        val storage = FirebaseStorage.getInstance().getReference()
+        val reportesStRef: StorageReference? = storage.child("reportes").child(idd).child("bici_0.png")
+        reportesStRef!!.downloadUrl.addOnSuccessListener {
+            Glide.with(context)
+                .load(it.toString())
+                .override(120,120)
+                .into(p0.imagenDetalle)
+        }.addOnFailureListener {
+            p0.imagenDetalle.setImageResource(R.drawable.loginiconuno)
+        }
     }
 
 

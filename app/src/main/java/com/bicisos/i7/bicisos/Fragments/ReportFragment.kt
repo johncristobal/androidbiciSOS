@@ -22,13 +22,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_report.*
 import kotlinx.android.synthetic.main.photos.view.*
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,13 +98,52 @@ class ReportFragment : Fragment() {
             ReporteDesc.setText(desc)
         }
 
+        buttonCancelar.setOnClickListener{
+            listener?.onFragmentInteraction("")
+        }
+
         buttonReportar.setOnClickListener {
             val editor = prefs.edit()
-            editor.putString("serie",ReporteSerie.text.toString());
-            editor.putString("desc",ReporteDesc.text.toString());
+            editor.putString("nombre",reportNombre.text.toString())
+            editor.putString("serie",ReporteSerie.text.toString())
+            editor.putString("desc",ReporteDesc.text.toString())
             editor.apply()
 
-            listener?.onFragmentInteraction("")
+            val fecha = Date()
+            val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+            val dateFinal = stringfecha.format(fecha)
+
+            val database = FirebaseDatabase.getInstance()
+            val reportesRef = database.getReference("reportes")
+
+            val key = reportesRef.push().key
+            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal)).addOnSuccessListener {
+                prefs.edit().putString("reportado","1").apply()
+                listener?.onFragmentInteraction("listo")
+
+            }.addOnFailureListener {
+                Log.e("error","No se pudo subir archivo: "+it.stackTrace)
+            }
+
+            val storage = FirebaseStorage.getInstance().getReference()
+            val reportesStRef: StorageReference? = storage.child("reportes").child(key)
+
+            val wrapper = ContextWrapper(context)
+            val directory = wrapper.getDir("profile", Context.MODE_PRIVATE);
+            for(i in 0..3){
+                val temp = File(directory,"bici"+i)
+                if(temp.exists()){
+                    //reportesStRef!!.child("bici_"+i+".png")
+                    val stream = FileInputStream(File(temp.absolutePath))
+
+                    val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
+                    taski.addOnFailureListener{
+                        Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
+                    }.addOnSuccessListener {
+
+                    }
+                }
+            }
         }
 
         photosBool = ArrayList<Boolean>()
