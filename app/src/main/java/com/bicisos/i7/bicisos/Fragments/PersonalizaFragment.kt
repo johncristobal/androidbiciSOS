@@ -166,9 +166,9 @@ class PersonalizaFragment : Fragment() {
             else{
                 //ya tengo fotos...entonces cargo fotos
                 val wrapper = ContextWrapper(context)
-                val directory = wrapper.getDir("profile", Context.MODE_PRIVATE);
+                val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
                 for(i in 0..3){
-                    val temp = File(directory,"bici"+i)
+                    val temp = File(directory,"bici"+i+".png")
                     if(temp.exists()){
                         imagesEncodedList!![i] = temp.absolutePath
                     }
@@ -349,9 +349,9 @@ class PersonalizaFragment : Fragment() {
             Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
             mAlertDialog.dismiss()
 
-            val directory = wrapper.getDir("profile", Context.MODE_PRIVATE);
+            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
             if (!directory.exists()) {
-                directory.mkdir();
+                directory.mkdir()
             }
             var i = 0
 
@@ -360,10 +360,15 @@ class PersonalizaFragment : Fragment() {
                     val imgFile = File(it)
                     if (imgFile.exists()) {
                         val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
-                        val temp = File(directory,"bici"+i)
+                        val temp = File(directory,"bici"+i+".png")
+                        /*if(temp.exists()) {
+                            temp.delete()
+                        }*/
+
                         try {
                             val fos = FileOutputStream(temp)
                             myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                            fos.flush()
                             fos.close()
                         } catch (e: Exception) {
                             Log.e("SAVE_IMAGE", e.message, e)

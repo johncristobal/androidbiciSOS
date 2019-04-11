@@ -119,6 +119,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
     override fun onFragmentInteractionFinal(message: String) {
         layoutReporte.visibility = View.INVISIBLE
         supportFragmentManager.beginTransaction().remove(reportFrag).commit();
+        getDataReportes()
     }
 
     class getData : AsyncTask<Void,Void,Void>(){

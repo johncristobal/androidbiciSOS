@@ -15,10 +15,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37920758-b520-43f6-ac91-a10b0256f24e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_storage_16_0_5_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/reportado.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_final_reporte.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
@@ -29,17 +25,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.1/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Model/Report.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Model/Report.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_reportes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_reportes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_report.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -100,94 +91,98 @@
     <session id="-300280465">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.11" value="1" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.12" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="gradle" value="1" />
-          <entry key="kt" value="10" />
-          <entry key="xml" value="5" />
+          <entry key="kt" value="14" />
+          <entry key="xml" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Groovy" value="1" />
-          <entry key="Kotlin" value="10" />
-          <entry key="XML" value="5" />
+          <entry key="Kotlin" value="14" />
+          <entry key="XML" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gradle" value="1" />
-          <entry key="kt" value="909" />
+          <entry key="kt" value="1092" />
           <entry key="txt" value="28" />
-          <entry key="xml" value="227" />
+          <entry key="xml" value="232" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="1" />
-          <entry key="Kotlin" value="909" />
+          <entry key="Kotlin" value="1092" />
           <entry key="PLAIN_TEXT" value="28" />
-          <entry key="XML" value="227" />
+          <entry key="XML" value="232" />
         </counts>
       </usages-collector>
     </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="BiciSOSAndroid" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="97" column="39" selection-start-line="97" selection-start-column="39" selection-end-line="97" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_report.xml">
-          <provider editor-type-id="android-designer2" />
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="121" column="51" selection-start-line="121" selection-start-column="37" selection-end-line="121" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbutton.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="725">
-              <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+            <state relative-caret-position="96">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
               <folding>
-                <element signature="e#42#345#0" expanded="true" />
+                <element signature="e#2261#2292#1" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="131">
+              <caret line="189" column="31" selection-start-line="189" selection-start-column="31" selection-end-line="189" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="101" column="45" selection-start-line="101" selection-start-column="45" selection-end-line="101" selection-end-column="45" />
+            <state relative-caret-position="330">
+              <caret line="297" column="45" lean-forward="true" selection-start-line="297" selection-start-column="45" selection-end-line="297" selection-end-column="45" />
               <folding>
-                <element signature="e#42#1119#0" expanded="true" />
+                <element signature="e#14803#14834#1" expanded="true" />
+                <element signature="e#20272#20928#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="37" column="31" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml">
+          <provider selected="true" editor-type-id="android-designer2" />
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -214,6 +209,11 @@
       <find>onFragmentInteraction</find>
       <find>onFragmentInteractionFinal</find>
       <find>reportesStRef</find>
+      <find>temp</find>
+      <find>bici</find>
+      <find>&quot;bici&quot;</find>
+      <find>createn</find>
+      <find>profile</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2614,16 +2614,17 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomBici.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PersonalizaActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Model/Report.kt" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_reportes.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_final_reporte.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_report.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt" />
       </list>
     </option>
@@ -2664,7 +2665,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="bicisos" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Activities" type="462c0819:PsiDirectoryNode" />
+              <item name="Adapters" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
@@ -2682,12 +2683,6 @@
               <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
               <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
@@ -2698,9 +2693,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2828,12 +2823,12 @@
     <frame x="0" y="23" width="1280" height="727" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20516963" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49717513" visible="true" weight="0.20516963" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Favorites" order="5" sideWeight="0.50282484" side_tool="true" weight="0.20516963" />
       <window_info id="Captures" order="6" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -2927,6 +2922,18 @@
           <properties />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt</url>
+          <line>176</line>
+          <properties />
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt</url>
+          <line>367</line>
+          <properties />
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -3016,13 +3023,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="99" column="35" lean-forward="true" selection-start-line="99" selection-start-column="35" selection-end-line="99" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="451">
@@ -3037,16 +3037,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
           <caret line="38" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
-          <folding>
-            <element signature="e#42#345#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3077,20 +3067,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="454">
           <caret line="65" column="92" selection-start-line="65" selection-start-column="80" selection-end-line="65" selection-end-column="92" />
-          <folding>
-            <element signature="e#43#1018#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbutton.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -3102,26 +3078,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/backbutton.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="26" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="84" column="14" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+          <folding>
+            <element signature="e#42#345#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+        <state relative-caret-position="390">
+          <caret line="37" column="31" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="97" column="39" selection-start-line="97" selection-start-column="39" selection-end-line="97" selection-end-column="39" />
+        <state relative-caret-position="96">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+          <folding>
+            <element signature="e#2261#2292#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.11/e49742d3259938ea3539346c8ca3babb54a5140f/kotlin-stdlib-common-1.3.11-sources.jar!/generated/_Collections.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="1560" selection-start-line="1560" selection-end-line="1560" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="101" column="45" selection-start-line="101" selection-start-column="45" selection-end-line="101" selection-end-column="45" />
+        <state relative-caret-position="131">
+          <caret line="189" column="31" selection-start-line="189" selection-start-column="31" selection-end-line="189" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="297" column="45" lean-forward="true" selection-start-line="297" selection-start-column="45" selection-end-line="297" selection-end-column="45" />
           <folding>
-            <element signature="e#42#1119#0" expanded="true" />
+            <element signature="e#14803#14834#1" expanded="true" />
+            <element signature="e#20272#20928#0" />
           </folding>
         </state>
       </provider>

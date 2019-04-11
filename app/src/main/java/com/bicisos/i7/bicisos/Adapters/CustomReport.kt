@@ -26,8 +26,8 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>) : Recy
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
 
-        p0.textTitle.text = reportes[p1].name
-        p0.textDetalle.text =  reportes[p1].description
+        p0.textTitle.text = "# Serie: "+reportes[p1].serie
+        p0.textDetalle.text = reportes[p1].description
 
         val idd =  reportes[p1].id
         val storage = FirebaseStorage.getInstance().getReference()
@@ -35,7 +35,7 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>) : Recy
         reportesStRef!!.downloadUrl.addOnSuccessListener {
             Glide.with(context)
                 .load(it.toString())
-                .override(120,120)
+                .override(100,100)
                 .into(p0.imagenDetalle)
         }.addOnFailureListener {
             p0.imagenDetalle.setImageResource(R.drawable.loginiconuno)
