@@ -165,13 +165,18 @@ class PersonalizaFragment : Fragment() {
             }
             else{
                 //ya tengo fotos...entonces cargo fotos
+                //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val wrapper = ContextWrapper(context)
                 val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
                 for(i in 0..3){
-                    val temp = File(directory,"bici"+i+".png")
+                    val fotoTemp = prefs.getString("bici"+i,"null")
+                    if (!fotoTemp!!.equals("null")){
+                        imagesEncodedList!![i] = fotoTemp
+                    }
+                    /*val temp = File(directory,"bici"+i+".png")
                     if(temp.exists()){
                         imagesEncodedList!![i] = temp.absolutePath
-                    }
+                    }*/
                 }
 
                 loadPohots()
@@ -294,10 +299,10 @@ class PersonalizaFragment : Fragment() {
 
                     } else if (options[item] == "Borrar foto") {
 
-                        val imgFile = File(imagesEncodedList!![index])
+                        /*val imgFile = File(imagesEncodedList!![index])
                         if(imgFile.exists()){
                             imgFile.delete()
-                        }
+                        }*/
 
                         imagesEncodedList!![index] = ""
                         when (index) {
@@ -355,11 +360,12 @@ class PersonalizaFragment : Fragment() {
             }
             var i = 0
 
+            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
             imagesEncodedList!!.forEach {
                 try {
                     val imgFile = File(it)
                     if (imgFile.exists()) {
-                        val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+                        /*val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
                         val temp = File(directory,"bici"+i+".png")
                         /*if(temp.exists()) {
                             temp.delete()
@@ -372,9 +378,10 @@ class PersonalizaFragment : Fragment() {
                             fos.close()
                         } catch (e: Exception) {
                             Log.e("SAVE_IMAGE", e.message, e)
-                        }
+                        }*/
 
-                        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+
+                        editor.putString("bici"+i,imgFile.getAbsolutePath())
                         editor.putString("fotos","1")
                         editor.apply()
 
