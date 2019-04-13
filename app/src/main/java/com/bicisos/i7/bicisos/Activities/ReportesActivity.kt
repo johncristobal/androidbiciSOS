@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import com.bicisos.i7.bicisos.Adapters.CustomReport
+import com.bicisos.i7.bicisos.Fragments.DetailReportFragment
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
 import com.bicisos.i7.bicisos.Model.Report
@@ -20,11 +22,13 @@ import com.google.firebase.database.*
 
 import kotlinx.android.synthetic.main.content_reportes.*
 
-class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal {
+class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal, DetailReportFragment.FragmentDetalleListener {
 
     var context = this
     val reportFrag = ReportFragment.newInstance("","")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
+    var detailtFrag = DetailReportFragment.newInstance("","")
+
     companion object {
         val reportes = ArrayList<Report>()
     }
@@ -95,9 +99,19 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                     it.getValue<Report>(Report::class.java)
                 }
 
-                val adapter = CustomReport(context,reportes)
+                reportes.reverse()
+
+                val adapter = CustomReport(context,reportes) {
+                    Log.w("dato", it.name)
+                    layoutReporte.visibility = View.VISIBLE
+                    detailtFrag = DetailReportFragment.newInstance(it.id,it.fotos)
+                    supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+
+                }
+
                 listaReportes.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
                 listaReportes.adapter = adapter
+
                 progressBar.visibility = View.INVISIBLE
 
             }
@@ -116,33 +130,18 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         }
     }
 
+    //listo fragmetn listener
     override fun onFragmentInteractionFinal(message: String) {
         layoutReporte.visibility = View.INVISIBLE
         supportFragmentManager.beginTransaction().remove(reportFrag).commit();
         getDataReportes()
     }
 
-    class getData : AsyncTask<Void,Void,Void>(){
-
-        override fun doInBackground(vararg p0: Void?): Void? {
-            /*reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-            reportes.add(Report(1,"url","Reporte 1"))
-*/
-            return null
+    override fun detalleInteraction(message: String) {
+        if(message.equals("")){
+            layoutReporte.visibility = View.INVISIBLE
+            supportFragmentManager.beginTransaction().remove(detailtFrag).commit();
         }
-
-        override fun onPostExecute(result: Void?) {
-            super.onPostExecute(result)
-
-
-        }
-
     }
 
 }

@@ -2,6 +2,7 @@ package com.bicisos.i7.bicisos.Adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,9 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.custom_reporte.view.*
 
-class CustomReport(val context: Context, val reportes: ArrayList<Report>) : RecyclerView.Adapter<CustomReport.ViewHolder>(){
+class CustomReport(val context: Context, val reportes: ArrayList<Report>,val clickListener: (Report) -> Unit) : RecyclerView.Adapter<CustomReport.ViewHolder>(){
+
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = ViewHolder(LayoutInflater.from(context).inflate(R.layout.custom_reporte,p0,false))
 
@@ -38,8 +41,16 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>) : Recy
                 .override(100,100)
                 .into(p0.imagenDetalle)
         }.addOnFailureListener {
-            p0.imagenDetalle.setImageResource(R.drawable.loginiconuno)
+            Glide.with(context)
+                .load(R.drawable.loginiconuno)
+                .override(100,100)
+                .into(p0.imagenDetalle)
         }
+
+        p0.layi.setOnClickListener {
+            clickListener(reportes[p1])
+        }
+
     }
 
 
@@ -48,6 +59,9 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>) : Recy
         val imagenDetalle = view.imageDetalleReporte
         val textTitle = view.textViewTitle
         val textDetalle = view.textViewDetalle
+        val layi = view.layiItem
+
+
     }
 
 }

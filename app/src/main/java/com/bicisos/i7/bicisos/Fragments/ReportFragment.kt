@@ -116,11 +116,20 @@ class ReportFragment : Fragment() {
             val database = FirebaseDatabase.getInstance()
             val reportesRef = database.getReference("reportes")
 
-            val key = reportesRef.push().key
-            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal)).addOnSuccessListener {
-                prefs.edit().putString("reportado","1").apply()
-                listener?.onFragmentInteraction("listo")
+            var fotos = ""
+            for(i in 0..3){
+                val fotoTemp = prefs.getString("bici"+i,"null")
+                //val temp = File(directory,"bici"+i+".png")
+                val temp = File(fotoTemp)
+                if(temp.exists()){
+                    //reportesStRef!!.child("bici_"+i+".png")
+                    fotos += "bici_"+i+".png,"
+                }
+            }
 
+            val key = reportesRef.push().key
+            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos)).addOnSuccessListener {
+                prefs.edit().putString("reportado","1").apply()
             }.addOnFailureListener {
                 Log.e("error","No se pudo subir archivo: "+it.stackTrace)
             }
@@ -131,7 +140,9 @@ class ReportFragment : Fragment() {
             val wrapper = ContextWrapper(context)
             val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
             for(i in 0..3){
-                val temp = File(directory,"bici"+i+".png")
+                val fotoTemp = prefs.getString("bici"+i,"null")
+                //val temp = File(directory,"bici"+i+".png")
+                val temp = File(fotoTemp)
                 if(temp.exists()){
                     //reportesStRef!!.child("bici_"+i+".png")
                     val stream = FileInputStream(File(temp.absolutePath))
@@ -144,6 +155,9 @@ class ReportFragment : Fragment() {
                     }
                 }
             }
+
+            listener?.onFragmentInteraction("listo")
+
         }
 
         photosBool = ArrayList<Boolean>()
@@ -187,12 +201,23 @@ class ReportFragment : Fragment() {
                 //ya tengo fotos...entonces cargo fotos
                 val wrapper = ContextWrapper(context)
                 val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-                for(i in 0..3){
+                /*for(i in 0..3){
                     val temp = File(directory,"bici"+i+".png")
                     if(temp.exists()){
                         imagesEncodedList!![i] = temp.absolutePath
                     }
+                }*/
+                for(i in 0..3){
+                    val fotoTemp = prefs.getString("bici"+i,"null")
+                    if (!fotoTemp!!.equals("null")){
+                        imagesEncodedList!![i] = fotoTemp
+                    }
+                    /*val temp = File(directory,"bici"+i+".png")
+                    if(temp.exists()){
+                        imagesEncodedList!![i] = temp.absolutePath
+                    }*/
                 }
+
 
                 loadPohots()
             }
@@ -375,11 +400,12 @@ class ReportFragment : Fragment() {
             }
             var i = 0
 
+            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
             imagesEncodedList!!.forEach {
                 try {
                     val imgFile = File(it)
                     if (imgFile.exists()) {
-                        val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+                        /*val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
                         val temp = File(directory,"bici"+i+".png")
                         /*if(temp.exists()){
                             temp.delete()
@@ -394,6 +420,10 @@ class ReportFragment : Fragment() {
                         }
 
                         val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                        editor.putString("fotos","1")
+                        editor.apply()*/
+
+                        editor.putString("bici"+i,imgFile.getAbsolutePath())
                         editor.putString("fotos","1")
                         editor.apply()
 
