@@ -27,7 +27,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
     var context = this
     val reportFrag = ReportFragment.newInstance("","")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
-    var detailtFrag = DetailReportFragment.newInstance("","")
+    var detailtFrag = DetailReportFragment.newInstance(Report())
 
     companion object {
         val reportes = ArrayList<Report>()
@@ -104,7 +104,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                 val adapter = CustomReport(context,reportes) {
                     Log.w("dato", it.name)
                     layoutReporte.visibility = View.VISIBLE
-                    detailtFrag = DetailReportFragment.newInstance(it.id,it.fotos)
+                    detailtFrag = DetailReportFragment.newInstance(it)
                     supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
 
                 }

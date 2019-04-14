@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bicisos.i7.bicisos.Adapters.CustomPager
+import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
 import com.google.firebase.storage.FirebaseStorage
@@ -34,13 +35,15 @@ class DetailReportFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var id: String? = null
     private var fotos: String? = null
+    private var report: Report? = null
     private var listener: FragmentDetalleListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            id = it.getString(ARG_PARAM1)
-            fotos = it.getString(ARG_PARAM2)
+            report = it.getSerializable(ARG_PARAM1) as Report
+            //id = it.getString(ARG_PARAM1)
+            //fotos = it.getString(ARG_PARAM2)
         }
     }
 
@@ -52,12 +55,12 @@ class DetailReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.w("id", id)
+        Log.w("id", report!!.id)
 
         //recuperar las fotos de storage
         val imagenes = ArrayList<String>()
 
-        val pictures = fotos!!.split(",")
+        val pictures = report!!.fotos.split(",")
         pictures.forEach {
             if(!it.isEmpty()) {
                 imagenes.add(it)
@@ -65,19 +68,21 @@ class DetailReportFragment : Fragment() {
         }
 
         viewpager.layoutManager = LinearLayoutManager(activity!!,LinearLayoutManager.HORIZONTAL,false)
-
-        val adapter = CustomPager(activity!!,imagenes, id!!)
-
+        val adapter = CustomPager(activity!!,imagenes, report!!.id)
         viewpager.adapter = adapter
 
         buttonCerrar.setOnClickListener {
             listener?.detalleInteraction("")
         }
 
-        textViewNombreDetalle.setText(id)
+        textViewNombreDetalle.setText(report!!.name)
+        textViewSerieDetalle.setText(report!!.serie)
+        textViewDescripcionDetalle.setText(report!!.description)
 
+        buttonShare.setOnClickListener {
+            //open share activity
+        }
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -120,11 +125,11 @@ class DetailReportFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Report) =
             DetailReportFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putSerializable(ARG_PARAM1, param1)
+                    //putString(ARG_PARAM2, param2)
                 }
             }
     }
