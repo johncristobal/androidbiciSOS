@@ -103,7 +103,8 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 startActivity(intent)
             }
             R.id.nav_robo -> {
-
+                val intent = Intent(this,RoboBiciActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_slideshow -> {
                 //numero de serie
