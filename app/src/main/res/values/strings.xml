@@ -17,6 +17,8 @@
     <string name="facebook_app_id">292858978048673</string>
     <string name="fb_login_protocol_scheme">fb292858978048673</string>
     <string name="preferences">SOSCiclista</string>
+    <string name="title_activity_serie_bici">SerieBiciActivity</string>
+    <string name="title_activity_tips">TipsActivity</string>
 
 
 </resources>

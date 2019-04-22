@@ -108,9 +108,13 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_slideshow -> {
                 //numero de serie
+                val intent = Intent(this,SerieBiciActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_manage -> {
                 //tips
+                val intent = Intent(this,TipsActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_share -> {
                 //contacto
