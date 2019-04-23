@@ -10,10 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bicisos.i7.bicisos.Activities.DetalleTipActivity
+import com.bicisos.i7.bicisos.Model.Tip
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.imagen_tip.view.*
 
-class TipAdapter (val tips: ArrayList<String>, val context: Activity,val clickListener: (String) -> Unit) : RecyclerView.Adapter<TipAdapter.ViewHolder>(){
+class TipAdapter (val tips: ArrayList<Tip>, val context: Activity, val clickListener: (String) -> Unit) : RecyclerView.Adapter<TipAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
 
@@ -27,10 +28,12 @@ class TipAdapter (val tips: ArrayList<String>, val context: Activity,val clickLi
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
 
-        p0.text.text = tips[p1]
+        p0.text.text = tips[p1].name
         p0.text.setOnClickListener {
             val inte = Intent(context, DetalleTipActivity::class.java)
-            inte.putExtra("tip",tips[p1])
+            inte.putExtra("tip",tips[p1].name)
+            inte.putExtra("imagen",tips[p1].imagen)
+            inte.putExtra("descrip",tips[p1].description)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 val options = ActivityOptions.makeSceneTransitionAnimation(context, p0.text, "robot")
                 // Apply activity transition

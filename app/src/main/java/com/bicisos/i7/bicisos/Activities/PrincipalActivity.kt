@@ -118,6 +118,8 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_share -> {
                 //contacto
+                val intent = Intent(this,ContactoActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_send -> {
                 //acerca de
