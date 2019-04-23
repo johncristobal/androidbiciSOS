@@ -20,6 +20,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".Activities.DetalleTipActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
                 android:name=".Activities.TipsActivity"
                 android:label="@string/title_activity_tips"
                 android:theme="@style/AppTheme.NoActionBar">
