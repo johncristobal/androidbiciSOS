@@ -36,7 +36,13 @@ class SesionActivity : AppCompatActivity(), LoginFragment.Datalistener, Personal
     }
 
     override fun sendActivity(message: String) {
-        supportFragmentManager.beginTransaction().replace(R.id.container, PersonalizaFragment.newInstance("","")).commit()
+        if(message.equals("login")) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, PersonalizaFragment.newInstance("", ""))
+                .commit()
+        }
+        else{
+            finish()
+        }
     }
 
     override fun onFragmentInteraction(message: String) {

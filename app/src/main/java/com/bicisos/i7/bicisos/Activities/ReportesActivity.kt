@@ -71,7 +71,6 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
     fun saveReporte(){
 
         //mostrar frame con datos de reporte
-        layoutReporte.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().add(R.id.reporte,reportFrag).commit()
 
     }
@@ -103,17 +102,15 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
                 val adapter = CustomReport(context,reportes) {
                     Log.w("dato", it.name)
-                    layoutReporte.visibility = View.VISIBLE
+                    listaReportes.visibility = View.GONE
                     detailtFrag = DetailReportFragment.newInstance(it)
                     supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
-
                 }
 
                 listaReportes.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
                 listaReportes.adapter = adapter
 
                 progressBar.visibility = View.INVISIBLE
-
             }
         })
     }
@@ -125,23 +122,21 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             supportFragmentManager.beginTransaction().replace(R.id.reporte,finalReportFrag).commit()
 
         }else {
-            layoutReporte.visibility = View.INVISIBLE
             supportFragmentManager.beginTransaction().remove(reportFrag).commit();
         }
     }
 
     //listo fragmetn listener
     override fun onFragmentInteractionFinal(message: String) {
-        layoutReporte.visibility = View.INVISIBLE
-        supportFragmentManager.beginTransaction().remove(reportFrag).commit();
+        supportFragmentManager.beginTransaction().remove(finalReportFrag).commit();
         getDataReportes()
     }
 
     override fun detalleInteraction(message: String) {
+        listaReportes.visibility = View.VISIBLE
+
         if(message.equals("")){
-            layoutReporte.visibility = View.INVISIBLE
             supportFragmentManager.beginTransaction().remove(detailtFrag).commit();
         }
     }
-
 }

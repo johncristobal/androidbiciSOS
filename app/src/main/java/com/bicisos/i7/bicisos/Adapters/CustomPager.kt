@@ -40,9 +40,6 @@ class CustomPager (val context: Context, val imagenes: ArrayList<String>, val id
         }.addOnFailureListener {
 
         }
-
-
-
     }
 
     //clase viewholder con elementos de lista

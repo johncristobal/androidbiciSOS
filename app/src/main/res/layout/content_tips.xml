@@ -24,7 +24,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:srcCompat="@drawable/headpersonaliza"
+            app:srcCompat="@drawable/headtips"
             android:id="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -65,7 +65,7 @@
                         android:layout_width="3dp"
                         android:layout_height="match_parent"
                         android:background="@color/amarillo"
-                        android:layout_marginStart="40dp"
+                        android:layout_marginStart="30dp"
                         android:layout_marginEnd="15dp"
                         android:id="@+id/textView14"/>
 
@@ -76,13 +76,14 @@
                         android:id="@+id/textView"
                         android:gravity="center"
                         android:layout_marginEnd="15dp"
+                        android:textColor="#000"
                         android:textSize="12sp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"/>
 
                 <TextView
                         android:layout_width="3dp"
-                        android:layout_marginEnd="40dp"
+                        android:layout_marginEnd="30dp"
                         android:background="@color/amarillo"
                         android:layout_height="match_parent"
                         android:id="@+id/textView22"/>
@@ -113,6 +114,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/roboto"
+            android:textStyle="bold"
             android:textSize="20sp"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -154,7 +154,7 @@ class LoginFragment : Fragment() {
                 editor.putString("nombre",user.displayName)
                 editor.apply()
 
-                listener!!.sendActivity("")
+                listener!!.sendActivity("login")
                 //finish()
                 //updateUI(user)
             } else {
