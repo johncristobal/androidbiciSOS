@@ -22,7 +22,7 @@
     <ImageView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:srcCompat="@drawable/headpersonaliza"
+            app:srcCompat="@drawable/headtips"
             android:id="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

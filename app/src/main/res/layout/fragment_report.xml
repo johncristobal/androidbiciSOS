@@ -97,9 +97,10 @@
     <EditText
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="5dp"
                 android:gravity="top"
+                android:paddingTop="5dp"
                 android:hint="Descripción del robo, características de la bici..."
                 android:background="@drawable/backinput"
                 android:ems="10"

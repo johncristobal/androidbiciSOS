@@ -33,6 +33,9 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }*/
+
+        serieText.clearFocus()
+
         reportarButton.setOnClickListener {
             //validar sesion
             val preferences = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -60,7 +63,7 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
                     override fun onDataChange(p0: DataSnapshot) {
                         if(p0.exists()){
                             Log.w("data",p0.value.toString())
-                            serieBuscadoText.setText("Serie encontrado como robado")
+                            serieBuscadoText.setText("# Serie reportado como robado")
                         }else{
                             serieBuscadoText.setText("")
                         }
@@ -73,7 +76,7 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
     fun saveReporte(){
 
         //mostrar frame con datos de reporte
-        layoutReporte.visibility = View.VISIBLE
+        //layoutReporte.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().add(R.id.reporte,reportFrag).commit()
 
     }
@@ -85,14 +88,14 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
             supportFragmentManager.beginTransaction().replace(R.id.reporte,finalReportFrag).commit()
 
         }else {
-            layoutReporte.visibility = View.INVISIBLE
+            //layoutReporte.visibility = View.INVISIBLE
             supportFragmentManager.beginTransaction().remove(reportFrag).commit();
         }
     }
 
     //listo fragmetn listener
     override fun onFragmentInteractionFinal(message: String) {
-        layoutReporte.visibility = View.INVISIBLE
+        //layoutReporte.visibility = View.INVISIBLE
         supportFragmentManager.beginTransaction().remove(reportFrag).commit();
     }
 
