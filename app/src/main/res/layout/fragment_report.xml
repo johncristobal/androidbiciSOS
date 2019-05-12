@@ -56,13 +56,14 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="100dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content">
 
-                <Button
+                <ImageView
                         android:text="Fotos\n+"
-                        android:background="@drawable/backinput"
+                        android:src="@drawable/cameraicon"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="40dp"
                         android:id="@+id/takePicturesReporte"
                         android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"

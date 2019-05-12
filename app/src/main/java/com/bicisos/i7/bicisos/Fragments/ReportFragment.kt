@@ -348,19 +348,19 @@ class ReportFragment : Fragment() {
                         when (index) {
                             0 -> {
                                 photosBool!![0] = false
-                                mDialogView.bici1.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici1.setImageResource(R.drawable.cameraicon)
                             }
                             1 -> {
                                 photosBool!![1] = false
-                                mDialogView.bici2.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici2.setImageResource(R.drawable.cameraicon)
                             }
                             2 -> {
                                 photosBool!![2] = false
-                                mDialogView.bici3.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici3.setImageResource(R.drawable.cameraicon)
                             }
                             3 -> {
                                 photosBool!![3] = false
-                                mDialogView.bici4.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici4.setImageResource(R.drawable.cameraicon)
                             }
                         }
                         dialog.dismiss()

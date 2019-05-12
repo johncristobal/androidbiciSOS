@@ -78,29 +78,33 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         doAsync {
             var result = ApiClient().callTalleres()
             uiThread {
-                Log.e("main",result!![0].coordinates)
 
-                talleres = result
+                if (result != null) {
 
-                result.forEach { taller ->
-                    val datos = taller.coordinates.split(",")
-                    val lat = datos[1]
-                    val lon = datos[0]
+                    Log.e("main", result!![0].coordinates)
+                    talleres = result
 
-                    val height = 50
-                    val width = 50
-                    val bitmapdraw = getResources().getDrawable(R.drawable.llaveicono) as BitmapDrawable
-                    val b = bitmapdraw.getBitmap()
-                    val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                    result.forEach { taller ->
+                        val datos = taller.coordinates.split(",")
+                        val lat = datos[1]
+                        val lon = datos[0]
 
-                    mMap.addMarker(
-                        MarkerOptions()
-                            .position(LatLng(lat.toDouble(), lon.toDouble()))
-                            .title(taller.name)
-                            //.snippet("Population: 4,627,300")
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).showInfoWindow()
-                            //.anchor(0.5f, 1F));
+                        val height = 50
+                        val width = 50
+                        val bitmapdraw = getResources().getDrawable(R.drawable.llaveicono) as BitmapDrawable
+                        val b = bitmapdraw.getBitmap()
+                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
+                        mMap.addMarker(
+                            MarkerOptions()
+                                .position(LatLng(lat.toDouble(), lon.toDouble()))
+                                .title(taller.name)
+                                //.snippet("Population: 4,627,300")
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        ).showInfoWindow()
+                        //.anchor(0.5f, 1F));
+
+                    }
                 }
                 //Toast.makeText(activity,"listo",Toast.LENGTH_SHORT).show()
             }

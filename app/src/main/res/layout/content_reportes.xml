@@ -41,6 +41,16 @@
         android:layout_marginStart="16dp"
         android:contentDescription="logo bici sos"/>
 
+    <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:srcCompat="@drawable/alertafinal"
+            android:id="@+id/reportarButton"
+            android:layout_marginBottom="28dp"
+            app:layout_constraintBottom_toBottomOf="@+id/reporte"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="28dp"/>
+
     <!--ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -64,13 +74,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="vertical"
             android:id="@+id/layoutContainer">
-
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/reportar"
-                android:id="@+id/reportarButton"/>
 
         <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"

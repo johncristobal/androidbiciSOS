@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bici SOS</string>
+    <string name="app_name">SOS Ciclista</string>
     <string name="title_activity_principal">PrincipalActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
