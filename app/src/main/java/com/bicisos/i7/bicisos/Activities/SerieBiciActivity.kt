@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
+import com.bicisos.i7.bicisos.Fragments.ResultFragment
 import com.bicisos.i7.bicisos.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,11 +19,12 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_serie_bici.*
 import kotlinx.android.synthetic.main.content_serie_bici.*
 
-class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal {
+class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal, ResultFragment.ListenerResult {
 
 
     val reportFrag = ReportFragment.newInstance("","")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
+    var resultFrag = ResultFragment.newInstance("","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +63,21 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        if(p0.exists()){
+                        elementtLayout.visibility = View.INVISIBLE
+                        var mfragmentTransaction = supportFragmentManager.beginTransaction()
+                        mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
+
+                        if(!p0.exists()){
                             Log.w("data",p0.value.toString())
-                            serieBuscadoText.setText("# Serie reportado como robado")
+                            //serieBuscadoText.setText("# Serie reportado como robado")
+                            resultFrag = ResultFragment.newInstance("# Serie no encontrado","Sin reporte de robo")
+                            mfragmentTransaction.replace(R.id.reporte,resultFrag)
+                            mfragmentTransaction.addToBackStack(null).commit()
                         }else{
-                            serieBuscadoText.setText("")
+                            //serieBuscadoText.setText("")
+                            resultFrag = ResultFragment.newInstance("# Serie reportado como robado",serieText.text.toString())
+                            mfragmentTransaction.replace(R.id.reporte,resultFrag)
+                            mfragmentTransaction.addToBackStack(null).commit()
                         }
                     }
                 })
@@ -77,7 +89,11 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
 
         //mostrar frame con datos de reporte
         //layoutReporte.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().add(R.id.reporte,reportFrag).commit()
+        elementtLayout.visibility = View.INVISIBLE
+
+        var mfragmentTransaction = supportFragmentManager.beginTransaction()
+        mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
+        mfragmentTransaction.add(R.id.reporte,reportFrag).commit()
 
     }
 
@@ -87,8 +103,14 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
             //supportFragmentManager.beginTransaction().remove(reportFrag).commit()
             supportFragmentManager.beginTransaction().replace(R.id.reporte,finalReportFrag).commit()
 
-        }else {
+        }else if (message.equals("cerrar")) {
+            elementtLayout.visibility = View.VISIBLE
+            supportFragmentManager.beginTransaction().remove(resultFrag).commit()
+
+        }else
+        {
             //layoutReporte.visibility = View.INVISIBLE
+            elementtLayout.visibility = View.VISIBLE
             supportFragmentManager.beginTransaction().remove(reportFrag).commit();
         }
     }
@@ -96,7 +118,7 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
     //listo fragmetn listener
     override fun onFragmentInteractionFinal(message: String) {
         //layoutReporte.visibility = View.INVISIBLE
-        supportFragmentManager.beginTransaction().remove(reportFrag).commit();
+        supportFragmentManager.beginTransaction().remove(finalReportFrag).commit();
     }
 
 }

@@ -70,8 +70,13 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
     fun saveReporte(){
 
+        listaReportes.visibility = View.GONE
+        reportarButton.visibility = View.GONE
+
         //mostrar frame con datos de reporte
-        supportFragmentManager.beginTransaction().add(R.id.reporte,reportFrag).commit()
+        var mfragmentTransaction = supportFragmentManager.beginTransaction()
+        mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
+        mfragmentTransaction.add(R.id.reporte,reportFrag).commit()
 
     }
 
@@ -103,6 +108,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                 val adapter = CustomReport(context,reportes) {
                     Log.w("dato", it.name)
                     listaReportes.visibility = View.GONE
+                    reportarButton.visibility = View.GONE
                     detailtFrag = DetailReportFragment.newInstance(it)
                     supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
                 }
@@ -122,6 +128,9 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             supportFragmentManager.beginTransaction().replace(R.id.reporte,finalReportFrag).commit()
 
         }else {
+            listaReportes.visibility = View.VISIBLE
+            reportarButton.visibility = View.VISIBLE
+
             supportFragmentManager.beginTransaction().remove(reportFrag).commit();
         }
     }
@@ -129,6 +138,8 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
     //listo fragmetn listener
     override fun onFragmentInteractionFinal(message: String) {
         supportFragmentManager.beginTransaction().remove(finalReportFrag).commit();
+        listaReportes.visibility = View.VISIBLE
+        reportarButton.visibility = View.VISIBLE
         getDataReportes()
     }
 
@@ -137,6 +148,8 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
         if(message.equals("")){
             supportFragmentManager.beginTransaction().remove(detailtFrag).commit();
+            listaReportes.visibility = View.VISIBLE
+            reportarButton.visibility = View.VISIBLE
         }
     }
 }

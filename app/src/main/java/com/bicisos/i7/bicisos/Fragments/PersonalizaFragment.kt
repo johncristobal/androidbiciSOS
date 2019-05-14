@@ -102,6 +102,8 @@ class PersonalizaFragment : Fragment() {
         imagenes.add(R.mipmap.bicib)
         imagenes.add(R.mipmap.bicic)
         imagenes.add(R.mipmap.bicid)
+        imagenes.add(R.mipmap.bicie)
+        imagenes.add(R.mipmap.bicif)
 
         val adapter = CustomBici(activity!!,imagenes,bici)
 
@@ -308,19 +310,19 @@ class PersonalizaFragment : Fragment() {
                         when (index) {
                             0 -> {
                                 photosBool!![0] = false
-                                mDialogView.bici1.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici1.setImageResource(R.drawable.cameraicon)
                             }
                             1 -> {
                                 photosBool!![1] = false
-                                mDialogView.bici2.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici2.setImageResource(R.drawable.cameraicon)
                             }
                             2 -> {
                                 photosBool!![2] = false
-                                mDialogView.bici3.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici3.setImageResource(R.drawable.cameraicon)
                             }
                             3 -> {
                                 photosBool!![3] = false
-                                mDialogView.bici4.setImageResource(R.mipmap.bicia)
+                                mDialogView.bici4.setImageResource(R.drawable.cameraicon)
                             }
                         }
                         dialog.dismiss()
@@ -380,7 +382,6 @@ class PersonalizaFragment : Fragment() {
                             Log.e("SAVE_IMAGE", e.message, e)
                         }*/
 
-
                         editor.putString("bici"+i,imgFile.getAbsolutePath())
                         editor.putString("fotos","1")
                         editor.apply()
@@ -399,9 +400,9 @@ class PersonalizaFragment : Fragment() {
         var i = -1
         imagesEncodedList!!.forEach {
             try {
-                val imgFile = File(it)
-                i++
-                if (imgFile.exists()) {
+                if (!it.equals("")){
+                    val imgFile = File(it)
+                    i++
 
                     val options = BitmapFactory.Options()
                     options.inJustDecodeBounds = true

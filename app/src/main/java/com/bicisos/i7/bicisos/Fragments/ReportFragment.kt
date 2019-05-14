@@ -441,9 +441,9 @@ class ReportFragment : Fragment() {
         var i = -1
         imagesEncodedList!!.forEach {
             try {
-                val imgFile = File(it)
-                i++
-                if (imgFile.exists()) {
+                if (!it.equals("")){
+                    val imgFile = File(it)
+                    i++
 
                     val options = BitmapFactory.Options()
                     options.inJustDecodeBounds = true

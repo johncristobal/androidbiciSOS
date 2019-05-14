@@ -15,10 +15,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.R.raw
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.location.Geocoder
 import android.location.Location
+import android.net.Uri
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.util.Log
@@ -30,6 +33,8 @@ import com.google.android.gms.location.LocationServices
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -131,6 +136,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
             }
         }
+
+        mMap.setOnInfoWindowClickListener {
+
+            //get direcion
+            val geocoder = Geocoder(activity!!, Locale.getDefault());
+            val addresses = geocoder.getFromLocation(it!!.position.latitude, it!!.position.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+            val address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+
+            var uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", it!!.position.latitude, it!!.position.longitude);
+            //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            intent.setPackage("com.google.android.apps.maps");
+            if (intent.resolveActivity(activity!!.packageManager) != null) {
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -138,7 +161,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         when(requestCode){
             LOCATION_PERMISSION_REQUEST_CODE -> {
-                if(grantResults.isEmpty() && grantResults[0] !=
+                if(!grantResults.isEmpty() && grantResults[0] !=
                     PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(activity!!,"Permiso denegado.",Toast.LENGTH_SHORT).show()
                 }else{
