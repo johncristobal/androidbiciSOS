@@ -15,6 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import android.R.raw
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -26,7 +27,9 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.util.Log
 import android.widget.Toast
+import com.bicisos.i7.bicisos.Activities.SesionActivity
 import com.bicisos.i7.bicisos.Api.ApiClient
+import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Taller
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -34,6 +37,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
+import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
 
@@ -132,6 +136,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 lastLocation = location
+                initListenerBike()
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
             }
@@ -144,7 +149,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val addresses = geocoder.getFromLocation(it!!.position.latitude, it!!.position.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
             val address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-
 
             var uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", it!!.position.latitude, it!!.position.longitude);
             //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
@@ -185,5 +189,49 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         //val sydney = LatLng(-34.0, 151.0)
         //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    //al abrir app, se manda ubicacion con el bike
+    private fun initListenerBike() {
+        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
+        val sesion = prefs.getString("sesion","null")
+        if (sesion!!.equals("1")){
+
+            val name = prefs.getString("nombre","null")
+            var bici = prefs.getInt("bici",-1)
+
+            //primero enviar mi bike para que este en fierbase
+            //si y solo si estoy logueado
+            //mando nombre, bike, ubication
+            val database = FirebaseDatabase.getInstance()
+            val bikersRef = database.getReference("bikers")
+            val lat = lastLocation.latitude
+            val long = lastLocation.longitude
+
+            val key = bikersRef.push().key
+            bikersRef.child(key!!).setValue(Biker(key,name,bici,lat,long)).addOnSuccessListener {
+                prefs.edit().putString("activo","1").apply()
+            }.addOnFailureListener {
+                Log.e("error","No se pudo subir archivo: "+it.stackTrace)
+            }
+
+            //despues de enviar, recupero bikes activas...
+            //agregar marcadores al mapa con los bikers
+            val height = 50
+            val width = 70
+            val bitmapdraw = getResources().getDrawable(R.mipmap.bicif) as BitmapDrawable
+            val b = bitmapdraw.getBitmap()
+            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(LatLng(lat, long))
+                    .title(name)
+                    //.snippet("Population: 4,627,300")
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+            )
+        }else{
+            //no envia nada
+        }
     }
 }
