@@ -7,10 +7,12 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.bicisos.i7.bicisos.Fragments.MapFragment
+import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_principal.*
 import kotlinx.android.synthetic.main.content_principal.*
@@ -20,6 +22,10 @@ import com.facebook.FacebookCallback
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_personaliza.*
 import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
@@ -71,6 +77,8 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         openMenu.setOnClickListener { view ->
             drawer_layout.openDrawer(GravityCompat.START)
         }
+
+
     }
 
     override fun onBackPressed() {
@@ -166,4 +174,27 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("HOME Principal","stop")
+
+        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val keySelf = prefs.getString("keySelf","null")
+        if(keySelf != "null"){
+
+            prefs.edit().putString("keySelf","null").apply()
+
+            val database = FirebaseDatabase.getInstance()
+            val bikersRef = database.getReference("bikers")
+            bikersRef.child(keySelf!!).removeValue();
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("HOME Principal","Destroy")
+    }
+
+
 }

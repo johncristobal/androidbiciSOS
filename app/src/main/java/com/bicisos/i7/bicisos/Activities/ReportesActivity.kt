@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import com.bicisos.i7.bicisos.Adapters.CustomReport
@@ -28,6 +29,8 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
     val reportFrag = ReportFragment.newInstance("","")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
     var detailtFrag = DetailReportFragment.newInstance(Report())
+
+    var flagDestroy = false
 
     companion object {
         val reportes = ArrayList<Report>()
@@ -152,4 +155,12 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             reportarButton.visibility = View.VISIBLE
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.e("HOME Reportes","Destroy")
+
+    }
+
 }

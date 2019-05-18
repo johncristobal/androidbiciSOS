@@ -12,8 +12,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import android.R.raw
 import android.content.Context
 import android.content.Intent
@@ -33,12 +31,15 @@ import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Taller
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.Marker
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,10 +56,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-    public lateinit var talleres : List<Taller>
+    private var justOne: Boolean = false
+    private var mapaListo: Boolean = false
+    private lateinit var talleres : List<Taller>
+    //private lateinit var bikers : List<Biker>
+    private var hashMapMarker = HashMap<String,Marker>();
 
     companion object {
+        val bikers = ArrayList<Biker>()
+        val stringIds = ArrayList<String>()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
 
@@ -77,6 +83,76 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+
+        listenerBikers()
+    }
+
+    private fun listenerBikers() {
+        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+
+        val reference = FirebaseDatabase.getInstance().getReference("bikers")
+        reference.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("error",p0.message)
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+
+                bikers.clear()
+                stringIds.clear()
+                val keySelf = prefs.getString("keySelf","null")
+
+                p0.children.mapNotNullTo(bikers) {
+                    it.getValue<Biker>(Biker::class.java)
+                }
+
+                bikers.forEach {
+
+                    stringIds.add(it.id)
+
+                    if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
+                        //despues de enviar, recupero bikes activas...
+                        //agregar marcadores al mapa con los bikers
+                        val height = 50
+                        val width = 70
+                        val bitmapdraw = getResources().getDrawable(R.mipmap.bicif) as BitmapDrawable
+                        val b = bitmapdraw.getBitmap()
+                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+                        val mark = mMap.addMarker(
+                            MarkerOptions()
+                                .position(LatLng(it.latitud, it.longitude))
+                                .title(it.name)
+                                //.snippet("Population: 4,627,300")
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        )
+
+                        hashMapMarker.put(it.id,mark)
+                    }
+                }
+
+                for((key,value) in hashMapMarker){
+                    if(!stringIds.contains(key)){
+                        val marker = hashMapMarker.get(key)
+                        marker!!.remove()
+                        hashMapMarker.remove(key)
+                    }
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Log.e("mapfrgment","onresume map")
+
+        if(mapaListo)
+            setUpMap()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     private fun setTalleres(){
@@ -126,6 +202,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Nota Kotlin
             Checa como usar checkSelfPermission y requestPermissions...no usa ActivityCompat
         */
+
         if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
@@ -135,6 +212,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
+                mapaListo = true
                 lastLocation = location
                 initListenerBike()
                 val currentLatLng = LatLng(location.latitude, location.longitude)
@@ -157,6 +235,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             if (intent.resolveActivity(activity!!.packageManager) != null) {
                 startActivity(intent)
             }
+        }
+
+        /*
+        Style to map json
+         */
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity!!, R.raw.style_json))
+
+            if (!success) {
+                Log.e("TAG", "Style parsing failed.");
+            }else{
+                Log.e("TAG", "Style parsing success.");
+
+            }
+        } catch (e: Exception) {
+            Log.e("tag", "Can't find style. Error: ", e);
         }
     }
 
@@ -196,9 +292,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
         val sesion = prefs.getString("sesion","null")
         if (sesion!!.equals("1")){
-
-            val name = prefs.getString("nombre","null")
-            var bici = prefs.getInt("bici",-1)
+            val name = prefs.getString("nombre", "null")
+            val bici = prefs.getInt("bici", -1)
 
             //primero enviar mi bike para que este en fierbase
             //si y solo si estoy logueado
@@ -209,27 +304,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val long = lastLocation.longitude
 
             val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(Biker(key,name,bici,lat,long)).addOnSuccessListener {
-                prefs.edit().putString("activo","1").apply()
+            bikersRef.child(key!!).setValue(Biker(key, name, bici, lat, long)).addOnSuccessListener {
+                prefs.edit().putString("enviado", "1").apply()
+                prefs.edit().putString("keySelf", key).apply()
             }.addOnFailureListener {
-                Log.e("error","No se pudo subir archivo: "+it.stackTrace)
+                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
             }
 
-            //despues de enviar, recupero bikes activas...
-            //agregar marcadores al mapa con los bikers
-            val height = 50
-            val width = 70
-            val bitmapdraw = getResources().getDrawable(R.mipmap.bicif) as BitmapDrawable
-            val b = bitmapdraw.getBitmap()
-            val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(lat, long))
-                    .title(name)
-                    //.snippet("Population: 4,627,300")
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-            )
         }else{
             //no envia nada
         }
