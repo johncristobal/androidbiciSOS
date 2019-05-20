@@ -84,7 +84,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
-        listenerBikers()
     }
 
     private fun listenerBikers() {
@@ -113,9 +112,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
                         //despues de enviar, recupero bikes activas...
                         //agregar marcadores al mapa con los bikers
+                        val bici = it.bici
+                        var mipmap = 0
+                        when(bici){
+                            0 -> mipmap = R.mipmap.bicia
+                            1 -> mipmap = R.mipmap.bicib
+                            2 -> mipmap = R.mipmap.bicic
+                            3 -> mipmap = R.mipmap.bicid
+                            4 -> mipmap = R.mipmap.bicie
+                            5 -> mipmap = R.mipmap.bicif
+                        }
                         val height = 50
                         val width = 70
-                        val bitmapdraw = getResources().getDrawable(R.mipmap.bicif) as BitmapDrawable
+                        val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
                         val b = bitmapdraw.getBitmap()
                         val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
@@ -307,6 +316,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             bikersRef.child(key!!).setValue(Biker(key, name, bici, lat, long)).addOnSuccessListener {
                 prefs.edit().putString("enviado", "1").apply()
                 prefs.edit().putString("keySelf", key).apply()
+                listenerBikers()
             }.addOnFailureListener {
                 Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
             }
