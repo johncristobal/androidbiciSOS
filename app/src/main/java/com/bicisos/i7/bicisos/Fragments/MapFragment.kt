@@ -83,7 +83,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-
     }
 
     private fun listenerBikers() {
@@ -98,8 +97,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onDataChange(p0: DataSnapshot) {
 
                 bikers.clear()
-                stringIds.clear()
-                val keySelf = prefs.getString("keySelf","null")
+                val newIdS = ArrayList<String>()
+
+                //stringIds.clear()
+                //val keySelf = prefs.getString("keySelf","null")
 
                 p0.children.mapNotNullTo(bikers) {
                     it.getValue<Biker>(Biker::class.java)
@@ -107,14 +108,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 bikers.forEach {
 
-                    stringIds.add(it.id)
+                    //nueva lista de strings con los que esten vivos
+                    newIdS.add(it.id)
 
-                    if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
+                    //punto nuevo
+                    if(!stringIds.contains(it.id)) {
+
+                        stringIds.add(it.id)
+
+                        //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
                         //despues de enviar, recupero bikes activas...
                         //agregar marcadores al mapa con los bikers
                         val bici = it.bici
                         var mipmap = 0
-                        when(bici){
+                        when (bici) {
                             0 -> mipmap = R.mipmap.bicia
                             1 -> mipmap = R.mipmap.bicib
                             2 -> mipmap = R.mipmap.bicic
@@ -136,15 +143,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                         )
 
-                        hashMapMarker.put(it.id,mark)
+                        hashMapMarker.put(it.id, mark)
                     }
+                    //}
                 }
 
+                //los puntos que se eliminaran
+                val justIds = stringIds.minus(newIdS)
+
                 for((key,value) in hashMapMarker){
-                    if(!stringIds.contains(key)){
+                    if(justIds.contains(key)){
                         val marker = hashMapMarker.get(key)
                         marker!!.remove()
                         hashMapMarker.remove(key)
+                        stringIds.remove(key)
                     }
                 }
             }
@@ -157,11 +169,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.e("mapfrgment","onresume map")
 
         if(mapaListo)
-            setUpMap()
+            initListenerBikeOnce()
     }
 
     override fun onStop() {
         super.onStop()
+        Log.e("mapfrgment","onstop map")
     }
 
     private fun setTalleres(){
@@ -170,7 +183,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             async task, it's so good!!!
         */
         doAsync {
-            var result = ApiClient().callTalleres()
+            val result = ApiClient().callTalleres()
             uiThread {
 
                 if (result != null) {
@@ -197,7 +210,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                         ).showInfoWindow()
                         //.anchor(0.5f, 1F));
-
                     }
                 }
                 //Toast.makeText(activity,"listo",Toast.LENGTH_SHORT).show()
@@ -258,7 +270,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.e("TAG", "Style parsing failed.");
             }else{
                 Log.e("TAG", "Style parsing success.");
-
             }
         } catch (e: Exception) {
             Log.e("tag", "Can't find style. Error: ", e);
@@ -287,13 +298,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         //mMap.setOnMarkerClickListener(activity!!)
         setTalleres()
         setUpMap()
-        //val layer = KmlLayer(mMap, R.raw.talleres, context)
-        //layer.addLayerToMap()
-
-        // Add a marker in Sydney and move the camera
-        //val sydney = LatLng(-34.0, 151.0)
-        //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     //al abrir app, se manda ubicacion con el bike
@@ -321,6 +325,34 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
             }
 
+        }else{
+            //no envia nada
+        }
+    }
+
+    //send location bike
+    private fun initListenerBikeOnce() {
+        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
+        val sesion = prefs.getString("sesion","null")
+        if (sesion!!.equals("1")){
+            val name = prefs.getString("nombre", "null")
+            val bici = prefs.getInt("bici", -1)
+
+            //primero enviar mi bike para que este en fierbase
+            //si y solo si estoy logueado
+            //mando nombre, bike, ubication
+            val database = FirebaseDatabase.getInstance()
+            val bikersRef = database.getReference("bikers")
+            val lat = lastLocation.latitude
+            val long = lastLocation.longitude
+
+            val key = bikersRef.push().key
+            bikersRef.child(key!!).setValue(Biker(key, name, bici, lat, long)).addOnSuccessListener {
+                prefs.edit().putString("enviado", "1").apply()
+                prefs.edit().putString("keySelf", key).apply()
+            }.addOnFailureListener {
+                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+            }
 
         }else{
             //no envia nada
