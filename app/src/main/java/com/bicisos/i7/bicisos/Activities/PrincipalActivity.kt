@@ -187,7 +187,7 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
             val database = FirebaseDatabase.getInstance()
             val bikersRef = database.getReference("bikers")
-            bikersRef.child(keySelf!!).removeValue();
+            bikersRef.child(keySelf!!).removeValue()
         }
     }
 
