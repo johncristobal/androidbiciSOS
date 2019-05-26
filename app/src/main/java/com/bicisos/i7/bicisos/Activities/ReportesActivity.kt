@@ -61,6 +61,72 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             }
         }
 
+        serieText.setOnFocusChangeListener( object: View.OnFocusChangeListener{
+            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+
+                if(hasFocus){
+                    reportarButton.visibility = View.INVISIBLE
+                }else{
+                    reportarButton.visibility = View.VISIBLE
+                }
+            }
+        })
+
+        buttonBuscar.setOnClickListener {
+
+            if (serieText.text.equals("")){
+                Log.w("no","No hya reporte")
+            }else{
+                layoutBuscador.clearFocus()
+                //onBackPressed()
+
+                val mDatabase = FirebaseDatabase.getInstance().getReference()
+                val mDatabaseData = mDatabase.child("reportes").orderByChild("serie").equalTo(serieText.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onCancelled(p0: DatabaseError) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        //elementtLayout.visibility = View.INVISIBLE
+                        //var mfragmentTransaction = supportFragmentManager.beginTransaction()
+                        //mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
+
+                        if(p0.exists()){
+                            Log.w("data",p0.value.toString())
+
+                            reportes.clear()
+                            p0.children.mapNotNullTo(reportes) {
+                                it.getValue<Report>(Report::class.java)
+                            }
+
+                            reportes.reverse()
+
+                            val adapter = CustomReport(context,reportes) {
+                                Log.w("dato", it.name)
+                                listaReportes.visibility = View.GONE
+                                reportarButton.visibility = View.GONE
+                                detailtFrag = DetailReportFragment.newInstance(it)
+                                supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+                            }
+
+                            listaReportes.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+                            listaReportes.adapter = adapter
+
+                            //serieBuscadoText.setText("# Serie reportado como robado")
+                            //resultFrag = ResultFragment.newInstance("# Serie no encontrado","Sin reporte de robo")
+                            //mfragmentTransaction.replace(R.id.reporte,resultFrag)
+                            //mfragmentTransaction.addToBackStack(null).commit()
+                        }else{
+                            //serieBuscadoText.setText("")
+                            //resultFrag = ResultFragment.newInstance("# Serie reportado como robado",serieText.text.toString())
+                            //mfragmentTransaction.replace(R.id.reporte,resultFrag)
+                            //mfragmentTransaction.addToBackStack(null).commit()
+                        }
+                    }
+                })
+            }
+        }
+
         getDataReportes()
     }
 
