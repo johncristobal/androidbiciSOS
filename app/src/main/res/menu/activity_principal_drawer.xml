@@ -12,10 +12,10 @@
                 android:id="@+id/nav_robo"
                 android:icon="@mipmap/serieiconsmall"
                 android:title="Me robaron mi bici..."/>
-        <item
+        <!--item
                 android:id="@+id/nav_slideshow"
                 android:icon="@mipmap/buscaricon"
-                android:title="# serie con reporte"/>
+                android:title="# serie con reporte"/-->
         <item
                 android:id="@+id/nav_manage"
                 android:icon="@mipmap/tipsicon"
@@ -30,10 +30,10 @@
                 android:icon="@mipmap/acercaicon"
                 android:title="Acerca de"/>
 
-        <item
+        <!--item
                 android:id="@+id/nav_settings"
                 android:icon="@mipmap/ajustesicon"
-                android:title="Ajustes"/>
+                android:title="Ajustes"/-->
 
         <item
                 android:id="@+id/nav_login"

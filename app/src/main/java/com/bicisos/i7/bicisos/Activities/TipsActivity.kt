@@ -33,6 +33,7 @@ class TipsActivity : AppCompatActivity() {
                 "• Asegurar el cuadro y una de las dos llantas con cable de acero.\n" +
                 "• NO fijar solo el sillín."))
         tips.add(Tip("Candados que no debes usar",R.drawable.tipstres,""))
+        tips.add(Tip("Reglamento usos y obligaciones",R.drawable.tipcuatro,""))
 
         val adap = TipAdapter(tips,this){
             Log.w("tag",it)

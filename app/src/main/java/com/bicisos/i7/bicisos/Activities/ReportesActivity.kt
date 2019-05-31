@@ -22,6 +22,12 @@ import com.bicisos.i7.bicisos.R
 import com.google.firebase.database.*
 
 import kotlinx.android.synthetic.main.content_reportes.*
+import android.app.Activity
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+
 
 class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal, DetailReportFragment.FragmentDetalleListener {
 
@@ -30,7 +36,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
     val finalReportFrag = FinalReporteFragment.newInstance("","")
     var detailtFrag = DetailReportFragment.newInstance(Report())
 
-    var flagDestroy = false
+    var flagShow = false
 
     companion object {
         val reportes = ArrayList<Report>()
@@ -47,6 +53,26 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                 .setAction("Action", null).show()
         }*/
 
+        serieText.clearFocus()
+
+        serieText.setOnClickListener {
+            reportarButton.visibility = View.INVISIBLE
+        }
+
+        serieText.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                if(p0.toString().equals("")){
+                    getDataReportes()
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+
         reportarButton.setOnClickListener {
             //validar sesion
             val preferences = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -61,7 +87,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             }
         }
 
-        serieText.setOnFocusChangeListener( object: View.OnFocusChangeListener{
+        /*serieText.setOnFocusChangeListener( object: View.OnFocusChangeListener{
             override fun onFocusChange(v: View?, hasFocus: Boolean) {
 
                 if(hasFocus){
@@ -70,11 +96,14 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                     reportarButton.visibility = View.VISIBLE
                 }
             }
-        })
+        })*/
 
         buttonBuscar.setOnClickListener {
 
-            if (serieText.text.equals("")){
+            hideKeyboard(this)
+            reportarButton.visibility = View.VISIBLE
+
+            if (serieText.text.toString().equals("")){
                 Log.w("no","No hya reporte")
             }else{
                 layoutBuscador.clearFocus()
@@ -117,6 +146,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                             //mfragmentTransaction.replace(R.id.reporte,resultFrag)
                             //mfragmentTransaction.addToBackStack(null).commit()
                         }else{
+                            Toast.makeText(context,"# Serie no encontrado",Toast.LENGTH_SHORT).show()
                             //serieBuscadoText.setText("")
                             //resultFrag = ResultFragment.newInstance("# Serie reportado como robado",serieText.text.toString())
                             //mfragmentTransaction.replace(R.id.reporte,resultFrag)
@@ -128,6 +158,17 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         }
 
         getDataReportes()
+    }
+
+    fun hideKeyboard(activity: Activity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onResume() {

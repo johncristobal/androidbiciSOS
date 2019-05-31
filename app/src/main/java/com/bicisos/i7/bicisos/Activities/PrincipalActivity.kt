@@ -10,8 +10,11 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import com.bicisos.i7.bicisos.Fragments.AlertaFragment
 import com.bicisos.i7.bicisos.Fragments.MapFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.AveriaFragment
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_principal.*
@@ -31,7 +34,10 @@ import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 
-class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, MapFragment.OnFragmentMapListener {
+
+    val mapFragment = MapFragment()
+    var alertasFrag = AlertaFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +57,6 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        val mapFragment = MapFragment()
         supportFragmentManager.beginTransaction().add(R.id.container,mapFragment).commit()
 
         val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -60,7 +65,7 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (sesion!!.equals("1")){
             //ocultar iniciar sesion
             val menu = nav_view.menu
-            menu.getItem(7).title = "Cerrar sesión"
+            menu.getItem(5).title = "Cerrar sesión"
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
@@ -114,11 +119,11 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 val intent = Intent(this,RoboBiciActivity::class.java)
                 startActivity(intent)
             }
-            R.id.nav_slideshow -> {
+            /*R.id.nav_slideshow -> {
                 //numero de serie
                 val intent = Intent(this,SerieBiciActivity::class.java)
                 startActivity(intent)
-            }
+            }*/
             R.id.nav_manage -> {
                 //tips
                 val intent = Intent(this,TipsActivity::class.java)
@@ -131,10 +136,12 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_send -> {
                 //acerca de
+                val intent = Intent(this,AcercaActivity::class.java)
+                startActivity(intent)
             }
-            R.id.nav_settings -> {
+            /*R.id.nav_settings -> {
                 //ajustes
-            }
+            }*/
             R.id.nav_login -> {
                 //sesion
                 val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -161,7 +168,7 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (sesion!!.equals("1")){
             //ocultar iniciar sesion
             val menu = nav_view.menu
-            menu.getItem(7).title = "Cerrar sesión"
+            menu.getItem(5).title = "Cerrar sesión"
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
@@ -196,5 +203,33 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         Log.e("HOME Principal","Destroy")
     }
 
+    override fun onFragmentInteractionAlertas(message: String) {
+        //alertAction.visibility = View.VISIBLE
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+    }
 
+    override fun onFragmentAveria(frag: AveriaFragment) {
+        Log.w("vamonos","Adios fragment averia")
+        //alertAction.visibility = View.VISIBLE
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+
+        /*
+            en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
+            mostrar el loading
+            y un mini alert con que diga alerta enviada => ok (no se si toooodo el fragment, pero podria ser, en el containerAlertas)
+         */
+    }
+
+    override fun onFragmentInteractionMap(latitud: Double, longitud: Double) {
+        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        //openMenu.visibility = View.INVISIBLE
+
+        val manager = supportFragmentManager.beginTransaction()
+        manager.setCustomAnimations(R.anim.slide_in_bottom,R.anim.slide_out_up)
+        alertasFrag = AlertaFragment.newInstance(latitud,longitud,prefs.getString("name","null")!!)
+        //manager.add(R.id.containerAlertas,alertasFrag).commit()
+        //alertAction.visibility = View.INVISIBLE
+    }
 }

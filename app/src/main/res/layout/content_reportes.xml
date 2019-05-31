@@ -56,48 +56,69 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             app:layout_constraintBottom_toTopOf="@id/layoutContainer"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:id="@+id/layoutBuscador"
-            android:layout_height="160dp">
+            android:layout_height="120dp">
 
-        <EditText
+        <LinearLayout
                 android:layout_width="match_parent"
-              android:fontFamily="@font/roboto"
-              android:layout_marginStart="8dp"
-              android:drawableStart="@mipmap/buscaricon"
-              android:background="@drawable/backinput"
-              android:padding="15dp"
-              android:id="@+id/serieText"
-              android:textSize="14sp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-              android:hint="Escribe # de serie"
-              android:layout_marginEnd="8dp"
-              android:layout_marginTop="16dp"
-              android:layout_height="50dp"/>
+                android:layout_height="60dp"
+                android:layout_marginStart="32dp"
+                android:background="@drawable/backinput"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-        <Button
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto"
+                    android:layout_marginStart="8dp"
+                    android:padding="8dp"
+                    android:id="@+id/serieText"
+                    android:textSize="12sp"
+                    android:ems="10"
+                    android:background="@drawable/backinput"
+                    android:hint="Escribe # de serie"
+                    android:layout_marginEnd="8dp"
+                    android:layout_height="match_parent"/>
+
+            <ImageView
+                    android:layout_width="85dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/buscaricon"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/buttonBuscar"
+                    android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+
+
+        <!--Button
                 android:text="BUSCAR"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="120dp"
                 android:background="@drawable/backbutton"
                 android:layout_height="30dp"
-                android:id="@+id/buttonBuscar"/>
+                android:id="@+id/buttonBuscar"/-->
 
         <LinearLayout android:layout_width="match_parent"
                       android:orientation="horizontal"
+                      android:layout_marginTop="8dp"
                       android:layout_height="wrap_content">
             <TextView
                     android:layout_width="3dp"
                     android:layout_height="match_parent"
                     android:background="@color/amarillo"
-                    android:layout_marginStart="45dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginEnd="15dp"
                     android:id="@+id/textView14"/>
 
@@ -115,7 +136,7 @@
 
             <TextView
                     android:layout_width="3dp"
-                    android:layout_marginEnd="45dp"
+                    android:layout_marginEnd="30dp"
                     android:background="@color/amarillo"
                     android:layout_height="match_parent"
                     android:id="@+id/textView22"/>
@@ -198,7 +219,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView2"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_gravity="center_vertical|center_horizontal"/>
+            android:layout_gravity="center_vertical|center_horizontal" app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"/>
 
     <ImageView
             android:layout_width="90dp"

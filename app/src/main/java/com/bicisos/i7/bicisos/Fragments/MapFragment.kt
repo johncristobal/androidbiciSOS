@@ -38,6 +38,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.fragment_map.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -60,12 +61,32 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var mapaListo: Boolean = false
     private lateinit var talleres : List<Taller>
     //private lateinit var bikers : List<Biker>
-    private var hashMapMarker = HashMap<String,Marker>();
+    private var hashMapMarker = HashMap<String,Marker>()
+    private var listener: OnFragmentMapListener? = null
 
     companion object {
         val bikers = ArrayList<Biker>()
         val stringIds = ArrayList<String>()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
+    interface OnFragmentMapListener {
+        // TODO: Update argument type and name
+        fun onFragmentInteractionMap(latitud: Double, longitud: Double)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentMapListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentMapListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,10 +104,25 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+
+        alertAction.setOnClickListener {
+
+            val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+
+            //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude)
+            val manager = childFragmentManager.beginTransaction()
+            manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
+            var alertasFrag = AlertaFragment.newInstance(
+                lastLocation.latitude,
+                lastLocation.longitude,
+                prefs.getString("name", "null")!!
+            )
+            manager.add(R.id.containerAlertas, alertasFrag).commit()
+        }
     }
 
     private fun listenerBikers() {
-        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
 
         val reference = FirebaseDatabase.getInstance().getReference("bikers")
         reference.addValueEventListener(object: ValueEventListener {
@@ -244,15 +280,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap.setOnInfoWindowClickListener {
 
             //get direcion
-            val geocoder = Geocoder(activity!!, Locale.getDefault());
+            val geocoder = Geocoder(activity!!, Locale.getDefault())
             val addresses = geocoder.getFromLocation(it!!.position.latitude, it!!.position.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
             val address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-            var uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", it!!.position.latitude, it!!.position.longitude);
+            val uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", it!!.position.latitude, it!!.position.longitude);
             //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-            intent.setPackage("com.google.android.apps.maps");
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps")
             if (intent.resolveActivity(activity!!.packageManager) != null) {
                 startActivity(intent)
             }
@@ -261,7 +297,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         /*
         Style to map json
          */
-        try {
+        /*try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity!!, R.raw.style_json))
@@ -273,7 +309,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         } catch (e: Exception) {
             Log.e("tag", "Can't find style. Error: ", e);
-        }
+        }*/
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -324,9 +360,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }.addOnFailureListener {
                 Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
             }
-
         }else{
-            //no envia nada
+            //iniicar sesion
         }
     }
 
@@ -353,7 +388,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }.addOnFailureListener {
                 Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
             }
-
         }else{
             //no envia nada
         }
