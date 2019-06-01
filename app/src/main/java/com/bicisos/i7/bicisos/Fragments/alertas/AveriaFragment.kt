@@ -13,6 +13,7 @@ import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_averia.*
+import kotlinx.android.synthetic.main.fragment_averia.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,7 +54,12 @@ class AveriaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonCerrar.setOnClickListener {
+        buttonRegresar.setOnClickListener {
+            //listener?.onFragmentAveria(this)
+            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+        }
+
+        buttonEnviar.setOnClickListener {
             Log.w("vamonos","Adios fragment averia")
             //primero enviar mi bike para que este en fierbase
             //si y solo si estoy logueado

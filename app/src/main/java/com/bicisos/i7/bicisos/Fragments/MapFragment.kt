@@ -72,7 +72,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     interface OnFragmentMapListener {
         // TODO: Update argument type and name
-        fun onFragmentInteractionMap(latitud: Double, longitud: Double)
+        fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View)
     }
 
     override fun onAttach(context: Context) {
@@ -105,19 +105,42 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
+
+        /*alertAction.setOnClickListener {
+
+            Thread(Runnable() {
+                run {
+                    val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+
+                    //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude)
+                    val manager = childFragmentManager.beginTransaction()
+                    manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
+                    var alertasFrag = AlertaFragment.newInstance(
+                        0.0,
+                        19.0,
+                        prefs.getString("name", "null")!!
+                    )
+                    manager.add(R.id.containerAlertas, alertasFrag).commit()
+                }
+
+            }).start();
+        }*/
+
         alertAction.setOnClickListener {
 
-            val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction)
 
-            //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude)
+            /*val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val manager = childFragmentManager.beginTransaction()
             manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
+            manager.addSharedElement(alertAction, "alert")
+            manager.addToBackStack(null)
             var alertasFrag = AlertaFragment.newInstance(
                 lastLocation.latitude,
                 lastLocation.longitude,
                 prefs.getString("name", "null")!!
             )
-            manager.add(R.id.containerAlertas, alertasFrag).commit()
+            manager.add(R.id.containerAlertas, alertasFrag).commit()*/
         }
     }
 
@@ -297,7 +320,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         /*
         Style to map json
          */
-        /*try {
+        try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity!!, R.raw.style_json))
@@ -309,7 +332,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         } catch (e: Exception) {
             Log.e("tag", "Can't find style. Error: ", e);
-        }*/
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

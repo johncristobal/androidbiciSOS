@@ -2,8 +2,10 @@ package com.bicisos.i7.bicisos.Fragments
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.transition.Slide
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,10 @@ import com.bicisos.i7.bicisos.Fragments.alertas.AveriaFragment
 
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.fragment_alerta.*
+import android.transition.TransitionInflater
+import android.transition.TransitionSet
+import android.transition.Fade
+import android.view.Gravity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +43,9 @@ class AlertaFragment : Fragment() {
 
     var averiaFrag = AveriaFragment()
 
+    val MOVE_DEFAULT_TIME: Long = 1000
+    private val FADE_DEFAULT_TIME: Long = 300
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -54,22 +63,37 @@ class AlertaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        imageView5.setOnClickListener {
-            //listener?.onFragmentInteractionAlertas("cerrar")
-            childFragmentManager.popBackStack()
+        textViewCerrar.setOnClickListener {
+            listener?.onFragmentInteractionAlertas("cerrar")
+            //childFragmentManager.beginTransaction().remove(this).commit()
         }
-/*
-        imageViewAveria.setOnClickListener {
-            val manager = childFragmentManager.beginTransaction()//.add(R.id.containerAlertas,alertasFrag).commit()
-            manager.addToBackStack("averia")
-            averiaFrag = AveriaFragment.newInstance(latitud!!,longitud!!,name!!)
-            manager.add(R.id.containerAlertasCustom,averiaFrag).commit()
-        }*/
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteractionAlertas("")
+        imageViewAveria.setOnClickListener {
+            averiaFrag = AveriaFragment.newInstance(latitud!!,longitud!!,name!!)
+
+            val exitFade = Fade()
+            exitFade.setDuration(MOVE_DEFAULT_TIME)
+            this.setExitTransition(exitFade)
+
+            val enterTransitionSet = TransitionSet()
+            enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
+            enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
+            enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
+            averiaFrag.setSharedElementEnterTransition(enterTransitionSet)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val enterFade = Slide(Gravity.RIGHT)
+                //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
+                enterFade.setDuration(FADE_DEFAULT_TIME)
+                averiaFrag.setEnterTransition(enterFade)
+            }
+
+            val manager = childFragmentManager.beginTransaction()
+                .addToBackStack("averia")
+                .addSharedElement(imageViewAveria,"averia")
+                .replace(R.id.containerAlertasCustom,averiaFrag)
+            manager.commitAllowingStateLoss()
+        }
     }
 
     override fun onAttach(context: Context) {
