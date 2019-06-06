@@ -32,7 +32,7 @@ import android.widget.Toast
 class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal, DetailReportFragment.FragmentDetalleListener {
 
     var context = this
-    val reportFrag = ReportFragment.newInstance("","")
+    val reportFrag = ReportFragment.newInstance(0.0,0.0,"")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
     var detailtFrag = DetailReportFragment.newInstance(Report())
 
@@ -180,6 +180,9 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
     fun saveReporte(){
 
+        val preferences = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        preferences.edit().putString("fromReporte","reporteActivity").apply()
+
         listaReportes.visibility = View.GONE
         reportarButton.visibility = View.GONE
 
@@ -187,6 +190,8 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         var mfragmentTransaction = supportFragmentManager.beginTransaction()
         mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
         mfragmentTransaction.add(R.id.reporte,reportFrag).commit()
+
+
 
     }
 

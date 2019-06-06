@@ -40,8 +40,9 @@ import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM1 = "latitude"
+private const val ARG_PARAM2 = "longitude"
+private const val ARG_PARAM3 = "name"
 
 /**
  * A simple [Fragment] subclass.
@@ -53,9 +54,9 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class ReportFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+    private var name: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
     var REQUEST_CODE_CAMERA = 1
@@ -71,8 +72,9 @@ class ReportFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            latitude = it.getDouble(ARG_PARAM1)
+            longitude = it.getDouble(ARG_PARAM2)
+            name = it.getString(ARG_PARAM3)
         }
     }
 
@@ -99,7 +101,18 @@ class ReportFragment : Fragment() {
         }
 
         buttonCancelar.setOnClickListener{
-            listener?.onFragmentInteraction("")
+
+            val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            val fromReporte = preferences.getString("fromReporte","null")
+
+            if (fromReporte.equals("null")){
+
+            }else if (fromReporte.equals("reporteActivity")){
+                listener?.onFragmentInteraction("")
+            }else{
+                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            }
+
         }
 
         buttonReportar.setOnClickListener {
@@ -575,11 +588,12 @@ class ReportFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Double, param2: Double, param3: String) =
             ReportFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putDouble(ARG_PARAM1, param1)
+                    putDouble(ARG_PARAM2, param2)
+                    putString(ARG_PARAM3, param3)
                 }
             }
     }

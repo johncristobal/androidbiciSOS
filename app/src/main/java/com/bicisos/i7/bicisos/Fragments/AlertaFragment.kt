@@ -17,6 +17,9 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.transition.Fade
 import android.view.Gravity
+import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.CicloviaFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.HelpFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,6 +45,10 @@ class AlertaFragment : Fragment() {
     private var listener: OnFragmentAlertasListener? = null
 
     var averiaFrag = AveriaFragment()
+    var cicloFrag = CicloviaFragment()
+    var helpFrag = HelpFragment()
+    var apoyoFrag = ApoyoFragment()
+    var alertaFrag = ReportFragment()
 
     val MOVE_DEFAULT_TIME: Long = 1000
     private val FADE_DEFAULT_TIME: Long = 300
@@ -94,6 +101,122 @@ class AlertaFragment : Fragment() {
                 .replace(R.id.containerAlertasCustom,averiaFrag)
             manager.commitAllowingStateLoss()
         }
+
+// =================== action ciclvia ==================================================================================
+        imageViewCiclovia.setOnClickListener {
+            cicloFrag = CicloviaFragment.newInstance(latitud!!,longitud!!,name!!)
+
+            val exitFade = Fade()
+            exitFade.setDuration(MOVE_DEFAULT_TIME)
+            this.setExitTransition(exitFade)
+
+            val enterTransitionSet = TransitionSet()
+            enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
+            enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
+            enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
+            cicloFrag.setSharedElementEnterTransition(enterTransitionSet)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val enterFade = Slide(Gravity.RIGHT)
+                //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
+                enterFade.setDuration(FADE_DEFAULT_TIME)
+                cicloFrag.setEnterTransition(enterFade)
+            }
+
+            val manager = childFragmentManager.beginTransaction()
+                .addToBackStack("ciclovia")
+                .addSharedElement(imageViewAveria,"ciclovia")
+                .replace(R.id.containerAlertasCustom,cicloFrag)
+            manager.commitAllowingStateLoss()
+        }
+
+// =================== action help 911 ==================================================================================
+        imageViewHelp.setOnClickListener {
+            helpFrag = HelpFragment.newInstance(latitud!!,longitud!!,name!!)
+
+            val exitFade = Fade()
+            exitFade.setDuration(MOVE_DEFAULT_TIME)
+            this.setExitTransition(exitFade)
+
+            val enterTransitionSet = TransitionSet()
+            enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
+            enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
+            enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
+            helpFrag.setSharedElementEnterTransition(enterTransitionSet)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val enterFade = Slide(Gravity.END)
+                //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
+                enterFade.setDuration(FADE_DEFAULT_TIME)
+                helpFrag.setEnterTransition(enterFade)
+            }
+
+            val manager = childFragmentManager.beginTransaction()
+                .addToBackStack("help")
+                .addSharedElement(imageViewHelp,"help")
+                .replace(R.id.containerAlertasCustom,helpFrag)
+            manager.commitAllowingStateLoss()
+        }
+
+// =================== action apoyo ==================================================================================
+        imageViewApoyo.setOnClickListener {
+            apoyoFrag = ApoyoFragment.newInstance(latitud!!,longitud!!,name!!)
+
+            val exitFade = Fade()
+            exitFade.setDuration(MOVE_DEFAULT_TIME)
+            this.setExitTransition(exitFade)
+
+            val enterTransitionSet = TransitionSet()
+            enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
+            enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
+            enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
+            apoyoFrag.setSharedElementEnterTransition(enterTransitionSet)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val enterFade = Slide(Gravity.END)
+                //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
+                enterFade.setDuration(FADE_DEFAULT_TIME)
+                apoyoFrag.setEnterTransition(enterFade)
+            }
+
+            val manager = childFragmentManager.beginTransaction()
+                .addToBackStack("apoyo")
+                .addSharedElement(imageViewApoyo,"apoyo")
+                .replace(R.id.containerAlertasCustom,apoyoFrag)
+            manager.commitAllowingStateLoss()
+        }
+
+// =================== action añlerta ==================================================================================
+        imageViewAlerta.setOnClickListener {
+
+            val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            preferences.edit().putString("fromReporte","alertaFragment").apply()
+
+            alertaFrag = ReportFragment.newInstance(latitud!!,longitud!!,name!!)
+
+            val exitFade = Fade()
+            exitFade.setDuration(MOVE_DEFAULT_TIME)
+            this.setExitTransition(exitFade)
+
+            val enterTransitionSet = TransitionSet()
+            enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
+            enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
+            enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
+            alertaFrag.setSharedElementEnterTransition(enterTransitionSet)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val enterFade = Slide(Gravity.END)
+                //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
+                enterFade.setDuration(FADE_DEFAULT_TIME)
+                alertaFrag.setEnterTransition(enterFade)
+            }
+
+            val manager = childFragmentManager.beginTransaction()
+                .addToBackStack("report")
+                .addSharedElement(imageViewAlerta,"report")
+                .replace(R.id.containerAlertasCustom,alertaFrag)
+            manager.commitAllowingStateLoss()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -121,6 +244,7 @@ class AlertaFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
+
     interface OnFragmentAlertasListener {
         // TODO: Update argument type and name
         fun onFragmentInteractionAlertas(message: String)

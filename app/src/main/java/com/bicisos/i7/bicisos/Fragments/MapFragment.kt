@@ -209,14 +209,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 //los puntos que se eliminaran
                 val justIds = stringIds.minus(newIdS)
-
-                for((key,value) in hashMapMarker){
-                    if(justIds.contains(key)){
-                        val marker = hashMapMarker.get(key)
-                        marker!!.remove()
-                        hashMapMarker.remove(key)
-                        stringIds.remove(key)
+                var keyHere = ""
+                if(hashMapMarker.size > 0) {
+                    for ((key, value) in hashMapMarker) {
+                        if (justIds.contains(key)) {
+                            val marker = hashMapMarker.get(key)
+                            marker!!.remove()
+                            keyHere = key
+                            stringIds.remove(key)
+                        }
                     }
+                    hashMapMarker.remove(keyHere)
                 }
             }
         })

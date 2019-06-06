@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.content_serie_bici.*
 class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal, ResultFragment.ListenerResult {
 
 
-    val reportFrag = ReportFragment.newInstance("","")
+    val reportFrag = ReportFragment.newInstance(0.0,0.0,"")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
     var resultFrag = ResultFragment.newInstance("","")
 

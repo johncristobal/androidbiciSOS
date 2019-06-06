@@ -2,6 +2,7 @@ package com.bicisos.i7.bicisos.Activities
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -14,7 +15,11 @@ import android.view.View
 import android.widget.Toast
 import com.bicisos.i7.bicisos.Fragments.AlertaFragment
 import com.bicisos.i7.bicisos.Fragments.MapFragment
+import com.bicisos.i7.bicisos.Fragments.ReportFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.AveriaFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.CicloviaFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.HelpFragment
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_principal.*
@@ -34,7 +39,7 @@ import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 
-class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, MapFragment.OnFragmentMapListener {
+class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener {
 
     val mapFragment = MapFragment()
     var alertasFrag = AlertaFragment()
@@ -221,6 +226,52 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             y un mini alert con que diga alerta enviada => ok (no se si toooodo el fragment, pero podria ser, en el containerAlertas)
          */
     }
+
+    override fun onFragmentInteractionCiclovia(message: String) {
+        Log.w("vamonos","Adios fragment ciclovia")
+        //alertAction.visibility = View.VISIBLE
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+
+        /*
+            en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
+            mostrar el loading
+            y un mini alert con que diga alerta enviada => ok (no se si toooodo el fragment, pero podria ser, en el containerAlertas)
+         */
+    }
+
+    override fun onFragmentInteractionHelp(uri: Uri) {
+        Log.w("vamonos","Adios fragment help")
+        //alertAction.visibility = View.VISIBLE
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+
+        /*
+            en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
+            mostrar el loading
+            y un mini alert con que diga alerta enviada => ok (no se si toooodo el fragment, pero podria ser, en el containerAlertas)
+         */
+    }
+
+    override fun onFragmentInteractionApoyo(message: String) {
+        Log.w("vamonos","Adios fragment apoyo")
+        //alertAction.visibility = View.VISIBLE
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+
+        /*
+            en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
+            mostrar el loading
+            y un mini alert con que diga alerta enviada => ok (no se si toooodo el fragment, pero podria ser, en el containerAlertas)
+         */
+    }
+
+    override fun onFragmentInteraction(message: String) {
+        //reload data to show new report on recyclerview
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+    }
+
 
     override fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View) {
         val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)

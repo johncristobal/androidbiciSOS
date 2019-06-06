@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+         xmlns:tools="http://schemas.android.com/tools"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="#BB000000"
+         xmlns:app="http://schemas.android.com/apk/res-auto"
+         tools:context=".Fragments.alertas.CicloviaFragment">
+
+    <ImageView
+            android:src="@drawable/backalerta"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"/>
+
+    <ImageView
+            android:textAlignment="center"
+            android:src="@drawable/cicloviaicon"
+            android:textColor="#fff"
+            android:layout_width="110dp"
+            android:layout_height="120dp"
+            android:id="@+id/textViewCerrar"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="18sp"
+            android:transitionName="ciclovia"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView27"/>
+
+    <TextView
+            android:textAlignment="center"
+            android:text="Aqui podrás reportar todos los inconvenientes\nsuscitados en cualquier ciclovía de tu ciudad y así\n poder prevenir accidentes a la comunidad ciclista."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView27"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/editTextAveria"/>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:hint="Detalles particulares..."
+            android:background="@drawable/backinput"
+            android:ems="10"
+            android:id="@+id/editTextAveria"
+            android:textSize="16sp"
+            android:inputType="textMultiLine"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:singleLine="false"
+            android:fontFamily="@font/roboto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextAveria"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:text="Regresar"
+                android:layout_gravity="end"
+                android:layout_width="120dp"
+                android:textColor="@color/amarillo"
+                android:layout_margin="10dp"
+                android:background="@drawable/backbrown"
+                android:layout_height="30dp"
+                android:id="@+id/buttonRegresar"/>
+
+        <Button
+                android:text="Enviar"
+                android:layout_gravity="end"
+                android:layout_width="120dp"
+                android:layout_margin="10dp"
+                android:textColor="@color/amarillo"
+                android:background="@drawable/backbrown"
+                android:layout_height="30dp"
+                android:id="@+id/buttonEnviar"
+                android:layout_marginTop="18dp"/>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
