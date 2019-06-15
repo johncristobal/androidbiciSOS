@@ -141,8 +141,9 @@ class ReportFragment : Fragment() {
             }
 
             val key = reportesRef.push().key
-            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos)).addOnSuccessListener {
+            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos,1,latitude!!,longitude!!)).addOnSuccessListener {
                 prefs.edit().putString("reportado","1").apply()
+
             }.addOnFailureListener {
                 Log.e("error","No se pudo subir archivo: "+it.stackTrace)
             }
@@ -170,7 +171,6 @@ class ReportFragment : Fragment() {
             }
 
             listener?.onFragmentInteraction("listo")
-
         }
 
         photosBool = ArrayList<Boolean>()

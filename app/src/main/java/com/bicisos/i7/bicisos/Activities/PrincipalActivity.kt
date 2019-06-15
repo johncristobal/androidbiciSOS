@@ -14,12 +14,10 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.bicisos.i7.bicisos.Fragments.AlertaFragment
+import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.MapFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.AveriaFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.CicloviaFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.HelpFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_principal.*
@@ -34,15 +32,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_personaliza.*
 import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 
-class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener {
+class PrincipalActivity : AppCompatActivity(),FinalReporteFragment.OnFragmentInteractionListenerFinal, NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener, DetallesApoyoFragment.OnFragmentInteractionListenerDetalles {
 
     val mapFragment = MapFragment()
     var alertasFrag = AlertaFragment()
+    val finalReportFrag = FinalReporteFragment.newInstance("","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -214,12 +212,14 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
     }
 
-    override fun onFragmentAveria(frag: AveriaFragment) {
+    override fun onFragmentAveria(message: String) {
         Log.w("vamonos","Adios fragment averia")
         //alertAction.visibility = View.VISIBLE
-        openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
 
+        if(message.equals("listo")){
+            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+        }
         /*
             en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
             mostrar el loading
@@ -230,8 +230,12 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onFragmentInteractionCiclovia(message: String) {
         Log.w("vamonos","Adios fragment ciclovia")
         //alertAction.visibility = View.VISIBLE
-        openMenu.visibility = View.VISIBLE
+        //openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+
+        if(message.equals("enviado")){
+            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+        }
 
         /*
             en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
@@ -256,8 +260,7 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onFragmentInteractionApoyo(message: String) {
         Log.w("vamonos","Adios fragment apoyo")
         //alertAction.visibility = View.VISIBLE
-        openMenu.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+        //openMenu.visibility = View.VISIBLE
 
         /*
             en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
@@ -266,10 +269,21 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
          */
     }
 
+    override fun onFragmentInteractionDetalles(message: String) {
+        supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+        if(message.equals("listo")){
+            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+        }
+    }
+
     override fun onFragmentInteraction(message: String) {
         //reload data to show new report on recyclerview
-        openMenu.visibility = View.VISIBLE
+        //openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
+        if(message.equals("listo")){
+            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+        }
+
     }
 
 
@@ -283,5 +297,11 @@ class PrincipalActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         alertasFrag = AlertaFragment.newInstance(latitud,longitud,prefs.getString("name","null")!!)
         manager.add(R.id.containerAlertas,alertasFrag).commit()
         //alertAction.visibility = View.INVISIBLE
+    }
+
+    //listo fragmetn listener
+    override fun onFragmentInteractionFinal(message: String) {
+        openMenu.visibility = View.VISIBLE
+        supportFragmentManager.beginTransaction().remove(finalReportFrag).commit();
     }
 }

@@ -28,6 +28,7 @@ import android.widget.Toast
 import com.bicisos.i7.bicisos.Activities.SesionActivity
 import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.Model.Biker
+import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.Model.Taller
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -66,6 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
         val bikers = ArrayList<Biker>()
+        val reportes = ArrayList<Report>()
         val stringIds = ArrayList<String>()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
@@ -142,6 +144,89 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             )
             manager.add(R.id.containerAlertas, alertasFrag).commit()*/
         }
+
+        listenerReports()
+        listenerBikers()
+    }
+
+    private fun listenerReports(){
+        val reference = FirebaseDatabase.getInstance().getReference("reportes")
+        reference.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("error",p0.message)
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+
+                reportes.clear()
+                val newIdS = ArrayList<String>()
+
+                //stringIds.clear()
+                //val keySelf = prefs.getString("keySelf","null")
+
+                p0.children.mapNotNullTo(reportes) {
+                    it.getValue<Report>(Report::class.java)
+                }
+
+                reportes.forEach {
+
+                    //nueva lista de strings con los que esten vivos
+                    newIdS.add(it.id)
+
+                    //punto nuevo
+                    if(!stringIds.contains(it.id)) {
+
+                        stringIds.add(it.id)
+
+                        //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
+                        //despues de enviar, recupero bikes activas...
+                        //agregar marcadores al mapa con los bikers
+                        val bici = it.tipo
+                        var mipmap = 0
+
+                        when (bici) {
+                            0 -> mipmap = R.mipmap.bicia
+                            1 -> mipmap = R.drawable.alertafinal
+                            2 -> mipmap = R.drawable.averiaicon
+                            3 -> mipmap = R.drawable.cicloviaicon
+                            4 -> mipmap = R.drawable.apoyoicon
+                        }
+
+                        val height = 100
+                        val width = 100
+                        val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
+                        val b = bitmapdraw.getBitmap()
+                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+                        val mark = mMap.addMarker(
+                            MarkerOptions()
+                                .position(LatLng(it.latitude, it.longitude))
+                                .title(it.name)
+                                //.snippet("Population: 4,627,300")
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        )
+
+                        hashMapMarker.put(it.id, mark)
+                    }
+                    //}
+                }
+
+                //los puntos que se eliminaran
+                /*val justIds = stringIds.minus(newIdS)
+                var keyHere = ""
+                if(hashMapMarker.size > 0) {
+                    for ((key, value) in hashMapMarker) {
+                        if (justIds.contains(key)) {
+                            val marker = hashMapMarker.get(key)
+                            marker!!.remove()
+                            keyHere = key
+                            stringIds.remove(key)
+                        }
+                    }
+                    hashMapMarker.remove(keyHere)
+                }*/
+            }
+        })
     }
 
     private fun listenerBikers() {
@@ -230,8 +315,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         Log.e("mapfrgment","onresume map")
 
-        if(mapaListo)
-            initListenerBikeOnce()
+        //if(mapaListo)
+        //    initListenerBikeOnce()
     }
 
     override fun onStop() {
@@ -382,7 +467,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             bikersRef.child(key!!).setValue(Biker(key, name, bici, lat, long)).addOnSuccessListener {
                 prefs.edit().putString("enviado", "1").apply()
                 prefs.edit().putString("keySelf", key).apply()
-                listenerBikers()
+                //listenerBikers()
             }.addOnFailureListener {
                 Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
             }

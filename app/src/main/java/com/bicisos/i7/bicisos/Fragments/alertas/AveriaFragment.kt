@@ -8,12 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bicisos.i7.bicisos.Model.Biker
+import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_averia.*
 import kotlinx.android.synthetic.main.fragment_averia.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,27 +59,37 @@ class AveriaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonRegresar.setOnClickListener {
-            //listener?.onFragmentAveria(this)
             childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
         }
 
         buttonEnviar.setOnClickListener {
             Log.w("vamonos","Adios fragment averia")
-            //primero enviar mi bike para que este en fierbase
-            //si y solo si estoy logueado
-            //mando nombre, bike, ubication
-            val database = FirebaseDatabase.getInstance()
-            val bikersRef = database.getReference("reportes")
-            val lat = latitude
-            val long = longitude
-            var bici = 1 // averia
+            if (editTextAveria.text.toString().equals("")){
+                Toast.makeText(activity!!,"Describe tu averia...",Toast.LENGTH_SHORT).show()
+            }else {
+                val fecha = Date()
+                val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+                val dateFinal = stringfecha.format(fecha)
 
-            val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat!!, long!!)).addOnSuccessListener {
-                listener?.onFragmentAveria(this)
-                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
-            }.addOnFailureListener {
-                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+                //primero enviar mi bike para que este en fierbase
+                //si y solo si estoy logueado
+                //mando nombre, bike, ubication
+                val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val serie = prefs.getString("serie", "null")
+
+                val database = FirebaseDatabase.getInstance()
+                val bikersRef = database.getReference("reportes")
+                val lat = latitude
+                val long = longitude
+                val bici = 2 // averia
+
+                val key = bikersRef.push().key
+                bikersRef.child(key!!).setValue(Report(key, name!!, serie!!, editTextAveria.text.toString(), 1,dateFinal,"sinfotos", bici, lat!!, long!!)).addOnSuccessListener {
+                    listener?.onFragmentAveria("listo")
+                    //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+                }.addOnFailureListener {
+                    Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+                }
             }
         }
     }
@@ -107,7 +121,7 @@ class AveriaFragment : Fragment() {
      */
     interface OnFragmentInteractionListenerAveria {
         // TODO: Update argument type and name
-        fun onFragmentAveria(frag: AveriaFragment)
+        fun onFragmentAveria(message:String)
     }
 
     companion object {

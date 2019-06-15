@@ -4,16 +4,24 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.fragment_detalles_apoyo.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM1 = "latitude"
+private const val ARG_PARAM2 = "longitude"
+private const val ARG_PARAM3 = "name"
 
 /**
  * A simple [Fragment] subclass.
@@ -26,37 +34,90 @@ private const val ARG_PARAM2 = "param2"
  */
 class DetallesApoyoFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private var listener: OnFragmentInteractionListener? = null
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+    private var name: String? = null
+    private var listener: OnFragmentInteractionListenerDetalles? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            latitude = it.getDouble(ARG_PARAM1)
+            longitude = it.getDouble(ARG_PARAM2)
+            name = it.getString(ARG_PARAM3)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detalles_apoyo, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        buttonRegresar.setOnClickListener {
+            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+        }
+
+
+        buttonEnviar.setOnClickListener {
+            Log.w("vamonos", "Adios fragment apoyo")
+            if (editTextDesc.text.toString().equals("")) {
+                Toast.makeText(activity!!, "Describe tu apoyo...", Toast.LENGTH_SHORT).show()
+            } else {
+                val fecha = Date()
+                val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+                val dateFinal = stringfecha.format(fecha)
+
+                //primero enviar mi bike para que este en fierbase
+                //si y solo si estoy logueado
+                //mando nombre, bike, ubication
+                val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val serie = prefs.getString("serie", "null")
+
+                val database = FirebaseDatabase.getInstance()
+                val bikersRef = database.getReference("reportes")
+                val lat = latitude
+                val long = longitude
+                val bici = 4 // averia
+
+                val key = bikersRef.push().key
+                bikersRef.child(key!!).setValue(
+                    Report(
+                        key,
+                        name!!,
+                        serie!!,
+                        editTextDesc.text.toString(),
+                        1,
+                        dateFinal,
+                        "sinfotos",
+                        bici,
+                        lat!!,
+                        long!!
+                    )
+                ).addOnSuccessListener {
+                    listener?.onFragmentInteractionDetalles("listo")
+                    //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+                }.addOnFailureListener {
+                    Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+                }
+            }
+        }
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+        listener?.onFragmentInteractionDetalles("")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnFragmentInteractionListenerDetalles) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListenerDetalles")
         }
     }
 
@@ -76,9 +137,9 @@ class DetallesApoyoFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface OnFragmentInteractionListener {
+    interface OnFragmentInteractionListenerDetalles {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onFragmentInteractionDetalles(message: String)
     }
 
     companion object {
@@ -92,11 +153,12 @@ class DetallesApoyoFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Double, param2: Double, param3: String) =
             DetallesApoyoFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putDouble(ARG_PARAM1, param1)
+                    putDouble(ARG_PARAM2, param2)
+                    putString(ARG_PARAM3, param3)
                 }
             }
     }

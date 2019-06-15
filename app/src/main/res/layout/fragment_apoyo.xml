@@ -108,5 +108,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <FrameLayout
+            android:id="@+id/containerDetalles"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

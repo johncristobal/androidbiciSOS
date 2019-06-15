@@ -32,6 +32,7 @@ class ApoyoFragment : Fragment() {
     private var latitude: Double? = null
     private var longitude: Double? = null
     private var name: String? = null
+
     private var listener: OnFragmentInteractionListenerApoyo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,20 @@ class ApoyoFragment : Fragment() {
         }
 
         imageViewValla.setOnClickListener {
+            val detailsFrag = DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)
+            childFragmentManager.beginTransaction()
+                .addToBackStack("detalles")
+                .replace(R.id.containerDetalles,detailsFrag)
+                .commit()
 
+        }
+
+        buttonApoyo.setOnClickListener {
+            val detailsFrag = DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)
+            childFragmentManager.beginTransaction()
+                .addToBackStack("detalles")
+                .replace(R.id.containerDetalles,detailsFrag)
+                .commit()
         }
     }
 

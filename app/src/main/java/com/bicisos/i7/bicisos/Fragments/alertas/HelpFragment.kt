@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.Fragments.alertas
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.fragment_help.*
+import org.jetbrains.anko.makeCall
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,6 +55,46 @@ class HelpFragment : Fragment() {
         buttonRegresar.setOnClickListener {
             //listener?.onFragmentAveria(this)
             childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+        }
+
+        buttonHelp.setOnClickListener {
+            activity!!.makeCall("911")
+        }
+
+        textViewC5.setOnClickListener {
+            openTwwiter("https://twitter.com/C5_CDMX")
+
+        }
+
+        textViewSSP.setOnClickListener {
+            openTwwiter("https://twitter.com/SSP_CDMX")
+
+        }
+
+        textViewUCS.setOnClickListener {
+            openTwwiter("https://twitter.com/UCS_GCDMX")
+
+        }
+
+        textViewPGJDF.setOnClickListener {
+            openTwwiter("https://twitter.com/PGJDF_CDMX")
+
+        }
+
+    }
+
+    fun openTwwiter(url: String){
+
+        try {
+            // get the Twitter app if possible
+            activity!!.packageManager.getPackageInfo("com.twitter.android", 0)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        } catch (e: Exception) {
+            // no Twitter app, revert to browser
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
         }
     }
 

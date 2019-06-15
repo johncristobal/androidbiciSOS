@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
         mVideoView = findViewById(R.id.videoView) as VideoView
-        val uri = "android.resource://" + packageName + "/" + R.raw.splash
+        val uri = "android.resource://" + packageName + "/" + R.raw.splashcopy
         if (mVideoView != null) {
             mVideoView!!.setVideoURI(Uri.parse(uri))
             mVideoView!!.setZOrderOnTop(true)
