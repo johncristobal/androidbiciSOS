@@ -26,6 +26,7 @@ import android.support.v4.content.ContextCompat.checkSelfPermission
 import android.util.Log
 import android.widget.Toast
 import com.bicisos.i7.bicisos.Activities.SesionActivity
+import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
 import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Report
@@ -144,9 +145,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             )
             manager.add(R.id.containerAlertas, alertasFrag).commit()*/
         }
-
-        listenerReports()
-        listenerBikers()
     }
 
     private fun listenerReports(){
@@ -196,17 +194,33 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         val width = 100
                         val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
                         val b = bitmapdraw.getBitmap()
-                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
 
-                        val mark = mMap.addMarker(
+                        /*val mark = mMap.addMarker(
                             MarkerOptions()
                                 .position(LatLng(it.latitude, it.longitude))
                                 .title(it.name)
                                 //.snippet("Population: 4,627,300")
                                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                        )
+                        )*/
 
-                        hashMapMarker.put(it.id, mark)
+                        val markerOptions = MarkerOptions()
+                        markerOptions.position(LatLng(it.latitude, it.longitude))
+                            .title(it.name)
+                            //.snippet("I am custom Location Marker.")
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+
+                        /*val info = InfoWindowData("Developine", "Islamabad Pakistan",
+                            "hammadtariq.me@gmail.com",
+                            "92 333 8456598",
+                            "8 AM to 6 PM",
+                            "0404"
+                        )*/
+
+                        val mark = mMap.addMarker(markerOptions)
+                        mark.tag = it
+
+                        //hashMapMarker.put(it.id, mark)
                     }
                     //}
                 }
@@ -286,6 +300,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 //.snippet("Population: 4,627,300")
                                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                         )
+                        mMap.setInfoWindowAdapter(null)
+
+                        //mark.tag = it
 
                         hashMapMarker.put(it.id, mark)
                     }
@@ -353,13 +370,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             MarkerOptions()
                                 .position(LatLng(lat.toDouble(), lon.toDouble()))
                                 .title(taller.name)
-                                //.snippet("Population: 4,627,300")
+                                .snippet("Da click para ver ruta...")
                                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                         ).showInfoWindow()
+
+
+
+                        //mark.tag
                         //.anchor(0.5f, 1F));
                     }
                 }
-                //Toast.makeText(activity,"listo",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -390,18 +410,35 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         mMap.setOnInfoWindowClickListener {
 
-            //get direcion
-            val geocoder = Geocoder(activity!!, Locale.getDefault())
-            val addresses = geocoder.getFromLocation(it!!.position.latitude, it!!.position.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            val tag = it.tag
 
-            val address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            if((tag is Report))
+            {
+                Log.w("taller","No es taller")
+            }else {
+                //get direcion
+                val geocoder = Geocoder(activity!!, Locale.getDefault())
+                val addresses = geocoder.getFromLocation(
+                    it!!.position.latitude,
+                    it!!.position.longitude,
+                    1
+                ); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-            val uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f", it!!.position.latitude, it!!.position.longitude);
-            //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.setPackage("com.google.android.apps.maps")
-            if (intent.resolveActivity(activity!!.packageManager) != null) {
-                startActivity(intent)
+                val address = addresses.get(0)
+                    .getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+                val uri = String.format(
+                    Locale.ENGLISH,
+                    "http://maps.google.com/maps?daddr=%f,%f",
+                    it!!.position.latitude,
+                    it!!.position.longitude
+                );
+                //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                intent.setPackage("com.google.android.apps.maps")
+                if (intent.resolveActivity(activity!!.packageManager) != null) {
+                    startActivity(intent)
+                }
             }
         }
 
@@ -442,9 +479,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         mMap = p0
         mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
+            override fun onMarkerClick(p0: Marker?): Boolean {
+                if(p0!!.tag is Report) {
+                    val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
+                    mMap.setInfoWindowAdapter(customInfoWindow)
+
+                    return false
+                }else{
+                    mMap.setInfoWindowAdapter(null)
+                    return false
+
+                }
+            }
+        })
+
+
         //mMap.setOnMarkerClickListener(activity!!)
-        setTalleres()
         setUpMap()
+        setTalleres()
+        listenerReports()
+        listenerBikers()
     }
 
     //al abrir app, se manda ubicacion con el bike

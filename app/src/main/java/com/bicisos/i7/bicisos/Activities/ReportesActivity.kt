@@ -124,9 +124,17 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                             Log.w("data",p0.value.toString())
 
                             reportes.clear()
+                            p0.children.forEach{
+                                val rep = it.getValue<Report>(Report::class.java)
+                                if (rep!!.tipo == 1){
+                                    reportes.add(rep)
+                                }
+                            }
+
+                            /*reportes.clear()
                             p0.children.mapNotNullTo(reportes) {
                                 it.getValue<Report>(Report::class.java)
-                            }
+                            }*/
 
                             reportes.reverse()
 
@@ -200,8 +208,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         //var mDatabase : DatabaseReference;
         progressBar.visibility = View.VISIBLE
         val mDatabase = FirebaseDatabase.getInstance().getReference()
-        val mDatabaseData = mDatabase.child("reportes");
-
+        val mDatabaseData = mDatabase.child("reportes")//.orderByChild("tipo").equalTo("1")
         //weeeeeeee
         //que pex con eso del object : ????
         mDatabaseData.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -211,12 +218,19 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                reportes.clear()
+                p0.children.forEach{
+                    val rep = it.getValue<Report>(Report::class.java)
+                    if (rep!!.tipo == 1){
+                        reportes.add(rep)
+                    }
+                }
+
                 Log.w("datos","exito")
 
-                reportes.clear()
-                p0.children.mapNotNullTo(reportes) {
+                /*p0.children.mapNotNullTo(reportes) {
                     it.getValue<Report>(Report::class.java)
-                }
+                }*/
 
                 reportes.reverse()
 
