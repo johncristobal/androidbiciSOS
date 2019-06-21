@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             mVideoView!!.setVideoURI(Uri.parse(uri))
             mVideoView!!.setZOrderOnTop(true)
             mVideoView!!.requestFocus()
+            mVideoView!!.getHolder().setSizeFromLayout();
             mVideoView!!.start()
         }
         val task = object : TimerTask() {

@@ -482,8 +482,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
             override fun onMarkerClick(p0: Marker?): Boolean {
                 if(p0!!.tag is Report) {
-                    val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
-                    mMap.setInfoWindowAdapter(customInfoWindow)
+
+                    val report = p0.tag as Report
+
+                    if(report.tipo == 1){
+                        mMap.setInfoWindowAdapter(null)
+
+                        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                        prefs.edit().putString("detalleMapFragment","1").apply()
+
+                        val detailtFrag = DetailReportFragment.newInstance(report)
+                        childFragmentManager.beginTransaction()
+                            .addToBackStack("detalles")
+                            .replace(R.id.containerAlertas,detailtFrag)
+                            .commit()
+
+                        //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+                        return true
+                    }else {
+                        val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
+                        mMap.setInfoWindowAdapter(customInfoWindow)
+                    }
 
                     return false
                 }else{

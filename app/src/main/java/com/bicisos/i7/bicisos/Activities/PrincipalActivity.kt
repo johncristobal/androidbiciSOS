@@ -13,10 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import com.bicisos.i7.bicisos.Fragments.AlertaFragment
-import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
-import com.bicisos.i7.bicisos.Fragments.MapFragment
-import com.bicisos.i7.bicisos.Fragments.ReportFragment
+import com.bicisos.i7.bicisos.Fragments.*
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
@@ -36,7 +33,7 @@ import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 
-class PrincipalActivity : AppCompatActivity(),FinalReporteFragment.OnFragmentInteractionListenerFinal, NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener, DetallesApoyoFragment.OnFragmentInteractionListenerDetalles {
+class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDetalleListener,FinalReporteFragment.OnFragmentInteractionListenerFinal, NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener, DetallesApoyoFragment.OnFragmentInteractionListenerDetalles {
 
     val mapFragment = MapFragment()
     var alertasFrag = AlertaFragment()
@@ -297,6 +294,10 @@ class PrincipalActivity : AppCompatActivity(),FinalReporteFragment.OnFragmentInt
         alertasFrag = AlertaFragment.newInstance(latitud,longitud,prefs.getString("name","null")!!)
         manager.add(R.id.containerAlertas,alertasFrag).commit()
         //alertAction.visibility = View.INVISIBLE
+    }
+
+    override fun detalleInteraction(message: String) {
+
     }
 
     //listo fragmetn listener

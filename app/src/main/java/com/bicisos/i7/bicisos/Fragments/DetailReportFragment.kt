@@ -72,7 +72,14 @@ class DetailReportFragment : Fragment() {
         viewpager.adapter = adapter
 
         buttonCerrar.setOnClickListener {
-            listener?.detalleInteraction("")
+            val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            if(prefs.getString("detalleMapFragment","null").equals("null")){
+
+                listener?.detalleInteraction("")
+            }else{
+                prefs.edit().putString("detalleMapFragment","null").apply()
+                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            }
         }
 
         textViewNombreDetalle.setText(report!!.name)
