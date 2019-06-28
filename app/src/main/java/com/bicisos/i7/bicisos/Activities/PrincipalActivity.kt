@@ -1,11 +1,13 @@
 package com.bicisos.i7.bicisos.Activities
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.KeyEvent
@@ -17,6 +19,7 @@ import com.bicisos.i7.bicisos.Fragments.*
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
+import com.facebook.AccessToken
 import kotlinx.android.synthetic.main.activity_principal.*
 import kotlinx.android.synthetic.main.content_principal.*
 import com.facebook.FacebookException
@@ -69,21 +72,21 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
-            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
-                val intent = Intent(this,SesionActivity::class.java)
-                startActivity(intent)
-            }
+            
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
+            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+
+                val intent = Intent(this,SesionActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         //click button to laucnn navigationdrawaner
         openMenu.setOnClickListener { view ->
             drawer_layout.openDrawer(GravityCompat.START)
         }
-
-
     }
 
     override fun onBackPressed() {
@@ -148,6 +151,27 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                 val sesion = prefs.getString("sesion","null")
                 if (sesion!!.equals("1")) {
                     //cerrar sesion auth....
+                    //alerta para cerrar sesion
+                    val alertbuilder = AlertDialog.Builder(this)
+                    alertbuilder.setTitle("Atención")
+                    alertbuilder.setMessage("¿Deseas cerrar sesión?")
+                    alertbuilder.setPositiveButton("Si", DialogInterface.OnClickListener { dialogInterface, i ->
+                        prefs.edit().putString("sesion","0").apply()
+                        if (AccessToken.getCurrentAccessToken() != null){
+
+                        }
+
+                        nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
+                        nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
+                        val menu = nav_view.menu
+                        menu.getItem(5).title = "Iniciar sesión"
+                    })
+                    alertbuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                    })
+
+                    val alert = alertbuilder.create()
+                    alert.show()
                 }
                 else {
                     val intent = Intent(this, SesionActivity::class.java)
@@ -172,13 +196,15 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
-            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
-                val intent = Intent(this,SesionActivity::class.java)
-                startActivity(intent)
-            }
+
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
+            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+
+                val intent = Intent(this,SesionActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
