@@ -72,7 +72,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
-            
+
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
