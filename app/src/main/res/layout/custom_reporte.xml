@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content" android:padding="5dp"
-                                             android:id="@+id/layiItem">
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content" android:padding="5dp"
+                                            android:id="@+id/layiItem">
 
     <ImageView
             android:layout_width="100dp"
@@ -35,4 +35,4 @@
             android:fontFamily="@font/roboto"
             android:textSize="11sp"
             android:gravity="top"/>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.ConstraintLayout>

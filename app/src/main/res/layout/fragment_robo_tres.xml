@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             tools:context=".Fragments.RoboBici.RoboTresFragment">
+<androidx.constraintlayout.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            tools:context=".Fragments.RoboBici.RoboTresFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="400dp"
             android:background="@color/com_facebook_button_border_color_focused"
@@ -64,7 +64,7 @@
 
         </LinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.ConstraintLayout>
 
     <TextView
             android:text="3"
@@ -78,4 +78,4 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.ConstraintLayout>

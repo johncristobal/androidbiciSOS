@@ -6,7 +6,7 @@ import android.app.AlertDialog
 import android.content.*
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.core.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.photos.view.*
 import org.jetbrains.anko.AlertDialogBuilder
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
-import android.support.v4.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.checkSelfPermission
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
