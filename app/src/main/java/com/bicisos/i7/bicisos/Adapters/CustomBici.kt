@@ -2,11 +2,12 @@ package com.bicisos.i7.bicisos.Adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.imagen_bici.view.*

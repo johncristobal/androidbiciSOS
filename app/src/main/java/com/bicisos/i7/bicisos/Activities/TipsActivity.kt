@@ -3,10 +3,13 @@ package com.bicisos.i7.bicisos.Activities
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager
+//import android.support.design.widget.Snackbar
+//import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.Adapters.TipAdapter
 import com.bicisos.i7.bicisos.Model.Tip
 import com.bicisos.i7.bicisos.R
@@ -38,7 +41,7 @@ class TipsActivity : AppCompatActivity() {
         val adap = TipAdapter(tips,this){
             Log.w("tag",it)
         }
-        tipsLista.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        tipsLista.layoutManager = LinearLayoutManager(this,RecyclerView.VERTICAL,false)
         tipsLista.adapter = adap
     }
 

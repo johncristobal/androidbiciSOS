@@ -1,6 +1,6 @@
 package com.bicisos.i7.bicisos.Activities
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide

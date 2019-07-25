@@ -1,9 +1,9 @@
 package com.bicisos.i7.bicisos.Activities
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager
+//import android.support.design.widget.Snackbar
+import androidx.appcompat.app.AppCompatActivity
+//import android.support.v7.widget.LinearLayoutManager
 import com.bicisos.i7.bicisos.Adapters.CustomBici
 import com.bicisos.i7.bicisos.R
 

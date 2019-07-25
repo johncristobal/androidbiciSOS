@@ -3,10 +3,11 @@ package com.bicisos.i7.bicisos.Activities
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
+//import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.Fragments.LoginFragment
 import com.bicisos.i7.bicisos.Fragments.PersonalizaFragment
 import com.bicisos.i7.bicisos.R

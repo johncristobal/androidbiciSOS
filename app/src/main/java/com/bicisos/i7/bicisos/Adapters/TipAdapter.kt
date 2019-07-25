@@ -5,10 +5,11 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.Activities.DetalleTipActivity
 import com.bicisos.i7.bicisos.Model.Tip
 import com.bicisos.i7.bicisos.R

@@ -8,7 +8,8 @@
         android:orientation="vertical"
         android:background="#BB000000"
         android:id="@+id/layoutReporte"
-        android:gravity="center_vertical|center_horizontal">
+        android:gravity="center_vertical|center_horizontal"
+        tools:context=".Fragments.DetailReportFragment">
 
 <LinearLayout
 
@@ -16,8 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        tools:context=".Fragments.DetailReportFragment">
+        android:orientation="vertical">
 
     <TextView
         android:text="TextView"
@@ -29,7 +29,7 @@
         android:fontFamily="@font/roboto"
         android:id="@+id/textViewNombreDetalle"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="220dp"

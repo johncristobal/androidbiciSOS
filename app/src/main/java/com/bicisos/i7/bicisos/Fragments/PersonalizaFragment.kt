@@ -6,8 +6,8 @@ import android.app.AlertDialog
 import android.content.*
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+//import androidx.core.app.Fragment
+//import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +26,8 @@ import org.jetbrains.anko.AlertDialogBuilder
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream

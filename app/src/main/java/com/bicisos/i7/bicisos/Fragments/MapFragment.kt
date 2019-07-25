@@ -2,7 +2,7 @@ package com.bicisos.i7.bicisos.Fragments
 
 
 import android.os.Bundle
-import androidx.core.app.Fragment
+//import androidx.core.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import android.util.Log
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Activities.SesionActivity
 import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
 import com.bicisos.i7.bicisos.Api.ApiClient

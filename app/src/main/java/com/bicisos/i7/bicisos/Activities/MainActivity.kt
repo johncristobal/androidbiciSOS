@@ -2,7 +2,7 @@ package com.bicisos.i7.bicisos.Activities
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
 
         normalStart()
     }
@@ -49,5 +46,9 @@ class MainActivity : AppCompatActivity() {
         }
         val timer = Timer()
         timer.schedule(task, SPLASH_SCREEN_DELAY)
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        //AppEventsLogger.activateApp(this);
+
     }
 }

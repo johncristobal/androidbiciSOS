@@ -1,12 +1,13 @@
 package com.bicisos.i7.bicisos.Adapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+//import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide

@@ -3,10 +3,11 @@ package com.bicisos.i7.bicisos.Activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+//import android.support.design.widget.Snackbar
+//import android.support.v7.app.AppCompatActivity;
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
 import com.bicisos.i7.bicisos.Fragments.ResultFragment

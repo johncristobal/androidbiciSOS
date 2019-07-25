@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.core.app.Fragment
+//import androidx.core.app.Fragment
 import android.transition.Slide
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +17,7 @@ import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.transition.Fade
 import android.view.Gravity
+import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.CicloviaFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.HelpFragment

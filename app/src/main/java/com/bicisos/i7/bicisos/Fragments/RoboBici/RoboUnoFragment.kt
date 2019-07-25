@@ -3,10 +3,10 @@ package com.bicisos.i7.bicisos.Fragments.RoboBici
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 
 import com.bicisos.i7.bicisos.R
 

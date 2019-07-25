@@ -2,8 +2,9 @@ package com.bicisos.i7.bicisos.Activities
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
+//import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_contacto.*
 
