@@ -19,89 +19,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37920758-b520-43f6-ac91-a10b0256f24e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__androidx_multidex_multidex_instrumentation_2_0_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ContactoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ContactoActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/DetalleTipActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/DetalleTipActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PersonalizaActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PersonalizaActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/RoboBiciActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/RoboBiciActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SerieBiciActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SerieBiciActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/TipsActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/TipsActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomBici.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomBici.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomPager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomPager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/RiboBiciAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/RiboBiciAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/TipAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/TipAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/AlertaFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/AlertaFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/DetailReportFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/DetailReportFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/FinalReporteFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/LoginFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/MapFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/MapFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ReportFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ResultFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/ResultFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/RoboBici/RoboDosFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/RoboBici/RoboDosFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/RoboBici/RoboTresFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/RoboBici/RoboTresFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/RoboBici/RoboUnoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/RoboBici/RoboUnoFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/ApoyoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/ApoyoFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/AveriaFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/AveriaFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/CicloviaFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/CicloviaFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/DetallesApoyoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/DetallesApoyoFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/HelpFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/alertas/HelpFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_acerca.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_acerca.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_contacto.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_contacto.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_detalle_tip.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_detalle_tip.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_principal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_principal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_reportes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_reportes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_robo_bici.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_robo_bici.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_serie_bici.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_serie_bici.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sesion.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sesion.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_tips.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_tips.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_principal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/app_bar_principal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_principal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_principal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_reportes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_reportes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_serie_bici.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_serie_bici.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_tips.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_tips.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/custom_reporte.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/custommarker.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/custommarker.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_alerta.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_alerta.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_apoyo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_apoyo.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_averia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_averia.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_ciclovia.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_ciclovia.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_report.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detail_report.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detalles_apoyo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_detalles_apoyo.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_map.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_personaliza.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_personaliza.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_robo_dos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_robo_dos.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_robo_tres.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_robo_tres.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_robo_uno.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_robo_uno.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/imagen_bici.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/imagen_bici.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/imagen_reporte.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/imagen_reporte.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/imagen_tip.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/imagen_tip.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/photos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/photos.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -137,15 +62,6 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ContactoActivity.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="43" column="95" selection-start-line="43" selection-start-column="95" selection-end-line="43" selection-end-column="95" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="169">
@@ -153,6 +69,15 @@
               <folding>
                 <element signature="e#43#390#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="188" column="29" selection-start-line="188" selection-start-column="29" selection-end-line="188" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -209,7 +134,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/CustomReport.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/ReportesActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/RoboBiciActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Adapters/RiboBiciAdapter.kt" />
@@ -260,6 +184,7 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/photos.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/MainActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt" />
       </list>
     </option>
   </component>
@@ -282,6 +207,28 @@
           <expand>
             <path>
               <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="bicisos" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="bicisos" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="Activities" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="BiciSOSAndroid" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
@@ -299,7 +246,7 @@
     <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="algorithm" value="Scalr" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="device.picker.selection" value="Y34CX028B01YR004281" />
+    <property name="device.picker.selection" value="686ecaf9" />
     <property name="format" value="PNG" />
     <property name="lastFolderRoot" value="$USER_HOME$/Downloads/bicif.png" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -437,7 +384,7 @@
     <frame x="0" y="23" width="1280" height="729" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49591282" visible="true" weight="0.24555735" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49591282" visible="true" weight="0.24555735" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Build Variants" order="3" side_tool="true" />
@@ -456,7 +403,7 @@
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4951535" weight="0.2850163" />
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5048465" side_tool="true" weight="0.2850163" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="10" visible="true" weight="0.32736155" />
+      <window_info anchor="bottom" id="Logcat" order="10" weight="0.32736155" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32899022" />
       <window_info anchor="bottom" id="Terminal" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -541,12 +488,6 @@
           <option name="timeStamp" value="85" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt</url>
-          <line>242</line>
-          <properties />
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/MapFragment.kt</url>
           <line>450</line>
           <properties />
@@ -562,17 +503,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SerieBiciActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-495">
-          <caret line="73" column="50" selection-start-line="73" selection-start-column="50" selection-end-line="73" selection-end-column="50" />
-          <folding>
-            <element signature="e#43#802#0" expanded="true" />
-            <element signature="e#1763#1794#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Fragments/PersonalizaFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
@@ -594,17 +524,6 @@
             <element signature="e#42#765#0" expanded="true" />
             <element signature="e#2890#2921#1" expanded="true" />
             <element signature="e#5344#5375#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="33" column="80" lean-forward="true" selection-start-line="33" selection-start-column="80" selection-end-line="33" selection-end-column="80" />
-          <folding>
-            <element signature="e#43#771#0" expanded="true" />
-            <element signature="e#1988#2019#1" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -711,14 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sesion.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="50" selection-start-line="1" selection-start-column="50" selection-end-line="1" selection-end-column="50" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
@@ -966,6 +877,28 @@
           <folding>
             <element signature="e#43#390#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sesion.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="50" selection-start-line="1" selection-start-column="50" selection-end-line="1" selection-end-column="50" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/SesionActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="27" column="37" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bicisos/i7/bicisos/Activities/PrincipalActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="188" column="29" selection-start-line="188" selection-start-column="29" selection-end-line="188" selection-end-column="29" />
         </state>
       </provider>
     </entry>
