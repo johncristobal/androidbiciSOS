@@ -514,7 +514,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
         })
 
-
         //mMap.setOnMarkerClickListener(activity!!)
         setUpMap()
         setTalleres()

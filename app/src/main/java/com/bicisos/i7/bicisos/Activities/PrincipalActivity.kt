@@ -40,9 +40,9 @@ import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDetalleListener,FinalReporteFragment.OnFragmentInteractionListenerFinal, NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener, DetallesApoyoFragment.OnFragmentInteractionListenerDetalles {
 
-    val mapFragment = MapFragment()
+    var mapFragment = MapFragment()
     var alertasFrag = AlertaFragment()
-    val finalReportFrag = FinalReporteFragment.newInstance("","")
+    var finalReportFrag = FinalReporteFragment.newInstance("","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +74,6 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
-
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
@@ -159,14 +158,23 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                     alertbuilder.setMessage("¿Deseas cerrar sesión?")
                     alertbuilder.setPositiveButton("Si", DialogInterface.OnClickListener { dialogInterface, i ->
                         prefs.edit().putString("sesion","0").apply()
-                        if (AccessToken.getCurrentAccessToken() != null){
 
+                        //cierro sesion fasce si fue asi su login
+                        if (AccessToken.getCurrentAccessToken() != null){
+                            LoginManager.getInstance().logOut()
                         }
 
                         nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
                         nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
                         val menu = nav_view.menu
                         menu.getItem(5).title = "Iniciar sesión"
+
+                        //reload mapfragment
+                        supportFragmentManager.beginTransaction().remove(mapFragment).commit()
+                        //...
+                        mapFragment = MapFragment()
+                        supportFragmentManager.beginTransaction().add(R.id.container,mapFragment).commit()
+
                     })
                     alertbuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
 
@@ -198,7 +206,6 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
-
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
