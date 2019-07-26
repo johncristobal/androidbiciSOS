@@ -32,6 +32,7 @@ import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.Model.Taller
+import com.facebook.AccessToken
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
@@ -66,6 +67,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     //private lateinit var bikers : List<Biker>
     private var hashMapMarker = HashMap<String,Marker>()
     private var listener: OnFragmentMapListener? = null
+
+    public var flagReadMapa = false
 
     companion object {
         val bikers = ArrayList<Biker>()
@@ -149,6 +152,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun listenerReports(){
+        //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
         val reference = FirebaseDatabase.getInstance().getReference("reportes")
         reference.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -160,9 +164,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 reportes.clear()
                 val newIdS = ArrayList<String>()
 
-                //stringIds.clear()
-                //val keySelf = prefs.getString("keySelf","null")
-
                 p0.children.mapNotNullTo(reportes) {
                     it.getValue<Report>(Report::class.java)
                 }
@@ -173,9 +174,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     newIdS.add(it.id)
 
                     //punto nuevo
-                    if(!stringIds.contains(it.id)) {
+                    //if(!stringIds.contains(it.id)) {
 
-                        stringIds.add(it.id)
+                    //    stringIds.add(it.id)
 
                         //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
                         //despues de enviar, recupero bikes activas...
@@ -222,7 +223,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         mark.tag = it
 
                         //hashMapMarker.put(it.id, mark)
-                    }
+                    //}
                     //}
                 }
 
@@ -257,9 +258,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 bikers.clear()
                 val newIdS = ArrayList<String>()
-
-                //stringIds.clear()
-                //val keySelf = prefs.getString("keySelf","null")
 
                 p0.children.mapNotNullTo(bikers) {
                     it.getValue<Biker>(Biker::class.java)
@@ -576,5 +574,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }else{
             //no envia nada
         }
+    }
+
+    public fun reloadData(){
+        Log.w("tag","info from main")
+
+        listenerReports()
+        listenerBikers()
     }
 }

@@ -152,6 +152,7 @@ class LoginFragment : Fragment() {
                 Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
                 val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","1")
+                editor.putString("reloadData","1")
                 editor.putString("nombre",user.displayName)
                 editor.apply()
 

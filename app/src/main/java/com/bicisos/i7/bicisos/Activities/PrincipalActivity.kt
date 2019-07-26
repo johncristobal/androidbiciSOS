@@ -159,6 +159,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                     alertbuilder.setPositiveButton("Si", DialogInterface.OnClickListener { dialogInterface, i ->
                         prefs.edit().putString("sesion","0").apply()
 
+                        FirebaseAuth.getInstance().signOut()
                         //cierro sesion fasce si fue asi su login
                         if (AccessToken.getCurrentAccessToken() != null){
                             LoginManager.getInstance().logOut()
@@ -174,8 +175,8 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                         //...
                         mapFragment = MapFragment()
                         supportFragmentManager.beginTransaction().add(R.id.container,mapFragment).commit()
-
                     })
+
                     alertbuilder.setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
 
                     })
@@ -198,22 +199,36 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         super.onResume()
         val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
         val sesion = prefs.getString("sesion","null")
+        val reloadData = prefs.getString("reloadData","null")
         val nombre = prefs.getString("nombre","null")
         if (sesion!!.equals("1")){
+
             //ocultar iniciar sesion
             val menu = nav_view.menu
             menu.getItem(5).title = "Cerrar sesión"
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
+
+            if(reloadData!!.equals("1")){
+                prefs.edit().putString("reloadData","0").apply()
+                mapFragment.reloadData()
+            }
+
+            //reload mapfragment
+            //supportFragmentManager.beginTransaction().remove(mapFragment).commit()
+            //...
+            //mapFragment = MapFragment()
+            //supportFragmentManager.beginTransaction().add(R.id.container,mapFragment).commit()
+
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
-            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+            /*nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
 
                 val intent = Intent(this,SesionActivity::class.java)
                 startActivity(intent)
-            }
+            }*/
         }
     }
 
