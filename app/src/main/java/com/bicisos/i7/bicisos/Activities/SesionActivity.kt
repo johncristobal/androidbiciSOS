@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.Fragments.LoginFragment
 import com.bicisos.i7.bicisos.Fragments.PersonalizaFragment
+import com.bicisos.i7.bicisos.Fragments.RegisterFragment
 import com.bicisos.i7.bicisos.R
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -21,16 +22,20 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_sesion.*
 import com.facebook.AccessToken
 
-class SesionActivity : AppCompatActivity(), LoginFragment.Datalistener, PersonalizaFragment.OnPersonalizaListener {
+class SesionActivity : AppCompatActivity(), LoginFragment.Datalistener, PersonalizaFragment.OnPersonalizaListener, RegisterFragment.OnFragmentInteractionListenerRegister {
+
+    var registerFrag = RegisterFragment.newInstance("","")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sesion)
 
-        if (AccessToken.getCurrentAccessToken() != null) {
+        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val sesion = prefs.getString("sesion","null")
+        if (sesion!!.equals("1")){
             supportFragmentManager.beginTransaction().add(R.id.container, PersonalizaFragment.newInstance("", ""))
                 .commit()
-        }else{
+        } else{
             supportFragmentManager.beginTransaction().add(R.id.container, LoginFragment.newInstance("", ""))
                 .commit()
         }
@@ -41,13 +46,27 @@ class SesionActivity : AppCompatActivity(), LoginFragment.Datalistener, Personal
             supportFragmentManager.beginTransaction().replace(R.id.container, PersonalizaFragment.newInstance("", ""))
                 .commit()
         }
-        else{
+        else if(message.equals("registrar")){
+            supportFragmentManager.beginTransaction().replace(R.id.container, registerFrag)
+                .commit()
+        }else{
             finish()
         }
     }
 
     override fun onFragmentInteraction(message: String) {
         finish()
+    }
+
+    override fun onFragmentInteractionRegister(uri: String) {
+        if(uri.equals("login")) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, PersonalizaFragment.newInstance("", ""))
+                .commit()
+        }else{
+            supportFragmentManager.beginTransaction().remove(registerFrag)
+            supportFragmentManager.beginTransaction().replace(R.id.container, LoginFragment.newInstance("", ""))
+                .commit()
+        }
     }
 
     override fun onStop() {

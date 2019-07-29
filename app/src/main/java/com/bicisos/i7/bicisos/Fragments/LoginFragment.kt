@@ -136,7 +136,7 @@ class LoginFragment : Fragment() {
         }
 
         textViewRegister.setOnClickListener {
-            Log.w("tag","registrando")
+            listener!!.sendActivity("registrar")
         }
     }
 
