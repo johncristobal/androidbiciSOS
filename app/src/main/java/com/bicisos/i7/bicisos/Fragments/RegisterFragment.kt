@@ -7,9 +7,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.bicisos.i7.bicisos.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_register.*
+//import jdk.nashorn.internal.runtime.ECMAException.getException
+import com.google.firebase.auth.FirebaseUser
+//import org.junit.experimental.results.ResultMatchers.isSuccessful
+import com.google.firebase.auth.AuthResult
+import androidx.annotation.NonNull
+import android.R.attr.password
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,7 +66,47 @@ class RegisterFragment : Fragment() {
 
         buttonIngresarRegistro.setOnClickListener {
             //recupèramos datos de los campos, validamos y hacemos el auth fikrebasde
-            listener?.onFragmentInteractionRegister("login")
+            val name = editTextName.text.toString()
+            val mail = editTextCorreo.text.toString()
+            val pass = editTextPass.text.toString()
+            val pas2 = editTextPassConfirm.text.toString()
+
+            if(name.equals("")){
+                Toast.makeText(activity,"Favor de colocar nombre...",Toast.LENGTH_SHORT).show()
+            }else if(mail.equals("")){
+                    Toast.makeText(activity,"Favor de colocar correo...",Toast.LENGTH_SHORT).show()
+            }else if(pass.equals("")){
+                Toast.makeText(activity,"Favor de colocar contraseña...",Toast.LENGTH_SHORT).show()
+            }else if(!pass.equals(pas2)){
+                Toast.makeText(activity,"Las contraseñas no coinciden...",Toast.LENGTH_SHORT).show()
+            }else {
+
+                val mAuth = FirebaseAuth.getInstance()
+                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(object: OnCompleteListener<AuthResult>{
+                    override fun onComplete(task: Task<AuthResult>) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "createUserWithEmail:success")
+                            val user = mAuth.currentUser
+                            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                            editor.putString("sesion","1")
+                            editor.putString("reloadData","1")
+                            editor.putString("nombre",user!!.displayName)
+                            editor.apply()
+                            listener?.onFragmentInteractionRegister("login")
+                            //updateUI(user)
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
+                            Toast.makeText(
+                                activity, "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            //updateUI(null)
+                        }
+                    }
+                })
+            }
         }
     }
 
