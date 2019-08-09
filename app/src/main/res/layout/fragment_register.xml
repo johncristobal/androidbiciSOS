@@ -24,7 +24,7 @@
         <ImageView
                 android:src="@drawable/backlogindos"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:id="@+id/imageView44"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewCloseRegister"
                 app:layout_constraintStart_toStartOf="@+id/parentConst"
@@ -66,7 +66,7 @@
                     android:orientation="vertical"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:gravity="bottom|center"
+                    android:gravity="top|center"
                     android:id="@+id/linearLayout">
 
                 <TextView
@@ -126,7 +126,7 @@
                         android:layout_height="40dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:inputType="textPersonName"
+                        android:inputType="textPassword"
                         android:background="@drawable/backinput"
                         android:ems="10"
                         android:id="@+id/editTextPass"
@@ -150,7 +150,7 @@
                         android:layout_height="40dp"
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
-                        android:inputType="textPersonName"
+                        android:inputType="textPassword"
                         android:background="@drawable/backinput"
                         android:ems="10"
                         android:id="@+id/editTextPassConfirm"
