@@ -21,6 +21,12 @@ import android.R.attr.password
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+//import jdk.nashorn.internal.runtime.ECMAException.getException
+
+
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -66,21 +72,19 @@ class RegisterFragment : Fragment() {
 
         buttonIngresarRegistro.setOnClickListener {
             //recupèramos datos de los campos, validamos y hacemos el auth fikrebasde
+            progressBarRegister.visibility = View.VISIBLE
+            buttonIngresarRegistro.text = ""
+
             val name = editTextName.text.toString()
             val mail = editTextCorreo.text.toString()
             val pass = editTextPass.text.toString()
             val pas2 = editTextPassConfirm.text.toString()
 
-            if(name.equals("")){
-                Toast.makeText(activity,"Favor de colocar nombre...",Toast.LENGTH_SHORT).show()
-            }else if(mail.equals("")){
-                    Toast.makeText(activity,"Favor de colocar correo...",Toast.LENGTH_SHORT).show()
-            }else if(pass.equals("")){
-                Toast.makeText(activity,"Favor de colocar contraseña...",Toast.LENGTH_SHORT).show()
-            }else if(!pass.equals(pas2)){
-                Toast.makeText(activity,"Las contraseñas no coinciden...",Toast.LENGTH_SHORT).show()
-            }else {
-
+            if(!validarDatos()){
+                progressBarRegister.visibility = View.INVISIBLE
+                buttonIngresarRegistro.text = "Registrarse"
+            }
+            else {
                 val mAuth = FirebaseAuth.getInstance()
                 mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(object: OnCompleteListener<AuthResult>{
                     override fun onComplete(task: Task<AuthResult>) {
@@ -91,23 +95,58 @@ class RegisterFragment : Fragment() {
                             val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                             editor.putString("sesion","1")
                             editor.putString("reloadData","1")
-                            editor.putString("nombre",user!!.displayName)
+                            editor.putString("nombre",name)
                             editor.apply()
                             listener?.onFragmentInteractionRegister("login")
                             //updateUI(user)
                         } else {
+                            progressBarRegister.visibility = View.INVISIBLE
+                            buttonIngresarRegistro.text = "Registrarse"
+
                             // If sign in fails, display a message to the user.
                             Log.w("TAG", "createUserWithEmail:failure", task.getException())
-                            Toast.makeText(
-                                activity, "Authentication failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            try {
+                                throw task.exception!!
+                            } catch (weakPassword: FirebaseAuthWeakPasswordException) {
+                                //Log.d(TAG, "onComplete: weak_password")
+                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
+                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
+                            } catch (existEmail: FirebaseAuthUserCollisionException) {
+                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT).show()
+                            } catch (e: Exception) {
+                                Toast.makeText(activity, "Error al crear usuario, intente más tarde...", Toast.LENGTH_SHORT).show()
+                            }
+                            // if user enters wrong email.
+                            // if user enters wrong password.
                             //updateUI(null)
                         }
                     }
                 })
             }
         }
+    }
+
+    private fun validarDatos(): Boolean {
+        val name = editTextName.text.toString()
+        val mail = editTextCorreo.text.toString()
+        val pass = editTextPass.text.toString()
+        val pas2 = editTextPassConfirm.text.toString()
+        if(name.equals("")){
+            Toast.makeText(activity,"Favor de colocar nombre...",Toast.LENGTH_SHORT).show()
+            return false
+        }else if(mail.equals("")){
+            Toast.makeText(activity,"Favor de colocar correo...",Toast.LENGTH_SHORT).show()
+            return false
+        }else if(pass.equals("")){
+            Toast.makeText(activity,"Favor de colocar contraseña...",Toast.LENGTH_SHORT).show()
+            return false
+        }else if(!pass.equals(pas2)){
+            Toast.makeText(activity,"Las contraseñas no coinciden...",Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
     }
 
     // TODO: Rename method, update argument and hook method into UI event

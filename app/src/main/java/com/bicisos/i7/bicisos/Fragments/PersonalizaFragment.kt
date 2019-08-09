@@ -117,6 +117,7 @@ class PersonalizaFragment : Fragment() {
             //bici la guardamos al dar clic
             //salvemos lo demas
             val editor = prefs.edit()
+            editor.putString("nombre",editTextNombrePer.text.toString());
             editor.putString("serie",editTextSerie.text.toString());
             editor.putString("desc",editTextDesc.text.toString());
             editor.apply()
@@ -126,6 +127,7 @@ class PersonalizaFragment : Fragment() {
 
         buttonDespues.setOnClickListener {
             val editor = prefs.edit()
+            editor.putString("nombre",editTextNombrePer.text.toString());
             editor.putString("serie",editTextSerie.text.toString());
             editor.putString("desc",editTextDesc.text.toString());
             editor.apply()

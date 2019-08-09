@@ -2,14 +2,18 @@ package com.bicisos.i7.bicisos.Fragments
 
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 //import androidx.core.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Api.ApiClient
 
 import com.bicisos.i7.bicisos.R
 import com.facebook.AccessToken
@@ -18,10 +22,13 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_sesion.*
+import com.facebook.login.widget.LoginButton
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +45,7 @@ class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
     var callbackManager = CallbackManager.Factory.create();
     private lateinit var auth: FirebaseAuth
 
@@ -72,7 +80,13 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        val view = inflater.inflate(R.layout.fragment_login, container, false)
+
+        progresFace = view.findViewById(R.id.progressBarFace)
+        FacebuttonTemp = view.findViewById(R.id.Facebutton)
+        login_buttonTemp = view.findViewById(R.id.login_button)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,24 +94,123 @@ class LoginFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
+        buttonIngresar.setOnClickListener {
+
+            val mail = editTextCorreo.text.toString()
+            val pass = editTextPass.text.toString()
+            if(editTextCorreo.text.toString().equals("")){
+                Toast.makeText(activity,"Favor de colocar correo...",Toast.LENGTH_SHORT).show()
+            }else if(editTextPass.text.toString().equals("")){
+                Toast.makeText(activity,"Favor de colocar contraseña...",Toast.LENGTH_SHORT).show()
+            }else {
+
+                progressBarIngresar.visibility = View.VISIBLE
+                buttonIngresar.visibility = View.GONE
+
+                val mAuth = FirebaseAuth.getInstance()
+                mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(object : OnCompleteListener<AuthResult> {
+
+                    override fun onComplete(task: Task<AuthResult>) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "createUserWithEmail:success")
+                            val user = mAuth.currentUser
+                            val editor =
+                                activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                                    .edit()
+                            editor.putString("sesion", "1")
+                            editor.putString("reloadData", "1")
+                            editor.putString("nombre", user!!.displayName)
+                            editor.apply()
+
+                            listener!!.sendActivity("login")
+                            //updateUI(user)
+                        } else {
+                            progressBarIngresar.visibility = View.INVISIBLE
+                            buttonIngresar.visibility = View.VISIBLE
+
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
+                            try {
+                                throw task.exception!!
+                            } catch (weakPassword: FirebaseAuthWeakPasswordException) {
+                                //Log.d(TAG, "onComplete: weak_password")
+                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
+                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
+                            } catch (existEmail: FirebaseAuthUserCollisionException) {
+                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT)
+                                    .show()
+                            } catch (e: Exception) {
+                                Toast.makeText(
+                                    activity,
+                                    "Error al crear usuario, intente más tarde...",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            // if user enters wrong email.
+                            // if user enters wrong password.
+                            //updateUI(null)
+                        }
+                    }
+                })
+            }
+        }
+
+        Facebutton.setOnClickListener {
+
+            //faceTask(activity!!).execute()
+            progressBarFace.visibility = View.VISIBLE
+            Facebutton.visibility = View.GONE
+
+            if (AccessToken.getCurrentAccessToken() != null) {
+                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                editor.putString("sesion","null")
+                editor.apply()
+            }else {
+                login_button.performClick()
+            }
+
+            //uiThread {
+            //progressBarFace.visibility = View.VISIBLE
+            //Facebutton.text = ""
+
+            //}
+            //faceTask(activity!!).execute()
+            /*doAsync {
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                    editor.putString("sesion","null")
+                    editor.apply()
+                }else {
+                    uiThread {
+                        login_button.performClick()
+                    }
+                }
+                uiThread {
+                    progressBarFace.visibility = View.VISIBLE
+                    Facebutton.text = ""
+                }
+            }*/
+        }
+
         login_button.setReadPermissions("email","public_profile")
         // If using in a fragment
         login_button.setFragment(this)
 
-        login_button.setOnClickListener {
+        /*login_button.setOnClickListener {
             if (AccessToken.getCurrentAccessToken() != null) {
                 val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","null")
                 editor.apply()
             }
-        }
+        }*/
 
         // Callback registration
         login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 // App code
                 Log.w("access",loginResult.accessToken.token)
-
                 handleFacebookAccessToken(loginResult.accessToken.token)
             }
 
@@ -112,8 +225,8 @@ class LoginFragment : Fragment() {
             }
         })
 
-        LoginManager.getInstance().registerCallback(callbackManager,
-            object : FacebookCallback<LoginResult> {
+        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+
                 override fun onSuccess(loginResult: LoginResult) {
                     Log.w("access",loginResult.accessToken.token)
                     handleFacebookAccessToken(loginResult.accessToken.token)
@@ -141,6 +254,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleFacebookAccessToken(token: String) {
+
         Log.d("tag", "handleFacebookAccessToken:$token")
 
         val credential = FacebookAuthProvider.getCredential(token)
@@ -149,17 +263,20 @@ class LoginFragment : Fragment() {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("tag", "signInWithCredential:success")
                 val user = auth.currentUser
-                Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
                 val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","1")
                 editor.putString("reloadData","1")
-                editor.putString("nombre",user.displayName)
+                editor.putString("nombre",user!!.displayName)
                 editor.apply()
 
                 listener!!.sendActivity("login")
                 //finish()
                 //updateUI(user)
             } else {
+                progresFace!!.visibility = View.INVISIBLE
+                FacebuttonTemp!!.text = "Continuar con facebook"
+
                 // If sign in fails, display a message to the user.
                 Log.w("tag", "signInWithCredential:failure", task.exception)
                 Toast.makeText(activity, "Authentication failed.",
@@ -173,10 +290,18 @@ class LoginFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        progressBarFace.visibility = View.INVISIBLE
+        Facebutton.visibility = View.VISIBLE
         callbackManager.onActivityResult(requestCode, resultCode, data)
+
     }
 
     companion object {
+
+        var progresFace: ProgressBar? = null
+        var FacebuttonTemp: TextView? = null
+        var login_buttonTemp: LoginButton? = null
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -194,5 +319,35 @@ class LoginFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    class faceTask(val context: Context) : AsyncTask<Void, Void, String>() {
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+
+            progresFace!!.visibility = View.VISIBLE
+            FacebuttonTemp!!.text = ""
+        }
+
+        override fun doInBackground(vararg params: Void?): String? {
+
+            if (AccessToken.getCurrentAccessToken() != null) {
+                val editor = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                editor.putString("sesion","null")
+                editor.apply()
+                return "0"
+            }else {
+                return "1"
+            }
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+
+            if(result.equals("1")){
+                login_buttonTemp!!.performClick()
+            }
+        }
     }
 }
