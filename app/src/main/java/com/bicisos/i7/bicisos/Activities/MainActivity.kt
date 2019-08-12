@@ -1,5 +1,6 @@
 package com.bicisos.i7.bicisos.Activities
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -40,8 +41,15 @@ class MainActivity : AppCompatActivity() {
         val task = object : TimerTask() {
             override fun run() {
 
-                val intent = Intent(applicationContext,PrincipalActivity::class.java)
-                startActivity(intent)
+                val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val sesion = prefs.getString("tutorial","null")
+                if (sesion!!.equals("1")){
+                    val intent = Intent(applicationContext,PrincipalActivity::class.java)
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(applicationContext,TutorialActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
         val timer = Timer()

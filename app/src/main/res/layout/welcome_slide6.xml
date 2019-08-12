@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+            android:text="¡Ahora estas listo!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView31"
+            android:textColor="#fff"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:srcCompat="@drawable/backgris"
+            android:id="@+id/imageView7"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView31"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView32"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto"
+            app:layout_constraintTop_toBottomOf="@+id/imageView7"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:textAlignment="center"
+            android:text="Con estas herramientas y muchas otras más que encontrarás en la app, estarás preparado para cualquier eventualidad, aprovecha cada una de ellas y cuidémonos entre todos..."/>
+
+    <TextView
+            android:text="Formemos comunidad y salgamos a las calles seguros y prevenidos."
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:textColor="#fff"
+            android:id="@+id/textView33"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView32"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
