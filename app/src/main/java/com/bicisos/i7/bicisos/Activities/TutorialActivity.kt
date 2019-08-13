@@ -99,11 +99,10 @@ class TutorialActivity : AppCompatActivity() {
 
         for (i in 0..5) {
 
-            var textTemp = TextView(this)
+            val textTemp = TextView(this)
             textTemp.setText(Html.fromHtml("&#8226;"))
             textTemp.setTextSize(35f)
             textTemp.setTextColor(colorsInactive[currentPage])
-
 
             dots.add(textTemp)
             layoutDots.addView(textTemp)

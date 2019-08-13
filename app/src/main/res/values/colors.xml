@@ -11,12 +11,12 @@
     <color name="blanco">#ffffff</color>
 
     <!-- dots inactive colors -->
-    <color name="dot_dark_screen1">#ededed</color>
-    <color name="dot_dark_screen2">#ededed</color>
-    <color name="dot_dark_screen3">#ededed</color>
-    <color name="dot_dark_screen4">#ededed</color>
-    <color name="dot_dark_screen5">#ededed</color>
-    <color name="dot_dark_screen6">#ededed</color>
+    <color name="dot_dark_screen1">#8D8B8B</color>
+    <color name="dot_dark_screen2">#8D8B8B</color>
+    <color name="dot_dark_screen3">#8D8B8B</color>
+    <color name="dot_dark_screen4">#8D8B8B</color>
+    <color name="dot_dark_screen5">#8D8B8B</color>
+    <color name="dot_dark_screen6">#8D8B8B</color>
 
     <!-- dots active colors -->
     <color name="dot_light_screen1">#fff</color>

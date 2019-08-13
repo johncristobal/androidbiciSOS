@@ -97,7 +97,7 @@ Versión 2019"
 
             <Button
                     android:text="Ver tutorial"
-                    android:background="#000"
+                    android:background="@drawable/backblackbutton"
                     android:textColor="#fff"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
