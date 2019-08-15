@@ -102,7 +102,7 @@
                 android:paddingEnd="5dp"
                 android:gravity="top"
                 android:paddingTop="5dp"
-                android:hint="Descripción del robo, características de la bici..."
+                android:hint="Detalles particulares..."
                 android:background="@drawable/backinput"
                 android:ems="10"
                 android:id="@+id/ReporteDesc"

@@ -81,6 +81,7 @@ class DetailReportFragment : Fragment() {
             }else{
                 prefs.edit().putString("detalleMapFragment","null").apply()
                 childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+                listener?.detalleInteraction("")
             }
         }
 

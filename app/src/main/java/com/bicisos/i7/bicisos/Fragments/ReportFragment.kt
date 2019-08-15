@@ -545,6 +545,7 @@ class ReportFragment : Fragment() {
         }
 
         mAlertDialog = mBuilder.show()
+        mAlertDialog.setCanceledOnTouchOutside(false)
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 

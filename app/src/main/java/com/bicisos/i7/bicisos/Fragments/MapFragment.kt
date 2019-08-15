@@ -79,7 +79,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     interface OnFragmentMapListener {
         // TODO: Update argument type and name
-        fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View)
+        fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View, opt: String)
     }
 
     override fun onAttach(context: Context) {
@@ -135,7 +135,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         alertAction.setOnClickListener {
 
-            listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction)
+            listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"0")
 
             /*val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val manager = childFragmentManager.beginTransaction()
@@ -495,6 +495,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             .addToBackStack("detalles")
                             .replace(R.id.containerAlertas,detailtFrag)
                             .commit()
+
+                        listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
 
                         //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
                         return true

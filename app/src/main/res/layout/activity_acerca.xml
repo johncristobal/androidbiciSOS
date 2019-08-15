@@ -68,7 +68,7 @@
                         android:id="@+id/textView14"/>
 
                 <TextView
-                        android:text="SOS CICLISTA APP \nBicicletas robadas y auxilio víal\n tiene como objetivo, informar, compartir y difundir datos para evitar el robo de biclcietas, ofrecer consejos de seguridad vial y diferentes herramientas digitales para un buen tránsito, protección y cuidados a la hora de circular en la Ciudad de México.
+                        android:text="SOS CICLISTA APP \nBicicletas robadas y auxilio víal \ntiene como objetivo, informar, compartir y difundir datos para evitar el robo de biclcietas, ofrecer consejos de seguridad vial y diferentes herramientas digitales para un buen tránsito, protección y cuidados a la hora de circular en la Ciudad de México.
 
 Bicicletas robadas y auxilio vial no pertenece a ningún partido político o secta religiosa. No tiene apoyo de ninguna asociación, institución o dependencia del gobierno.
 
@@ -95,9 +95,12 @@ Versión 2019"
 
             </LinearLayout>
 
-            <Button
+            <TextView
                     android:text="Ver tutorial"
+                    android:padding="10dp"
+                    android:gravity="center"
                     android:background="@drawable/backblackbutton"
+                    android:fontFamily="@font/roboto"
                     android:textColor="#fff"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"

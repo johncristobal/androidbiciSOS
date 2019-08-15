@@ -332,19 +332,23 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         }
     }
 
-    override fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View) {
+    override fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View, opt: String) {
 
-        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-        val sesion = prefs.getString("sesion","null")
-        if (sesion!!.equals("1")){
+        if(opt.equals("menu")){
             openMenu.visibility = View.INVISIBLE
-            val manager = supportFragmentManager.beginTransaction()
-            manager.setCustomAnimations(R.anim.slide_in_bottom,R.anim.slide_out_up)
-            manager.addSharedElement(sharedElement, "alert")
-            alertasFrag = AlertaFragment.newInstance(latitud,longitud,prefs.getString("name","null")!!)
-            manager.add(R.id.containerAlertas,alertasFrag).commit()
-        }else{
-            alertaIniciarSesion()
+        }else {
+            val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            val sesion = prefs.getString("sesion", "null")
+            if (sesion!!.equals("1")) {
+                openMenu.visibility = View.INVISIBLE
+                val manager = supportFragmentManager.beginTransaction()
+                manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
+                manager.addSharedElement(sharedElement, "alert")
+                alertasFrag = AlertaFragment.newInstance(latitud, longitud, prefs.getString("name", "null")!!)
+                manager.add(R.id.containerAlertas, alertasFrag).commit()
+            } else {
+                alertaIniciarSesion()
+            }
         }
     }
 
@@ -355,7 +359,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
     }
 
     override fun detalleInteraction(message: String) {
-
+        openMenu.visibility = View.VISIBLE
     }
 
     //listo fragmetn listener

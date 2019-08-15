@@ -20,7 +20,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-                android:text="Proporciona los siguientes datos:\n •Lugar  • Fecha •hora •Motivo"
+                android:text="Proporciona los siguientes datos:\n • Lugar • Fecha • Hora • Motivo"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:textColor="@color/blanco"

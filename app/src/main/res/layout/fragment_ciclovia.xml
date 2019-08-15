@@ -37,14 +37,17 @@
 
     <TextView
             android:textAlignment="center"
-            android:text="Aqui podrás reportar todos los inconvenientes\nsuscitados en cualquier ciclovía de tu ciudad y así\n poder prevenir accidentes a la comunidad ciclista."
-            android:layout_width="wrap_content"
+            android:text="Aqui podrás reportar todos los inconvenientes suscitados en cualquier ciclovía de tu ciudad y así poder prevenir accidentes a la comunidad ciclista."
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textView27"
+            android:padding="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="20dp"
+            android:textColor="#000"
             app:layout_constraintBottom_toTopOf="@+id/editTextAveria"/>
 
     <EditText
