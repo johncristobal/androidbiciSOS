@@ -202,8 +202,6 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
         mfragmentTransaction.add(R.id.reporte,reportFrag).commit()
 
-
-
     }
 
     fun getDataReportes(){

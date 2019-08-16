@@ -21,36 +21,44 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".Activities.TutorialActivity"
+                  android:screenOrientation="portrait"
                   android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.AcercaActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.ContactoActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.DetalleTipActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.TipsActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_tips"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.SerieBiciActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_serie_bici"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.RoboBiciActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".Activities.MainActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -60,6 +68,7 @@
         </activity>
         <activity
                 android:name=".Activities.PrincipalActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_principal"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -82,12 +91,14 @@
 
         <activity
                 android:name=".Activities.ReportesActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_reportes"
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
                 android:name=".Activities.PersonalizaActivity"
+                android:screenOrientation="portrait"
                 android:label="@string/title_activity_login"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -114,6 +125,7 @@
         </activity>
         <activity
                 android:name=".Activities.SesionActivity"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

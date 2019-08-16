@@ -442,7 +442,8 @@ class ReportFragment : Fragment() {
                         editor.apply()
 
                     }else{
-
+                        editor.putString("bici"+i,"null")
+                        editor.apply()
                     }
                 }catch(e:Exception){
                     Log.w("tag","error al guardar archivo")

@@ -77,13 +77,12 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
-            nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
-
-                val intent = Intent(this,SesionActivity::class.java)
-                startActivity(intent)
-            }
         }
+        nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
 
+            val intent = Intent(this,SesionActivity::class.java)
+            startActivity(intent)
+        }
         //click button to laucnn navigationdrawaner
         openMenu.setOnClickListener { view ->
             drawer_layout.openDrawer(GravityCompat.START)
@@ -157,7 +156,9 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                     alertbuilder.setTitle("Atención")
                     alertbuilder.setMessage("¿Deseas cerrar sesión?")
                     alertbuilder.setPositiveButton("Si", DialogInterface.OnClickListener { dialogInterface, i ->
-                        prefs.edit().putString("sesion","0").apply()
+
+                        prefs.edit().clear().apply()
+                        //prefs.edit().putString("sesion","0").apply()
 
                         FirebaseAuth.getInstance().signOut()
                         //cierro sesion fasce si fue asi su login
@@ -224,11 +225,12 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         }else{
             nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
             nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
-            /*nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+        }
 
-                val intent = Intent(this,SesionActivity::class.java)
-                startActivity(intent)
-            }*/
+        nav_view.getHeaderView(0).imageViewBici.setOnClickListener {
+
+            val intent = Intent(this,SesionActivity::class.java)
+            startActivity(intent)
         }
     }
 

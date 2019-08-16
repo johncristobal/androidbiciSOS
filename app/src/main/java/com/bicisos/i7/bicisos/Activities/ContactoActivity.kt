@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 //import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_contacto.*
@@ -59,7 +60,14 @@ class ContactoActivity : AppCompatActivity() {
             openURL.data = Uri.parse("https://www.facebook.com/groups/266612746861233/")
             startActivity(openURL)
             */
+        }
 
+        buttonReportar.setOnClickListener {
+            if(ReporteDesc.text.toString().equals("")){
+                Toast.makeText(this,"Favor de colocar mensaje...",Toast.LENGTH_SHORT).show()
+            }else{
+
+            }
         }
     }
 }
