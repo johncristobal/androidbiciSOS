@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/buttonGracias"/>
         <TextView
-                android:text="Nota: Para ser mas efeciente el reporte y tener mayor alcance, comparte a través de nuestras redes sociales."
+                android:text="Nota: Para ser mas eficiente el reporte y tener mayor alcance, comparte a través de nuestras redes sociales."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"

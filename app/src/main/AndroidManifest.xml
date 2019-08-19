@@ -126,6 +126,7 @@
         <activity
                 android:name=".Activities.SesionActivity"
                 android:screenOrientation="portrait"
+                android:windowSoftInputMode="stateHidden"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

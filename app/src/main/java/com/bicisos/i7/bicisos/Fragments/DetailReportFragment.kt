@@ -92,6 +92,15 @@ class DetailReportFragment : Fragment() {
         buttonShare.setOnClickListener {
             //open share activity
         }
+
+        val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val reportado = preferences.getString("fromAlerta","null")
+        if(!reportado!!.equals("null") && reportado.equals("1")) {
+            preferences.edit().putString("fromAlerta","0").apply()
+            realizadoLabel.visibility = View.VISIBLE
+        }else{
+            realizadoLabel.visibility = View.INVISIBLE
+        }
     }
 
     override fun onAttach(context: Context) {

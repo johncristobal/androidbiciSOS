@@ -16,11 +16,17 @@ import kotlinx.android.synthetic.main.fragment_alerta.*
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.transition.Fade
+import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.CicloviaFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.HelpFragment
+import com.bicisos.i7.bicisos.Model.Report
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -191,32 +197,70 @@ class AlertaFragment : Fragment() {
         imageViewAlerta.setOnClickListener {
 
             val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-            preferences.edit().putString("fromReporte","alertaFragment").apply()
+            val reportado = preferences.getString("reportado","null")
+            //Si es null, no se ha reportado, reporte..
+            if(reportado!!.equals("null")) {
 
-            alertaFrag = ReportFragment.newInstance(latitud!!,longitud!!,name!!)
+                preferences.edit().putString("fromReporte", "alertaFragment").apply()
 
-            val exitFade = Fade()
-            exitFade.setDuration(MOVE_DEFAULT_TIME)
-            this.setExitTransition(exitFade)
+                alertaFrag = ReportFragment.newInstance(latitud!!, longitud!!, name!!)
 
-            val enterTransitionSet = TransitionSet()
-            enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
-            enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
-            enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
-            alertaFrag.setSharedElementEnterTransition(enterTransitionSet)
+                val exitFade = Fade()
+                exitFade.setDuration(MOVE_DEFAULT_TIME)
+                this.setExitTransition(exitFade)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                val enterFade = Slide(Gravity.END)
-                //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
-                enterFade.setDuration(FADE_DEFAULT_TIME)
-                alertaFrag.setEnterTransition(enterFade)
+                val enterTransitionSet = TransitionSet()
+                enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
+                enterTransitionSet.setDuration(MOVE_DEFAULT_TIME)
+                enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME)
+                alertaFrag.setSharedElementEnterTransition(enterTransitionSet)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val enterFade = Slide(Gravity.END)
+                    //enterFade.setStartDelay(MOVE_DEFAULT_TIME + FADE_DEFAULT_TIME)
+                    enterFade.setDuration(FADE_DEFAULT_TIME)
+                    alertaFrag.setEnterTransition(enterFade)
+                }
+
+                val manager = childFragmentManager.beginTransaction()
+                    .addToBackStack("report")
+                    .addSharedElement(imageViewAlerta, "report")
+                    .replace(R.id.containerAlertasCustom, alertaFrag)
+                manager.commitAllowingStateLoss()
+            }else{
+                if(reportado.equals("1")){
+                    //ya hay reporte,
+                    val llavereporte = preferences.getString("llavereporte","null")
+                    if(!llavereporte!!.equals("null")){
+
+                        //tenemos la llave de reporte...
+                        /*val manager = childFragmentManager.beginTransaction()
+                            .addToBackStack("report")
+                            .addSharedElement(imageViewAlerta, "report")
+                            .replace(R.id.containerAlertasCustom, alertaFrag)
+                        manager.commitAllowingStateLoss()*/
+
+                        val reference = FirebaseDatabase.getInstance().getReference("reportes").child(llavereporte)
+                        reference.addListenerForSingleValueEvent(object : ValueEventListener{
+
+                            override fun onCancelled(p0: DatabaseError) {
+                                Log.w("No","sin resultados")
+                            }
+
+                            override fun onDataChange(p0: DataSnapshot) {
+                                preferences.edit().putString("detalleMapFragment","1").apply()
+                                preferences.edit().putString("fromAlerta","1").apply()
+
+                                val detailtFrag = DetailReportFragment.newInstance(p0.getValue(Report::class.java)!!)
+                                childFragmentManager.beginTransaction()
+                                    .addToBackStack("detalles")
+                                    .replace(R.id.containerAlertasCustom,detailtFrag)
+                                    .commit()
+                            }
+                        })
+                    }
+                }
             }
-
-            val manager = childFragmentManager.beginTransaction()
-                .addToBackStack("report")
-                .addSharedElement(imageViewAlerta,"report")
-                .replace(R.id.containerAlertasCustom,alertaFrag)
-            manager.commitAllowingStateLoss()
         }
     }
 

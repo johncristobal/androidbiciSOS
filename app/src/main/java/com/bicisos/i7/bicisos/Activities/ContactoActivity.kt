@@ -66,7 +66,7 @@ class ContactoActivity : AppCompatActivity() {
             if(ReporteDesc.text.toString().equals("")){
                 Toast.makeText(this,"Favor de colocar mensaje...",Toast.LENGTH_SHORT).show()
             }else{
-
+                Toast.makeText(this,"Su mensaje fue recibido, ¡Muchas gracias!",Toast.LENGTH_SHORT).show()
             }
         }
     }

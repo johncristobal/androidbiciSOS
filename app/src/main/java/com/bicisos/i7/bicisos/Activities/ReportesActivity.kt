@@ -77,16 +77,54 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         })
 
         reportarButton.setOnClickListener {
-            //validar sesion
             val preferences = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-            val sesion = preferences.getString("sesion","null")
-            if (sesion!!.equals("1")){
-
-                saveReporte()
+            val reportado = preferences.getString("reportado","null")
+            //Si es null, no se ha reportado, reporte..
+            if(reportado!!.equals("null")) {
+                //validar sesion
+                val preferences = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val sesion = preferences.getString("sesion", "null")
+                val reportado = preferences.getString("reportado", "null")
+                if (sesion!!.equals("1")) {
+                    saveReporte()
+                } else {
+                    val intent = Intent(this, SesionActivity::class.java)
+                    intent.putExtra("from", "Reportes")
+                    startActivity(intent)
+                }
             }else{
-                val intent = Intent(this,SesionActivity::class.java)
-                intent.putExtra("from","Reportes")
-                startActivity(intent)
+                if(reportado.equals("1")){
+                    //ya hay reporte,
+                    val llavereporte = preferences.getString("llavereporte","null")
+                    if(!llavereporte!!.equals("null")){
+
+                        //tenemos la llave de reporte...
+                        /*val manager = childFragmentManager.beginTransaction()
+                            .addToBackStack("report")
+                            .addSharedElement(imageViewAlerta, "report")
+                            .replace(R.id.containerAlertasCustom, alertaFrag)
+                        manager.commitAllowingStateLoss()*/
+
+                        val reference = FirebaseDatabase.getInstance().getReference("reportes").child(llavereporte)
+                        reference.addListenerForSingleValueEvent(object : ValueEventListener{
+
+                            override fun onCancelled(p0: DatabaseError) {
+                                Log.w("No","sin resultados")
+                            }
+
+                            override fun onDataChange(p0: DataSnapshot) {
+                                preferences.edit().putString("detalleMapFragment","1").apply()
+                                preferences.edit().putString("fromAlerta","1").apply()
+
+                                val detailtFrag = DetailReportFragment.newInstance(p0.getValue(Report::class.java)!!)
+                                supportFragmentManager.beginTransaction()
+                                    .addToBackStack("detalles")
+                                    .replace(R.id.reporte,detailtFrag)
+                                    .commit()
+                            }
+                        })
+                    }
+                }
             }
         }
 

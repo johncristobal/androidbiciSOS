@@ -157,6 +157,17 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                     alertbuilder.setMessage("¿Deseas cerrar sesión?")
                     alertbuilder.setPositiveButton("Si", DialogInterface.OnClickListener { dialogInterface, i ->
 
+                        val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                        val keySelf = prefs.getString("keySelf","null")
+                        if(keySelf != "null"){
+
+                            prefs.edit().putString("keySelf","null").apply()
+
+                            val database = FirebaseDatabase.getInstance()
+                            val bikersRef = database.getReference("bikers")
+                            bikersRef.child(keySelf!!).removeValue()
+                        }
+
                         prefs.edit().clear().apply()
                         //prefs.edit().putString("sesion","0").apply()
 

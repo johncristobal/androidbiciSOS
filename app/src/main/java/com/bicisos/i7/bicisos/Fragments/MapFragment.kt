@@ -340,7 +340,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.e("mapfrgment","onstop map")
     }
 
-    private fun setTalleres(){
+    fun setTalleres(){
         /*
             Anko
             async task, it's so good!!!
@@ -383,7 +383,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setUpMap() {
+    fun setUpMap() {
 
         /*
             Nota Kotlin
@@ -578,10 +578,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    public fun reloadData(){
+    fun reloadData(){
         Log.w("tag","info from main")
 
         listenerReports()
         listenerBikers()
+        initListenerBike()
     }
 }

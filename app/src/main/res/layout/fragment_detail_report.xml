@@ -20,6 +20,18 @@
         android:orientation="vertical">
 
     <TextView
+            android:id="@+id/realizadoLabel"
+            android:text="Reporte realizado..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:fontFamily="@font/roboto"/>
+
+    <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
