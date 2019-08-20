@@ -40,7 +40,7 @@
             <TextView
                     android:text="Si bien no es de mucha ayuda denunciar, si lo es el acta que se genera al hacerlo, el cual nos  ayudará a tener una base legal de propiedad."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView17" android:textSize="12sp"/>
@@ -48,7 +48,7 @@
             <TextView
                     android:text="Es importante que presentes # de serie, factura, fotos y testigos para acreditar la propiedad de tu bici."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView18" android:textSize="12sp"/>
@@ -56,7 +56,7 @@
             <TextView
                     android:text="Al presentar denuncia pide como evidencia las grabaciones de cámaras de vigilancia de la ciudad siempre y cuando hubiera una al momento del robo de tu bici."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView19" android:textSize="12sp"/>
@@ -64,7 +64,7 @@
             <TextView
                     android:text="También puedes presentar denuncia por  internet en la siguiente dirección:  www.pgjdf.gob.mx  •Llenar formato único •Imprimir código de 32 dígitos  •Copia de identificación •Presentarse en fecha y hora indicados."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView20" android:textSize="12sp"/>

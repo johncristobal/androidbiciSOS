@@ -40,7 +40,7 @@
             <TextView
                     android:text="Lo siguiente es buscar en los tianguis de la ciudad, sabiendo que frecuentemente las trasladan de un extremo a otro para revenderlas."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView17" android:textSize="12sp"/>
@@ -48,7 +48,7 @@
             <TextView
                     android:text="Revisar en SEGUNDAMANO,  MERCADOLIBRE, VIVAANUNCIOS y  MARKETPLACE de facebook."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView18" android:textSize="12sp"/>
@@ -56,7 +56,7 @@
             <TextView
                     android:text="Casas de empeño aledañas a la zona de robo."
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView19" android:textSize="12sp"/>
@@ -64,7 +64,7 @@
             <TextView
                     android:text="TIANGUIS (hay muchos más, éstos son algunos)"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView20" android:textSize="12sp"/>
@@ -72,7 +72,7 @@
             <TextView
                     android:text="• Santa Cruz Meyehualco -Martes y viernes-\n• El Salado -Miércoles-\n• La Portales -Todos los días-\n• San Felipe -Domingo-\n• San Juan / Texcoco -Domingo-\n• La Raza -Domingo-\n• La Bola -Domingo-"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView21" android:textSize="12sp"/>

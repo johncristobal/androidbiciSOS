@@ -39,7 +39,7 @@
             <TextView
                     android:text="En caso de que ubiques tu bicicleta, lo  siguiente es avisar a una patrulla, mostrarle el acta de denuncia del ministerio público, explicarle la situación (están obligados a brindarte ayuda, si se niegan denunciar a #asuntosinternos) y juntos proceder a recuperar la bicicleta"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView17"
                     android:textSize="12sp"
@@ -50,14 +50,14 @@
                     android:text="Nunca intentes recuperarla solo, ya que pueden presentarse situaciones violentas con los ladrones."
                     android:layout_width="match_parent"
                     android:fontFamily="@font/roboto"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView18" android:textSize="12sp"/>
 
             <TextView
                     android:text="** Cuando la recuperes, compártenos tu experiencia a través de nuestras redes sociales para que la comunidad ciclista le sirva de ejemplo, sepan como actuar y se animen a denunciar y así juntos ejercer presión a las autoridades correspondientes para que  hagan su trabajo **"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="8sp"
                     android:fontFamily="@font/roboto"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView19" android:textSize="12sp"/>
