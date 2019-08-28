@@ -285,6 +285,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             3 -> mipmap = R.mipmap.bicid
                             4 -> mipmap = R.mipmap.bicie
                             5 -> mipmap = R.mipmap.bicif
+                            else -> mipmap = R.mipmap.bicia
                         }
                         val height = 50
                         val width = 70

@@ -116,23 +116,33 @@ class PersonalizaFragment : Fragment() {
             //antes de finishm tenemos que guardar el num de serie, la bici que eligio, las caracteristicas
             //bici la guardamos al dar clic
             //salvemos lo demas
-            val editor = prefs.edit()
-            editor.putString("nombre",editTextNombrePer.text.toString());
-            editor.putString("serie",editTextSerie.text.toString());
-            editor.putString("desc",editTextDesc.text.toString());
-            editor.apply()
 
-            listener?.onFragmentInteraction("")
+            if (bici == -1) {
+                Toast.makeText(activity!!, "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
+            }else {
+                val editor = prefs.edit()
+                editor.putString("nombre", editTextNombrePer.text.toString());
+                editor.putString("serie", editTextSerie.text.toString());
+                editor.putString("desc", editTextDesc.text.toString());
+                editor.apply()
+
+                listener?.onFragmentInteraction("")
+            }
         }
 
         buttonDespues.setOnClickListener {
-            val editor = prefs.edit()
-            editor.putString("nombre",editTextNombrePer.text.toString());
-            editor.putString("serie",editTextSerie.text.toString());
-            editor.putString("desc",editTextDesc.text.toString());
-            editor.apply()
 
-            listener?.onFragmentInteraction("")
+            if (bici == -1) {
+                Toast.makeText(activity!!, "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
+            }else {
+                val editor = prefs.edit()
+                editor.putString("nombre", editTextNombrePer.text.toString());
+                editor.putString("serie", editTextSerie.text.toString());
+                editor.putString("desc", editTextDesc.text.toString());
+                editor.apply()
+
+                listener?.onFragmentInteraction("")
+            }
         }
 
         photosBool = ArrayList<Boolean>()
