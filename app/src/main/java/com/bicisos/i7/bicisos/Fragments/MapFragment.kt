@@ -112,7 +112,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
-
         /*alertAction.setOnClickListener {
 
             Thread(Runnable() {
@@ -135,7 +134,26 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         alertAction.setOnClickListener {
 
-            listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"0")
+            if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+
+            }else {
+                try {
+                    if (lastLocation != null) {
+                        listener?.onFragmentInteractionMap(
+                            lastLocation.latitude,
+                            lastLocation.longitude,
+                            alertAction,
+                            "0"
+                        )
+                    } else {
+                        listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
+                    }
+                } catch (e: java.lang.Exception) {
+
+                    listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
+                }
+            }
 
             /*val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val manager = childFragmentManager.beginTransaction()
