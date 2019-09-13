@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         //AppEventsLogger.activateApp(this);
-
+        ////keytool -exportcert -alias sosciclista -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
     }
 }
+//

@@ -65,6 +65,7 @@ class PersonalizaFragment : Fragment() {
     lateinit var mDialogView : View
 
     var index: Int = -1
+    var bici = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +96,7 @@ class PersonalizaFragment : Fragment() {
         if (!desc!!.equals("null")) {
             editTextDesc.setText(desc)
         }
-        val bici = prefs.getInt("bici",-1)
+        bici = prefs.getInt("bici",-1)
 
         listaimagenes.layoutManager = LinearLayoutManager(activity!!,LinearLayoutManager.HORIZONTAL,false)
 
@@ -116,7 +117,7 @@ class PersonalizaFragment : Fragment() {
             //antes de finishm tenemos que guardar el num de serie, la bici que eligio, las caracteristicas
             //bici la guardamos al dar clic
             //salvemos lo demas
-
+            bici = prefs.getInt("bici",-1)
             if (bici == -1) {
                 Toast.makeText(activity!!, "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
             }else {
@@ -131,7 +132,7 @@ class PersonalizaFragment : Fragment() {
         }
 
         buttonDespues.setOnClickListener {
-
+            bici = prefs.getInt("bici",-1)
             if (bici == -1) {
                 Toast.makeText(activity!!, "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
             }else {
