@@ -22,7 +22,7 @@
     -->
 
     <!--mac-->
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAWWiXl1Ob53HBylpH6enBxh-MGAtQqlMU</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAZuZFusdPRzx4MfbNbHm2trmp7EG3B_P0</string>
 
     <!--i7-->
     <!--string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyADpHJU80NFr6m8WUmNUfTtJasRTSwn4l8</string-->
