@@ -369,4 +369,5 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(finalReportFrag).commit();
     }
+    //keytool -list -v -keystore /Users/john.cristobal/Documents/sosciclistarele.keystore -alias sosciclista
 }

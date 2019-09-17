@@ -1,16 +1,23 @@
 package com.bicisos.i7.bicisos.Activities
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 //import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.R
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_contacto.*
-
-
-
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 class ContactoActivity : AppCompatActivity() {
@@ -66,7 +73,21 @@ class ContactoActivity : AppCompatActivity() {
             if(ReporteDesc.text.toString().equals("")){
                 Toast.makeText(this,"Favor de colocar mensaje...",Toast.LENGTH_SHORT).show()
             }else{
+                //show loading
+                progressBarMensaje.visibility = View.VISIBLE
+                buttonReportar.visibility = View.GONE
 
+                doAsync {
+                    val result = ApiClient().sendmail(ReporteDesc.text.toString())
+                    uiThread {
+                        progressBarMensaje.visibility = View.INVISIBLE
+                        buttonReportar.visibility = View.VISIBLE
+                        if (result != null) {
+                            Toast.makeText(it,"Gracias, hemos recibido tus comentarios...",Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+                }
             }
         }
     }
