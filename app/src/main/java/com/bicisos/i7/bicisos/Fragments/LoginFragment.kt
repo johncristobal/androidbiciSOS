@@ -1,5 +1,11 @@
 package com.bicisos.i7.bicisos.Fragments
 
+
+
+//keytool -exportcert -alias sosciclista -keystore /Users/john.cristobal/Documents/sosciclistarele | openssl sha1 -binary | openssl base64
+//keytool -exportcert -list -v -alias sosciclista -keystore /Users/john.cristobal/Documents/sosciclistarele
+//keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
+
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -23,12 +29,18 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,6 +61,10 @@ class LoginFragment : Fragment() {
     var callbackManager = CallbackManager.Factory.create();
     private lateinit var auth: FirebaseAuth
 
+    val RC_SIGN_IN: Int = 1
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    lateinit var mGoogleSignInOptions: GoogleSignInOptions
+
     private var listener : Datalistener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +73,13 @@ class LoginFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        mGoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(activity!!, mGoogleSignInOptions)
     }
 
     interface Datalistener {
@@ -83,7 +106,7 @@ class LoginFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
         progresFace = view.findViewById(R.id.progressBarFace)
-        FacebuttonTemp = view.findViewById(R.id.Facebutton)
+        FacebuttonTemporal = view.findViewById(R.id.Facebutton)
         login_buttonTemp = view.findViewById(R.id.login_button)
 
         return view
@@ -94,6 +117,7 @@ class LoginFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
+        //para correo y contraseñoa === deprecated...
         buttonIngresar.setOnClickListener {
 
             val mail = editTextCorreo.text.toString()
@@ -103,7 +127,6 @@ class LoginFragment : Fragment() {
             }else if(editTextPass.text.toString().equals("")){
                 Toast.makeText(activity,"Favor de colocar contraseña...",Toast.LENGTH_SHORT).show()
             }else {
-
                 progressBarIngresar.visibility = View.VISIBLE
                 buttonIngresar.visibility = View.GONE
 
@@ -133,10 +156,10 @@ class LoginFragment : Fragment() {
                             Log.w("TAG", "createUserWithEmail:failure", task.getException())
                             try {
                                 throw task.exception!!
-                            } catch (weakPassword: FirebaseAuthWeakPasswordException) {
+                            } /*catch (weakPassword: FirebaseAuthWeakPasswordException) {
                                 //Log.d(TAG, "onComplete: weak_password")
                                 Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
-                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                            }*/ catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
                             } catch (existEmail: FirebaseAuthUserCollisionException) {
                                 Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT)
@@ -157,6 +180,7 @@ class LoginFragment : Fragment() {
             }
         }
 
+        //facebook login ==== custom
         Facebutton.setOnClickListener {
 
             //faceTask(activity!!).execute()
@@ -168,33 +192,48 @@ class LoginFragment : Fragment() {
                 editor.putString("sesion","null")
                 editor.apply()
             }else {
-                login_button.performClick()
-            }
+                //login_button.performClick()
+                callbackManager = CallbackManager.Factory.create()
 
-            //uiThread {
-            //progressBarFace.visibility = View.VISIBLE
-            //Facebutton.text = ""
+                LoginManager.getInstance().logInWithReadPermissions(
+                    activity,
+                    Arrays.asList("public_profile", "email"));
 
-            //}
-            //faceTask(activity!!).execute()
-            /*doAsync {
-                if (AccessToken.getCurrentAccessToken() != null) {
-                    val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-                    editor.putString("sesion","null")
-                    editor.apply()
-                }else {
-                    uiThread {
-                        login_button.performClick()
+                LoginManager.getInstance().registerCallback(callbackManager , object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
+                        println("facebook loginResult : $loginResult")
+                        handleFacebookAccessToken(loginResult.accessToken.token);
+                        // App code
                     }
-                }
-                uiThread {
-                    progressBarFace.visibility = View.VISIBLE
-                    Facebutton.text = ""
-                }
-            }*/
+
+                    override fun onCancel() {
+                        Log.w("access","not works")
+                        // App code
+                    }
+
+                    override fun onError(exception: FacebookException) {
+                        println("loginResult : ${exception.localizedMessage}")
+
+                        // App code
+                    }
+                })
+            }
         }
 
-        login_button.setReadPermissions("email","public_profile")
+        Googlebutton.setOnClickListener {
+            //faceTask(activity!!).execute()
+            progressBarGoogle.visibility = View.VISIBLE
+            Googlebutton.visibility = View.GONE
+
+            val signInIntent: Intent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
+        //login_button.setReadPermissions("email","public_profile")
+        login_button.setReadPermissions(
+            Arrays.asList("public_profile", "email")
+        );
+
         // If using in a fragment
         login_button.setFragment(this)
 
@@ -224,25 +263,6 @@ class LoginFragment : Fragment() {
                 Log.w("access","not works eeror"+exception.localizedMessage)
             }
         })
-
-        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-
-                override fun onSuccess(loginResult: LoginResult) {
-                    Log.w("access",loginResult.accessToken.token)
-                    handleFacebookAccessToken(loginResult.accessToken.token)
-                }
-
-                override fun onCancel() {
-                    // App code
-                    Log.w("access","not works")
-                }
-
-                override fun onError(exception: FacebookException) {
-                    // App code
-                    Log.w("access","not works eeror 2"+exception.localizedMessage)
-                }
-            }
-        )
 
         imageViewClose.setOnClickListener {
             listener!!.sendActivity("")
@@ -274,8 +294,8 @@ class LoginFragment : Fragment() {
                 //finish()
                 //updateUI(user)
             } else {
-                progresFace!!.visibility = View.INVISIBLE
-                FacebuttonTemp!!.text = "Continuar con facebook"
+                progressBarFace!!.visibility = View.INVISIBLE
+                Facebutton!!.text = "Continuar con facebook"
 
                 // If sign in fails, display a message to the user.
                 Log.w("tag", "signInWithCredential:failure", task.exception)
@@ -287,19 +307,55 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        auth.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful) {
+
+                val user = auth.currentUser
+                //Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
+                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                editor.putString("sesion","1")
+                editor.putString("reloadData","1")
+                editor.putString("nombre",user!!.displayName)
+                editor.apply()
+
+                listener!!.sendActivity("login")
+                //startActivity(HomeActivity.getLaunchIntent(this))
+            } else {
+                progressBarGoogle!!.visibility = View.INVISIBLE
+                Googlebutton!!.text = "Continuar con google"
+                Toast.makeText(activity!!, "Google sign in failed:(", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        progressBarFace.visibility = View.INVISIBLE
-        Facebutton.visibility = View.VISIBLE
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-
+        if (requestCode == RC_SIGN_IN) {
+            progressBarGoogle.visibility = View.INVISIBLE
+            Googlebutton.visibility = View.VISIBLE
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                firebaseAuthWithGoogle(account!!)
+            } catch (e: ApiException) {
+                progressBarGoogle!!.visibility = View.INVISIBLE
+                Googlebutton!!.text = "Continuar con google"
+                Toast.makeText(activity, "Google sign in failed:(", Toast.LENGTH_LONG).show()
+            }
+        }else {
+            progressBarFace.visibility = View.INVISIBLE
+            Facebutton.visibility = View.VISIBLE
+            callbackManager.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     companion object {
 
         var progresFace: ProgressBar? = null
-        var FacebuttonTemp: TextView? = null
+        var FacebuttonTemporal: TextView? = null
         var login_buttonTemp: LoginButton? = null
 
         /**
@@ -327,7 +383,7 @@ class LoginFragment : Fragment() {
             super.onPreExecute()
 
             progresFace!!.visibility = View.VISIBLE
-            FacebuttonTemp!!.text = ""
+            FacebuttonTemporal!!.text = ""
         }
 
         override fun doInBackground(vararg params: Void?): String? {

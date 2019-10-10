@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="400dp"
-            android:background="@color/com_facebook_button_border_color_focused"
             android:layout_marginTop="25dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
