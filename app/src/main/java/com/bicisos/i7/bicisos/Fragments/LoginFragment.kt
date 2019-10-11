@@ -6,6 +6,8 @@ package com.bicisos.i7.bicisos.Fragments
 //keytool -exportcert -list -v -alias sosciclista -keystore /Users/john.cristobal/Documents/sosciclistarele
 //keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
 
+//keytool -exportcert -alias sosciclista -keystore /Users/john.cristobal/Documents/sosciclistarele | openssl sha1 -binary | openssl base64
+
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -116,6 +118,50 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+        callbackManager = CallbackManager.Factory.create()
+        var loginManager: LoginManager
+
+        loginManager = LoginManager.getInstance()/*.logInWithReadPermissions(
+                    activity,
+                    Arrays.asList("public_profile", "email"))*/
+
+        loginManager.registerCallback(callbackManager , object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                println("facebook loginResult : $loginResult")
+                handleFacebookAccessToken(loginResult.accessToken.token);
+            }
+
+            override fun onCancel() {
+                Log.w("access","not works")
+                progressBarFace.visibility = View.VISIBLE
+                Facebutton.visibility = View.GONE
+            }
+
+            override fun onError(exception: FacebookException) {
+                println("loginResult : ${exception.localizedMessage}")
+                progressBarFace.visibility = View.VISIBLE
+                Facebutton.visibility = View.GONE
+            }
+        })
+
+        //facebook login ==== custom
+        Facebutton.setOnClickListener {
+
+            //faceTask(activity!!).execute()
+            progressBarFace.visibility = View.VISIBLE
+            Facebutton.visibility = View.GONE
+
+            if (AccessToken.getCurrentAccessToken() != null) {
+                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                editor.putString("sesion","null")
+                editor.apply()
+            } else {
+                //login_button.performClick()
+                loginManager.logInWithReadPermissions(
+                    activity,
+                    Arrays.asList("public_profile", "email"))
+            }
+        }
 
         //para correo y contraseñoa === deprecated...
         buttonIngresar.setOnClickListener {
@@ -159,9 +205,9 @@ class LoginFragment : Fragment() {
                             } /*catch (weakPassword: FirebaseAuthWeakPasswordException) {
                                 //Log.d(TAG, "onComplete: weak_password")
                                 Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
-                            }*/ catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+                            }*/ /*catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
-                            } catch (existEmail: FirebaseAuthUserCollisionException) {
+                            }*/ catch (existEmail: FirebaseAuthUserCollisionException) {
                                 Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT)
                                     .show()
                             } catch (e: Exception) {
@@ -180,46 +226,7 @@ class LoginFragment : Fragment() {
             }
         }
 
-        //facebook login ==== custom
-        Facebutton.setOnClickListener {
-
-            //faceTask(activity!!).execute()
-            progressBarFace.visibility = View.VISIBLE
-            Facebutton.visibility = View.GONE
-
-            if (AccessToken.getCurrentAccessToken() != null) {
-                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-                editor.putString("sesion","null")
-                editor.apply()
-            }else {
-                //login_button.performClick()
-                callbackManager = CallbackManager.Factory.create()
-
-                LoginManager.getInstance().logInWithReadPermissions(
-                    activity,
-                    Arrays.asList("public_profile", "email"));
-
-                LoginManager.getInstance().registerCallback(callbackManager , object : FacebookCallback<LoginResult> {
-                    override fun onSuccess(loginResult: LoginResult) {
-                        println("facebook loginResult : $loginResult")
-                        handleFacebookAccessToken(loginResult.accessToken.token);
-                        // App code
-                    }
-
-                    override fun onCancel() {
-                        Log.w("access","not works")
-                        // App code
-                    }
-
-                    override fun onError(exception: FacebookException) {
-                        println("loginResult : ${exception.localizedMessage}")
-
-                        // App code
-                    }
-                })
-            }
-        }
-
+        //google login ==== custom
         Googlebutton.setOnClickListener {
             //faceTask(activity!!).execute()
             progressBarGoogle.visibility = View.VISIBLE
@@ -230,12 +237,12 @@ class LoginFragment : Fragment() {
         }
 
         //login_button.setReadPermissions("email","public_profile")
-        login_button.setReadPermissions(
+        /*login_button.setReadPermissions(
             Arrays.asList("public_profile", "email")
-        );
+        );*/
 
         // If using in a fragment
-        login_button.setFragment(this)
+        //login_button.setFragment(this)
 
         /*login_button.setOnClickListener {
             if (AccessToken.getCurrentAccessToken() != null) {
@@ -246,7 +253,7 @@ class LoginFragment : Fragment() {
         }*/
 
         // Callback registration
-        login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+        /*login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 // App code
                 Log.w("access",loginResult.accessToken.token)
@@ -262,7 +269,7 @@ class LoginFragment : Fragment() {
                 // App code
                 Log.w("access","not works eeror"+exception.localizedMessage)
             }
-        })
+        })*/
 
         imageViewClose.setOnClickListener {
             listener!!.sendActivity("")
@@ -334,8 +341,8 @@ class LoginFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            progressBarGoogle.visibility = View.INVISIBLE
-            Googlebutton.visibility = View.VISIBLE
+            //progressBarGoogle.visibility = View.INVISIBLE
+            //Googlebutton.visibility = View.VISIBLE
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)

@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "896536123930-7nn5r12echh47oh07ant5otgv9nco0sa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bicisos.i7.bicisos",
+            "certificate_hash": "a596fcc49c60ef34543744fb0524ba0b56326a28"
+          }
+        },
+        {
+          "client_id": "896536123930-tns8ljkm2i44sqpgp6dfnvfii0tudtcn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bicisos.i7.bicisos",
+            "certificate_hash": "8f1aee1d9a43ab39a30af853238f0911b0bfd446"
+          }
+        },
+        {
+          "client_id": "896536123930-hkusd4n2q3c4b08fm2ne6v5hqvkshq6e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bicisos.i7.bicisos",
+            "certificate_hash": "675e93c7a7b2e547a8f9365a112246add4ea7115"
+          }
+        },
+        {
           "client_id": "896536123930-ckp46r7e7nng4a3bgg9j8on7retftce4.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -25,15 +49,20 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896536123930-ckp46r7e7nng4a3bgg9j8on7retftce4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "896536123930-ihj80nlvqqjdrdpd2eil7dui2p6an1du.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "sosciclista.com.SOS-Ciclista"
+              }
+            }
+          ]
         }
       }
     }
