@@ -7,6 +7,8 @@ package com.bicisos.i7.bicisos.Fragments
 //keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
 
 //keytool -exportcert -alias sosciclista -keystore /Users/john.cristobal/Documents/sosciclistarele | openssl sha1 -binary | openssl base64
+//keytool -exportcert -alias sosciclista -keystore /Users/i7/Desktop/sosciclistarele | openssl sha1 -binary | openssl base64
+
 
 import android.content.Context
 import android.content.Intent
