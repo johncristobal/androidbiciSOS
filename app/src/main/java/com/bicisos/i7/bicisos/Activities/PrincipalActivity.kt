@@ -10,10 +10,7 @@ import androidx.core.view.GravityCompat
 //import android.support.v7.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.bicisos.i7.bicisos.Fragments.*
@@ -46,7 +43,12 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_principal)
+
         /*toolbar.title = ""
         //toolbar.setBackgroundColor(Color.TRANSPARENT)
         setSupportActionBar(toolbar)*/

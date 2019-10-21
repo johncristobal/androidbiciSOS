@@ -121,13 +121,13 @@ class LoginFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
         callbackManager = CallbackManager.Factory.create()
-        var loginManager: LoginManager
+        //var loginManager: LoginManager
 
-        loginManager = LoginManager.getInstance()/*.logInWithReadPermissions(
+        /*loginManager = LoginManager.getInstance().logInWithReadPermissions(
                     activity,
                     Arrays.asList("public_profile", "email"))*/
 
-        loginManager.registerCallback(callbackManager , object : FacebookCallback<LoginResult> {
+        /*LoginManager.getInstance().registerCallback(callbackManager , object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 println("facebook loginResult : $loginResult")
                 handleFacebookAccessToken(loginResult.accessToken.token);
@@ -141,6 +141,44 @@ class LoginFragment : Fragment() {
 
             override fun onError(exception: FacebookException) {
                 println("loginResult : ${exception.localizedMessage}")
+                progressBarFace.visibility = View.VISIBLE
+                Facebutton.visibility = View.GONE
+            }
+        })*/
+        //login_button.setReadPermissions("email","public_profile")
+        login_button.setReadPermissions(
+            Arrays.asList("public_profile", "email")
+        );
+
+        // If using in a fragment
+        login_button.setFragment(this)
+
+        /*login_button.setOnClickListener {
+            if (AccessToken.getCurrentAccessToken() != null) {
+                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                editor.putString("sesion","null")
+                editor.apply()
+            }
+        }*/
+
+        // Callback registration
+        login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                // App code
+                Log.w("access",loginResult.accessToken.token)
+                handleFacebookAccessToken(loginResult.accessToken.token)
+            }
+
+            override fun onCancel() {
+                // App code
+                Log.w("access","not works")
+                progressBarFace.visibility = View.VISIBLE
+                Facebutton.visibility = View.GONE
+            }
+
+            override fun onError(exception: FacebookException) {
+                // App code
+                Log.w("access","not works eeror"+exception.localizedMessage)
                 progressBarFace.visibility = View.VISIBLE
                 Facebutton.visibility = View.GONE
             }
@@ -158,10 +196,10 @@ class LoginFragment : Fragment() {
                 editor.putString("sesion","null")
                 editor.apply()
             } else {
-                //login_button.performClick()
-                loginManager.logInWithReadPermissions(
+                login_button.performClick()
+                /*LoginManager.getInstance().logInWithReadPermissions(
                     activity,
-                    Arrays.asList("public_profile", "email"))
+                    Arrays.asList("public_profile", "email"))*/
             }
         }
 
@@ -237,41 +275,6 @@ class LoginFragment : Fragment() {
             val signInIntent: Intent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
-
-        //login_button.setReadPermissions("email","public_profile")
-        /*login_button.setReadPermissions(
-            Arrays.asList("public_profile", "email")
-        );*/
-
-        // If using in a fragment
-        //login_button.setFragment(this)
-
-        /*login_button.setOnClickListener {
-            if (AccessToken.getCurrentAccessToken() != null) {
-                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-                editor.putString("sesion","null")
-                editor.apply()
-            }
-        }*/
-
-        // Callback registration
-        /*login_button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                // App code
-                Log.w("access",loginResult.accessToken.token)
-                handleFacebookAccessToken(loginResult.accessToken.token)
-            }
-
-            override fun onCancel() {
-                // App code
-                Log.w("access","not works")
-            }
-
-            override fun onError(exception: FacebookException) {
-                // App code
-                Log.w("access","not works eeror"+exception.localizedMessage)
-            }
-        })*/
 
         imageViewClose.setOnClickListener {
             listener!!.sendActivity("")
@@ -355,8 +358,8 @@ class LoginFragment : Fragment() {
                 Toast.makeText(activity, "Google sign in failed:(", Toast.LENGTH_LONG).show()
             }
         }else {
-            progressBarFace.visibility = View.INVISIBLE
-            Facebutton.visibility = View.VISIBLE
+            //progressBarFace.visibility = View.INVISIBLE
+            //Facebutton.visibility = View.VISIBLE
             callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }

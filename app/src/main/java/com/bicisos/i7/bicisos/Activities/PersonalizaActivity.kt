@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.Activities
 
 import android.os.Bundle
+import android.view.Window
 //import android.support.design.widget.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 //import android.support.v7.widget.LinearLayoutManager
@@ -14,6 +15,9 @@ class PersonalizaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_login)
         //setSupportActionBar(toolbar)
 

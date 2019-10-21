@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.content_reportes.*
 import android.app.Activity
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +48,10 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_reportes)
         //toolbar.title = ""
         //setSupportActionBar(toolbar)

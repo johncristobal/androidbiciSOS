@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.Api.ApiClient
@@ -24,6 +25,9 @@ class ContactoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_contacto)
 
         imageViewTwitter.setOnClickListener {

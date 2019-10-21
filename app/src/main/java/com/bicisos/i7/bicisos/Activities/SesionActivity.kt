@@ -6,6 +6,7 @@ import android.net.Uri
 //import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.Fragments.LoginFragment
@@ -28,6 +29,9 @@ class SesionActivity : AppCompatActivity(), LoginFragment.Datalistener, Personal
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_sesion)
 
         val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)

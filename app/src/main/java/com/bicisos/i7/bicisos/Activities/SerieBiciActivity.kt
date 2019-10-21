@@ -7,6 +7,7 @@ import android.os.Bundle
 //import android.support.v7.app.AppCompatActivity;
 import android.util.Log
 import android.view.View
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
@@ -29,6 +30,9 @@ class SerieBiciActivity : AppCompatActivity(), ReportFragment.OnFragmentInteract
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.requestFeature(Window.FEATURE_ACTION_BAR)
+        supportActionBar!!.hide()
+
         setContentView(R.layout.activity_serie_bici)
         //setSupportActionBar(toolbar)
 
