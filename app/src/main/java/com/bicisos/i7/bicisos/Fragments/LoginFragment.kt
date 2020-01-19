@@ -307,6 +307,7 @@ class LoginFragment : Fragment() {
                 //updateUI(user)
             } else {
                 progressBarFace!!.visibility = View.INVISIBLE
+                Facebutton.visibility = View.VISIBLE
                 Facebutton!!.text = "Continuar con facebook"
 
                 // If sign in fails, display a message to the user.
@@ -338,6 +339,7 @@ class LoginFragment : Fragment() {
                 progressBarGoogle!!.visibility = View.INVISIBLE
                 Googlebutton!!.text = "Continuar con google"
                 Toast.makeText(activity!!, "Google sign in failed:(", Toast.LENGTH_LONG).show()
+
             }
         }
     }
@@ -354,6 +356,7 @@ class LoginFragment : Fragment() {
                 firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
                 progressBarGoogle!!.visibility = View.INVISIBLE
+                Googlebutton.visibility = View.VISIBLE
                 Googlebutton!!.text = "Continuar con google"
                 Toast.makeText(activity, "Google sign in failed:(", Toast.LENGTH_LONG).show()
             }
