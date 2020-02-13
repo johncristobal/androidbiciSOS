@@ -410,6 +410,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         */
 
         if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.e("permisos","pidiendo permisos ubicacion...")
             requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
@@ -463,6 +464,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         /*
         Style to map json
          */
+        
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
