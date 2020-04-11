@@ -14,17 +14,22 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import android.R.raw
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.net.Uri
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Activities.SesionActivity
 import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
@@ -56,7 +61,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
@@ -69,6 +74,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var listener: OnFragmentMapListener? = null
 
     public var flagReadMapa = false
+    private var locationManager : LocationManager? = null
 
     companion object {
         val bikers = ArrayList<Biker>()
@@ -101,6 +107,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val v = inflater.inflate(R.layout.fragment_map, container, false)
 
+        locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
+
         val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -111,26 +119,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-
-        /*alertAction.setOnClickListener {
-
-            Thread(Runnable() {
-                run {
-                    val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-
-                    //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude)
-                    val manager = childFragmentManager.beginTransaction()
-                    manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
-                    var alertasFrag = AlertaFragment.newInstance(
-                        0.0,
-                        19.0,
-                        prefs.getString("name", "null")!!
-                    )
-                    manager.add(R.id.containerAlertas, alertasFrag).commit()
-                }
-
-            }).start();
-        }*/
 
         alertAction.setOnClickListener {
 
@@ -154,18 +142,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
                 }
             }
-
-            /*val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-            val manager = childFragmentManager.beginTransaction()
-            manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
-            manager.addSharedElement(alertAction, "alert")
-            manager.addToBackStack(null)
-            var alertasFrag = AlertaFragment.newInstance(
-                lastLocation.latitude,
-                lastLocation.longitude,
-                prefs.getString("name", "null")!!
-            )
-            manager.add(R.id.containerAlertas, alertasFrag).commit()*/
         }
     }
 
@@ -415,6 +391,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             return
         }
 
+        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+        }
+
         mMap.isMyLocationEnabled = true
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
@@ -425,6 +405,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
             }
+        }
+
+        try {
+            // Request location updates
+            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
+        } catch(ex: SecurityException) {
+            Log.d("myTag", "Security Exception, no location available")
         }
 
         mMap.setOnInfoWindowClickListener {
@@ -480,13 +467,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    fun buildAlertMessageNoGps(){
+        val builder = AlertDialog.Builder(activity!!);
+        builder.setMessage("¿Deseas habilitar tu ubicacion para mejorar el funcionamiento de la app?")
+            .setCancelable(false)
+            .setPositiveButton("Si", { dialog, which ->
+                startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            })
+            .setNegativeButton("No", { dialog, which ->
+                dialog.cancel()
+            })
+
+        val alert = builder.create();
+        alert.show();
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         when(requestCode){
             LOCATION_PERMISSION_REQUEST_CODE -> {
-                if(!grantResults.isEmpty() && grantResults[0] !=
-                    PackageManager.PERMISSION_GRANTED){
+                if(!grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(activity!!,"Permiso denegado.",Toast.LENGTH_SHORT).show()
                 }else{
                     setUpMap()
@@ -541,6 +542,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         listenerReports()
         listenerBikers()
     }
+
+    override fun onLocationChanged(location: Location?) {
+
+        Log.e("location", location!!.latitude.toString())
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+    }
+
+    override fun onProviderDisabled(provider: String?) {
+
+    }
+
+
 
     //al abrir app, se manda ubicacion con el bike
     private fun initListenerBike() {
