@@ -590,9 +590,17 @@ class PersonalizaFragment : Fragment() {
                 val options = BitmapFactory.Options()
                 options.inSampleSize = 8
                 val img = BitmapFactory.decodeFile(photoFile!!.path,options)
-                Glide.with(activity!!)
-                    .load(img)
+
+                Picasso.with(activity!!)// .get()
+                    .load(photoFile!!.path)
+                    .resize(img.width, img.height)
+                    //.centerCrop()
                     .into(imageTempView)
+
+                //the best wasy glide
+                /*Glide.with(activity!!)
+                    .load(img)
+                    .into(imageTempView)*/
             } else {
                 Toast.makeText(activity!!, "Selecciona una imagen...",Toast.LENGTH_LONG).show()
             }
@@ -620,8 +628,6 @@ class PersonalizaFragment : Fragment() {
             if (image.exists()) {
                 image.delete()
             }
-
-            //image.createNewFile()
 
             return image
         } catch (e: Exception) {
