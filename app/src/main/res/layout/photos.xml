@@ -39,7 +39,7 @@
                     android:id="@+id/bici1"
                     android:layout_weight="1"
                     android:layout_marginEnd="5dp"
-                    android:tag="0"/>
+                    />
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
@@ -47,7 +47,7 @@
                     android:id="@+id/bici2"
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"
-                    android:tag="1"/>
+                    />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +64,7 @@
                     android:id="@+id/bici3"
                     android:layout_weight="1"
                     android:layout_marginEnd="5dp"
-                    android:tag="2"/>
+                    />
 
             <ImageView
                     android:layout_width="0dp"
@@ -73,7 +73,7 @@
                     android:id="@+id/bici4"
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"
-                    android:tag="3"/>
+                    />
         </LinearLayout>
 
         <Button
