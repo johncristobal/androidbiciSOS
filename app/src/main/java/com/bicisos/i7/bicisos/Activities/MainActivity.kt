@@ -92,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         }
         val task = object : TimerTask() {
             override fun run() {
-
                 val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val sesion = prefs.getString("tutorial","null")
                 if (sesion!!.equals("1")){
