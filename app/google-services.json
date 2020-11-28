@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "896536123930-033nq8h3t1bglkpe1mrfckjmhad1d0sp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bicisos.i7.bicisos",
+            "certificate_hash": "849bec5aad41f26644243fa6b82545c547f8c22b"
+          }
+        },
+        {
           "client_id": "896536123930-7nn5r12echh47oh07ant5otgv9nco0sa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -45,7 +53,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDkQLb_wCc2R_SC_XiHmcrNx-CFNWpnieg"
+          "current_key": "AIzaSyBz8udYk1zhNEw5i93c3V8_-x1favmLBp4"
         }
       ],
       "services": {
