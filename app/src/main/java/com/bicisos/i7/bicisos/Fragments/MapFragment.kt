@@ -578,7 +578,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             val long = lastLocation.longitude
 
             val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(Biker(key, name, bici, lat, long)).addOnSuccessListener {
+            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
                 prefs.edit().putString("enviado", "1").apply()
                 prefs.edit().putString("keySelf", key).apply()
                 //listenerBikers()
@@ -607,7 +607,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             val long = lastLocation.longitude
 
             val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(Biker(key, name, bici, lat, long)).addOnSuccessListener {
+            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
                 prefs.edit().putString("enviado", "1").apply()
                 prefs.edit().putString("keySelf", key).apply()
             }.addOnFailureListener {

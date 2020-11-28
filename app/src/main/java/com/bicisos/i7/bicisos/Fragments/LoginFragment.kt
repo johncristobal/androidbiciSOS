@@ -90,7 +90,7 @@ class LoginFragment : Fragment() {
         fun sendActivity(message: String)
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is Datalistener) {
             listener = context

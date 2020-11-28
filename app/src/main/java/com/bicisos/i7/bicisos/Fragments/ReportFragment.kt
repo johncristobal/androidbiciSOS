@@ -254,74 +254,74 @@ class ReportFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        try {
-            // When an Image is picked
-            var imageEncoded: String
-
-            if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && null != data) {
-                // Get the Image from data
-
-                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                if (data.clipData != null) {
-                    val mClipData = data.clipData
-                    val mArrayUri = ArrayList<Uri>()
-                    for (i in 0 until mClipData!!.itemCount) {
-
-                        val item = mClipData.getItemAt(i)
-                        val uri = item.uri
-                        mArrayUri.add(uri)
-
-                        // Get the cursor
-                        val cursor = activity!!.getContentResolver().query(uri, filePathColumn, null, null, null)
-
-                        // Move to first row
-                        cursor.moveToFirst()
-
-                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                        imageEncoded = cursor.getString(columnIndex)
-                        if (index != -1) {
-                            imagesEncodedList!![index] = imageEncoded
-                        }else{
-                            imagesEncodedList!![i] = (imageEncoded)
-                        }
-                        cursor.close()
-                    }
-
-                    //show view with photos
-                    loadPohots()
-                } else {
-                    if (data.data != null) {
-
-                        val mImageUri = data.data
-
-                        // Get the cursor
-                        val cursor = activity!!.getContentResolver().query(
-                            mImageUri,
-                            filePathColumn, null, null, null
-                        )
-
-                        // Move to first row
-                        cursor.moveToFirst()
-
-                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                        imageEncoded = cursor.getString(columnIndex)
-
-                        if (index != -1) {
-                            imagesEncodedList!![index] = imageEncoded
-                        }else{
-                            imagesEncodedList!![0]=(imageEncoded)
-                        }
-                        cursor.close()
-
-                        loadPohots()
-                    }
-                }
-            } else {
-                Toast.makeText(activity!!, "Selecciona una imagen...", Toast.LENGTH_LONG).show()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(activity!!, "Algo salio mal...", Toast.LENGTH_LONG).show()
-        }
+//        try {
+//            // When an Image is picked
+//            var imageEncoded: String
+//
+//            if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && null != data) {
+//                // Get the Image from data
+//
+//                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+//                if (data.clipData != null) {
+//                    val mClipData = data.clipData
+//                    val mArrayUri = ArrayList<Uri>()
+//                    for (i in 0 until mClipData!!.itemCount) {
+//
+//                        val item = mClipData.getItemAt(i)
+//                        val uri = item.uri
+//                        mArrayUri.add(uri)
+//
+//                        // Get the cursor
+//                        val cursor = activity!!.getContentResolver().query(uri, filePathColumn, null, null, null)
+//
+//                        // Move to first row
+//                        cursor.moveToFirst()
+//
+//                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+//                        imageEncoded = cursor.getString(columnIndex)
+//                        if (index != -1) {
+//                            imagesEncodedList!![index] = imageEncoded
+//                        }else{
+//                            imagesEncodedList!![i] = (imageEncoded)
+//                        }
+//                        cursor.close()
+//                    }
+//
+//                    //show view with photos
+//                    loadPohots()
+//                } else {
+//                    if (data.data != null) {
+//
+//                        val mImageUri = data.data
+//
+//                        // Get the cursor
+//                        val cursor = activity!!.getContentResolver().query(
+//                            mImageUri,
+//                            filePathColumn, null, null, null
+//                        )
+//
+//                        // Move to first row
+//                        cursor.moveToFirst()
+//
+//                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+//                        imageEncoded = cursor.getString(columnIndex)
+//
+//                        if (index != -1) {
+//                            imagesEncodedList!![index] = imageEncoded
+//                        }else{
+//                            imagesEncodedList!![0]=(imageEncoded)
+//                        }
+//                        cursor.close()
+//
+//                        loadPohots()
+//                    }
+//                }
+//            } else {
+//                Toast.makeText(activity!!, "Selecciona una imagen...", Toast.LENGTH_LONG).show()
+//            }
+//        } catch (e: Exception) {
+//            Toast.makeText(activity!!, "Algo salio mal...", Toast.LENGTH_LONG).show()
+//        }
 
         super.onActivityResult(requestCode, resultCode, data)
     }

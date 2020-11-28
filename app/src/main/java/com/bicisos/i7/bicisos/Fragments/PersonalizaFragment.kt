@@ -452,154 +452,154 @@ class PersonalizaFragment : Fragment() {
 
 //CODE - onactivityresult ==========================================================================
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        try {
-            var imageEncoded: String = ""
-            if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
-                // Get the Image from data
-
-                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                if (data.clipData != null) {
-                    //val mClipData = data.clipData
-                    val mImageUri = data.clipData.getItemAt(0).uri
-
-                    // Get the cursor
-                    val cursor = activity!!.getContentResolver().query(
-                        mImageUri,
-                        filePathColumn, null, null, null
-                    )
-
-                    // Move to first row
-                    cursor.moveToFirst()
-
-                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                    imageEncoded = cursor.getString(columnIndex)
-
-                    if (index != -1) {
-                        imagesEncodedList!![index] = imageEncoded
-                    }else{
-                        imagesEncodedList!![0]=(imageEncoded)
-                    }
-                    cursor.close()
-                    /*val mArrayUri = ArrayList<Uri>()
-                    for (i in 0 until mClipData!!.itemCount) {
-
-                        val item = mClipData.getItemAt(i)
-                        val uri = item.uri
-                        mArrayUri.add(uri)
-
-                        // Get the cursor
-                        val cursor = activity!!.getContentResolver().query(uri, filePathColumn, null, null, null)
-
-                        // Move to first row
-                        cursor.moveToFirst()
-
-                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                        imageEncoded = cursor.getString(columnIndex)
-                        if (index != -1) {
-                            imagesEncodedList!![index] = imageEncoded
-                        }else{
-                            imagesEncodedList!![i] = (imageEncoded)
-                        }
-                        cursor.close()
-                    }*/
-
-                    Glide.with(activity!!)
-                        .load(imageEncoded)
-                        .into(imageTempView)
-
-                } else {
-                    if (data.data != null) {
-
-                        val mImageUri = data.data
-
-                        // Get the cursor
-                        val cursor = activity!!.getContentResolver().query(
-                            mImageUri,
-                            filePathColumn, null, null, null
-                        )
-
-                        // Move to first row
-                        cursor.moveToFirst()
-
-                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                        imageEncoded = cursor.getString(columnIndex)
-
-                        if (index != -1) {
-                            imagesEncodedList!![index] = imageEncoded
-                        }else{
-                            imagesEncodedList!![0]=(imageEncoded)
-                        }
-                        cursor.close()
-
-                        imagesEncodedList!![index] = imageEncoded
-                        Glide.with(activity!!)
-                            .load(mImageUri)
-                            .into(imageTempView)
-                    }
-                }
-            } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
-                // Get the Image from camera
-                //val prefs= activity!!.getSharedPreferences(getString(R.string.preferences), android.content.Context.MODE_PRIVATE)
-                //val filePath = prefs.getString("nombrefotofrontal","null") //mCurrentPhotoPath
-                val options = BitmapFactory.Options()
-                options.inSampleSize = 8
-                val bitmap = BitmapFactory.decodeFile(photoFile!!.path,options)
-
-                val ei = ExifInterface(photoFile!!.path)
-                val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
-
-                var rotatedBitmap : Bitmap? = null;
-                when(orientation) {
-
-                    ExifInterface.ORIENTATION_ROTATE_90 -> {
-                        rotatedBitmap = rotateImage(bitmap, 90.0F)
-                    }
-
-                    ExifInterface.ORIENTATION_ROTATE_180 -> {
-                        rotatedBitmap = rotateImage(bitmap, 180.0f)
-                    }
-
-                    ExifInterface.ORIENTATION_ROTATE_270 -> {
-                        rotatedBitmap = rotateImage(bitmap, 270.0f)
-                    }
-
-                    ExifInterface.ORIENTATION_NORMAL -> {
-                        rotatedBitmap = bitmap
-                    }
-                    else -> {
-                        rotatedBitmap = bitmap;
-                    }
-                }
-
-                try {
-                    val time = Time()
-                    time.setToNow()
-                    val nametine = java.lang.Long.toString(time.toMillis(false))
-
-                    val photoRotated = createImageFile(nametine)
-                    val out = FileOutputStream(photoRotated)
-                    rotatedBitmap!!.compress(Bitmap.CompressFormat.PNG, 100, out);
-                    imagesEncodedList!![index] = photoRotated!!.absolutePath
-                }catch (e: Exception){
-                    e.printStackTrace()
-                    imagesEncodedList!![index] = photoFile!!.absolutePath
-                }
-
-                //the best wasy glide
-                Glide.with(activity!!)
-                    .load(rotatedBitmap)
-                    .into(imageTempView)
-
-
-            } else {
-                Toast.makeText(activity!!, "Selecciona una imagen...",Toast.LENGTH_LONG).show()
-            }
-        }
-
-    catch (e: Exception) {
-            Toast.makeText(activity!!, "Algo salio mal...", Toast.LENGTH_LONG).show()
-            e.printStackTrace()
-        }
+//        try {
+//            var imageEncoded: String = ""
+//            if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
+//                // Get the Image from data
+//
+//                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+//                if (data.clipData != null) {
+//                    //val mClipData = data.clipData
+//                    val mImageUri = data.clipData.getItemAt(0).uri
+//
+//                    // Get the cursor
+//                    val cursor = activity!!.getContentResolver().query(
+//                        mImageUri,
+//                        filePathColumn, null, null, null
+//                    )
+//
+//                    // Move to first row
+//                    cursor.moveToFirst()
+//
+//                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+//                    imageEncoded = cursor.getString(columnIndex)
+//
+//                    if (index != -1) {
+//                        imagesEncodedList!![index] = imageEncoded
+//                    }else{
+//                        imagesEncodedList!![0]=(imageEncoded)
+//                    }
+//                    cursor.close()
+//                    /*val mArrayUri = ArrayList<Uri>()
+//                    for (i in 0 until mClipData!!.itemCount) {
+//
+//                        val item = mClipData.getItemAt(i)
+//                        val uri = item.uri
+//                        mArrayUri.add(uri)
+//
+//                        // Get the cursor
+//                        val cursor = activity!!.getContentResolver().query(uri, filePathColumn, null, null, null)
+//
+//                        // Move to first row
+//                        cursor.moveToFirst()
+//
+//                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+//                        imageEncoded = cursor.getString(columnIndex)
+//                        if (index != -1) {
+//                            imagesEncodedList!![index] = imageEncoded
+//                        }else{
+//                            imagesEncodedList!![i] = (imageEncoded)
+//                        }
+//                        cursor.close()
+//                    }*/
+//
+//                    Glide.with(activity!!)
+//                        .load(imageEncoded)
+//                        .into(imageTempView)
+//
+//                } else {
+//                    if (data.data != null) {
+//
+//                        val mImageUri = data.data
+//
+//                        // Get the cursor
+//                        val cursor = activity!!.getContentResolver().query(
+//                            mImageUri,
+//                            filePathColumn, null, null, null
+//                        )
+//
+//                        // Move to first row
+//                        cursor.moveToFirst()
+//
+//                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+//                        imageEncoded = cursor.getString(columnIndex)
+//
+//                        if (index != -1) {
+//                            imagesEncodedList!![index] = imageEncoded
+//                        }else{
+//                            imagesEncodedList!![0]=(imageEncoded)
+//                        }
+//                        cursor.close()
+//
+//                        imagesEncodedList!![index] = imageEncoded
+//                        Glide.with(activity!!)
+//                            .load(mImageUri)
+//                            .into(imageTempView)
+//                    }
+//                }
+//            } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
+//                // Get the Image from camera
+//                //val prefs= activity!!.getSharedPreferences(getString(R.string.preferences), android.content.Context.MODE_PRIVATE)
+//                //val filePath = prefs.getString("nombrefotofrontal","null") //mCurrentPhotoPath
+//                val options = BitmapFactory.Options()
+//                options.inSampleSize = 8
+//                val bitmap = BitmapFactory.decodeFile(photoFile!!.path,options)
+//
+//                val ei = ExifInterface(photoFile!!.path)
+//                val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED)
+//
+//                var rotatedBitmap : Bitmap? = null;
+//                when(orientation) {
+//
+//                    ExifInterface.ORIENTATION_ROTATE_90 -> {
+//                        rotatedBitmap = rotateImage(bitmap, 90.0F)
+//                    }
+//
+//                    ExifInterface.ORIENTATION_ROTATE_180 -> {
+//                        rotatedBitmap = rotateImage(bitmap, 180.0f)
+//                    }
+//
+//                    ExifInterface.ORIENTATION_ROTATE_270 -> {
+//                        rotatedBitmap = rotateImage(bitmap, 270.0f)
+//                    }
+//
+//                    ExifInterface.ORIENTATION_NORMAL -> {
+//                        rotatedBitmap = bitmap
+//                    }
+//                    else -> {
+//                        rotatedBitmap = bitmap;
+//                    }
+//                }
+//
+//                try {
+//                    val time = Time()
+//                    time.setToNow()
+//                    val nametine = java.lang.Long.toString(time.toMillis(false))
+//
+//                    val photoRotated = createImageFile(nametine)
+//                    val out = FileOutputStream(photoRotated)
+//                    rotatedBitmap!!.compress(Bitmap.CompressFormat.PNG, 100, out);
+//                    imagesEncodedList!![index] = photoRotated!!.absolutePath
+//                }catch (e: Exception){
+//                    e.printStackTrace()
+//                    imagesEncodedList!![index] = photoFile!!.absolutePath
+//                }
+//
+//                //the best wasy glide
+//                Glide.with(activity!!)
+//                    .load(rotatedBitmap)
+//                    .into(imageTempView)
+//
+//
+//            } else {
+//                Toast.makeText(activity!!, "Selecciona una imagen...",Toast.LENGTH_LONG).show()
+//            }
+//        }
+//
+//    catch (e: Exception) {
+//            Toast.makeText(activity!!, "Algo salio mal...", Toast.LENGTH_LONG).show()
+//            e.printStackTrace()
+//        }
 
         super.onActivityResult(requestCode, resultCode, data)
     }
