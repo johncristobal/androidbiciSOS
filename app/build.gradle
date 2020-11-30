@@ -6,8 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     signingConfigs {
-        rele {
-            storeFile file('/Users/john.cristobal/Documents/sosciclistarele')
+        release {
+            storeFile file('/Users/macbook/Documents/sosciclistarele')
             storePassword 'sosciclista'
             keyAlias = 'sosciclista'
             keyPassword 'sosciclista'
@@ -27,6 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
