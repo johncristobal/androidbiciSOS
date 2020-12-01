@@ -77,7 +77,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     private var locationManager : LocationManager? = null
 
     companion object {
-        val bikers = ArrayList<Biker>()
+        //val bikers = ArrayList<Biker>()
         val reportes = ArrayList<Report>()
         val stringIds = ArrayList<String>()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -238,7 +238,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             }
         })
     }
-
+    /*
     private fun listenerBikers() {
         //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
 
@@ -320,6 +320,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             }
         })
     }
+    */
 
     override fun onResume() {
         super.onResume()
@@ -540,7 +541,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         setUpMap()
         setTalleres()
         listenerReports()
-        listenerBikers()
+        //listenerBikers()
     }
 
     override fun onLocationChanged(location: Location?) {
@@ -622,6 +623,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         Log.w("tag","info from main")
 
         listenerReports()
-        listenerBikers()
+        //listenerBikers()
     }
 }

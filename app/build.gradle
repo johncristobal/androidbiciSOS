@@ -4,10 +4,12 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/macbook/Documents/sosciclistarele')
+            storeFile file('/Users/jcristobalj/Documents/sosciclistarele')
             storePassword 'sosciclista'
             keyAlias = 'sosciclista'
             keyPassword 'sosciclista'
@@ -47,6 +49,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
 
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
+    // Firebase Cloud Messaging (Java)
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.google.firebase:firebase-installations-ktx:16.3.3'
+    implementation 'android.arch.work:work-runtime:1.0.1'
+
     implementation 'com.google.firebase:firebase-core:18.0.0'
     implementation 'com.google.firebase:firebase-auth:20.0.1'
     implementation 'com.google.firebase:firebase-database:19.5.1'
@@ -72,4 +82,3 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
 }
 
-apply plugin: 'com.google.gms.google-services'
