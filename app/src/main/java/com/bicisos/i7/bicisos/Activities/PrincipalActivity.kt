@@ -104,8 +104,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             // Get new FCM registration token
             val token = task.result
 
-            // Log and toast
-            Toast.makeText(baseContext, token, Toast.LENGTH_SHORT).show()
+
         })
     }
 

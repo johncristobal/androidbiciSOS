@@ -319,13 +319,17 @@ class LoginFragment : Fragment() {
             // ...
         }
     }
-
+    //IxaVxtokczUwYHRUvcsO6Zsi2g23
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
 
                 val user = auth.currentUser
+                if (user != null) {
+                    val token = user.uid
+                    Log.w("token to document", token)
+                }
                 //Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
                 val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","1")
@@ -339,7 +343,6 @@ class LoginFragment : Fragment() {
                 progressBarGoogle!!.visibility = View.INVISIBLE
                 Googlebutton!!.text = "Continuar con google"
                 Toast.makeText(activity!!, "Google sign in failed:(", Toast.LENGTH_LONG).show()
-
             }
         }
     }
