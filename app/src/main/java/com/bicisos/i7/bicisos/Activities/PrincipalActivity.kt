@@ -13,6 +13,8 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import com.bicisos.i7.bicisos.Fragments.*
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.Model.Biker
@@ -103,9 +105,19 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
             // Get new FCM registration token
             val token = task.result
-
-
         })
+
+        alertAction.setOnClickListener {
+            Log.w("tag","show alert dialog")
+            val intent = Intent(this, AlertActivity::class.java)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                alertAction,
+                ViewCompat.getTransitionName(alertAction)!!
+            )
+
+            startActivity(intent, options.toBundle())
+        }
     }
 
     override fun onBackPressed() {
@@ -285,14 +297,10 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         //alertAction.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
 
-        if(message.equals("listo")){
-            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
-        }
-        /*
-            en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
-            mostrar el loading
-            y un mini alert con que diga alerta enviada => ok (no se si toooodo el fragment, pero podria ser, en el containerAlertas)
-         */
+//        if(message.equals("listo")){
+//            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+//        }
+
     }
 
     override fun onFragmentInteractionCiclovia(message: String) {
@@ -301,9 +309,9 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         //openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
 
-        if(message.equals("enviado")){
-            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
-        }
+//        if(message.equals("enviado")){
+//            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+//        }
 
         /*
             en vez de lanzar que feu enviado el reporte, cargar mapa con reportes otra vbaez y no hacer el listener
@@ -339,18 +347,18 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
     override fun onFragmentInteractionDetalles(message: String) {
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
-        if(message.equals("listo")){
-            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
-        }
+//        if(message.equals("listo")){
+//            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+//        }
     }
 
     override fun onFragmentInteraction(message: String) {
         //reload data to show new report on recyclerview
         //openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
-        if(message.equals("listo")){
-            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
-        }
+//        if(message.equals("listo")){
+//            supportFragmentManager.beginTransaction().add(R.id.containerAlertasFinal,finalReportFrag).commit()
+//        }
     }
 
     override fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View, opt: String) {

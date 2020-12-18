@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "896536123930-hkusd4n2q3c4b08fm2ne6v5hqvkshq6e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bicisos.i7.bicisos",
+            "certificate_hash": "675e93c7a7b2e547a8f9365a112246add4ea7115"
+          }
+        },
+        {
           "client_id": "896536123930-tns8ljkm2i44sqpgp6dfnvfii0tudtcn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -39,11 +47,11 @@
           }
         },
         {
-          "client_id": "896536123930-hkusd4n2q3c4b08fm2ne6v5hqvkshq6e.apps.googleusercontent.com",
+          "client_id": "896536123930-urso97v5qngkqsf3gos084ptr7gkbv4j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bicisos.i7.bicisos",
-            "certificate_hash": "675e93c7a7b2e547a8f9365a112246add4ea7115"
+            "certificate_hash": "f723830f25ca5a34c246e6cb003e6746d9cc1fe5"
           }
         },
         {

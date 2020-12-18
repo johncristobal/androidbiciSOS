@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.bicisos.i7.bicisos">
+        package="com.bicisos.i7.bicisos">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
+         location permissions for the 'MyLocation' functionality.
+         896536123930-urso97v5qngkqsf3gos084ptr7gkbv4j.apps.googleusercontent.com
     -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera"
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+            android:name="android.hardware.camera"
             android:required="true" />
 
     <application
@@ -22,58 +25,52 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Activities.TutorialActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity android:name=".Activities.AlertActivity"></activity>
+        <activity
+                android:name=".Activities.TutorialActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
                 android:name=".Activities.AcercaActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:theme="@style/AppTheme"></activity>
         <activity
                 android:name=".Activities.ContactoActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:theme="@style/AppTheme"></activity>
         <activity
                 android:name=".Activities.DetalleTipActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:theme="@style/AppTheme"></activity>
         <activity
                 android:name=".Activities.TipsActivity"
-                android:screenOrientation="portrait"
                 android:label="@string/title_activity_tips"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme"></activity>
         <activity
                 android:name=".Activities.SerieBiciActivity"
-                android:screenOrientation="portrait"
                 android:label="@string/title_activity_serie_bici"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme"></activity>
         <activity
                 android:name=".Activities.RoboBiciActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:theme="@style/AppTheme"></activity>
         <activity
                 android:name=".Activities.MainActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
                 android:name=".Activities.PrincipalActivity"
-                android:screenOrientation="portrait"
                 android:label="@string/title_activity_principal"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme"></activity>
         <!--
              app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
@@ -86,50 +83,47 @@
         -->
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_maps_key"/>
+                android:value="@string/google_maps_key" />
         <meta-data
                 android:name="preloaded_fonts"
-                android:resource="@array/preloaded_fonts"/>
+                android:resource="@array/preloaded_fonts" />
 
         <activity
                 android:name=".Activities.ReportesActivity"
-                android:screenOrientation="portrait"
                 android:label="@string/title_activity_reportes"
+                android:screenOrientation="portrait"
                 android:theme="@style/AppTheme"
-                android:windowSoftInputMode="stateHidden">
-        </activity>
+                android:windowSoftInputMode="stateHidden"></activity>
         <activity
                 android:name=".Activities.PersonalizaActivity"
-                android:screenOrientation="portrait"
                 android:label="@string/title_activity_login"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:screenOrientation="portrait"
+                android:theme="@style/AppTheme"></activity>
 
         <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
-                android:value="@string/facebook_app_id"/>
+                android:value="@string/facebook_app_id" />
 
         <activity
                 android:name="com.facebook.FacebookActivity"
                 android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-                android:label="@string/app_name"/>
+                android:label="@string/app_name" />
         <activity
                 android:name="com.facebook.CustomTabActivity"
                 android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/fb_login_protocol_scheme"/>
+                <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
         <activity
                 android:name=".Activities.SesionActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme">
-        </activity>
+                android:theme="@style/AppTheme"></activity>
 
         <provider
                 android:name="androidx.core.content.FileProvider"
@@ -152,7 +146,6 @@
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
                 android:value="@string/default_notification_channel_id" />
-
     </application>
 
 </manifest>

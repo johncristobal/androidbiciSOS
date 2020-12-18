@@ -41,6 +41,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -119,7 +121,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
+        //auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
         callbackManager = CallbackManager.Factory.create()
         //var loginManager: LoginManager
 
@@ -340,7 +343,10 @@ class LoginFragment : Fragment() {
                 listener!!.sendActivity("login")
                 //startActivity(HomeActivity.getLaunchIntent(this))
             } else {
+                Log.e("errro to login", it.exception.toString())
+
                 progressBarGoogle!!.visibility = View.INVISIBLE
+                Googlebutton.visibility = View.VISIBLE
                 Googlebutton!!.text = "Continuar con google"
                 Toast.makeText(activity!!, "Google sign in failed:(", Toast.LENGTH_LONG).show()
             }
@@ -354,7 +360,7 @@ class LoginFragment : Fragment() {
         if (requestCode == RC_SIGN_IN) {
             //progressBarGoogle.visibility = View.INVISIBLE
             //Googlebutton.visibility = View.VISIBLE
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account!!)

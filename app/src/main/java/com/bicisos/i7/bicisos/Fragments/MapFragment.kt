@@ -120,29 +120,29 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
-        alertAction.setOnClickListener {
-
-            if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-
-            }else {
-                try {
-                    if (lastLocation != null) {
-                        listener?.onFragmentInteractionMap(
-                            lastLocation.latitude,
-                            lastLocation.longitude,
-                            alertAction,
-                            "0"
-                        )
-                    } else {
-                        listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
-                    }
-                } catch (e: java.lang.Exception) {
-
-                    listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
-                }
-            }
-        }
+//        alertAction.setOnClickListener {
+//
+//            if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+//
+//            }else {
+//                try {
+//                    if (lastLocation != null) {
+//                        listener?.onFragmentInteractionMap(
+//                            lastLocation.latitude,
+//                            lastLocation.longitude,
+//                            alertAction,
+//                            "0"
+//                        )
+//                    } else {
+//                        listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
+//                    }
+//                } catch (e: java.lang.Exception) {
+//
+//                    listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
+//                }
+//            }
+//        }
     }
 
     private fun listenerReports(){
@@ -519,7 +519,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
                             .replace(R.id.containerAlertas,detailtFrag)
                             .commit()
 
-                        listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
+                        //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
 
                         //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
                         return true
