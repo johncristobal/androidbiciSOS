@@ -3,10 +3,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:background="@drawable/backinput"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragments.AlertBottomFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/backinput"
+            android:layout_height="match_parent">
 
     <ImageView
             android:src="@drawable/backalerta"
@@ -20,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
+    <!--TextView
             android:text="Cerrar"
             android:layout_width="120dp"
             android:gravity="center"
@@ -32,7 +37,7 @@
             android:background="@color/naranja"
             app:layout_constraintTop_toTopOf="@+id/imageView5"
             app:layout_constraintEnd_toEndOf="@+id/imageView5"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"/>
+            app:layout_constraintStart_toStartOf="@+id/imageView5"/-->
 
     <ImageView
             android:id="@+id/imageViewAveria"
@@ -103,5 +108,5 @@
             app:layout_constraintEnd_toStartOf="@+id/imageViewCiclovia"
             app:layout_constraintStart_toEndOf="@+id/imageViewHelp"
             app:layout_constraintTop_toBottomOf="@+id/imageViewCiclovia" />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
