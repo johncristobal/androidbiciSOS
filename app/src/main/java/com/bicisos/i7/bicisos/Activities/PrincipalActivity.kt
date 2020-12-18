@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import com.bicisos.i7.bicisos.Fragments.*
@@ -28,6 +29,7 @@ import com.facebook.FacebookCallback
 import com.facebook.login.LoginManager
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -36,6 +38,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.android.synthetic.main.fragment_alerta.*
 import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
@@ -46,6 +49,8 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
     var alertasFrag = AlertaFragment()
     var finalReportFrag = FinalReporteFragment.newInstance("","")
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +58,32 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         supportActionBar!!.hide()
 
         setContentView(R.layout.activity_principal)
+
+        bottomSheetBehavior = BottomSheetBehavior.from<ConstraintLayout>(persistent_bottom_sheet)
+        bottomSheetBehavior.setBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, state: Int) {
+                print(state)
+                when (state) {
+
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        //persistentBtn.text = "Show Bottom Sheet"
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> { }
+                        //persistentBtn.text = "Close Bottom Sheet"
+                    BottomSheetBehavior.STATE_COLLAPSED -> { }
+                        //persistentBtn.text = "Show Bottom Sheet"
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                    }
+                    BottomSheetBehavior.STATE_SETTLING -> {
+                    }
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+
+                    }
+                }
+            }
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+        })
 
         /*toolbar.title = ""
         //toolbar.setBackgroundColor(Color.TRANSPARENT)
@@ -115,8 +146,22 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                 alertAction,
                 ViewCompat.getTransitionName(alertAction)!!
             )
-
             startActivity(intent, options.toBundle())
+            //expandCollapseSheet()
+
+            //val modalbottomSheetFragment = AlertBottomFragment()
+            //modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
+        }
+    }
+
+
+    private fun expandCollapseSheet() {
+        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            //persistentBtn.text = "Close Bottom Sheet"
+        } else {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            //persistentBtn.text = "Show Bottom Sheet"
         }
     }
 

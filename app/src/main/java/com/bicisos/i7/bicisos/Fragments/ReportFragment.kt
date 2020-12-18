@@ -113,7 +113,6 @@ class ReportFragment : Fragment() {
             }else{
                 childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
             }
-
         }
 
         buttonReportar.setOnClickListener {
