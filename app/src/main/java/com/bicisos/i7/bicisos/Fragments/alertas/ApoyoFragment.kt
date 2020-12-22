@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import com.bicisos.i7.bicisos.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_apoyo.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +29,7 @@ private const val ARG_PARAM3 = "name"
  *
  */
 
-class ApoyoFragment : Fragment() {
+class ApoyoFragment : BottomSheetDialogFragment() {
     // TODO: Rename and change types of parameters
     private var latitude: Double? = null
     private var longitude: Double? = null

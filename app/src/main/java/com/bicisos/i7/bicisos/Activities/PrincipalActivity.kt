@@ -154,7 +154,6 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         }
     }
 
-
     private fun expandCollapseSheet() {
         if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED

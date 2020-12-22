@@ -13,6 +13,7 @@ import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_averia.*
 import kotlinx.android.synthetic.main.fragment_averia.view.*
@@ -34,7 +35,7 @@ private const val ARG_PARAM3 = "name"
  * create an instance of this fragment.
  *
  */
-class AveriaFragment : Fragment() {
+class AveriaFragment : BottomSheetDialogFragment() {
     // TODO: Rename and change types of parameters
     private var latitude: Double? = null
     private var longitude: Double? = null
@@ -59,7 +60,8 @@ class AveriaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonRegresar.setOnClickListener {
-            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            dismiss()
         }
 
         buttonEnviar.setOnClickListener {

@@ -22,5 +22,4 @@ class AlertBottomFragment : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_alert_bottom, container, false)
     }
-
 }
