@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.Fragments
 
 
+import android.Manifest
 import android.os.Bundle
 //import androidx.core.app.Fragment
 import android.view.LayoutInflater
@@ -84,8 +85,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     }
 
     interface OnFragmentMapListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View, opt: String)
+        fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View?, opt: String)
     }
 
     override fun onAttach(context: Context) {
@@ -103,7 +103,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
 
         val v = inflater.inflate(R.layout.fragment_map, container, false)
 
@@ -119,6 +118,28 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+
+//        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+//        }else {
+//            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+
+//            try {
+//                if (lastLocation != null) {
+//                    listener?.onFragmentInteractionMap(
+//                        lastLocation.latitude,
+//                        lastLocation.longitude,
+//                        view,
+//                        "0"
+//                    )
+//                } else {
+//                    listener?.onFragmentInteractionMap(99.0, 99.0, view, "0")
+//                }
+//            } catch (e: java.lang.Exception) {
+//
+//                listener?.onFragmentInteractionMap(99.0, 99.0, view, "0")
+//            }
+        }
 
 //        alertAction.setOnClickListener {
 //
@@ -143,7 +164,18 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 //                }
 //            }
 //        }
-    }
+//    }
+
+//    private val locationListener: LocationListener = object : LocationListener {
+//        override fun onLocationChanged(location: Location) {
+//            Log.w("TAG LOCATION",  ""+ location.longitude + ":" + location.latitude + "")
+//            lastLocation = location
+//            listener?.onFragmentInteractionMap(location.latitude, location.longitude, null, "0")
+//        }
+//        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+//        override fun onProviderEnabled(provider: String) {}
+//        override fun onProviderDisabled(provider: String) {}
+//    }
 
     private fun listenerReports(){
         //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
@@ -238,6 +270,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             }
         })
     }
+
     /*
     private fun listenerBikers() {
         //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -381,16 +414,21 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     private fun setUpMap() {
 
-        /*
-            Nota Kotlin
-            Checa como usar checkSelfPermission y requestPermissions...no usa ActivityCompat
-        */
-
-        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("permisos","pidiendo permisos ubicacion...")
-            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ), LOCATION_PERMISSION_REQUEST_CODE
+            )
             return
         }
+//
+//        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            Log.e("permisos","pidiendo permisos ubicacion...")
+//            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+//            return
+//        }
 
         if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -547,6 +585,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     override fun onLocationChanged(location: Location?) {
 
         Log.e("location", location!!.latitude.toString())
+        lastLocation = location
+        listener?.onFragmentInteractionMap(location.latitude, location.longitude, null, "0")
+
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {

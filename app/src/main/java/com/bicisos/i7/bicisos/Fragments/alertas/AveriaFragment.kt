@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Report
 
@@ -49,6 +50,7 @@ class AveriaFragment : BottomSheetDialogFragment() {
             longitude = it.getDouble(ARG_PARAM2)
             name = it.getString(ARG_PARAM3)
         }
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -69,6 +71,9 @@ class AveriaFragment : BottomSheetDialogFragment() {
             if (editTextAveria.text.toString().equals("")){
                 Toast.makeText(activity!!,"Describe tu averia...",Toast.LENGTH_SHORT).show()
             }else {
+                buttonEnviar.visibility = View.INVISIBLE
+                loadingBarAv.visibility = View.VISIBLE
+
                 val fecha = Date()
                 val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
                 val dateFinal = stringfecha.format(fecha)
@@ -87,10 +92,21 @@ class AveriaFragment : BottomSheetDialogFragment() {
 
                 val key = bikersRef.push().key
                 bikersRef.child(key!!).setValue(Report(key, name!!, serie!!, editTextAveria.text.toString(), 1,dateFinal,"sinfotos", bici, lat!!, long!!)).addOnSuccessListener {
-                    listener?.onFragmentAveria("listo")
-                    //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+
+                    buttonEnviar.visibility = View.VISIBLE
+                    loadingBarAv.visibility = View.INVISIBLE
+
+                    containerOkAv.visibility = View.VISIBLE
+                    viewDataSendAv.visibility = View.INVISIBLE
+                    childFragmentManager.beginTransaction().replace(R.id.containerOkAv,FinalReporteFragment.newInstance("","")).commit()
+
                 }.addOnFailureListener {
                     Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+
+                    buttonEnviar.visibility = View.VISIBLE
+                    loadingBarAv.visibility = View.INVISIBLE
+
+                    Toast.makeText(activity!!,"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
                 }
             }
         }

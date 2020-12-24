@@ -3,6 +3,7 @@ package com.bicisos.i7.bicisos.Activities
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 //import android.support.design.widget.NavigationView
@@ -50,6 +51,10 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
     var finalReportFrag = FinalReporteFragment.newInstance("","")
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var lastLocation: Location
+
+    private var longitud: Double = 0.0
+    private var latitud: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +108,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         supportFragmentManager.beginTransaction().add(R.id.container,mapFragment).commit()
 
         val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-        val sesion = prefs.getString("sesion","null")
+        var sesion = prefs.getString("sesion","null")
         val nombre = prefs.getString("nombre","null")
         if (sesion!!.equals("1")){
             //ocultar iniciar sesion
@@ -139,14 +144,25 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         })
 
         alertAction.setOnClickListener {
-            Log.w("tag","show alert dialog")
-            val intent = Intent(this, AlertActivity::class.java)
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this,
-                alertAction,
-                ViewCompat.getTransitionName(alertAction)!!
-            )
-            startActivity(intent, options.toBundle())
+
+            sesion = prefs.getString("sesion","null")
+            if (sesion.equals("1")) {
+                val intent = Intent(this, AlertActivity::class.java)
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this,
+                    alertAction,
+                    ViewCompat.getTransitionName(alertAction)!!
+                )
+
+                intent.putExtra("latitud", latitud)
+                intent.putExtra("longitud", longitud)
+                intent.putExtra("name", getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).getString("nombre",""))
+
+                startActivity(intent, options.toBundle())
+            } else {
+                alertaIniciarSesion()
+            }
+
             //expandCollapseSheet()
 
             //val modalbottomSheetFragment = AlertBottomFragment()
@@ -405,24 +421,29 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 //        }
     }
 
-    override fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View, opt: String) {
+    override fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View?, opt: String) {
 
-        if(opt.equals("menu")){
-            openMenu.visibility = View.INVISIBLE
-        }else {
-            val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-            val sesion = prefs.getString("sesion", "null")
-            if (sesion!!.equals("1")) {
-                openMenu.visibility = View.INVISIBLE
-                val manager = supportFragmentManager.beginTransaction()
-                manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
-                manager.addSharedElement(sharedElement, "alert")
-                alertasFrag = AlertaFragment.newInstance(latitud, longitud, prefs.getString("name", "null")!!)
-                manager.add(R.id.containerAlertas, alertasFrag).commit()
-            } else {
-                alertaIniciarSesion()
-            }
-        }
+        Log.e("tag location main", ""+ latitud +" "+longitud)
+
+        this.longitud = longitud
+        this.latitud = latitud
+
+//        if(opt.equals("menu")){
+//            openMenu.visibility = View.INVISIBLE
+//        }else {
+//            val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+//            val sesion = prefs.getString("sesion", "null")
+//            if (sesion!!.equals("1")) {
+//                openMenu.visibility = View.INVISIBLE
+//                val manager = supportFragmentManager.beginTransaction()
+//                manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
+//                manager.addSharedElement(sharedElement, "alert")
+//                alertasFrag = AlertaFragment.newInstance(latitud, longitud, prefs.getString("name", "null")!!)
+//                manager.add(R.id.containerAlertas, alertasFrag).commit()
+//            } else {
+//                alertaIniciarSesion()
+//            }
+//        }
     }
 
     fun alertaIniciarSesion(){
