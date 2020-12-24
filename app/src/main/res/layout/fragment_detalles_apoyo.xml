@@ -5,13 +5,23 @@
          xmlns:app="http://schemas.android.com/apk/res-auto"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
-         android:background="#BB000000"
          tools:context=".Fragments.alertas.DetallesApoyoFragment">
 
+    <FrameLayout
+            android:id="@+id/containerOkApo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"/>
+
     <LinearLayout
+            android:id="@+id/viewDataSendApo"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +33,6 @@
                 android:text="Proporciona los siguientes datos:\n • Lugar • Fecha • Hora • Motivo"
                 android:layout_width="match_parent"
                 android:gravity="center"
-                android:textColor="@color/blanco"
                 android:fontFamily="@font/roboto"
                 android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
@@ -46,33 +55,56 @@
                 android:singleLine="false"
                 android:fontFamily="@font/roboto"/>
 
+
+    <LinearLayout
+            android:id="@+id/loadingViewApoyo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+        <ProgressBar
+                android:id="@+id/loadingBarAv"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextAveria" />
+
+    </LinearLayout>
+
         <LinearLayout
+                android:id="@+id/buttonsSendDataApoyo"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_height="wrap_content">
+                android:gravity="center"
+                android:visibility="visible"
+                android:orientation="horizontal">
 
             <Button
+                    android:id="@+id/buttonRegresar"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/backbrown"
                     android:text="Regresar"
-                    android:layout_gravity="end"
-                    android:layout_width="120dp"
-                    android:textColor="@color/amarillo"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/backbrown"
-                    android:layout_height="30dp"
-                    android:id="@+id/buttonRegresar"/>
+                    android:textColor="@color/amarillo" />
 
             <Button
-                    android:text="Enviar"
-                    android:layout_gravity="end"
-                    android:layout_width="120dp"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/amarillo"
-                    android:background="@drawable/backbrown"
-                    android:layout_height="30dp"
                     android:id="@+id/buttonEnviar"
-                    android:layout_marginTop="18dp"/>
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/backbrown"
+                    android:text="Enviar"
+                    android:textColor="@color/amarillo" />
         </LinearLayout>
     </LinearLayout>
 

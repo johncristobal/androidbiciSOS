@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
@@ -58,15 +59,17 @@ class DetallesApoyoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonRegresar.setOnClickListener {
-            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            childFragmentManager.popBackStack()
         }
-
 
         buttonEnviar.setOnClickListener {
             Log.w("vamonos", "Adios fragment apoyo")
             if (editTextDesc.text.toString().equals("")) {
                 Toast.makeText(activity!!, "Describe tu apoyo...", Toast.LENGTH_SHORT).show()
             } else {
+                buttonsSendDataApoyo.visibility = View.GONE
+                loadingViewApoyo.visibility = View.VISIBLE
+
                 val fecha = Date()
                 val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
                 val dateFinal = stringfecha.format(fecha)
@@ -98,14 +101,23 @@ class DetallesApoyoFragment : Fragment() {
                         long!!
                     )
                 ).addOnSuccessListener {
-                    listener?.onFragmentInteractionDetalles("listo")
+                    //listener?.onFragmentInteractionDetalles("listo")
                     //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+
+                    containerOkApo.visibility = View.VISIBLE
+                    viewDataSendApo.visibility = View.INVISIBLE
+                    childFragmentManager.beginTransaction().replace(R.id.containerOkApo,
+                        FinalReporteFragment.newInstance("","")).commit()
+
                 }.addOnFailureListener {
                     Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+                    buttonsSendDataApoyo.visibility = View.VISIBLE
+                    loadingViewApoyo.visibility = View.GONE
+
+                    Toast.makeText(activity!!,"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -8,6 +8,7 @@ import com.bicisos.i7.bicisos.Fragments.AlertBottomFragment
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.AveriaFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.DetallesApoyoFragment
 import com.bicisos.i7.bicisos.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_alert.*
@@ -15,7 +16,9 @@ import kotlinx.android.synthetic.main.content_principal.*
 
 class AlertActivity : AppCompatActivity(),
     AveriaFragment.OnFragmentInteractionListenerAveria,
-    FinalReporteFragment.OnFragmentInteractionListenerFinal {
+    FinalReporteFragment.OnFragmentInteractionListenerFinal,
+    ApoyoFragment.OnFragmentInteractionListenerApoyo,
+    DetallesApoyoFragment.OnFragmentInteractionListenerDetalles{
 
     private lateinit var modalbottomSheetFragment: BottomSheetDialogFragment
 
@@ -32,7 +35,7 @@ class AlertActivity : AppCompatActivity(),
         }
 
         imageViewBiciRobadaAlertas.setOnClickListener {
-            val modalbottomSheetFragment = AlertBottomFragment()
+            modalbottomSheetFragment = AlertBottomFragment()
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
 
@@ -43,7 +46,7 @@ class AlertActivity : AppCompatActivity(),
         }
 
         imageViewApoyoAlertas.setOnClickListener {
-            val modalbottomSheetFragment = ApoyoFragment()
+            modalbottomSheetFragment = ApoyoFragment.newInstance(latitud,longitud,name!!)
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
     }
@@ -54,5 +57,13 @@ class AlertActivity : AppCompatActivity(),
 
     override fun onFragmentInteractionFinal(message: String) {
         modalbottomSheetFragment.dismiss()
+    }
+
+    override fun onFragmentInteractionApoyo(message: String) {
+        Log.w("tag", message)
+    }
+
+    override fun onFragmentInteractionDetalles(message: String) {
+        Log.w("tag", message)
     }
 }

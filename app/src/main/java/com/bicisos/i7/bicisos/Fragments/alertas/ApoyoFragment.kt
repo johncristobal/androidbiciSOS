@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 
 import com.bicisos.i7.bicisos.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -44,6 +45,8 @@ class ApoyoFragment : BottomSheetDialogFragment() {
             longitude = it.getDouble(ARG_PARAM2)
             name = it.getString(ARG_PARAM3)
         }
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,24 +59,35 @@ class ApoyoFragment : BottomSheetDialogFragment() {
 
         buttonRegresar.setOnClickListener {
             //listener?.onFragmentAveria(this)
-            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            dismiss()
         }
 
         imageViewValla.setOnClickListener {
-            val detailsFrag = DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)
-            childFragmentManager.beginTransaction()
-                .addToBackStack("detalles")
-                .replace(R.id.containerDetalles,detailsFrag)
-                .commit()
+            viewDataSendApoyo.visibility = View.INVISIBLE
+            containerDetalles.visibility = View.VISIBLE
+            childFragmentManager.beginTransaction().add(R.id.containerDetalles,
+                DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)).addToBackStack(null).commit()
+
+//            val detailsFrag = DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)
+//            childFragmentManager.beginTransaction()
+//                .addToBackStack("detalles")
+//                .replace(R.id.containerDetalles,detailsFrag)
+//                .commit()
 
         }
 
         buttonApoyo.setOnClickListener {
-            val detailsFrag = DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)
-            childFragmentManager.beginTransaction()
-                .addToBackStack("detalles")
-                .replace(R.id.containerDetalles,detailsFrag)
-                .commit()
+            viewDataSendApoyo.visibility = View.INVISIBLE
+            containerDetalles.visibility = View.VISIBLE
+            childFragmentManager.beginTransaction().add(R.id.containerDetalles,
+                DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)).addToBackStack(null).commit()
+
+//            val detailsFrag = DetallesApoyoFragment.newInstance(latitude!!,longitude!!,name!!)
+//            childFragmentManager.beginTransaction()
+//                .addToBackStack("detalles")
+//                .replace(R.id.containerDetalles,detailsFrag)
+//                .commit()
         }
     }
 
