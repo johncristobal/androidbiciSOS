@@ -9,10 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_ciclovia.*
 import java.text.SimpleDateFormat
@@ -34,7 +36,7 @@ private const val ARG_PARAM3 = "name"
  * create an instance of this fragment.
  *
  */
-class CicloviaFragment : Fragment() {
+class CicloviaFragment : BottomSheetDialogFragment() {
     // TODO: Rename and change types of parameters
     private var latitude: Double? = null
     private var longitude: Double? = null
@@ -48,6 +50,8 @@ class CicloviaFragment : Fragment() {
             longitude = it.getDouble(ARG_PARAM2)
             name = it.getString(ARG_PARAM3)
         }
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,20 +64,20 @@ class CicloviaFragment : Fragment() {
 
         buttonRegresar.setOnClickListener {
             //listener?.onFragmentAveria(this)
-            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            dismiss()
         }
 
         buttonEnviar.setOnClickListener {
             if (editTextAveria.text.toString().equals("")){
                 Toast.makeText(activity!!,"Describe la ciclovía brevemente...",Toast.LENGTH_SHORT).show()
             }else {
+                buttonEnviar.visibility = View.INVISIBLE
+                loadingBarCiclo.visibility = View.VISIBLE
                 val fecha = Date()
                 val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
                 val dateFinal = stringfecha.format(fecha)
 
-                //primero enviar mi bike para que este en fierbase
-                //si y solo si estoy logueado
-                //mando nombre, bike, ubication
                 val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val serie = prefs.getString("serie", "null")
 
@@ -98,10 +102,23 @@ class CicloviaFragment : Fragment() {
                         long!!
                     )
                 ).addOnSuccessListener {
-                    listener?.onFragmentInteractionCiclovia("enviado")
-                    //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+                    //listener?.onFragmentInteractionCiclovia("enviado")
+
+                    buttonEnviar.visibility = View.VISIBLE
+                    loadingBarCiclo.visibility = View.INVISIBLE
+
+                    containerOkCiclo.visibility = View.VISIBLE
+                    viewDataSendCiclo.visibility = View.INVISIBLE
+
+                    childFragmentManager.beginTransaction().replace(R.id.containerOkCiclo,
+                        FinalReporteFragment.newInstance("","")).commit()
+
                 }.addOnFailureListener {
                     Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+                    buttonEnviar.visibility = View.VISIBLE
+                    loadingBarCiclo.visibility = View.INVISIBLE
+
+                    Toast.makeText(activity!!,"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
                 }
             }
         }

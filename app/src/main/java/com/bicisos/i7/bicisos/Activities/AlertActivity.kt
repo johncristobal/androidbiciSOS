@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.View
 import com.bicisos.i7.bicisos.Fragments.AlertBottomFragment
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.ApoyoFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.AveriaFragment
-import com.bicisos.i7.bicisos.Fragments.alertas.DetallesApoyoFragment
+import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_alert.*
@@ -49,6 +47,17 @@ class AlertActivity : AppCompatActivity(),
             modalbottomSheetFragment = ApoyoFragment.newInstance(latitud,longitud,name!!)
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
+
+        imageViewHelpAlertas.setOnClickListener {
+            modalbottomSheetFragment = HelpFragment.newInstance(latitud,longitud,name!!)
+            modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
+        }
+
+        imageViewCicloviaAlertas.setOnClickListener {
+            modalbottomSheetFragment = CicloviaFragment.newInstance(latitud,longitud,name!!)
+            modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
+        }
+
     }
 
     override fun onFragmentAveria(message: String) {

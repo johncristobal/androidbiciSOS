@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
 import com.bicisos.i7.bicisos.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_help.*
 import org.jetbrains.anko.makeCall
 
@@ -28,7 +29,7 @@ private const val ARG_PARAM3 = "name"
  * create an instance of this fragment.
  *
  */
-class HelpFragment : Fragment() {
+class HelpFragment : BottomSheetDialogFragment() {
     // TODO: Rename and change types of parameters
     private var latitude: Double? = null
     private var longitude: Double? = null
@@ -42,6 +43,8 @@ class HelpFragment : Fragment() {
             longitude = it.getDouble(ARG_PARAM2)
             name = it.getString(ARG_PARAM3)
         }
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,7 +57,8 @@ class HelpFragment : Fragment() {
 
         buttonRegresar.setOnClickListener {
             //listener?.onFragmentAveria(this)
-            childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+            dismiss()
         }
 
         buttonHelp.setOnClickListener {

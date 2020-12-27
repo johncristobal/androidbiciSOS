@@ -58,9 +58,9 @@ class DetallesApoyoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonRegresar.setOnClickListener {
+        /*buttonRegresar.setOnClickListener {
             childFragmentManager.popBackStack()
-        }
+        }*/
 
         buttonEnviar.setOnClickListener {
             Log.w("vamonos", "Adios fragment apoyo")
