@@ -1,5 +1,6 @@
 package com.bicisos.i7.bicisos.Activities
 
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +17,9 @@ class AlertActivity : AppCompatActivity(),
     AveriaFragment.OnFragmentInteractionListenerAveria,
     FinalReporteFragment.OnFragmentInteractionListenerFinal,
     ApoyoFragment.OnFragmentInteractionListenerApoyo,
-    DetallesApoyoFragment.OnFragmentInteractionListenerDetalles{
+    DetallesApoyoFragment.OnFragmentInteractionListenerDetalles,
+    CicloviaFragment.OnFragmentInteractionListenerCiclovia,
+    HelpFragment.OnFragmentInteractionListenerHelp{
 
     private lateinit var modalbottomSheetFragment: BottomSheetDialogFragment
 
@@ -58,6 +61,7 @@ class AlertActivity : AppCompatActivity(),
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
 
+
     }
 
     override fun onFragmentAveria(message: String) {
@@ -74,5 +78,13 @@ class AlertActivity : AppCompatActivity(),
 
     override fun onFragmentInteractionDetalles(message: String) {
         Log.w("tag", message)
+    }
+
+    override fun onFragmentInteractionCiclovia(message: String) {
+        Log.w("tag", message)
+    }
+
+    override fun onFragmentInteractionHelp(uri: Uri) {
+        Log.w("tag", uri.path!!)
     }
 }
