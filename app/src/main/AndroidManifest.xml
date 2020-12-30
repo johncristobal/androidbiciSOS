@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature
             android:name="android.hardware.camera"
             android:required="true" />
@@ -25,40 +26,41 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".Activities.CameraPhotosActivity"></activity>
         <activity
                 android:name=".Activities.AlertActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".Activities.TutorialActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar"/>
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".Activities.AcercaActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <activity
                 android:name=".Activities.ContactoActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <activity
                 android:name=".Activities.DetalleTipActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <activity
                 android:name=".Activities.TipsActivity"
                 android:label="@string/title_activity_tips"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <activity
                 android:name=".Activities.SerieBiciActivity"
                 android:label="@string/title_activity_serie_bici"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <activity
                 android:name=".Activities.RoboBiciActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <activity
                 android:name=".Activities.MainActivity"
                 android:screenOrientation="portrait"
@@ -73,7 +75,7 @@
                 android:name=".Activities.PrincipalActivity"
                 android:label="@string/title_activity_principal"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
         <!--
              app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
@@ -96,12 +98,12 @@
                 android:label="@string/title_activity_reportes"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme"
-                android:windowSoftInputMode="stateHidden"/>
+                android:windowSoftInputMode="stateHidden" />
         <activity
                 android:name=".Activities.PersonalizaActivity"
                 android:label="@string/title_activity_login"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
 
         <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
@@ -126,7 +128,7 @@
         <activity
                 android:name=".Activities.SesionActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+                android:theme="@style/AppTheme" />
 
         <provider
                 android:name="androidx.core.content.FileProvider"

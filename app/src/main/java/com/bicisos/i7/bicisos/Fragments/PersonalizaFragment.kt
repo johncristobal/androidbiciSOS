@@ -1,49 +1,44 @@
 package com.bicisos.i7.bicisos.Fragments
 
-import android.Manifest
-import android.app.Activity.RESULT_OK
-import android.app.AlertDialog
-import android.content.*
-import android.net.Uri
-import android.os.Bundle
 //import androidx.core.app.Fragment
 //import android.support.v7.widget.LinearLayoutManager
+
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bicisos.i7.bicisos.Adapters.CustomBici
-
-import com.bicisos.i7.bicisos.R
-import kotlinx.android.synthetic.main.fragment_personaliza.*
-import android.widget.Toast
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.provider.MediaStore
-import android.util.Log
-import kotlinx.android.synthetic.main.photos.view.*
-import org.jetbrains.anko.AlertDialogBuilder
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
-import android.graphics.Matrix
-import android.media.ExifInterface
-import android.os.Build
-import android.os.Environment
-import android.text.format.Time
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.camera.core.ImageCapture
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
+import com.bicisos.i7.bicisos.Adapters.CustomBici
+import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.photos.*
-import java.io.ByteArrayOutputStream
+import kotlinx.android.synthetic.main.fragment_personaliza.*
+import kotlinx.android.synthetic.main.photos.view.*
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.file.Files.exists
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,6 +64,7 @@ class PersonalizaFragment : Fragment() {
     var photoFile: File? = null
     var REQUEST_CODE_CAMERA = 1
     var PICK_FROM_GALLERY = 2
+    var LAUNCH_SECOND_ACTIVITY = 1009
     var imagesEncodedList : ArrayList<String>? = null
     var photosBool: ArrayList<Boolean>? = null
 
@@ -81,6 +77,12 @@ class PersonalizaFragment : Fragment() {
     var index: Int = -1
     var bici = -1
 
+    private var imageCapture: ImageCapture? = null
+
+    private lateinit var outputDirectory: File
+    private lateinit var cameraExecutor: ExecutorService
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -91,6 +93,11 @@ class PersonalizaFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+        outputDirectory = getOutputDirectory()
+
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
         return inflater.inflate(R.layout.fragment_personaliza, container, false)
     }
 
@@ -238,14 +245,25 @@ class PersonalizaFragment : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if(requestCode == REQUEST_CODE_CAMERA){
-            if(permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[0] == (PackageManager.PERMISSION_GRANTED))
-            {
-                val intent = Intent()
-                intent.type = "image/*"
-                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(intent, "Selecciona foto de tu bici"), REQUEST_CODE_CAMERA)
+//        if(requestCode == REQUEST_CODE_CAMERA){
+//            if(permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE && grantResults[0] == (PackageManager.PERMISSION_GRANTED))
+//            {
+//                val intent = Intent()
+//                intent.type = "image/*"
+//                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                intent.action = Intent.ACTION_GET_CONTENT
+//                startActivityForResult(Intent.createChooser(intent, "Selecciona foto de tu bici"), REQUEST_CODE_CAMERA)
+//            }
+//        }
+
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(activity!!,
+                    "Permissions not granted by the user.",
+                    Toast.LENGTH_SHORT).show()
+                //finish()
             }
         }
     }
@@ -402,20 +420,21 @@ class PersonalizaFragment : Fragment() {
 
             } else if (options[item] == "Cámara") {
 
-                if (ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(
-                        arrayOf(
-                            Manifest.permission.CAMERA
-                        ),
-                        REQUEST_PERMISSION
-                    )
-                } else {
-                    val time = Time()
-                    time.setToNow()
-                    val nametine = java.lang.Long.toString(time.toMillis(false))
-                    takePicture( nametine)
-
-                }
+                takePhoto()
+//                if (ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                    requestPermissions(
+//                        arrayOf(
+//                            Manifest.permission.CAMERA
+//                        ),
+//                        REQUEST_PERMISSION
+//                    )
+//                } else {
+//                    val time = Time()
+//                    time.setToNow()
+//                    val nametine = java.lang.Long.toString(time.toMillis(false))
+//                    takePicture( nametine)
+//
+//                }
             } else if (options[item] == "Cancelar") {
                 dialog.dismiss()
             }
@@ -450,8 +469,30 @@ class PersonalizaFragment : Fragment() {
         }
     }
 
-//CODE - onactivityresult ==========================================================================
+    private fun takePhoto() {
+        val myIntent = Intent(activity, CameraPhotosActivity::class.java)
+        startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)
+    }
+
+    private fun startCamera() {
+
+    }
+
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(
+            context!!, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = activity!!.externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply { mkdirs() } }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else activity!!.filesDir
+    }
+
+    //CODE - onactivityresult ==========================================================================
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
 //        try {
 //            var imageEncoded: String = ""
 //            if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && null != data) {
@@ -602,6 +643,20 @@ class PersonalizaFragment : Fragment() {
 //        }
 
         super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LAUNCH_SECOND_ACTIVITY) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data!!.getStringExtra("result")
+                Log.w("tag...",result)
+                //get uri data, show photo
+                Glide.with(activity!!)
+                    .load(result)
+                    .into(imageTempView)
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     private fun rotateImage(source: Bitmap, i: Float): Bitmap? {
@@ -647,6 +702,8 @@ class PersonalizaFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+
+        cameraExecutor.shutdown()
     }
 
     /**
@@ -666,6 +723,12 @@ class PersonalizaFragment : Fragment() {
     }
 
     companion object {
+
+        private const val TAG = "CameraXBasic"
+        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
