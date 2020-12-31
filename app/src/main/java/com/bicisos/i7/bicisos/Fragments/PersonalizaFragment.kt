@@ -1,7 +1,5 @@
 package com.bicisos.i7.bicisos.Fragments
 
-//import androidx.core.app.Fragment
-//import android.support.v7.widget.LinearLayoutManager
 
 import android.Manifest
 import android.app.Activity
@@ -33,6 +31,7 @@ import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
 import com.bicisos.i7.bicisos.Adapters.CustomBici
 import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_personaliza.*
 import kotlinx.android.synthetic.main.photos.view.*
 import java.io.File
@@ -40,20 +39,17 @@ import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [PersonalizaFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [PersonalizaFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
+/*
+    * abrir directamente la camara en cada click
+    * checa al guardar, ya no debe irse a otra carpeta, el path ya tiene la ruta
+    * cargar esa ruta y listo
+    * al borrar, itneta borrar path
+    * arregar diseno toma foto 
  */
+
 class PersonalizaFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -275,21 +271,68 @@ class PersonalizaFragment : Fragment() {
         //event when click item
         val click = View.OnClickListener{
 
-            when (it.id) {
-                R.id.bici1 -> {
-                    index = 0
-                }R.id.bici2 -> {
-                    index = 1
-                }R.id.bici3 -> {
-                    index = 2
-                }R.id.bici4 -> {
-                    index = 3
-                }else -> {
-                    index = -1
+            index = it.tag.toString().toInt()
+
+            //preguntar por borrar foto o tomar nueva
+            if (photosBool!![it.tag.toString().toInt()]){
+
+                val alertanother = AlertDialog.Builder(activity!!)
+                alertanother.setTitle("Tu bici...")
+                val options = arrayOf<CharSequence>("Elegir otra foto", "Borrar foto", "Cancelar")
+                alertanother.setItems(options) { dialog, item ->
+
+                    if (options[item] == "Elegir otra foto") {
+                        dialog.dismiss()
+                        val intent = Intent()
+                        intent.type = "image/*"
+                        //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                        intent.action = Intent.ACTION_GET_CONTENT
+                        mAlertDialog.dismiss()
+                        startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
+
+                    } else if (options[item] == "Borrar foto") {
+
+                        val imgFile = File(imagesEncodedList!![index])
+                        if(imgFile.exists()){
+                            imgFile.delete()
+                        }
+
+                        imagesEncodedList!![index] = ""
+                        when (index) {
+                            0 -> {
+                                photosBool!![0] = false
+                                mDialogView.bici1.setImageResource(R.drawable.cameraicon)
+                            }
+                            1 -> {
+                                photosBool!![1] = false
+                                mDialogView.bici2.setImageResource(R.drawable.cameraicon)
+                            }
+                            2 -> {
+                                photosBool!![2] = false
+                                mDialogView.bici3.setImageResource(R.drawable.cameraicon)
+                            }
+                            3 -> {
+                                photosBool!![3] = false
+                                mDialogView.bici4.setImageResource(R.drawable.cameraicon)
+                            }
+                        }
+                        dialog.dismiss()
+                    } else if (options[item] == "Cancelar") {
+                        dialog.dismiss()
+                    }
                 }
+
+                val alert = alertanother.create()
+                alert.show()
+            }else{
+                //si la foto no esta, abrimos galeria de una
+                val intent = Intent()
+                intent.type = "image/*"
+                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                intent.action = Intent.ACTION_GET_CONTENT
+                mAlertDialog.dismiss()
+                startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
             }
-            imageTempView = it as ImageView
-            alertaPhoto()
         }
 
         //AlertDialogBuilder
@@ -300,48 +343,139 @@ class PersonalizaFragment : Fragment() {
         mDialogView.bici2.setOnClickListener(click)
         mDialogView.bici3.setOnClickListener(click)
         mDialogView.bici4.setOnClickListener(click)
+        mDialogView.aceptarAction.setOnClickListener {
+            Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
+            mAlertDialog.dismiss()
 
+            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+            var i = 0
+
+            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+            imagesEncodedList!!.forEach {
+                try {
+                    val imgFile = File(it)
+                    if (imgFile.exists()) {
+                        /*val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+                        val temp = File(directory,"bici"+i+".png")
+                        /*if(temp.exists()){
+                            temp.delete()
+                        }*/
+                        try {
+                            val fos = FileOutputStream(temp)
+                            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                            fos.flush()
+                            fos.close()
+                        } catch (e: Exception) {
+                            Log.e("SAVE_IMAGE", e.message, e)
+                        }
+
+                        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                        editor.putString("fotos","1")
+                        editor.apply()*/
+
+                        editor.putString("bici"+i,imgFile.getAbsolutePath())
+                        editor.putString("fotos","1")
+                        editor.apply()
+
+                    }else{
+                        editor.putString("bici"+i,"null")
+                        editor.apply()
+                    }
+                }catch(e:Exception){
+                    Log.w("tag","error al guardar archivo")
+                }
+                i++
+            }
+        }
+
+        //cargarFotos()
         var i = -1
-
         imagesEncodedList!!.forEach {
             try {
                 if (!it.equals("")){
-
-                    //val imgFile = File(it)
+                    val imgFile = it//File(it)
                     i++
 
                     val options = BitmapFactory.Options()
-                    options.inSampleSize = 8
-                    //val bitmap = BitmapFactory.decodeFile(it,options)
-                    val bitmap = BitmapFactory.decodeFile(it)
+                    options.inJustDecodeBounds = true
+                    //options.inSampleSize = calculateInSampleSize(options,mDialogView.bici1.width,mDialogView.bici1.height)
+                    //options.inJustDecodeBounds = false
+
+                    val widht = options.outWidth
+                    val height = options.outHeight
+                    var finalW = 0
+                    var finalH = 0
+                    if (widht > height){
+                        finalW = 250
+                        finalH = 200
+                    }else if(widht == height){
+                        finalW = 250
+                        finalH = 250
+                    }else{
+                        finalW = 200
+                        finalH = 250
+                    }
 
                     when (i) {
                         0 -> {
                             photosBool!![0] = true
-
-                            Glide.with(activity!!)
-                                .load(bitmap)
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici1.width, mDialogView.bici1.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici1);*/
+                            //mDialogView.bici1.setImageBitmap(compressedBitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW, finalH)
+                                //.centerCrop()
                                 .into(mDialogView.bici1)
                         }
                         1 -> {
                             photosBool!![1] = true
-
-                            Glide.with(activity!!)
-                                .load(bitmap)
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici2.width, mDialogView.bici2.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici2);*/
+                            //mDialogView.bici2.setImageBitmap(compressedBitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW,finalH)
                                 .into(mDialogView.bici2)
                         }
                         2 -> {
                             photosBool!![2] = true
-
-                            Glide.with(activity!!)
-                                .load(bitmap)
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici3.width, mDialogView.bici3.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici3);*/
+                            //mDialogView.bici3.setImageBitmap(compressedBitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW, finalH)
                                 .into(mDialogView.bici3)
                         }
                         3 -> {
                             photosBool!![3] = true
-                            Glide.with(activity!!)
-                                .load(bitmap)
+                            Picasso.with(context!!)// .get()
+                                .load(imgFile)
+                                .resize(finalW, finalH)
                                 .into(mDialogView.bici4)
+                            //mDialogView.bici4.setImageBitmap(compressedBitmap)
+                            /*Glide
+                                .with(activity!!)
+                                .load(myBitmap)
+                                .override(mDialogView.bici4.width, mDialogView.bici4.height) // resizes the image to these dimensions (in pixel)
+                                .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
+                                .into(mDialogView.bici4);*/
                         }
                     }
                 }
@@ -350,44 +484,130 @@ class PersonalizaFragment : Fragment() {
             }
         }
 
-    mDialogView.aceptarAction.setOnClickListener {
-
-        Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
-        mAlertDialog.dismiss()
-
-        val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-        if (!directory.exists()) {
-            directory.mkdir()
-        }
-        var i = 0
-
-        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-
-        //save paths into sharepreferences
-        imagesEncodedList!!.forEach {
-            try {
-                val imgFile = File(it)
-                if (imgFile.exists()) {
-
-                    editor.putString("bici"+i,imgFile.getAbsolutePath())
-                    editor.putString("fotos","1")
-                    editor.apply()
-
-                }else{
-                    editor.putString("bici"+i,"null")
-                    editor.apply()
-                }
-            }catch(e:Exception){
-                Log.w("tag","error al guardar archivo")
-            }
-            i++
-        }
-    }
-
-    mAlertDialog = mBuilder.show()
+        mAlertDialog = mBuilder.show()
         mAlertDialog.setCanceledOnTouchOutside(false)
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
+//    fun loadPohots(){
+//        mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.photos, null)
+//
+//        //event when click item
+//        val click = View.OnClickListener{
+//
+//            when (it.id) {
+//                R.id.bici1 -> {
+//                    index = 0
+//                }R.id.bici2 -> {
+//                    index = 1
+//                }R.id.bici3 -> {
+//                    index = 2
+//                }R.id.bici4 -> {
+//                    index = 3
+//                }else -> {
+//                    index = -1
+//                }
+//            }
+//            imageTempView = it as ImageView
+//            //alertaPhoto()
+//            takePhoto()
+//        }
+//
+//        //AlertDialogBuilder
+//        mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
+//        val wrapper = ContextWrapper(context)
+//
+//        mDialogView.bici1.setOnClickListener(click)
+//        mDialogView.bici2.setOnClickListener(click)
+//        mDialogView.bici3.setOnClickListener(click)
+//        mDialogView.bici4.setOnClickListener(click)
+//
+//        var i = -1
+//
+//        imagesEncodedList!!.forEach {
+//            try {
+//                if (!it.equals("")){
+//
+//                    //val imgFile = File(it)
+//                    i++
+//
+//                    val options = BitmapFactory.Options()
+//                    options.inSampleSize = 8
+//                    //val bitmap = BitmapFactory.decodeFile(it,options)
+//                    val bitmap = BitmapFactory.decodeFile(it)
+//
+//                    when (i) {
+//                        0 -> {
+//                            photosBool!![0] = true
+//
+//                            Glide.with(activity!!)
+//                                .load(bitmap)
+//                                .into(mDialogView.bici1)
+//                        }
+//                        1 -> {
+//                            photosBool!![1] = true
+//
+//                            Glide.with(activity!!)
+//                                .load(bitmap)
+//                                .into(mDialogView.bici2)
+//                        }
+//                        2 -> {
+//                            photosBool!![2] = true
+//
+//                            Glide.with(activity!!)
+//                                .load(bitmap)
+//                                .into(mDialogView.bici3)
+//                        }
+//                        3 -> {
+//                            photosBool!![3] = true
+//                            Glide.with(activity!!)
+//                                .load(bitmap)
+//                                .into(mDialogView.bici4)
+//                        }
+//                    }
+//                }
+//            }catch (e: Exception){
+//                Log.w("warning","error al elegir archivo")
+//            }
+//        }
+//
+//    mDialogView.aceptarAction.setOnClickListener {
+//
+//        Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
+//        mAlertDialog.dismiss()
+//
+//        val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
+//        if (!directory.exists()) {
+//            directory.mkdir()
+//        }
+//        var i = 0
+//
+//        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+//
+//        //save paths into sharepreferences
+//        imagesEncodedList!!.forEach {
+//            try {
+//                val imgFile = File(it)
+//                if (imgFile.exists()) {
+//
+//                    editor.putString("bici"+i,imgFile.getAbsolutePath())
+//                    editor.putString("fotos","1")
+//                    editor.apply()
+//
+//                }else{
+//                    editor.putString("bici"+i,"null")
+//                    editor.apply()
+//                }
+//            }catch(e:Exception){
+//                Log.w("tag","error al guardar archivo")
+//            }
+//            i++
+//        }
+//    }
+//
+//    mAlertDialog = mBuilder.show()
+//        mAlertDialog.setCanceledOnTouchOutside(false)
+//        mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//    }
 
 // CODE: - Open alerta para seleccionar camara, galeria, cancelar===================================
     private fun alertaPhoto(){
@@ -397,6 +617,7 @@ class PersonalizaFragment : Fragment() {
 
         alertanother.setItems(options) { dialog, item ->
 
+            takePhoto()
             if (options[item] == "Galería") {
 
                 //Check permission again to ensure it
@@ -420,7 +641,7 @@ class PersonalizaFragment : Fragment() {
 
             } else if (options[item] == "Cámara") {
 
-                takePhoto()
+                //takePhoto()
 //                if (ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 //                    requestPermissions(
 //                        arrayOf(
@@ -648,6 +869,7 @@ class PersonalizaFragment : Fragment() {
             if (resultCode == Activity.RESULT_OK) {
                 val result = data!!.getStringExtra("result")
                 Log.w("tag...",result)
+                imagesEncodedList!![index] = result
                 //get uri data, show photo
                 Glide.with(activity!!)
                     .load(result)

@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -54,7 +55,7 @@ private const val ARG_PARAM3 = "name"
  * create an instance of this fragment.
  *
  */
-class ReportFragment : Fragment() {
+class ReportFragment : BottomSheetDialogFragment() {
     private var latitude: Double? = null
     private var longitude: Double? = null
     private var name: String? = null
@@ -77,6 +78,7 @@ class ReportFragment : Fragment() {
             longitude = it.getDouble(ARG_PARAM2)
             name = it.getString(ARG_PARAM3)
         }
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

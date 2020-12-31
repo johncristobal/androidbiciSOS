@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.bicisos.i7.bicisos.Fragments.AlertBottomFragment
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
+import com.bicisos.i7.bicisos.Fragments.ReportFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -19,7 +20,8 @@ class AlertActivity : AppCompatActivity(),
     ApoyoFragment.OnFragmentInteractionListenerApoyo,
     DetallesApoyoFragment.OnFragmentInteractionListenerDetalles,
     CicloviaFragment.OnFragmentInteractionListenerCiclovia,
-    HelpFragment.OnFragmentInteractionListenerHelp{
+    HelpFragment.OnFragmentInteractionListenerHelp,
+    ReportFragment.OnFragmentInteractionListener{
 
     private lateinit var modalbottomSheetFragment: BottomSheetDialogFragment
 
@@ -36,7 +38,7 @@ class AlertActivity : AppCompatActivity(),
         }
 
         imageViewBiciRobadaAlertas.setOnClickListener {
-            modalbottomSheetFragment = AlertBottomFragment()
+            modalbottomSheetFragment = ReportFragment()
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
 
@@ -86,5 +88,9 @@ class AlertActivity : AppCompatActivity(),
 
     override fun onFragmentInteractionHelp(uri: Uri) {
         Log.w("tag", uri.path!!)
+    }
+
+    override fun onFragmentInteraction(message: String) {
+        Log.w("tag", message)
     }
 }

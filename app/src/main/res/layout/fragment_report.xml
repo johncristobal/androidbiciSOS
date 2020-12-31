@@ -6,15 +6,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        android:background="#BB000000"
+        android:background="@android:color/transparent"
         tools:context=".Fragments.ReportFragment"
-        android:id="@+id/layoutReporte"
-        android:gravity="center_vertical|center_horizontal">
+        android:id="@+id/layoutReporte">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:padding="16dp"
+            android:background="@drawable/backblackbutton"
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
