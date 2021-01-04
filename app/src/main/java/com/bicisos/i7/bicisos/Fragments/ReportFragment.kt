@@ -21,11 +21,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
 import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -62,6 +65,7 @@ class ReportFragment : BottomSheetDialogFragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     var REQUEST_CODE_CAMERA = 1
+    var LAUNCH_SECOND_ACTIVITY = 1009
     var PICK_FROM_GALLERY = 2
     var imagesEncodedList : ArrayList<String>? = null
     var photosBool: ArrayList<Boolean>? = null
@@ -69,6 +73,7 @@ class ReportFragment : BottomSheetDialogFragment() {
     lateinit var mBuilder : AlertDialog.Builder
     lateinit var mAlertDialog : AlertDialog
     lateinit var mDialogView : View
+    lateinit var imageTempView : ImageView
     var index: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,16 +110,17 @@ class ReportFragment : BottomSheetDialogFragment() {
 
         buttonCancelar.setOnClickListener{
 
-            val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-            val fromReporte = preferences.getString("fromReporte","null")
-
-            if (fromReporte.equals("null")){
-
-            }else if (fromReporte.equals("reporteActivity")){
-                listener?.onFragmentInteraction("")
-            }else{
-                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
-            }
+//            val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+//            val fromReporte = preferences.getString("fromReporte","null")
+//
+//            if (fromReporte.equals("null")){
+//
+//            }else if (fromReporte.equals("reporteActivity")){
+//                listener?.onFragmentInteraction("")
+//            }else{
+//                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+//            }
+            dismiss()
         }
 
         buttonReportar.setOnClickListener {
@@ -141,6 +147,7 @@ class ReportFragment : BottomSheetDialogFragment() {
                     fotos += "bici_"+i+".png,"
                 }
             }
+            val set = prefs.getString("photos", null)
 
             val key = reportesRef.push().key
             reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos,1,latitude!!,longitude!!)).addOnSuccessListener {
@@ -153,26 +160,51 @@ class ReportFragment : BottomSheetDialogFragment() {
             val storage = FirebaseStorage.getInstance().getReference()
             val reportesStRef: StorageReference? = storage.child("reportes").child(key)
 
-            val wrapper = ContextWrapper(context)
-            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-            for(i in 0..3){
-                val fotoTemp = prefs.getString("bici"+i,"null")
-                //val temp = File(directory,"bici"+i+".png")
-                val temp = File(fotoTemp)
-                if(temp.exists()){
-                    //reportesStRef!!.child("bici_"+i+".png")
-                    val stream = FileInputStream(File(temp.absolutePath))
+            if (set != null)
+            {
+                val images = set.split(",").toCollection(ArrayList())
+                var i = 0
+                for(item in images){
+                    val fotoTemp = item//prefs.getString("bici"+i,"null")
+                    //val temp = File(directory,"bici"+i+".png")
+                    val temp = File(fotoTemp)
+                    if(temp.exists()){
+                        //reportesStRef!!.child("bici_"+i+".png")
+                        val stream = FileInputStream(File(temp.absolutePath))
 
-                    val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
-                    taski.addOnFailureListener{
-                        Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
-                    }.addOnSuccessListener {
+                        val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
+                        taski.addOnFailureListener{
+                            Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
+                        }.addOnSuccessListener {
 
+                        }
                     }
+                    i++
                 }
             }
 
-            listener?.onFragmentInteraction("listo")
+//            val wrapper = ContextWrapper(context)
+//            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE)
+//            for(i in 0..3){
+//                val fotoTemp = prefs.getString("bici"+i,"null")
+//                //val temp = File(directory,"bici"+i+".png")
+//                val temp = File(fotoTemp)
+//                if(temp.exists()){
+//                    //reportesStRef!!.child("bici_"+i+".png")
+//                    val stream = FileInputStream(File(temp.absolutePath))
+//
+//                    val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
+//                    taski.addOnFailureListener{
+//                        Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
+//                    }.addOnSuccessListener {
+//
+//                    }
+//                }
+//            }
+
+            containerOkReport.visibility = View.VISIBLE
+            viewDataReport.visibility = View.INVISIBLE
+            //listener?.onFragmentInteraction("listo")
         }
 
         photosBool = ArrayList<Boolean>()
@@ -192,13 +224,20 @@ class ReportFragment : BottomSheetDialogFragment() {
         takePicturesReporte.setOnClickListener {
             val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val fotos : String = editor.getString("fotos","null")!!
-            if (fotos.equals("null"))
+            //val set = prefs.getStringSet("photos", null)
+            val set = prefs.getString("photos", null)
+            if (set == null)
             {
-                try {
-                    if (ContextCompat.checkSelfPermission(
-                            context!!,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        ) != PackageManager.PERMISSION_GRANTED) {
+                imagesEncodedList = ArrayList<String>()
+                imagesEncodedList!!.add("a")
+                imagesEncodedList!!.add("b")
+                imagesEncodedList!!.add("c")
+                imagesEncodedList!!.add("d")
+
+                loadPohots()
+
+                /*try {
+                    if (checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY);
                     } else {
                         //open view to get pictures...get gallery and pic max 4 photos
@@ -210,29 +249,25 @@ class ReportFragment : BottomSheetDialogFragment() {
                     }
                 } catch (e: Exception) {
                     e.printStackTrace();
-                }
+                }*/*/
             }
             else{
                 //ya tengo fotos...entonces cargo fotos
-                val wrapper = ContextWrapper(context)
-                val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-                /*for(i in 0..3){
-                    val temp = File(directory,"bici"+i+".png")
-                    if(temp.exists()){
-                        imagesEncodedList!![i] = temp.absolutePath
-                    }
-                }*/
-                for(i in 0..3){
-                    val fotoTemp = prefs.getString("bici"+i,"null")
-                    if (!fotoTemp!!.equals("null")){
-                        imagesEncodedList!![i] = fotoTemp
-                    }
-                    /*val temp = File(directory,"bici"+i+".png")
-                    if(temp.exists()){
-                        imagesEncodedList!![i] = temp.absolutePath
-                    }*/
-                }
+                //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
 
+                imagesEncodedList = set.split(",").toCollection(ArrayList())
+
+//                val wrapper = ContextWrapper(context)
+//                val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
+//                for(i in 0..3){
+//                    val fotoTemp = prefs.getString("bici"+i,"null")
+//                    val set = prefs.getStringSet("photos", null)
+//                    imagesEncodedList = set.toTypedArray()
+//
+//                    if (!fotoTemp!!.equals("null")){
+//                        imagesEncodedList!![i] = fotoTemp
+//                    }
+//                }
 
                 loadPohots()
             }
@@ -325,146 +360,37 @@ class ReportFragment : BottomSheetDialogFragment() {
 //        }
 
         super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LAUNCH_SECOND_ACTIVITY) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data!!.getStringExtra("result")
+                Log.w("tag...",result)
+                imagesEncodedList!![index] = result
+                //get uri data, show photo
+                Glide.with(activity!!)
+                    .load(result)
+                    .into(imageTempView)
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
+    //CODE: - open layout photos =======================================================================
     fun loadPohots(){
         mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.photos, null)
 
-        //event when click item
-        val click = View.OnClickListener{
-
-            index = it.tag.toString().toInt()
-
-            //preguntar por borrar foto o tomar nueva
-            if (photosBool!![it.tag.toString().toInt()]){
-
-                val alertanother = AlertDialog.Builder(activity!!)
-                alertanother.setTitle("Tu bici...")
-                val options = arrayOf<CharSequence>("Elegir otra foto", "Borrar foto", "Cancelar")
-                alertanother.setItems(options) { dialog, item ->
-
-                    if (options[item] == "Elegir otra foto") {
-                        dialog.dismiss()
-                        val intent = Intent()
-                        intent.type = "image/*"
-                        //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                        intent.action = Intent.ACTION_GET_CONTENT
-                        mAlertDialog.dismiss()
-                        startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
-
-                    } else if (options[item] == "Borrar foto") {
-
-                        val imgFile = File(imagesEncodedList!![index])
-                        if(imgFile.exists()){
-                            imgFile.delete()
-                        }
-
-                        imagesEncodedList!![index] = ""
-                        when (index) {
-                            0 -> {
-                                photosBool!![0] = false
-                                mDialogView.bici1.setImageResource(R.drawable.cameraicon)
-                            }
-                            1 -> {
-                                photosBool!![1] = false
-                                mDialogView.bici2.setImageResource(R.drawable.cameraicon)
-                            }
-                            2 -> {
-                                photosBool!![2] = false
-                                mDialogView.bici3.setImageResource(R.drawable.cameraicon)
-                            }
-                            3 -> {
-                                photosBool!![3] = false
-                                mDialogView.bici4.setImageResource(R.drawable.cameraicon)
-                            }
-                        }
-                        dialog.dismiss()
-                    } else if (options[item] == "Cancelar") {
-                        dialog.dismiss()
-                    }
-                }
-
-                val alert = alertanother.create()
-                alert.show()
-            }else{
-                //si la foto no esta, abrimos galeria de una
-                val intent = Intent()
-                intent.type = "image/*"
-                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                intent.action = Intent.ACTION_GET_CONTENT
-                mAlertDialog.dismiss()
-                startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
-            }
-        }
-
-        //AlertDialogBuilder
-        mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
-        val wrapper = ContextWrapper(context)
-
-        mDialogView.bici1.setOnClickListener(click)
-        mDialogView.bici2.setOnClickListener(click)
-        mDialogView.bici3.setOnClickListener(click)
-        mDialogView.bici4.setOnClickListener(click)
-        mDialogView.aceptarAction.setOnClickListener {
-            Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
-            mAlertDialog.dismiss()
-
-            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-            if (!directory.exists()) {
-                directory.mkdir();
-            }
-            var i = 0
-
-            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-            imagesEncodedList!!.forEach {
-                try {
-                    val imgFile = File(it)
-                    if (imgFile.exists()) {
-                        /*val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
-                        val temp = File(directory,"bici"+i+".png")
-                        /*if(temp.exists()){
-                            temp.delete()
-                        }*/
-                        try {
-                            val fos = FileOutputStream(temp)
-                            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-                            fos.flush()
-                            fos.close()
-                        } catch (e: Exception) {
-                            Log.e("SAVE_IMAGE", e.message, e)
-                        }
-
-                        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-                        editor.putString("fotos","1")
-                        editor.apply()*/
-
-                        editor.putString("bici"+i,imgFile.getAbsolutePath())
-                        editor.putString("fotos","1")
-                        editor.apply()
-
-                    }else{
-                        editor.putString("bici"+i,"null")
-                        editor.apply()
-                    }
-                }catch(e:Exception){
-                    Log.w("tag","error al guardar archivo")
-                }
-                i++
-            }
-        }
-
-        //cargarFotos()
         var i = -1
+
         imagesEncodedList!!.forEach {
             try {
-                if (!it.equals("")){
-                    val imgFile = File(it)
+                if (it.length > 1){
+                    val imgFile = it
                     i++
 
                     val options = BitmapFactory.Options()
                     options.inJustDecodeBounds = true
-                    //options.inSampleSize = calculateInSampleSize(options,mDialogView.bici1.width,mDialogView.bici1.height)
-                    //options.inJustDecodeBounds = false
 
                     val widht = options.outWidth
                     val height = options.outHeight
@@ -491,10 +417,13 @@ class ReportFragment : BottomSheetDialogFragment() {
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                                 .into(mDialogView.bici1);*/
                             //mDialogView.bici1.setImageBitmap(compressedBitmap)
-                            Picasso.with(context!!)// .get()
+//                            Picasso.with(context!!)// .get()
+//                                .load(imgFile)
+//                                .resize(finalW, finalH)
+//                                //.centerCrop()
+//                                .into(mDialogView.bici1)
+                            Glide.with(activity!!)
                                 .load(imgFile)
-                                .resize(finalW, finalH)
-                                //.centerCrop()
                                 .into(mDialogView.bici1)
                         }
                         1 -> {
@@ -506,9 +435,9 @@ class ReportFragment : BottomSheetDialogFragment() {
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                                 .into(mDialogView.bici2);*/
                             //mDialogView.bici2.setImageBitmap(compressedBitmap)
-                            Picasso.with(context!!)// .get()
+
+                            Glide.with(activity!!)
                                 .load(imgFile)
-                                .resize(finalW,finalH)
                                 .into(mDialogView.bici2)
                         }
                         2 -> {
@@ -520,16 +449,14 @@ class ReportFragment : BottomSheetDialogFragment() {
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                                 .into(mDialogView.bici3);*/
                             //mDialogView.bici3.setImageBitmap(compressedBitmap)
-                            Picasso.with(context!!)// .get()
+                            Glide.with(activity!!)
                                 .load(imgFile)
-                                .resize(finalW, finalH)
                                 .into(mDialogView.bici3)
                         }
                         3 -> {
                             photosBool!![3] = true
-                            Picasso.with(context!!)// .get()
+                            Glide.with(activity!!)
                                 .load(imgFile)
-                                .resize(finalW, finalH)
                                 .into(mDialogView.bici4)
                             //mDialogView.bici4.setImageBitmap(compressedBitmap)
                             /*Glide
@@ -545,10 +472,170 @@ class ReportFragment : BottomSheetDialogFragment() {
                 Log.w("warning","error al elegir archivo")
             }
         }
+        //event when click item
+        val click = View.OnClickListener{
+
+            when (it.id) {
+                R.id.bici1 -> {
+                    index = 0
+                }R.id.bici2 -> {
+                index = 1
+            }R.id.bici3 -> {
+                index = 2
+            }R.id.bici4 -> {
+                index = 3
+            }else -> {
+                index = -1
+            }
+            }
+            imageTempView = it as ImageView
+
+            //index = it.tag.toString().toInt()
+
+            //preguntar por borrar foto o tomar nueva
+            if ((imagesEncodedList!![index].length > 1)){
+
+                val alertanother = AlertDialog.Builder(activity!!)
+                alertanother.setTitle("Tu bici...")
+                val options = arrayOf<CharSequence>("Tomar otra foto", "Borrar foto", "Cancelar")
+                alertanother.setItems(options) { dialog, item ->
+
+                    if (options[item] == "Tomar otra foto") {
+                        dialog.dismiss()
+                        takePhoto()
+//                        val intent = Intent()
+//                        intent.type = "image/*"
+//                        //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                        intent.action = Intent.ACTION_GET_CONTENT
+//                        mAlertDialog.dismiss()
+//                        startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
+
+                    } else if (options[item] == "Borrar foto") {
+
+//                        val imgFile = File(imagesEncodedList!![index])
+//                        if(imgFile.exists()){
+//                            imgFile.delete()
+//                        }
+
+                        when (index) {
+                            0 -> {
+                                photosBool!![0] = false
+                                mDialogView.bici1.setImageResource(R.drawable.cameraicon)
+                                imagesEncodedList!![index] = "a"
+                            }
+                            1 -> {
+                                photosBool!![1] = false
+                                mDialogView.bici2.setImageResource(R.drawable.cameraicon)
+                                imagesEncodedList!![index] = "b"
+                            }
+                            2 -> {
+                                photosBool!![2] = false
+                                mDialogView.bici3.setImageResource(R.drawable.cameraicon)
+                                imagesEncodedList!![index] = "c"
+                            }
+                            3 -> {
+                                photosBool!![3] = false
+                                mDialogView.bici4.setImageResource(R.drawable.cameraicon)
+                                imagesEncodedList!![index] = "d"
+                            }
+                        }
+                        dialog.dismiss()
+                    } else if (options[item] == "Cancelar") {
+                        dialog.dismiss()
+                    }
+                }
+
+                val alert = alertanother.create()
+                alert.show()
+            }else{
+                takePhoto()
+                //si la foto no esta, abrimos galeria de una
+//                val intent = Intent()
+//                intent.type = "image/*"
+//                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                intent.action = Intent.ACTION_GET_CONTENT
+//                mAlertDialog.dismiss()
+//                startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
+            }
+        }
+
+        //AlertDialogBuilder
+        mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
+        val wrapper = ContextWrapper(context)
+
+        mDialogView.bici1.setOnClickListener(click)
+        mDialogView.bici2.setOnClickListener(click)
+        mDialogView.bici3.setOnClickListener(click)
+        mDialogView.bici4.setOnClickListener(click)
+
+        mDialogView.aceptarAction.setOnClickListener {
+            Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
+            mAlertDialog.dismiss()
+
+//            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
+//            if (!directory.exists()) {
+//                directory.mkdir();
+//            }
+//            var i = 0
+
+            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+            var photosString = ""
+            for(item in imagesEncodedList!!){
+                photosString += item+","
+            }
+            photosString = photosString.dropLast(1)
+            //val photosString =
+            //val set = HashSet<String>()
+            //set.addAll(imagesEncodedList!!)
+
+            editor.putString("photos",photosString)
+            editor.apply()
+
+//            imagesEncodedList!!.forEach {
+//                try {
+//                    val imgFile = File(it)
+//                    if (imgFile.exists()) {
+//                        /*val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+//                        val temp = File(directory,"bici"+i+".png")
+//                        /*if(temp.exists()){
+//                            temp.delete()
+//                        }*/
+//                        try {
+//                            val fos = FileOutputStream(temp)
+//                            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+//                            fos.flush()
+//                            fos.close()
+//                        } catch (e: Exception) {
+//                            Log.e("SAVE_IMAGE", e.message, e)
+//                        }
+//
+//                        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+//                        editor.putString("fotos","1")
+//                        editor.apply()*/
+//
+//                        editor.putString("bici"+i,imgFile.getAbsolutePath())
+//                        editor.putString("fotos","1")
+//                        editor.apply()
+//
+//                    }else{
+//                        editor.putString("bici"+i,"null")
+//                        editor.apply()
+//                    }
+//                }catch(e:Exception){
+//                    Log.w("tag","error al guardar archivo")
+//                }
+//                i++
+//            }
+        }
 
         mAlertDialog = mBuilder.show()
         mAlertDialog.setCanceledOnTouchOutside(false)
         mAlertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    private fun takePhoto() {
+        val myIntent = Intent(activity, CameraPhotosActivity::class.java)
+        startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)
     }
 
     override fun onAttach(context: Context) {

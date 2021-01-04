@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,137 +10,152 @@
         tools:context=".Fragments.ReportFragment"
         android:id="@+id/layoutReporte">
 
+    <FrameLayout
+            android:id="@+id/containerOkReport"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"/>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/backblackbutton"
             android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+            android:background="@drawable/backblackbutton"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:id="@+id/viewDataReport"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-                android:text="Reporta tu bici"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2"
-                android:fontFamily="@font/roboto"
-                android:textColor="#ffffff"
-                android:layout_marginTop="8dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:textSize="22sp"/>
+                android:fontFamily="@font/roboto"
+                android:text="Reporta tu bici"
+                android:textColor="#ffffff"
+                android:textSize="22sp" />
 
-    <EditText
+        <EditText
+                android:id="@+id/reportNombre"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:inputType="textPersonName"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/backinput"
                 android:ems="10"
+                android:fontFamily="@font/roboto"
                 android:hint="Nombre"
-                android:id="@+id/reportNombre"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:singleLine="false"
-                android:fontFamily="@font/roboto"/>
+                android:textSize="16sp" />
 
         <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
             <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                 <ImageView
-                        android:text="Fotos\n+"
-                        android:src="@drawable/cameraicon"
+                        android:id="@+id/takePicturesReporte"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:id="@+id/takePicturesReporte"
-                        android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:textSize="12sp"/>
+                        android:src="@drawable/cameraicon"
+                        android:text="Fotos\n+"
+                        android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                 <EditText
+                        android:id="@+id/ReporteSerie"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:inputType="textPersonName"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:background="@drawable/backinput"
                         android:ems="10"
+                        android:fontFamily="@font/roboto"
                         android:hint="No. de serie"
-                        android:id="@+id/ReporteSerie"
-                        android:layout_marginTop="8dp"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
                         android:singleLine="false"
-                        android:fontFamily="@font/roboto"/>
+                        android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
 
-    <EditText
+        <EditText
+                android:id="@+id/ReporteDesc"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="5dp"
-                android:gravity="top"
-                android:paddingTop="5dp"
-                android:hint="Detalles particulares..."
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/backinput"
                 android:ems="10"
-                android:id="@+id/ReporteDesc"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"
+                android:fontFamily="@font/roboto"
+                android:gravity="top"
+                android:hint="Detalles particulares..."
                 android:inputType="textMultiLine"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="5dp"
                 android:singleLine="false"
-                android:fontFamily="@font/roboto"/>
+                android:textSize="16sp" />
 
         <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="end"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:orientation="horizontal">
 
             <Button
-                    android:text="CANCELAR"
-                    android:layout_gravity="end"
+                    android:id="@+id/buttonCancelar"
                     android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/amarillo"
                     android:background="@drawable/backbrown"
-                    android:layout_height="30dp"
-                    android:id="@+id/buttonCancelar"/>
+                    android:text="CANCELAR"
+                    android:textColor="@color/amarillo" />
 
             <Button
-                    android:text="REPORTAR"
-                    android:layout_gravity="end"
+                    android:id="@+id/buttonReportar"
                     android:layout_width="120dp"
-                    android:background="@drawable/backbutton"
                     android:layout_height="30dp"
-                    android:id="@+id/buttonReportar"/>
+                    android:layout_gravity="end"
+                    android:background="@drawable/backbutton"
+                    android:text="REPORTAR" />
 
         </LinearLayout>
+
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
