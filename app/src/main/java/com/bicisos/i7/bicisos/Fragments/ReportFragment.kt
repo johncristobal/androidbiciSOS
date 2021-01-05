@@ -31,6 +31,8 @@ import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
@@ -134,25 +136,39 @@ class ReportFragment : BottomSheetDialogFragment() {
             val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
             val dateFinal = stringfecha.format(fecha)
 
-            val database = FirebaseDatabase.getInstance()
+            val database = Firebase.database
             val reportesRef = database.getReference("reportes")
 
-            var fotos = ""
-            for(i in 0..3){
-                val fotoTemp = prefs.getString("bici"+i,"null")
-                //val temp = File(directory,"bici"+i+".png")
-                val temp = File(fotoTemp)
-                if(temp.exists()){
-                    //reportesStRef!!.child("bici_"+i+".png")
-                    fotos += "bici_"+i+".png,"
-                }
-            }
             val set = prefs.getString("photos", null)
+            var fotos = ""
+            if (set != null)
+            {
+                val images = set.split(",").toCollection(ArrayList())
+                var i=0
+                for(item in images){
+                    if(item.length > 1){
+                        fotos += "bici_"+i+".png,"
+                        i++
+                    }
+                }
+            }else{
+                fotos = ""
+            }
+
+//            for(i in 0..3){
+//                val fotoTemp = prefs.getString("bici"+i,"null")
+//                //val temp = File(directory,"bici"+i+".png")
+//                val temp = File(fotoTemp)
+//                if(temp.exists()){
+//                    //reportesStRef!!.child("bici_"+i+".png")
+//                    fotos += "bici_"+i+".png,"
+//                }
+//            }
 
             val key = reportesRef.push().key
             reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos,1,latitude!!,longitude!!)).addOnSuccessListener {
                 prefs.edit().putString("reportado","1").apply()
-
+                Log.d("success","Reporte hecho")
             }.addOnFailureListener {
                 Log.e("error","No se pudo subir archivo: "+it.stackTrace)
             }
@@ -183,27 +199,10 @@ class ReportFragment : BottomSheetDialogFragment() {
                 }
             }
 
-//            val wrapper = ContextWrapper(context)
-//            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE)
-//            for(i in 0..3){
-//                val fotoTemp = prefs.getString("bici"+i,"null")
-//                //val temp = File(directory,"bici"+i+".png")
-//                val temp = File(fotoTemp)
-//                if(temp.exists()){
-//                    //reportesStRef!!.child("bici_"+i+".png")
-//                    val stream = FileInputStream(File(temp.absolutePath))
-//
-//                    val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
-//                    taski.addOnFailureListener{
-//                        Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
-//                    }.addOnSuccessListener {
-//
-//                    }
-//                }
-//            }
-
             containerOkReport.visibility = View.VISIBLE
             viewDataReport.visibility = View.INVISIBLE
+            childFragmentManager.beginTransaction().replace(R.id.containerOkReport,FinalReporteFragment.newInstance("","")).commit()
+
             //listener?.onFragmentInteraction("listo")
         }
 
@@ -235,39 +234,15 @@ class ReportFragment : BottomSheetDialogFragment() {
                 imagesEncodedList!!.add("d")
 
                 loadPohots()
-
-                /*try {
-                    if (checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), PICK_FROM_GALLERY);
-                    } else {
-                        //open view to get pictures...get gallery and pic max 4 photos
-                        val intent = Intent()
-                        intent.type = "image/*"
-                        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                        intent.action = Intent.ACTION_GET_CONTENT
-                        startActivityForResult(Intent.createChooser(intent, "Selecciona las fotos de tu bici"), REQUEST_CODE_CAMERA)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace();
-                }*/*/
             }
             else{
                 //ya tengo fotos...entonces cargo fotos
                 //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
 
                 imagesEncodedList = set.split(",").toCollection(ArrayList())
-
-//                val wrapper = ContextWrapper(context)
-//                val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-//                for(i in 0..3){
-//                    val fotoTemp = prefs.getString("bici"+i,"null")
-//                    val set = prefs.getStringSet("photos", null)
-//                    imagesEncodedList = set.toTypedArray()
-//
-//                    if (!fotoTemp!!.equals("null")){
-//                        imagesEncodedList!![i] = fotoTemp
-//                    }
-//                }
+                for (i in imagesEncodedList!!.size..3){
+                    imagesEncodedList!!.add("x")
+                }
 
                 loadPohots()
             }
@@ -290,74 +265,6 @@ class ReportFragment : BottomSheetDialogFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        try {
-//            // When an Image is picked
-//            var imageEncoded: String
-//
-//            if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && null != data) {
-//                // Get the Image from data
-//
-//                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-//                if (data.clipData != null) {
-//                    val mClipData = data.clipData
-//                    val mArrayUri = ArrayList<Uri>()
-//                    for (i in 0 until mClipData!!.itemCount) {
-//
-//                        val item = mClipData.getItemAt(i)
-//                        val uri = item.uri
-//                        mArrayUri.add(uri)
-//
-//                        // Get the cursor
-//                        val cursor = activity!!.getContentResolver().query(uri, filePathColumn, null, null, null)
-//
-//                        // Move to first row
-//                        cursor.moveToFirst()
-//
-//                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-//                        imageEncoded = cursor.getString(columnIndex)
-//                        if (index != -1) {
-//                            imagesEncodedList!![index] = imageEncoded
-//                        }else{
-//                            imagesEncodedList!![i] = (imageEncoded)
-//                        }
-//                        cursor.close()
-//                    }
-//
-//                    //show view with photos
-//                    loadPohots()
-//                } else {
-//                    if (data.data != null) {
-//
-//                        val mImageUri = data.data
-//
-//                        // Get the cursor
-//                        val cursor = activity!!.getContentResolver().query(
-//                            mImageUri,
-//                            filePathColumn, null, null, null
-//                        )
-//
-//                        // Move to first row
-//                        cursor.moveToFirst()
-//
-//                        val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-//                        imageEncoded = cursor.getString(columnIndex)
-//
-//                        if (index != -1) {
-//                            imagesEncodedList!![index] = imageEncoded
-//                        }else{
-//                            imagesEncodedList!![0]=(imageEncoded)
-//                        }
-//                        cursor.close()
-//
-//                        loadPohots()
-//                    }
-//                }
-//            } else {
-//                Toast.makeText(activity!!, "Selecciona una imagen...", Toast.LENGTH_LONG).show()
-//            }
-//        } catch (e: Exception) {
-//            Toast.makeText(activity!!, "Algo salio mal...", Toast.LENGTH_LONG).show()
-//        }
 
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -503,19 +410,8 @@ class ReportFragment : BottomSheetDialogFragment() {
                     if (options[item] == "Tomar otra foto") {
                         dialog.dismiss()
                         takePhoto()
-//                        val intent = Intent()
-//                        intent.type = "image/*"
-//                        //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//                        intent.action = Intent.ACTION_GET_CONTENT
-//                        mAlertDialog.dismiss()
-//                        startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
 
                     } else if (options[item] == "Borrar foto") {
-
-//                        val imgFile = File(imagesEncodedList!![index])
-//                        if(imgFile.exists()){
-//                            imgFile.delete()
-//                        }
 
                         when (index) {
                             0 -> {
@@ -549,13 +445,7 @@ class ReportFragment : BottomSheetDialogFragment() {
                 alert.show()
             }else{
                 takePhoto()
-                //si la foto no esta, abrimos galeria de una
-//                val intent = Intent()
-//                intent.type = "image/*"
-//                //intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//                intent.action = Intent.ACTION_GET_CONTENT
-//                mAlertDialog.dismiss()
-//                startActivityForResult(Intent.createChooser(intent, "Selecciona la foto de tu bici"), REQUEST_CODE_CAMERA)
+
             }
         }
 
@@ -572,60 +462,16 @@ class ReportFragment : BottomSheetDialogFragment() {
             Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
             mAlertDialog.dismiss()
 
-//            val directory = wrapper.getDir("imageDir", Context.MODE_PRIVATE);
-//            if (!directory.exists()) {
-//                directory.mkdir();
-//            }
-//            var i = 0
-
             val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
             var photosString = ""
             for(item in imagesEncodedList!!){
                 photosString += item+","
             }
             photosString = photosString.dropLast(1)
-            //val photosString =
-            //val set = HashSet<String>()
-            //set.addAll(imagesEncodedList!!)
 
             editor.putString("photos",photosString)
             editor.apply()
 
-//            imagesEncodedList!!.forEach {
-//                try {
-//                    val imgFile = File(it)
-//                    if (imgFile.exists()) {
-//                        /*val myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
-//                        val temp = File(directory,"bici"+i+".png")
-//                        /*if(temp.exists()){
-//                            temp.delete()
-//                        }*/
-//                        try {
-//                            val fos = FileOutputStream(temp)
-//                            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-//                            fos.flush()
-//                            fos.close()
-//                        } catch (e: Exception) {
-//                            Log.e("SAVE_IMAGE", e.message, e)
-//                        }
-//
-//                        val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-//                        editor.putString("fotos","1")
-//                        editor.apply()*/
-//
-//                        editor.putString("bici"+i,imgFile.getAbsolutePath())
-//                        editor.putString("fotos","1")
-//                        editor.apply()
-//
-//                    }else{
-//                        editor.putString("bici"+i,"null")
-//                        editor.apply()
-//                    }
-//                }catch(e:Exception){
-//                    Log.w("tag","error al guardar archivo")
-//                }
-//                i++
-//            }
         }
 
         mAlertDialog = mBuilder.show()

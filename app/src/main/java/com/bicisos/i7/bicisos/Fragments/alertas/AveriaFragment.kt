@@ -16,6 +16,8 @@ import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_averia.*
 import kotlinx.android.synthetic.main.fragment_averia.view.*
 import java.text.SimpleDateFormat
@@ -84,7 +86,7 @@ class AveriaFragment : BottomSheetDialogFragment() {
                 val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val serie = prefs.getString("serie", "null")
 
-                val database = FirebaseDatabase.getInstance()
+                val database = Firebase.database
                 val bikersRef = database.getReference("reportes")
                 val lat = latitude
                 val long = longitude

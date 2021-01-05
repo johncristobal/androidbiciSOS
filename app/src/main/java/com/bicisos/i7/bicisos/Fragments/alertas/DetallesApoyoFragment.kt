@@ -15,6 +15,8 @@ import com.bicisos.i7.bicisos.Model.Report
 
 import com.bicisos.i7.bicisos.R
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_detalles_apoyo.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,7 +82,7 @@ class DetallesApoyoFragment : Fragment() {
                 val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val serie = prefs.getString("serie", "null")
 
-                val database = FirebaseDatabase.getInstance()
+                val database = Firebase.database
                 val bikersRef = database.getReference("reportes")
                 val lat = latitude
                 val long = longitude

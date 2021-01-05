@@ -9,7 +9,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/jcristobalj/Documents/sosciclistarele')
+            storeFile file('/Users/macbook/Documents/sosciclistarele')
             storePassword 'sosciclista'
             keyAlias = 'sosciclista'
             keyPassword 'sosciclista'
@@ -50,20 +50,21 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.1.0'
 
     implementation 'com.google.android.gms:play-services-basement:17.5.0'
-    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
     // Firebase Cloud Messaging (Java)
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
-
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
 
     implementation 'com.google.firebase:firebase-installations-ktx:16.3.5'
     implementation 'androidx.work:work-runtime:2.0.1'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
-    implementation 'com.google.firebase:firebase-core:18.0.0'
-    implementation 'com.google.firebase:firebase-database:19.6.0'
-    implementation 'com.google.firebase:firebase-storage:19.2.1'
+    //implementation 'com.google.firebase:firebase-core:18.0.0'
+    //implementation 'com.google.firebase:firebase-database:19.6.0'
+    //implementation 'com.google.firebase:firebase-storage:19.2.1'
 
     implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
     implementation 'com.facebook.android:facebook-login:5.5.1'

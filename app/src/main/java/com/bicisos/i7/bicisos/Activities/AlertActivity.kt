@@ -38,7 +38,7 @@ class AlertActivity : AppCompatActivity(),
         }
 
         imageViewBiciRobadaAlertas.setOnClickListener {
-            modalbottomSheetFragment = ReportFragment()
+            modalbottomSheetFragment = ReportFragment.newInstance(latitud,longitud,name!!)
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
 
