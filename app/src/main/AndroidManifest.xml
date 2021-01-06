@@ -26,7 +26,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".Activities.CameraPhotosActivity"></activity>
+        <activity android:name=".ui.GraphActivity"></activity>
+        <activity android:name=".Activities.CameraPhotosActivity" />
         <activity
                 android:name=".Activities.AlertActivity"
                 android:screenOrientation="portrait"

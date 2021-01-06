@@ -1,5 +1,6 @@
 package com.bicisos.i7.bicisos.Activities
 
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.ui.GraphActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_alert.*
 import kotlinx.android.synthetic.main.content_principal.*
@@ -63,6 +65,9 @@ class AlertActivity : AppCompatActivity(),
             modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
         }
 
+        imageViewSegurosBici.setOnClickListener {
+            startActivity(Intent(this, GraphActivity::class.java))
+        }
 
     }
 

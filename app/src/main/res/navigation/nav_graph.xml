@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/onboardingGttFragment">
+
+    <fragment
+            android:id="@+id/onboardingGttFragment"
+            android:name="com.bicisos.i7.bicisos.ui.onboarding_gtt.OnboardingGttFragment"
+            android:label="onboarding_gtt_fragment"
+            tools:layout="@layout/onboarding_gtt_fragment" />
+</navigation>
