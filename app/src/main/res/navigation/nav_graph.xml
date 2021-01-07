@@ -3,11 +3,32 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/nav_graph"
-        app:startDestination="@id/onboardingGttFragment">
+        app:startDestination="@id/loginViewModelFragment">
+
+    <fragment
+            android:id="@+id/loginViewModelFragment"
+            android:name="com.bicisos.i7.bicisos.ui.login.LoginViewModelFragment"
+            android:label="login_view_model_fragment"
+            tools:layout="@layout/login_view_model_fragment" >
+        <action
+                android:id="@+id/action_loginViewModelFragment_to_onboardingGttFragment"
+                app:destination="@id/onboardingGttFragment" />
+        <action
+                android:id="@+id/action_loginViewModelFragment_to_contractFragment"
+                app:destination="@id/contractFragment" />
+
+    </fragment>
 
     <fragment
             android:id="@+id/onboardingGttFragment"
             android:name="com.bicisos.i7.bicisos.ui.onboarding_gtt.OnboardingGttFragment"
             android:label="onboarding_gtt_fragment"
             tools:layout="@layout/onboarding_gtt_fragment" />
+    <fragment
+            android:id="@+id/contractFragment"
+            android:name="com.bicisos.i7.bicisos.ui.contract.ContractFragment"
+            android:label="ContractFragment"
+            tools:layout="@layout/contract_fragment"/>
+
+
 </navigation>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bicisos.i7.bicisos.R
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.onboarding_gtt_fragment.*
 
 class OnboardingGttFragment : Fragment() {
@@ -30,6 +31,9 @@ class OnboardingGttFragment : Fragment() {
         // TODO: Use the ViewModel
 
         onboardingViewPager.adapter = OnboardingAdapter(requireActivity(),4)
+        TabLayoutMediator(tab_layout, onboardingViewPager) { tab, position ->
+            //Some implementation...
+        }.attach()
     }
 
 }

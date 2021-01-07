@@ -26,7 +26,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.GraphActivity"></activity>
+
+        <activity android:name=".ui.GraphActivity"
+                android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".Activities.CameraPhotosActivity" />
         <activity
                 android:name=".Activities.AlertActivity"

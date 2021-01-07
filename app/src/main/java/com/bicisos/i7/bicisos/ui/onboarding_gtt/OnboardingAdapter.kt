@@ -16,6 +16,6 @@ class OnboardingAdapter (activity: FragmentActivity, val itemsCount: Int) :
     }
 
     override fun createFragment(position: Int): Fragment {
-        return ItemOnboardingFragment.newInstance("","")
+        return ItemOnboardingFragment.newInstance(position)
     }
 }

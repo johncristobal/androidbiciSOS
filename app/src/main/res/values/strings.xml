@@ -19,7 +19,34 @@
     <string name="preferences">SOSCiclista</string>
     <string name="title_activity_serie_bici">SerieBiciActivity</string>
     <string name="title_activity_tips">TipsActivity</string>
+    <string name="loginTitle">¿Qué pensarías si te dijera que en caso de accidente vial te pagamos la reparación de tu bicicleta, te transladamos al bici-taller más cercano y te mandamos paramédico en motocicleta…?\nEsto y otros beneficios obtendrás con GRUPOT GTT</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="beneficios">+Beneficios</string>
+    <string name="contrata">Contrata</string>
+    <string name="sesion_gtt">Ya tienes cuenta, inicia sesión</string>
+    <string name="hint_user">Correo o telefono</string>
+    <string name="hint_pass">Password</string>
+
+    <string-array name="onboarding_titles">
+        <item>Perjuicios a la unidad</item>
+        <item>Responsabilidad civil terceros</item>
+        <item>Paramédico en motocicleta</item>
+        <item>Gastos médicos y/o funerarios</item>
+    </string-array>
+
+    <string-array name="onboarding_descriptions">
+        <item>En caso de accidente vial, te apoyamos con un monto de hasta $2,500.00 MXN, y en caso de ser necesario se trasladará al bici-tallermecánico más cercano</item>
+        <item>En caso de accidente vial, llegará un ajustador al lugar del accidente, si resultamos ser responsables, se extenderá un pase que cubra los daños que ocasione a un tercero en sus bienes y/o personas.</item>
+        <item>En caso de accidente vial y de ser necesaria la asistencia, llegará un paramédico en moto para brindarte los primeros auxilios y evaluará la gravedad de la situación.</item>
+        <item>En caso de hospitalización y/o fallecimiento, te reembolsamos los gastos generados.</item>
+    </string-array>
+
+    <integer-array name="onboarding_imgs">
+        <item>@drawable/apoyoicon</item>
+        <item>@drawable/cicloviaicon</item>
+        <item>@drawable/averiaicon</item>
+        <item>@drawable/cameraicon</item>
+    </integer-array>
 
 </resources>
