@@ -13,6 +13,33 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="textTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="textThemeTitle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <style name="textButtonTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:background">@drawable/backgoogle</item>
+    </style>
+
+    <style name="textInputTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:background">@drawable/backinput</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 

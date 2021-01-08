@@ -12,11 +12,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#0d60a0"
             tools:context=".ui.contract.ContractFragment">
 
-        <!--ScrollView
+        <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"-->
+                android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginTop="16dp"
-                        android:src="@drawable/menuhead"
+                        android:src="@drawable/logogtta"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -41,13 +42,14 @@
                         android:layout_marginTop="16dp"
                         android:text="Alta cliente GTT"
                         android:id="@+id/textviewtitle"
+                        android:theme="@style/textTheme"
                         app:layout_constraintTop_toBottomOf="@id/imageView8"
                         app:layout_constraintStart_toStartOf="parent" />
 
                 <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_marginTop="16dp"
                         android:layout_marginStart="32dp"
                         android:layout_marginEnd="32dp"
@@ -55,27 +57,490 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/editTextEjecutivo"
+<!-- //////////////////  First linear data  //////////////////////////////// -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Ejecutivo"
-                            app:placeholderText="SOS Ciclista"
-                            android:layout_height="wrap_content">
+                            android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="Ejecutivo"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextEjecutivo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:enabled="false"
+                                        android:text="@string/sos_ciclista"
+                                        android:hint="@string/sos_ciclista"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <View
+                                android:layout_width="32dp"
+                                android:layout_height="match_parent"/>
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="Fecha contratación"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextFechaContrata"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:enabled="false"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+<!-- //////////////////  Data liner name  //////////////////////////////// -->
+                    <TextView
+                            android:id="@+id/textView36"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/nombre_titular"
+                            android:theme="@style/textTheme"
+                            app:layout_constraintTop_toBottomOf="@+id/textView35"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/editTextNameTitular"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            app:hintEnabled="false"
+                            android:theme="@style/textInputTheme"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                         <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:inputType="textPassword" />
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:paddingEnd="10dp"
+                                android:paddingStart="10dp"
+                                android:text="@={ contractViewModel.modelData.nombreTitular }"
+                                android:hint="@string/hint_nombre_y_apellidos"
+                                android:inputType="textPersonName" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+<!-- //////////////////  Data segundo al data  //////////////////////////////// -->
+                    <TextView
+                            android:id="@+id/textView37"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/y_o_segundo_titular"
+                            android:theme="@style/textTheme"
+                            app:layout_constraintTop_toBottomOf="@+id/textView35"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/editTextNameSegundo"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            app:hintEnabled="false"
+                            android:theme="@style/textInputTheme"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:paddingEnd="10dp"
+                                android:paddingStart="10dp"
+                                android:hint="@string/hint_nombre_y_apellidos"
+                                android:inputType="textPersonName" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+<!-- //////////////////  First fecha nac rfc  //////////////////////////////// -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="@string/fecha_nacimiento"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextNacimiento"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:hint="@string/_09_09_1990"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <View
+                                android:layout_width="32dp"
+                                android:layout_height="match_parent"/>
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="@string/rfc"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextRFC"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+<!-- //////////////////  First tel correo  //////////////////////////////// -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="@string/t_lefono"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextTelefono"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:hint="@string/_10_d_gitos"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <View
+                                android:layout_width="32dp"
+                                android:layout_height="match_parent"/>
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="@string/correo"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextCorreo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+<!-- //////////////////  Data direccion  //////////////////////////////// -->
+                    <TextView
+                            android:id="@+id/textView38"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/direcci_n"
+                            android:theme="@style/textTheme"
+                            app:layout_constraintTop_toBottomOf="@+id/textView35"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/editTextDireccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            app:hintEnabled="false"
+                            android:theme="@style/textInputTheme"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:paddingEnd="10dp"
+                                android:paddingStart="10dp"
+                                android:hint="@string/calle_y_n_mero"
+                                android:inputType="textPostalAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+<!-- //////////////////  First linear data  //////////////////////////////// -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="16dp"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="@string/c_p"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextPostal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:hint="5 dígitos"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <View
+                                android:layout_width="32dp"
+                                android:layout_height="match_parent"/>
+
+                        <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:theme="@style/textTheme"
+                                    android:text="@string/colonia"/>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/editTextFechaColonia"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="44dp"
+                                    app:hintEnabled="false"
+                                    android:theme="@style/textInputTheme"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@null"
+                                        android:paddingEnd="10dp"
+                                        android:paddingStart="10dp"
+                                        android:inputType="textPersonName" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+<!-- //////////////////  Data liner alcaldia  //////////////////////////////// -->
+                    <TextView
+                            android:id="@+id/textView40"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/alcald_a_o_municipio"
+                            android:theme="@style/textTheme"
+                            app:layout_constraintTop_toBottomOf="@+id/textView35"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/editTextAlcaldia"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            app:hintEnabled="false"
+                            android:theme="@style/textInputTheme"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView36">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:paddingEnd="10dp"
+                                android:paddingStart="10dp"
+                                android:inputType="textPostalAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_gravity="center">
+
+                    <Button
+                            android:id="@+id/buttonLogin"
+                            android:layout_width="120dp"
+                            android:layout_height="40dp"
+                            android:text="@string/enviar_datos"
+                            style="@style/textButtonTheme"
+                            android:onClick="@{ () -> contractViewModel.sendDataAction() }"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+                    </LinearLayout>
                 </LinearLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--/ScrollView-->
-
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

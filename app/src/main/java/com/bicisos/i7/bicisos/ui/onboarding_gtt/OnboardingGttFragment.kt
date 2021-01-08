@@ -30,7 +30,7 @@ class OnboardingGttFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(OnboardingGttViewModel::class.java)
         // TODO: Use the ViewModel
 
-        onboardingViewPager.adapter = OnboardingAdapter(requireActivity(),4)
+        onboardingViewPager.adapter = OnboardingAdapter(requireActivity(),5)
         TabLayoutMediator(tab_layout, onboardingViewPager) { tab, position ->
             //Some implementation...
         }.attach()

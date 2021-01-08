@@ -27,26 +27,47 @@
     <string name="sesion_gtt">Ya tienes cuenta, inicia sesión</string>
     <string name="hint_user">Correo o telefono</string>
     <string name="hint_pass">Password</string>
+    <string name="sos_ciclista">SOS Ciclista</string>
+    <string name="nombre_titular">Nombre titular</string>
+    <string name="hint_nombre_y_apellidos">Nombre y apellidos</string>
+    <string name="y_o_segundo_titular">Y/o segundo titular</string>
+    <string name="direcci_n">Dirección</string>
+    <string name="calle_y_n_mero">Calle y número</string>
+    <string name="c_p">C.P.</string>
+    <string name="colonia">Colonia</string>
+    <string name="alcald_a_o_municipio">Alcaldía o municipio</string>
+    <string name="t_lefono">Télefono</string>
+    <string name="_10_d_gitos">10 dígitos</string>
+    <string name="correo">Correo</string>
+    <string name="enviar_datos">Enviar datos</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="fecha_nacimiento">Fecha nacimiento</string>
+    <string name="_09_09_1990">09/09/1990</string>
+    <string name="rfc">RFC</string>
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>
-        <item>Responsabilidad civil terceros</item>
         <item>Paramédico en motocicleta</item>
+        <item>Asistencia legal</item>
+        <item>Responsabilidad civil terceros</item>
         <item>Gastos médicos y/o funerarios</item>
     </string-array>
 
     <string-array name="onboarding_descriptions">
         <item>En caso de accidente vial, te apoyamos con un monto de hasta $2,500.00 MXN, y en caso de ser necesario se trasladará al bici-tallermecánico más cercano</item>
-        <item>En caso de accidente vial, llegará un ajustador al lugar del accidente, si resultamos ser responsables, se extenderá un pase que cubra los daños que ocasione a un tercero en sus bienes y/o personas.</item>
         <item>En caso de accidente vial y de ser necesaria la asistencia, llegará un paramédico en moto para brindarte los primeros auxilios y evaluará la gravedad de la situación.</item>
+        <item>En enviará un asesor jurídico en caso de ser requerido por accidnete vial, para asesorarte ante una autoridad compenente.</item>
+        <item>En caso de accidente vial, llegará un ajustador al lugar del accidente, si resultamos ser responsables, se extenderá un pase que cubra los daños que ocasione a un tercero en sus bienes y/o personas.</item>
         <item>En caso de hospitalización y/o fallecimiento, te reembolsamos los gastos generados.</item>
     </string-array>
 
     <integer-array name="onboarding_imgs">
-        <item>@drawable/apoyoicon</item>
-        <item>@drawable/cicloviaicon</item>
-        <item>@drawable/averiaicon</item>
-        <item>@drawable/cameraicon</item>
+        <item>@drawable/gttonb1</item>
+        <item>@drawable/gttonb2</item>
+        <item>@drawable/gttonb3</item>
+        <item>@drawable/gttonb4</item>
+        <item>@drawable/gttonb5</item>
     </integer-array>
 
 </resources>

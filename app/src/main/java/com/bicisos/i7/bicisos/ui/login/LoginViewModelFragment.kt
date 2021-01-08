@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.LoginViewModelFragmentBinding
 import com.bicisos.i7.bicisos.repository.Repository
+import kotlinx.android.synthetic.main.login_view_model_fragment.*
 
 class LoginViewModelFragment : Fragment() {
 
@@ -39,18 +40,26 @@ class LoginViewModelFragment : Fragment() {
         //viewModel = ViewModelProviders.of(this).get(LoginViewModelViewModel::class.java)
         // TODO: Use the ViewModel
 
-        viewModel.launch.observe(viewLifecycleOwner, Observer<String> { data ->
-            when(data){
-                "onboarding" -> {
-                    findNavController().navigate(R.id.action_loginViewModelFragment_to_onboardingGttFragment)
-                }
-                "contrata" -> {
-                    findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
-                }
-                else -> {
+//        viewModel.launch.observe(viewLifecycleOwner, Observer<String> { data ->
+//            when(data){
+//                "onboarding" -> {
+//                    findNavController().navigate(R.id.action_loginViewModelFragment_to_onboardingGttFragment)
+//                }
+//                "contrata" -> {
+//                    findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
+//                }
+//                else -> {
+//
+//                }
+//            }
+//        })
 
-                }
-            }
-        })
+        buttonBeneficios.setOnClickListener {
+            findNavController().navigate(R.id.action_loginViewModelFragment_to_onboardingGttFragment)
+        }
+
+        buttonContrata.setOnClickListener {
+            findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
+        }
     }
 }
