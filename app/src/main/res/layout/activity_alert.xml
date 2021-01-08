@@ -54,14 +54,14 @@
             android:id="@+id/imageViewBiciRobadaAlertas"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/alertafinal"
+            android:src="@drawable/newreportar"
             android:transitionName="ciclovia"
             app:layout_constraintBottom_toTopOf="@+id/imageViewApoyoAlertas"
             app:layout_constraintEnd_toStartOf="@+id/imageViewApoyoAlertas"
             app:layout_constraintStart_toEndOf="@+id/imageViewAveriaAlertas" />
 
     <ImageView
-            android:src="@drawable/reportar"
+            android:src="@drawable/panic"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:transitionName="alert_icon"
@@ -75,7 +75,7 @@
             android:id="@+id/imageViewHelpAlertas"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:src="@drawable/helpicon"
+            android:src="@drawable/emergencyred"
             android:transitionName="help"
             app:layout_constraintStart_toStartOf="@+id/imageViewAveriaAlertas"
             app:layout_constraintTop_toBottomOf="@+id/imageViewAlerta" />
@@ -94,7 +94,7 @@
             android:id="@+id/imageViewSegurosBici"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/alertafinal"
+            android:src="@drawable/icongtt"
             android:transitionName="ciclovia"
             app:layout_constraintEnd_toStartOf="@+id/imageViewCicloviaAlertas"
             app:layout_constraintStart_toEndOf="@+id/imageViewHelpAlertas"
