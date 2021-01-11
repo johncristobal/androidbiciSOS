@@ -78,7 +78,7 @@ class PersonalizaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -88,7 +88,7 @@ class PersonalizaFragment : Fragment() {
             )
         }
 
-        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
         val name = prefs.getString("nombre","null")
         if (!name!!.equals("null")) {
             editTextNombrePer.setText(name)
@@ -103,7 +103,7 @@ class PersonalizaFragment : Fragment() {
         }
         bici = prefs.getInt("bici",-1)
 
-        listaimagenes.layoutManager = LinearLayoutManager(activity!!,LinearLayoutManager.HORIZONTAL,false)
+        listaimagenes.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
 
         val imagenes = ArrayList<Int>()
         imagenes.add(R.mipmap.bicia)
@@ -113,7 +113,7 @@ class PersonalizaFragment : Fragment() {
         imagenes.add(R.mipmap.bicie)
         imagenes.add(R.mipmap.bicif)
 
-        val adapter = CustomBici(activity!!,imagenes,bici)
+        val adapter = CustomBici(requireActivity(),imagenes,bici)
 
         listaimagenes.adapter = adapter
 
@@ -124,7 +124,7 @@ class PersonalizaFragment : Fragment() {
             //salvemos lo demas
             bici = prefs.getInt("bici",-1)
             if (bici == -1) {
-                Toast.makeText(activity!!, "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
             }else {
                 val editor = prefs.edit()
                 editor.putString("nombre", editTextNombrePer.text.toString());
@@ -139,7 +139,7 @@ class PersonalizaFragment : Fragment() {
         buttonDespues.setOnClickListener {
             bici = prefs.getInt("bici",-1)
             if (bici == -1) {
-                Toast.makeText(activity!!, "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), "Selecciona una bici de la lista para continuar...",Toast.LENGTH_LONG).show()
             }else {
                 val editor = prefs.edit()
                 editor.putString("nombre", editTextNombrePer.text.toString());
@@ -160,7 +160,7 @@ class PersonalizaFragment : Fragment() {
         index = -1
 
         takePictures.setOnClickListener {
-            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val set = prefs.getString("photos", null)
             if (set == null)
             {
@@ -192,7 +192,7 @@ class PersonalizaFragment : Fragment() {
             if (allPermissionsGranted()) {
                 takePhoto()
             } else {
-                Toast.makeText(activity!!,
+                Toast.makeText(requireActivity(),
                     "Permissions not granted by the user.",
                     Toast.LENGTH_SHORT).show()
             }
@@ -201,7 +201,7 @@ class PersonalizaFragment : Fragment() {
 
 //CODE: - open layout photos =======================================================================
     fun loadPohots(){
-        mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.photos, null)
+        mDialogView = LayoutInflater.from(requireActivity()).inflate(R.layout.photos, null)
 
         var i = -1
 
@@ -233,7 +233,7 @@ class PersonalizaFragment : Fragment() {
                         0 -> {
                             photosBool!![0] = true
                             /*Glide
-                                .with(activity!!)
+                                .with(requireActivity())
                                 .load(myBitmap)
                                 .override(mDialogView.bici1.width, mDialogView.bici1.height) // resizes the image to these dimensions (in pixel)
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
@@ -244,45 +244,45 @@ class PersonalizaFragment : Fragment() {
 //                                .resize(finalW, finalH)
 //                                //.centerCrop()
 //                                .into(mDialogView.bici1)
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici1)
                         }
                         1 -> {
                             photosBool!![1] = true
                             /*Glide
-                                .with(activity!!)
+                                .with(requireActivity())
                                 .load(myBitmap)
                                 .override(mDialogView.bici2.width, mDialogView.bici2.height) // resizes the image to these dimensions (in pixel)
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                                 .into(mDialogView.bici2);*/
                             //mDialogView.bici2.setImageBitmap(compressedBitmap)
 
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici2)
                         }
                         2 -> {
                             photosBool!![2] = true
                             /*Glide
-                                .with(activity!!)
+                                .with(requireActivity())
                                 .load(myBitmap)
                                 .override(mDialogView.bici3.width, mDialogView.bici3.height) // resizes the image to these dimensions (in pixel)
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                                 .into(mDialogView.bici3);*/
                             //mDialogView.bici3.setImageBitmap(compressedBitmap)
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici3)
                         }
                         3 -> {
                             photosBool!![3] = true
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici4)
                             //mDialogView.bici4.setImageBitmap(compressedBitmap)
                             /*Glide
-                                .with(activity!!)
+                                .with(requireActivity())
                                 .load(myBitmap)
                                 .override(mDialogView.bici4.width, mDialogView.bici4.height) // resizes the image to these dimensions (in pixel)
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
@@ -317,7 +317,7 @@ class PersonalizaFragment : Fragment() {
             //preguntar por borrar foto o tomar nueva
             if ((imagesEncodedList!![index].length > 1)){
 
-                val alertanother = AlertDialog.Builder(activity!!)
+                val alertanother = AlertDialog.Builder(requireActivity())
                 alertanother.setTitle("Tu bici...")
                 val options = arrayOf<CharSequence>("Tomar otra foto", "Borrar foto", "Cancelar")
                 alertanother.setItems(options) { dialog, item ->
@@ -364,7 +364,7 @@ class PersonalizaFragment : Fragment() {
         }
 
         //AlertDialogBuilder
-        mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
+        mBuilder = AlertDialog.Builder(requireActivity()).setView(mDialogView)
         val wrapper = ContextWrapper(context)
 
         mDialogView.bici1.setOnClickListener(click)
@@ -376,7 +376,7 @@ class PersonalizaFragment : Fragment() {
             Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
             mAlertDialog.dismiss()
 
-            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
             var photosString = ""
             for(item in imagesEncodedList!!){
                 if(item.length > 1)
@@ -399,7 +399,7 @@ class PersonalizaFragment : Fragment() {
 
 // CODE: - Open alerta para seleccionar camara, galeria, cancelar===================================
     private fun alertaPhoto(){
-        val alertanother = AlertDialog.Builder(activity!!)
+        val alertanother = AlertDialog.Builder(requireActivity())
         alertanother.setTitle("Sube fotos de tu bici...")
         val options = arrayOf<CharSequence>("Cámara","Galería", "Cancelar")
 
@@ -409,7 +409,7 @@ class PersonalizaFragment : Fragment() {
             if (options[item] == "Galería") {
 
                 //Check permission again to ensure it
-                if (ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(
                         arrayOf(
                             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -430,7 +430,7 @@ class PersonalizaFragment : Fragment() {
             } else if (options[item] == "Cámara") {
 
                 //takePhoto()
-//                if (ActivityCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 //                    requestPermissions(
 //                        arrayOf(
 //                            Manifest.permission.CAMERA
@@ -456,7 +456,7 @@ class PersonalizaFragment : Fragment() {
     fun takePicture(name: String) {
         val takepic = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         //startActivityForResult(i, FRONT_VEHICLE);
-        if (takepic.resolveActivity(activity!!.packageManager) != null) {
+        if (takepic.resolveActivity(requireActivity().packageManager) != null) {
             // Create the File where the photo should go
             try {
                 photoFile = createImageFile(name)
@@ -468,12 +468,12 @@ class PersonalizaFragment : Fragment() {
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                val photoURI = FileProvider.getUriForFile(activity!!, "com.bicisos.i7.bicisos.fileprovider", photoFile!!)
+                val photoURI = FileProvider.getUriForFile(requireActivity(), "com.bicisos.i7.bicisos.fileprovider", photoFile!!)
                 //val photoURI = Uri.fromFile(photoFile)
                 takepic.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 startActivityForResult(takepic, REQUEST_CODE_CAMERA)
             } else {
-                Toast.makeText(activity!!, "Tuvimos un problema al tomar la imagen. Intente mas tarde.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Tuvimos un problema al tomar la imagen. Intente mas tarde.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -500,7 +500,7 @@ class PersonalizaFragment : Fragment() {
                 Log.w("tag...",result)
                 imagesEncodedList!![index] = result
                 //get uri data, show photo
-                Glide.with(activity!!)
+                Glide.with(requireActivity())
                     .load(result)
                     .into(imageTempView)
             }
@@ -516,13 +516,13 @@ class PersonalizaFragment : Fragment() {
         // Create an image file name
         try {
             val image: File
-            Log.w("data getfilesdir",activity!!.getFilesDir().absolutePath)
+            Log.w("data getfilesdir",requireActivity().getFilesDir().absolutePath)
 
 
-            if (!File(activity!!.getFilesDir(), "images").exists()){
-                File(activity!!.getFilesDir(), "images").mkdirs()
+            if (!File(requireActivity().getFilesDir(), "images").exists()){
+                File(requireActivity().getFilesDir(), "images").mkdirs()
             }
-            image = File(activity!!.getFilesDir(), "images" + File.separator + username + ".png")
+            image = File(requireActivity().getFilesDir(), "images" + File.separator + username + ".png")
 
             if (image.exists()) {
                 image.delete()

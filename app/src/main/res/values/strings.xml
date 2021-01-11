@@ -45,6 +45,12 @@
     <string name="fecha_nacimiento">Fecha nacimiento</string>
     <string name="_09_09_1990">09/09/1990</string>
     <string name="rfc">RFC</string>
+    <string name="txt_home">Inicio</string>
+    <string name="contact_text">Contácto</string>
+    <string name="txt_acerca">Acerca de</string>
+    <string name="txt_setting">Ajustes</string>
+    <string name="txt_exit">Salir</string>
+    <string name="dash_text_a">Beneficios al contratar asesoría y asistencia con grupo GTT</string>
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>
@@ -69,5 +75,25 @@
         <item>@drawable/gttonb4</item>
         <item>@drawable/gttonb5</item>
     </integer-array>
+
+    <integer-array name="dash_gtt_images">
+        <item>@drawable/dash_a</item>
+        <item>@drawable/dash_b</item>
+        <item>@drawable/dash_c</item>
+        <item>@drawable/dash_d</item>
+        <item>@drawable/dash_e</item>
+        <item>@drawable/extras_a</item>
+        <item>@drawable/extras_b</item>
+    </integer-array>
+
+    <string-array name="dash_descriptions">
+        <item>Asistencia legal</item>
+        <item>Perjuicios a la unidad</item>
+        <item>Paramédico en moto</item>
+        <item>Resp. civil terceros</item>
+        <item>Gastos médicos y/o funerarios</item>
+        <item>Barredora gratuita</item>
+        <item>Paramédico sin costo</item>
+    </string-array>
 
 </resources>

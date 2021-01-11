@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+            android:id="@+id/grp_1"
+            android:checkableBehavior="single">
+        <!--item
+                android:id="@+id/homeFragment"
+                android:icon="@drawable/ic_home"
+                android:title="@string/txt_home" /-->
+        <item
+                android:id="@+id/homeFragmentGtt"
+                android:title="@string/txt_home" />
+    </group>
+
+    <group
+            android:id="@+id/grp_2"
+            android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/contactFragmentGtt"
+                android:title="@string/contact_text" />
+        <item
+                android:id="@+id/acercadeFragmentGtt"
+                android:title="@string/txt_acerca" />
+    </group>
+
+
+    <group
+            android:id="@+id/grp_5"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/ajustesFragmentGtt"
+                android:title="@string/txt_setting" />
+        <item
+                android:id="@+id/salirFragment"
+                android:title="@string/txt_exit" />
+    </group>
+
+</menu>

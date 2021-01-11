@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_nav_graph_gtt.xml"
+        app:startDestination="@id/homeFragmentGtt">
+
+    <fragment
+            android:id="@+id/homeFragmentGtt"
+            android:name="com.bicisos.i7.bicisos.ui.dashboard.home.HomeFragmentGtt"
+            android:label="Seguros Grupo GTT"
+            tools:layout="@layout/fragment_home_gtt" />
+
+    <fragment
+            android:id="@+id/contactFragmentGtt"
+            android:name="com.bicisos.i7.bicisos.ui.dashboard.contact.ContactFragmentGtt"
+            android:label="fragment_contact_gtt"
+            tools:layout="@layout/fragment_contact_gtt" />
+
+
+</navigation>

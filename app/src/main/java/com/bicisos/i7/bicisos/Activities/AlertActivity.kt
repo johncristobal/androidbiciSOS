@@ -12,6 +12,7 @@ import com.bicisos.i7.bicisos.Fragments.ReportFragment
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.ui.GraphActivity
+import com.bicisos.i7.bicisos.ui.dashboard.DashboardGttActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_alert.*
 import kotlinx.android.synthetic.main.content_principal.*
@@ -66,7 +67,8 @@ class AlertActivity : AppCompatActivity(),
         }
 
         imageViewSegurosBici.setOnClickListener {
-            startActivity(Intent(this, GraphActivity::class.java))
+            //startActivity(Intent(this, GraphActivity::class.java))
+            startActivity(Intent(this, DashboardGttActivity::class.java))
         }
 
     }

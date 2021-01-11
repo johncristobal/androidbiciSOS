@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#ffe800</color>
     <color name="colorAccent">#370000</color>
 
+    <color name="colorPrimaryGtt">#0d60a0</color>
+    <color name="colorPrimaryDarkGtt">#4d60a0</color>
+    <color name="colorAccentGtt">#E00A0A</color>
+
     <color name="amarillo">#ffd800</color>
     <color name="cafe">#370000</color>
     <color name="gris">#ededed</color>

@@ -27,8 +27,14 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.GraphActivity"
-                android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+                android:name=".ui.dashboard.DashboardGttActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppThemeGtt" />
+        <activity
+                android:name=".ui.GraphActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppThemeGtt" />
 
         <activity android:name=".Activities.CameraPhotosActivity" />
         <activity
