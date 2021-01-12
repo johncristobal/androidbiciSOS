@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bicisos.i7.bicisos.R
@@ -18,6 +19,7 @@ class DashboardGttActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard_gtt)
+        setSupportActionBar(my_awesome_toolbar)
         setupDrawerLayout()
     }
 
@@ -29,7 +31,23 @@ class DashboardGttActivity : AppCompatActivity() {
         nav_view.setupWithNavController(navController)
         NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
 
-        
+        nav_view.setNavigationItemSelectedListener {
+            if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
+
+            when(it.itemId){
+                R.id.contactFragmentGtt -> {
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.contactFragmentGtt)
+                }
+                else -> {
+
+                }
+            }
+
+            true
+
+        }
     }
 
     override fun onBackPressed() {

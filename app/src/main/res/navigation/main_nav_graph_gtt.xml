@@ -9,7 +9,11 @@
             android:id="@+id/homeFragmentGtt"
             android:name="com.bicisos.i7.bicisos.ui.dashboard.home.HomeFragmentGtt"
             android:label="Seguros Grupo GTT"
-            tools:layout="@layout/fragment_home_gtt" />
+            tools:layout="@layout/fragment_home_gtt" >
+        <action
+                android:id="@+id/action_homeFragmentGtt_to_contactFragmentGtt"
+                app:destination="@id/contactFragmentGtt" />
+    </fragment>
 
     <fragment
             android:id="@+id/contactFragmentGtt"

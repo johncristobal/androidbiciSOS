@@ -8,12 +8,32 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
-    <style name="AppThemeGtt" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeGtt" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimaryGtt</item>
+        <item name="colorPrimary">@color/blanco</item>
         <item name="colorPrimaryDark">@color/colorPrimaryGtt</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryGtt</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorAccent">@color/colorAccentGtt</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <!--style name="ActionBarThemeGtt" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/blanco</item>
+        <item name="titleTextStyle">@style/MyActionBarTitle</item>
+    </style>
+    <style name="MyActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorPrimaryGtt</item>
+    </style-->
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/colorPrimaryGtt</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
