@@ -29,6 +29,7 @@
     <color name="dot_light_screen4">#fff</color>
     <color name="dot_light_screen5">#fff</color>
     <color name="dot_light_screen6">#fff</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>
