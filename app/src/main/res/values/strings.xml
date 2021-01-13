@@ -57,6 +57,14 @@
     <string name="porcontact">O CONTACTANOS POR</string>
     <string name="web_gtt">www.asistenciavialgtt.com</string>
     <string name="tel_gtt">55-1207-7818 (19)</string>
+    <string name="acercadetext">Es una administradora de\nriesgos en hechos de tránsito\nterrestres especializada en\naccidentes viales con más de \n16 años de experiencia</string>
+    <string name="misi_n">MISIÓN</string>
+    <string name="misiongtt">Satisfacer de manera efectiva y\neficiente las necesidades de\nnuestros clientes</string>
+    <string name="visi_n">VISIÓN</string>
+    <string name="visiongtt">Ser la empresa más reconocida\nen el país en proveer soluciones\nque satisfagan las necesidades\nde nuestros clientes.</string>
+    <string name="valores">VALORES</string>
+    <string name="valoresgtt">• Trabajo\n• Compromiso\n• Responsabilidad\n• Seguridad\n• Honradez\n• Liderazgo</string>
+    <string name="misi_n_visi_n_valores">Misión / Visión / Valores</string>
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>

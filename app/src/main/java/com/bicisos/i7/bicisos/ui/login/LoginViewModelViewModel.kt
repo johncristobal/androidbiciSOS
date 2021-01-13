@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bicisos.i7.bicisos.repository.Repository
+import com.bicisos.i7.bicisos.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -16,6 +17,10 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
     val _launch = MutableLiveData<String>()
     val launch: LiveData<String>
         get() = _launch
+
+    val _uploadUI = SingleLiveEvent<String>()
+    val uploadUI: SingleLiveEvent<String>
+        get() = _uploadUI
 
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean>
@@ -41,7 +46,7 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
 //                }
                 _progress.value = false
 
-                _launch.value = "dashboard"
+                _uploadUI.value = "dashboard"
 
             }catch (e: Exception){
                 _progress.value = false

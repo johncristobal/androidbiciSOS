@@ -1,5 +1,6 @@
 package com.bicisos.i7.bicisos.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.LoginViewModelFragmentBinding
 import com.bicisos.i7.bicisos.repository.Repository
+import com.bicisos.i7.bicisos.ui.dashboard.DashboardGttActivity
 import kotlinx.android.synthetic.main.login_view_model_fragment.*
 
 class LoginViewModelFragment : Fragment() {
@@ -40,19 +42,31 @@ class LoginViewModelFragment : Fragment() {
         //viewModel = ViewModelProviders.of(this).get(LoginViewModelViewModel::class.java)
         // TODO: Use the ViewModel
 
+        //val navController = findNavController()
+        //val navBackStackEntry = navController.getBackStackEntry(R.id.my_nav_host_fragment)
+
 //        viewModel.launch.observe(viewLifecycleOwner, Observer<String> { data ->
+//
 //            when(data){
-//                "onboarding" -> {
-//                    findNavController().navigate(R.id.action_loginViewModelFragment_to_onboardingGttFragment)
-//                }
-//                "contrata" -> {
-//                    findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
+//                "dashboard" -> {
+//                    startActivity(Intent(requireActivity(), DashboardGttActivity::class.java))
 //                }
 //                else -> {
 //
 //                }
 //            }
 //        })
+
+        viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
+            when(it){
+                "dashboard" -> {
+                    startActivity(Intent(requireActivity(), DashboardGttActivity::class.java))
+                }
+                else -> {
+
+                }
+            }
+        })
 
         buttonBeneficios.setOnClickListener {
             findNavController().navigate(R.id.action_loginViewModelFragment_to_onboardingGttFragment)

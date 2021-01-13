@@ -40,6 +40,15 @@ class DashboardGttActivity : AppCompatActivity() {
                 R.id.contactFragmentGtt -> {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.contactFragmentGtt)
                 }
+                R.id.aboutFragmentGtt -> {
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.aboutFragmentGtt)
+                }
+                R.id.misionFragmentGtt -> {
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.misionFragmentGtt)
+                }
+                R.id.salirFragment -> {
+                    finish()
+                }
                 else -> {
 
                 }

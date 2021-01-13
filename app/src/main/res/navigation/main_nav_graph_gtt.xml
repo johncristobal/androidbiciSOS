@@ -13,6 +13,12 @@
         <action
                 android:id="@+id/action_homeFragmentGtt_to_contactFragmentGtt"
                 app:destination="@id/contactFragmentGtt" />
+        <action
+                android:id="@+id/action_homeFragmentGtt_to_aboutFragmentGtt"
+                app:destination="@id/aboutFragmentGtt" />
+        <action
+                android:id="@+id/action_homeFragmentGtt_to_misionFragmentGtt"
+                app:destination="@id/misionFragmentGtt" />
     </fragment>
 
     <fragment
@@ -20,6 +26,16 @@
             android:name="com.bicisos.i7.bicisos.ui.dashboard.contact.ContactFragmentGtt"
             android:label="Contácto"
             tools:layout="@layout/fragment_contact_gtt" />
+    <fragment
+            android:id="@+id/aboutFragmentGtt"
+            android:name="com.bicisos.i7.bicisos.ui.dashboard.about.AboutFragmentGtt"
+            android:label="Acerca de"
+            tools:layout="@layout/fragment_about_gtt" />
+    <fragment
+            android:id="@+id/misionFragmentGtt"
+            android:name="com.bicisos.i7.bicisos.ui.dashboard.mision.MisionFragmentGtt"
+            android:label="Misión/Visión/Valores"
+            tools:layout="@layout/fragment_mision_gtt" />
 
 
 </navigation>

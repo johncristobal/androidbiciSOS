@@ -19,10 +19,13 @@
             android:checkableBehavior="single">
 
         <item
+                android:id="@+id/misionFragmentGtt"
+                android:title="@string/misi_n_visi_n_valores" />
+        <item
                 android:id="@+id/contactFragmentGtt"
                 android:title="@string/contact_text" />
         <item
-                android:id="@+id/acercadeFragmentGtt"
+                android:id="@+id/aboutFragmentGtt"
                 android:title="@string/txt_acerca" />
     </group>
 
@@ -30,9 +33,6 @@
     <group
             android:id="@+id/grp_5"
             android:checkableBehavior="single">
-        <item
-                android:id="@+id/ajustesFragmentGtt"
-                android:title="@string/txt_setting" />
         <item
                 android:id="@+id/salirFragment"
                 android:title="@string/txt_exit" />

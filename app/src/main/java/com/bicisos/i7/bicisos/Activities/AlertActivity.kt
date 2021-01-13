@@ -67,8 +67,8 @@ class AlertActivity : AppCompatActivity(),
         }
 
         imageViewSegurosBici.setOnClickListener {
-            //startActivity(Intent(this, GraphActivity::class.java))
-            startActivity(Intent(this, DashboardGttActivity::class.java))
+            startActivity(Intent(this, GraphActivity::class.java))
+            //startActivity(Intent(this, DashboardGttActivity::class.java))
         }
 
     }

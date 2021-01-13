@@ -24,6 +24,11 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <style name="AppThemeGtt.Drawer" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/colorPrimaryGtt</item>
+    </style>
     <!--style name="ActionBarThemeGtt" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/blanco</item>
         <item name="titleTextStyle">@style/MyActionBarTitle</item>
