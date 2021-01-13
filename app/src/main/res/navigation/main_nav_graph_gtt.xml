@@ -18,7 +18,7 @@
     <fragment
             android:id="@+id/contactFragmentGtt"
             android:name="com.bicisos.i7.bicisos.ui.dashboard.contact.ContactFragmentGtt"
-            android:label="fragment_contact_gtt"
+            android:label="Contácto"
             tools:layout="@layout/fragment_contact_gtt" />
 
 

@@ -51,6 +51,12 @@
     <string name="txt_setting">Ajustes</string>
     <string name="txt_exit">Salir</string>
     <string name="dash_text_a">Beneficios al contratar asesoría y asistencia con grupo GTT</string>
+    <string name="contacto_gtt">Para cualquier información o \n sugerencia contáctanos</string>
+    <string name="mensjaegtt">Mensaje para Grupot GTT</string>
+    <string name="comentarios">COMENTARIOS</string>
+    <string name="porcontact">O CONTACTANOS POR</string>
+    <string name="web_gtt">www.asistenciavialgtt.com</string>
+    <string name="tel_gtt">55-1207-7818 (19)</string>
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>
