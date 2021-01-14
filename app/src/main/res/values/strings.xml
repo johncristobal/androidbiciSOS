@@ -65,6 +65,13 @@
     <string name="valores">VALORES</string>
     <string name="valoresgtt">• Trabajo\n• Compromiso\n• Responsabilidad\n• Seguridad\n• Honradez\n• Liderazgo</string>
     <string name="misi_n_visi_n_valores">Misión / Visión / Valores</string>
+    <string name="todo">LO QUE PUEDES HACER...</string>
+    <string name="todo_a">Tenemos varias secciones las cuales\nte ayudarán a tomar acciones directas y\nrápidas en cuanto a robos y emergencias.</string>
+    <string name="todo_b">El mapa te ayudará a encontrar el taller\nbici-mecánico más cercano en caso de\nemergencia en tu traslado.</string>
+    <string name="averia_text_onb">Si necesitas refacciones o ayuda mecánica, pídela directamente a la comunidad ciclista. Haz el llamado en esta sección y el ciclista que anda por la zona podrá auxiliarte.</string>
+    <string name="apoyo_text_onb">Utiliza esta sección cuando tengas cualquier percance con algún automovilista o autoridad y la comunidad ciclista llegará a apoyarte. También podrás convocar vallas ciclistas.</string>
+    <string name="red_onb">En esta opción podrás reportar algún accidente no solo para ciclistas, si no en general. Esperemos que nunca lleguemos a utilizarlo.</string>
+    <string name="gtt_onb_wel">Como plus en la app puedes contactar con SEGUTOS GTT para ciclistas que abarca todas las necesidades jurídicas y médicas para el ciclista urbano.</string>
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>
