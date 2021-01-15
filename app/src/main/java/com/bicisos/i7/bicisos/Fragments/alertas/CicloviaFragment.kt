@@ -72,7 +72,7 @@ class CicloviaFragment : BottomSheetDialogFragment() {
 
         buttonEnviar.setOnClickListener {
             if (editTextAveria.text.toString().equals("")){
-                Toast.makeText(activity!!,"Describe la ciclovía brevemente...",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"Describe la ciclovía brevemente...",Toast.LENGTH_SHORT).show()
             }else {
                 buttonEnviar.visibility = View.INVISIBLE
                 loadingBarCiclo.visibility = View.VISIBLE
@@ -80,7 +80,7 @@ class CicloviaFragment : BottomSheetDialogFragment() {
                 val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
                 val dateFinal = stringfecha.format(fecha)
 
-                val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val prefs = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val serie = prefs.getString("serie", "null")
 
                 val database = Firebase.database
@@ -120,11 +120,10 @@ class CicloviaFragment : BottomSheetDialogFragment() {
                     buttonEnviar.visibility = View.VISIBLE
                     loadingBarCiclo.visibility = View.INVISIBLE
 
-                    Toast.makeText(activity!!,"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(),"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
     }
 
     override fun onAttach(context: Context) {

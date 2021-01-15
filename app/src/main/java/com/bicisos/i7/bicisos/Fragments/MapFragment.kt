@@ -216,6 +216,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
                             2 -> mipmap = R.drawable.averiaicon
                             3 -> mipmap = R.drawable.cicloviaicon
                             4 -> mipmap = R.drawable.apoyoicon
+                            5 -> mipmap = R.drawable.panic
                         }
 
                         val height = 100

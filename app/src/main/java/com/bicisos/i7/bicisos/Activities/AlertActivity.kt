@@ -71,6 +71,11 @@ class AlertActivity : AppCompatActivity(),
             //startActivity(Intent(this, DashboardGttActivity::class.java))
         }
 
+        imageViewAlerta.setOnClickListener {
+            modalbottomSheetFragment = PanicFragment.newInstance(latitud,longitud,name!!)
+            modalbottomSheetFragment.show(supportFragmentManager,modalbottomSheetFragment.tag)
+        }
+
     }
 
     override fun onFragmentAveria(message: String) {

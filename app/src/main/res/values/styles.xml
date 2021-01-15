@@ -59,6 +59,12 @@
         <item name="android:textColor">@color/blanco</item>
     </style>
 
+    <style name="textThemeSOS" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/cafe</item>
+    </style>
+
     <style name="textThemeTitle" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textSize">24sp</item>
         <item name="fontFamily">@font/helvetica</item>
