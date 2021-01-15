@@ -72,6 +72,10 @@
     <string name="apoyo_text_onb">Utiliza esta sección cuando tengas cualquier percance con algún automovilista o autoridad y la comunidad ciclista llegará a apoyarte. También podrás convocar vallas ciclistas.</string>
     <string name="red_onb">En esta opción podrás reportar algún accidente no solo para ciclistas, si no en general. Esperemos que nunca lleguemos a utilizarlo.</string>
     <string name="gtt_onb_wel">Como plus en la app puedes contactar con SEGUTOS GTT para ciclistas que abarca todas las necesidades jurídicas y médicas para el ciclista urbano.</string>
+    <string name="finish_onb">Con estas herramientas estarás preparado para cualquier eventualidad, aprovecha cada una de ellas y cuidémonos entre todos, formemos comunidad y salgamos a las calles seguros y prevenidos.</string>
+    <string name="readyset">¡AHORA ESTAS LISTO!</string>
+    <string name="start_onb">En esta app encontrarás todas las herrameintas necesarias de reporte, prevención, auxilio y seguridad a la hora de salir en bicicleta. Juntos nos apoyamos, hagamos comunidad.</string>
+    <string name="ciclviaonb">En caso de toparte con alguna ciclovía en mal estado o con algún automovilista obstruyendo, reportalá aquí para que otros ciclistas puedan tener cuidado.</string>
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>

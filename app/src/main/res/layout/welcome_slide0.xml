@@ -12,8 +12,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/readyset"
-            android:textSize="24sp"
+            android:text="¡BIENVENIDO!"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:theme="@style/textTheme"
             app:layout_constraintBottom_toTopOf="@+id/imageView7"
@@ -44,7 +44,7 @@
             android:layout_marginEnd="32dp"
             android:textAlignment="center"
             android:theme="@style/textTheme"
-            android:text="@string/finish_onb"/>
+            android:text="@string/start_onb"/>
 
     <!--TextView
             android:text="Formemos comunidad y salgamos a las calles seguros y prevenidos."

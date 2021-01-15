@@ -30,11 +30,11 @@ class TutorialActivity : AppCompatActivity() {
         setContentView(R.layout.activity_tutorial)
 
         layouts = intArrayOf(
+            R.layout.welcome_slide0,
             R.layout.welcome_slide1,
-            R.layout.welcome_slide2,
-            R.layout.welcome_slide3,
-            R.layout.welcome_slide4,
-            R.layout.welcome_slide5,
+            R.layout.welcome_new1,
+            R.layout.welcome_new2,
+            R.layout.welcome_new3,
             R.layout.welcome_slide6
         )
 

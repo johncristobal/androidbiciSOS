@@ -2,25 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="#000"
         android:layout_height="match_parent">
 
     <TextView
-            android:text="@string/todo"
+            android:text="OTRAS ACCIONES IMPORTANTES..."
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView30"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold"
             android:theme="@style/textTheme"
             android:textSize="18sp"/>
 
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView30">
@@ -34,14 +35,12 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/square_icon_size"
+                        android:layout_height="@dimen/square_icon_size"
                         android:src="@drawable/averiaicon"/>
 
                     <TextView
@@ -56,15 +55,13 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/square_icon_size"
+                        android:layout_height="@dimen/square_icon_size"
                         android:src="@drawable/apoyoicon"/>
 
                 <TextView
@@ -79,21 +76,19 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/square_icon_size"
+                        android:layout_height="@dimen/square_icon_size"
                         android:src="@drawable/cicloviaicon"/>
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="@string/ciclviaonb"
                         android:textSize="12sp"
                         android:theme="@style/textTheme"/>
             </LinearLayout>
@@ -102,15 +97,13 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/square_icon_size"
+                        android:layout_height="@dimen/square_icon_size"
                         android:src="@drawable/emergencyred"/>
 
                 <TextView
@@ -125,15 +118,13 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                 <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/square_icon_size"
+                        android:layout_height="@dimen/square_icon_size"
                         android:src="@drawable/icongtt"/>
 
                 <TextView
