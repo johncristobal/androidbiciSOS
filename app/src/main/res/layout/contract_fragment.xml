@@ -203,6 +203,7 @@
                                 android:background="@null"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
+                                android:text="@={ contractViewModel.modelData.segundoTitular }"
                                 android:hint="@string/hint_nombre_y_apellidos"
                                 android:inputType="textPersonName" />
 
@@ -244,6 +245,7 @@
                                         android:background="@null"
                                         android:paddingEnd="10dp"
                                         android:paddingStart="10dp"
+                                        android:text="@={ contractViewModel.modelData.fechaNacimiento }"
                                         android:hint="@string/_09_09_1990"
                                         android:inputType="textPersonName" />
 
@@ -282,6 +284,7 @@
                                         android:layout_height="match_parent"
                                         android:background="@null"
                                         android:paddingEnd="10dp"
+                                        android:text="@={ contractViewModel.modelData.rfc }"
                                         android:paddingStart="10dp"
                                         android:inputType="textPersonName" />
 
@@ -325,6 +328,7 @@
                                         android:layout_height="match_parent"
                                         android:background="@null"
                                         android:paddingEnd="10dp"
+                                        android:text="@={ contractViewModel.modelData.telefono }"
                                         android:paddingStart="10dp"
                                         android:hint="@string/_10_d_gitos"
                                         android:inputType="textPersonName" />
@@ -364,6 +368,7 @@
                                         android:layout_height="match_parent"
                                         android:background="@null"
                                         android:paddingEnd="10dp"
+                                        android:text="@={ contractViewModel.modelData.correo }"
                                         android:paddingStart="10dp"
                                         android:inputType="textPersonName" />
 
@@ -401,6 +406,7 @@
                                 android:background="@null"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
+                                android:text="@={ contractViewModel.modelData.direccion }"
                                 android:hint="@string/calle_y_n_mero"
                                 android:inputType="textPostalAddress" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -439,6 +445,7 @@
                                         android:layout_height="match_parent"
                                         android:background="@null"
                                         android:paddingEnd="10dp"
+                                        android:text="@={ contractViewModel.modelData.cp }"
                                         android:paddingStart="10dp"
                                         android:hint="5 dígitos"
                                         android:inputType="textPersonName" />
@@ -477,6 +484,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:background="@null"
+                                        android:text="@={ contractViewModel.modelData.colonia }"
                                         android:paddingEnd="10dp"
                                         android:paddingStart="10dp"
                                         android:inputType="textPersonName" />
@@ -513,6 +521,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="@null"
+                                android:text="@={ contractViewModel.modelData.alcaldia }"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
                                 android:inputType="textPostalAddress" />

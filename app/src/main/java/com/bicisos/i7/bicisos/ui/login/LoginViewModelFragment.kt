@@ -58,12 +58,14 @@ class LoginViewModelFragment : Fragment() {
 //        })
 
         viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
-            when(it){
-                "dashboard" -> {
-                    startActivity(Intent(requireActivity(), DashboardGttActivity::class.java))
-                }
-                else -> {
+            it.getContentIfNotHandled()?.let{
+                when(it){
+                    "dashboard" -> {
+                        startActivity(Intent(requireActivity(), DashboardGttActivity::class.java))
+                    }
+                    else -> {
 
+                    }
                 }
             }
         })

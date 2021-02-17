@@ -12,12 +12,23 @@ class ContractViewModel constructor(private val repository : Repository) : ViewM
 
     var modelData = ContrataModel()
 
+    init {
+        modelData.ejecutivo = "sos_ciclista"
+    }
+
     fun sendDataAction(){
 
         //get data, validate, send, back to login
         val name: String = modelData.nombreTitular
         Log.w("tag...",name)
 
+        //validate
+
+        //show alert data set
+
+        //send data whatsapp
 
     }
+
+
 }
