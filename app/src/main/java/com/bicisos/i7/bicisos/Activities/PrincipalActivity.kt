@@ -145,8 +145,9 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
         alertAction.setOnClickListener {
 
-            sesion = prefs.getString("sesion","null")
-            if (sesion.equals("1")) {
+            //sesion = prefs.getString("sesion","null")
+            if (true) {
+            //if (sesion.equals("1")) {
                 val intent = Intent(this, AlertActivity::class.java)
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     this,

@@ -21,7 +21,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                 <ImageView
                         android:id="@+id/imageView8"
@@ -61,6 +61,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
+                        android:visibility="gone"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
@@ -146,74 +147,78 @@
                             android:id="@+id/textView36"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/nombre_titular"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextNameTitular"
                             android:layout_width="match_parent"
-                            android:layout_height="44dp"
+                            android:layout_height="54dp"
                             app:hintEnabled="false"
-                            android:theme="@style/textInputTheme"
+                            app:errorEnabled="true"
+                            android:background="@null"
+                            app:errorText="@{ contractViewModel.nombreTitularErrorMessage }"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                         <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
+                                android:layout_height="40dp"
+                                android:theme="@style/textInputTheme"
+                                android:background="@drawable/backinput"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
                                 android:text="@={ contractViewModel.modelData.nombreTitular }"
                                 android:hint="@string/hint_nombre_y_apellidos"
                                 android:inputType="textPersonName" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
 <!-- //////////////////  Data segundo al data  //////////////////////////////// -->
                     <TextView
                             android:id="@+id/textView37"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:text="@string/y_o_segundo_titular"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextNameSegundo"
                             android:layout_width="match_parent"
-                            android:layout_height="44dp"
+                            android:layout_height="54dp"
                             app:hintEnabled="false"
-                            android:theme="@style/textInputTheme"
+                            android:background="@null"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                         <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
+                                android:layout_height="40dp"
+                                android:theme="@style/textInputTheme"
+                                android:background="@drawable/backinput"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
                                 android:text="@={ contractViewModel.modelData.segundoTitular }"
                                 android:hint="@string/hint_nombre_y_apellidos"
                                 android:inputType="textPersonName" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
 
 <!-- //////////////////  First fecha nac rfc  //////////////////////////////// -->
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
@@ -229,32 +234,35 @@
                                     android:theme="@style/textTheme"
                                     android:text="@string/fecha_nacimiento"/>
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextNacimiento"
                                     android:layout_width="match_parent"
-                                    android:layout_height="44dp"
+                                    android:layout_height="54dp"
                                     app:hintEnabled="false"
-                                    android:theme="@style/textInputTheme"
+                                    app:errorEnabled="true"
+                                    android:background="@null"
+                                    app:errorText="@{ contractViewModel.fechaNacimientoErrorMessage }"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@null"
+                                        android:layout_height="40dp"
+                                        android:theme="@style/textInputTheme"
+                                        android:background="@drawable/backinput"
                                         android:paddingEnd="10dp"
                                         android:paddingStart="10dp"
                                         android:text="@={ contractViewModel.modelData.fechaNacimiento }"
                                         android:hint="@string/_09_09_1990"
                                         android:inputType="textPersonName" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                            </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                         </LinearLayout>
 
                         <View
-                                android:layout_width="32dp"
+                                android:layout_width="24dp"
                                 android:layout_height="match_parent"/>
 
                         <LinearLayout
@@ -269,26 +277,29 @@
                                     android:theme="@style/textTheme"
                                     android:text="@string/rfc"/>
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextRFC"
                                     android:layout_width="match_parent"
-                                    android:layout_height="44dp"
+                                    android:layout_height="54dp"
                                     app:hintEnabled="false"
-                                    android:theme="@style/textInputTheme"
+                                    app:errorEnabled="true"
+                                    android:background="@null"
+                                    app:errorText="@{ contractViewModel.rfcErrorMessage }"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@null"
+                                        android:layout_height="40dp"
+                                        android:theme="@style/textInputTheme"
+                                        android:background="@drawable/backinput"
                                         android:paddingEnd="10dp"
                                         android:text="@={ contractViewModel.modelData.rfc }"
                                         android:paddingStart="10dp"
                                         android:inputType="textPersonName" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                            </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                         </LinearLayout>
 
@@ -297,7 +308,7 @@
 <!-- //////////////////  First tel correo  //////////////////////////////// -->
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
@@ -313,32 +324,35 @@
                                     android:theme="@style/textTheme"
                                     android:text="@string/t_lefono"/>
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextTelefono"
                                     android:layout_width="match_parent"
-                                    android:layout_height="44dp"
+                                    android:layout_height="54dp"
                                     app:hintEnabled="false"
-                                    android:theme="@style/textInputTheme"
+                                    app:errorEnabled="true"
+                                    android:background="@null"
+                                    app:errorText="@{ contractViewModel.telefonoErrorMessage }"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@null"
+                                        android:layout_height="40dp"
+                                        android:theme="@style/textInputTheme"
+                                        android:background="@drawable/backinput"
                                         android:paddingEnd="10dp"
                                         android:text="@={ contractViewModel.modelData.telefono }"
                                         android:paddingStart="10dp"
                                         android:hint="@string/_10_d_gitos"
-                                        android:inputType="textPersonName" />
+                                        android:inputType="phone" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                            </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                         </LinearLayout>
 
                         <View
-                                android:layout_width="32dp"
+                                android:layout_width="24dp"
                                 android:layout_height="match_parent"/>
 
                         <LinearLayout
@@ -353,26 +367,29 @@
                                     android:theme="@style/textTheme"
                                     android:text="@string/correo"/>
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextCorreo"
                                     android:layout_width="match_parent"
-                                    android:layout_height="44dp"
+                                    android:layout_height="54dp"
                                     app:hintEnabled="false"
-                                    android:theme="@style/textInputTheme"
+                                    app:errorEnabled="true"
+                                    android:background="@null"
+                                    app:errorText="@{ contractViewModel.correoErrorMessage }"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@null"
+                                        android:layout_height="40dp"
+                                        android:theme="@style/textInputTheme"
+                                        android:background="@drawable/backinput"
                                         android:paddingEnd="10dp"
                                         android:text="@={ contractViewModel.modelData.correo }"
                                         android:paddingStart="10dp"
-                                        android:inputType="textPersonName" />
+                                        android:inputType="textEmailAddress" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                            </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                         </LinearLayout>
 
@@ -383,38 +400,41 @@
                             android:id="@+id/textView38"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:text="@string/direcci_n"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextDireccion"
                             android:layout_width="match_parent"
-                            android:layout_height="44dp"
+                            android:layout_height="54dp"
                             app:hintEnabled="false"
-                            android:theme="@style/textInputTheme"
+                            app:errorEnabled="true"
+                            android:background="@null"
+                            app:errorText="@{ contractViewModel.direccionErrorMessage }"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                         <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
+                                android:layout_height="40dp"
+                                android:theme="@style/textInputTheme"
+                                android:background="@drawable/backinput"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
                                 android:text="@={ contractViewModel.modelData.direccion }"
                                 android:hint="@string/calle_y_n_mero"
                                 android:inputType="textPostalAddress" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
 <!-- //////////////////  First linear data  //////////////////////////////// -->
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
@@ -430,27 +450,30 @@
                                     android:theme="@style/textTheme"
                                     android:text="@string/c_p"/>
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextPostal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="44dp"
+                                    android:layout_height="54dp"
                                     app:hintEnabled="false"
-                                    android:theme="@style/textInputTheme"
+                                    app:errorEnabled="true"
+                                    android:background="@null"
+                                    app:errorText="@{ contractViewModel.cpErrorMessage }"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@null"
+                                        android:layout_height="40dp"
+                                        android:theme="@style/textInputTheme"
+                                        android:background="@drawable/backinput"
                                         android:paddingEnd="10dp"
                                         android:text="@={ contractViewModel.modelData.cp }"
                                         android:paddingStart="10dp"
                                         android:hint="5 dígitos"
                                         android:inputType="textPersonName" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                            </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                         </LinearLayout>
 
@@ -470,26 +493,29 @@
                                     android:theme="@style/textTheme"
                                     android:text="@string/colonia"/>
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextFechaColonia"
                                     android:layout_width="match_parent"
-                                    android:layout_height="44dp"
+                                    android:layout_height="54dp"
                                     app:hintEnabled="false"
-                                    android:theme="@style/textInputTheme"
+                                    app:errorEnabled="true"
+                                    android:background="@null"
+                                    app:errorText="@{ contractViewModel.coloniaErrorMessage }"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@null"
+                                        android:layout_height="40dp"
+                                        android:theme="@style/textInputTheme"
+                                        android:background="@drawable/backinput"
                                         android:text="@={ contractViewModel.modelData.colonia }"
                                         android:paddingEnd="10dp"
                                         android:paddingStart="10dp"
                                         android:inputType="textPersonName" />
 
-                            </com.google.android.material.textfield.TextInputLayout>
+                            </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                         </LinearLayout>
 
@@ -500,32 +526,35 @@
                             android:id="@+id/textView40"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="8dp"
                             android:text="@string/alcald_a_o_municipio"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextAlcaldia"
                             android:layout_width="match_parent"
-                            android:layout_height="44dp"
+                            android:layout_height="54dp"
                             app:hintEnabled="false"
-                            android:theme="@style/textInputTheme"
+                            app:errorEnabled="true"
+                            android:background="@null"
+                            app:errorText="@{ contractViewModel.alcaldiaErrorMessage }"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                         <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"
+                                android:layout_height="40dp"
+                                android:theme="@style/textInputTheme"
+                                android:background="@drawable/backinput"
                                 android:text="@={ contractViewModel.modelData.alcaldia }"
                                 android:paddingEnd="10dp"
                                 android:paddingStart="10dp"
                                 android:inputType="textPostalAddress" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
                     <LinearLayout
                         android:layout_marginTop="16dp"
