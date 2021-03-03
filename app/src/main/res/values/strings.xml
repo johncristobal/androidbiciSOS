@@ -43,7 +43,7 @@
     <string name="usuario">Usuario</string>
     <string name="contrase_a">Contraseña</string>
     <string name="fecha_nacimiento">Fecha nacimiento</string>
-    <string name="_09_09_1990">09/09/1990</string>
+    <string name="_09_09_1990">dd/mm/yyyy</string>
     <string name="rfc">RFC</string>
     <string name="txt_home">Inicio</string>
     <string name="contact_text">Contácto</string>

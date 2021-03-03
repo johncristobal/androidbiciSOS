@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.LoginViewModelFragmentBinding
@@ -61,6 +62,7 @@ class LoginViewModelFragment : Fragment() {
             it.getContentIfNotHandled()?.let{
                 when(it){
                     "dashboard" -> {
+
                         startActivity(Intent(requireActivity(), DashboardGttActivity::class.java))
                     }
                     else -> {
@@ -75,7 +77,12 @@ class LoginViewModelFragment : Fragment() {
         }
 
         buttonContrata.setOnClickListener {
-            findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
+            val extras = FragmentNavigatorExtras(
+                imageView8 to "imageView"
+            )
+            findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment, null, null, extras)
+
+            //findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
         }
     }
 }

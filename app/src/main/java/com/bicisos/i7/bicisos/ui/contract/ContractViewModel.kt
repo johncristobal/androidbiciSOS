@@ -1,16 +1,29 @@
 package com.bicisos.i7.bicisos.ui.contract
 
+import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bicisos.i7.bicisos.Model.ContrataModel
 import com.bicisos.i7.bicisos.repository.Repository
+import com.bicisos.i7.bicisos.utils.Event
+import java.util.*
 
 class ContractViewModel constructor(private val repository : Repository, private val context: Context) : ViewModel() {
 
     var modelData : ContrataModel = ContrataModel()
+    val _uploadUI = MutableLiveData<Event<String>>()
+    val uploadUI: LiveData<Event<String>>
+        get() = _uploadUI
+    val _datePickerData = MutableLiveData<String>()
+    val datePickerData: MutableLiveData<String>
+        get() = _datePickerData
 
     init {
         modelData.ejecutivo = "sos_ciclista"
@@ -22,6 +35,7 @@ class ContractViewModel constructor(private val repository : Repository, private
         //validate
         if(validarGenericForm()){
             //send whatsapp with data
+            //save data in our database
             Log.w("ok","form ok")
         }else{
             Log.e("error","form not set")
@@ -95,5 +109,12 @@ class ContractViewModel constructor(private val repository : Repository, private
         return (value.trim().isEmpty() || value.length < 3 || !Patterns.EMAIL_ADDRESS.matcher(value).matches())
     }
 
+    fun showDatePicker() {
+        _uploadUI.value = Event("showDatePicker")
+    }
 
+    fun setPickerData(value : String){
+        _datePickerData.value = value
+        modelData.fechaNacimiento = value
+    }
 }
