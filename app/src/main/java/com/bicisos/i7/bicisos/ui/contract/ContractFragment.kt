@@ -1,11 +1,14 @@
 package com.bicisos.i7.bicisos.ui.contract
 
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -77,7 +80,19 @@ class ContractFragment : Fragment() {
 
                     }
                     else -> {
+                        //message to whatApp
+                        //val uri = Uri.parse("smsto:" + "525586140593");
+                        val uri = Uri.parse("https://api.whatsapp.com/send?phone=525586140593&text=" + it)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
 
+                        if (intent.resolveActivity(requireContext().packageManager) == null) {
+                            Toast.makeText(requireContext(),
+                                "Necesitamos que tenga WhatsApp instalado.",
+                                Toast.LENGTH_SHORT).show()
+                        }else {
+                            // Starting Whatsapp
+                            startActivity(intent)
+                        }
                     }
                 }
             }

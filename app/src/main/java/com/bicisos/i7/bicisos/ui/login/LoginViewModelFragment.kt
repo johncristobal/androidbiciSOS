@@ -81,8 +81,6 @@ class LoginViewModelFragment : Fragment() {
                 imageView8 to "imageView"
             )
             findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment, null, null, extras)
-
-            //findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment)
         }
     }
 }

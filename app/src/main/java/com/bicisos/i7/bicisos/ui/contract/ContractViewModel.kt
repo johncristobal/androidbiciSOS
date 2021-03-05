@@ -1,18 +1,15 @@
 package com.bicisos.i7.bicisos.ui.contract
 
-import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bicisos.i7.bicisos.Model.ContrataModel
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
+import kotlinx.coroutines.flow.collect
 import java.util.*
 
 class ContractViewModel constructor(private val repository : Repository, private val context: Context) : ViewModel() {
@@ -37,6 +34,30 @@ class ContractViewModel constructor(private val repository : Repository, private
             //send whatsapp with data
             //save data in our database
             Log.w("ok","form ok")
+            var message = "Hola, quisiera iniciar mi contratacion para SEGUROSGTT\n\n"
+            message += "*Ejecutivo:*\nSOS Ciclista\n"
+            message += "*Fecha:*\n${Date()}\n\n"
+            message += "*Nombre:*\n${modelData.nombreTitular}\n"
+            if(!modelData.segundoTitular.equals("")){
+                message += "*Segundo titular:*\n${modelData.segundoTitular}\n"
+            }
+            message += "*Fecha nacimiento:*\n${modelData.fechaNacimiento}\n"
+            if(!modelData.rfc.equals("")){
+                message += "*RFC:*\n${modelData.rfc}\n"
+            }
+            message += "*Teléfono:*\n${modelData.telefono}\n"
+            message += "*Correo:*\n${modelData.correo}\n"
+            message += "*Calle y número:*\n${modelData.direccion}\n"
+            message += "*C.P.:*\n${modelData.cp}\n"
+            message += "*Colonia:*\n${modelData.colonia}\n"
+            message += "*Alcaldía o municipio:*\n${modelData.alcaldia}\n"
+
+            _uploadUI.value = Event(message)
+
+            repository.addCotizacion(modelData).collect {
+                emit(it)
+            }
+
         }else{
             Log.e("error","form not set")
         }
@@ -117,4 +138,6 @@ class ContractViewModel constructor(private val repository : Repository, private
         _datePickerData.value = value
         modelData.fechaNacimiento = value
     }
+
+
 }
