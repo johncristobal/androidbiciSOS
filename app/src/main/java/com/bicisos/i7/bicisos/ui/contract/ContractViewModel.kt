@@ -6,10 +6,15 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bicisos.i7.bicisos.Model.ContrataModel
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
+import com.bicisos.i7.bicisos.utils.State
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ContractViewModel constructor(private val repository : Repository, private val context: Context) : ViewModel() {
@@ -26,13 +31,13 @@ class ContractViewModel constructor(private val repository : Repository, private
         modelData.ejecutivo = "sos_ciclista"
     }
 
+    @ExperimentalCoroutinesApi
     fun sendDataAction(){
 
         //get data, validate, send, back to login
         //validate
         if(validarGenericForm()){
             //send whatsapp with data
-            //save data in our database
             Log.w("ok","form ok")
             var message = "Hola, quisiera iniciar mi contratacion para SEGUROSGTT\n\n"
             message += "*Ejecutivo:*\nSOS Ciclista\n"
@@ -52,14 +57,37 @@ class ContractViewModel constructor(private val repository : Repository, private
             message += "*Colonia:*\n${modelData.colonia}\n"
             message += "*Alcaldía o municipio:*\n${modelData.alcaldia}\n"
 
-            _uploadUI.value = Event(message)
-
-            repository.addCotizacion(modelData).collect {
-                emit(it)
+            //save data in our database
+            viewModelScope.launch {
+                addCotizacion(message)
             }
 
         }else{
             Log.e("error","form not set")
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private suspend fun addCotizacion(message: String){
+        repository.addCotizacion(modelData).collect { state ->
+
+            Log.w("state",state.toString())
+            when (state) {
+                is State.Loading -> {
+                    Log.w("GUARDANDO","guardando data")
+                }
+
+                is State.Success -> {
+                    //state.data
+                    Log.w("EXITO","todo guardado en firestore")
+                    _uploadUI.value = Event(message)
+                }
+
+                is State.Failed -> {
+                    //state.message
+                    Log.w("ERROR","tuvimos un error")
+                }
+            }
         }
     }
 

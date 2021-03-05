@@ -6,24 +6,62 @@ import com.bicisos.i7.bicisos.utils.Constants
 import com.bicisos.i7.bicisos.utils.State
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 
 class Repository {
 
-    private val mPostsCollection = FirebaseFirestore.getInstance().collection(Constants.COLLECTION_DATA).document(Constants.DOCUMENT_COTIZACIONES)
+    private val mPostsCollection = FirebaseFirestore.getInstance().collection(Constants.COLLECTION_DATA)//.document(Constants.DOCUMENT_COTIZACIONES)
+    private val mUsersCollection = FirebaseFirestore.getInstance().collection(Constants.COLLECTION_USERS)//.document(Constants.DOCUMENT_COTIZACIONES)
+    private val TAG = "Firestore_GTT"
 
-    suspend fun loginGtt(user: String, pass: String){
-        Log.w("user: ",user)
+    @ExperimentalCoroutinesApi
+    fun loginGtt(user: String, pass: String) : Flow<State<out Map<String, Any>?>> = callbackFlow {
+
+        offer(State.loading())
+        //get poliza data
+        val docRef = mUsersCollection.document(user)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    offer(State.success(document.data))
+                } else {
+                    Log.d(TAG, "No such document")
+                    offer(State.failed("No such document"))
+                    cancel("No such document")
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+                offer(State.failed(exception.localizedMessage!!))
+                cancel(exception.message.toString())
+            }
+
+        awaitClose {
+            cancel()
+        }
     }
 
-    fun addCotizacion(data: ContrataModel) = flow<State<DocumentReference>> {
-
+    @ExperimentalCoroutinesApi
+    fun addCotizacion(data: ContrataModel) : Flow<State<String>> = callbackFlow {
         //mPostsCollection
-        emit(State.loading())
+        offer(State.loading())
 
-        val postRef = mPostsCollection.set(data)
+        mPostsCollection.add(data)
+            .addOnCompleteListener {
+                offer(State.success("Success"))
+            }
+            .addOnFailureListener {
+                offer(State.failed(it.localizedMessage!!))
+                cancel(it.message.toString())
+            }
 
-        // Emit success state with post reference
-        emit(State.success(postRef))
+        awaitClose {
+            cancel()
+        }
     }
 }

@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
 import com.bicisos.i7.bicisos.utils.SingleLiveEvent
+import com.bicisos.i7.bicisos.utils.State
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -27,6 +30,7 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
     val progress: LiveData<Boolean>
         get() = _progress
 
+    @ExperimentalCoroutinesApi
     fun loginAction(){
 
         val name: String = if (userName.value != null) userName.value!! else ""
@@ -35,7 +39,6 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
         Log.w("tag...",pass)
 
         viewModelScope.launch {
-            _progress.value = true
             try {
                 //Log.w("tag...",_userName.value!!)
                 //Log.w("tag...",_password.value!!)
@@ -45,13 +48,45 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
 //                }else{
 //                    Log.w("error","Error al actualizar data")
 //                }
-                _progress.value = false
-
-                _uploadUI.value = Event("dashboard")
+                //getUserPoliza(name, pass)
+                getUserPoliza("DB7-1-89-351", "xkd928CD?")
 
             }catch (e: Exception){
                 _progress.value = false
                 e.printStackTrace()
+            }
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private suspend fun getUserPoliza(user: String, pass: String){
+        repository.loginGtt(user, pass).collect { state ->
+
+            Log.w("state",state.toString())
+            when (state) {
+                is State.Loading -> {
+                    Log.w("GUARDANDO","guardando data")
+                    _progress.value = true
+                }
+
+                is State.Success -> {
+
+                    Log.w("EXITO","todo guardado en firestore")
+                    Log.w("DATA","todo guardado en firestore ${state.data}")
+                    if(pass.equals(state.data?.get("pass_temp"))){
+                        _uploadUI.value = Event("dashboard")
+                    }else{
+                        Log.w("ERROR","pass not match")
+                    }
+                    _progress.value = false
+
+                }
+
+                is State.Failed -> {
+                    _progress.value = false
+                    //state.message
+                    Log.w("ERROR","tuvimos un error")
+                }
             }
         }
     }
