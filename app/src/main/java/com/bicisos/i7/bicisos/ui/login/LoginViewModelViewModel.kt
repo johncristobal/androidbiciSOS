@@ -48,8 +48,8 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
 //                }else{
 //                    Log.w("error","Error al actualizar data")
 //                }
-                //getUserPoliza(name, pass)
-                getUserPoliza("DB7-1-89-351", "xkd928CD?")
+                getUserPoliza(name, pass)
+                //getUserPoliza("DB7-1-89-351", "xkd928CD?")
 
             }catch (e: Exception){
                 _progress.value = false

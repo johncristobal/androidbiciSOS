@@ -158,7 +158,7 @@
                     <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextNameTitular"
                             android:layout_width="match_parent"
-                            android:layout_height="54dp"
+                            android:layout_height="60dp"
                             app:hintEnabled="false"
                             app:errorEnabled="true"
                             android:background="@null"
@@ -185,7 +185,7 @@
                             android:id="@+id/textView37"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/y_o_segundo_titular"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
@@ -195,7 +195,7 @@
                     <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextNameSegundo"
                             android:layout_width="match_parent"
-                            android:layout_height="54dp"
+                            android:layout_height="60dp"
                             app:hintEnabled="false"
                             android:background="@null"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -219,7 +219,7 @@
 <!-- //////////////////  First fecha nac rfc  //////////////////////////////// -->
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
@@ -238,7 +238,7 @@
                             <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextNacimiento"
                                     android:layout_width="match_parent"
-                                    android:layout_height="54dp"
+                                    android:layout_height="60dp"
                                     app:hintEnabled="false"
                                     app:errorEnabled="true"
                                     android:background="@null"
@@ -285,7 +285,7 @@
                             <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextRFC"
                                     android:layout_width="match_parent"
-                                    android:layout_height="54dp"
+                                    android:layout_height="60dp"
                                     app:hintEnabled="false"
                                     app:errorEnabled="true"
                                     android:background="@null"
@@ -313,7 +313,7 @@
 <!-- //////////////////  First tel correo  //////////////////////////////// -->
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
@@ -332,7 +332,7 @@
                             <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextTelefono"
                                     android:layout_width="match_parent"
-                                    android:layout_height="54dp"
+                                    android:layout_height="60dp"
                                     app:hintEnabled="false"
                                     app:errorEnabled="true"
                                     android:background="@null"
@@ -375,7 +375,7 @@
                             <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextCorreo"
                                     android:layout_width="match_parent"
-                                    android:layout_height="54dp"
+                                    android:layout_height="60dp"
                                     app:hintEnabled="false"
                                     app:errorEnabled="true"
                                     android:background="@null"
@@ -405,7 +405,7 @@
                             android:id="@+id/textView38"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/direcci_n"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
@@ -415,7 +415,7 @@
                     <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextDireccion"
                             android:layout_width="match_parent"
-                            android:layout_height="54dp"
+                            android:layout_height="60dp"
                             app:hintEnabled="false"
                             app:errorEnabled="true"
                             android:background="@null"
@@ -439,7 +439,7 @@
 <!-- //////////////////  First linear data  //////////////////////////////// -->
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
@@ -458,7 +458,7 @@
                             <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextPostal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="54dp"
+                                    android:layout_height="60dp"
                                     app:hintEnabled="false"
                                     app:errorEnabled="true"
                                     android:background="@null"
@@ -501,7 +501,7 @@
                             <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                                     android:id="@+id/editTextFechaColonia"
                                     android:layout_width="match_parent"
-                                    android:layout_height="54dp"
+                                    android:layout_height="60dp"
                                     app:hintEnabled="false"
                                     app:errorEnabled="true"
                                     android:background="@null"
@@ -531,7 +531,7 @@
                             android:id="@+id/textView40"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/alcald_a_o_municipio"
                             android:theme="@style/textTheme"
                             app:layout_constraintTop_toBottomOf="@+id/textView35"
@@ -541,7 +541,7 @@
                     <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                             android:id="@+id/editTextAlcaldia"
                             android:layout_width="match_parent"
-                            android:layout_height="54dp"
+                            android:layout_height="60dp"
                             app:hintEnabled="false"
                             app:errorEnabled="true"
                             android:background="@null"

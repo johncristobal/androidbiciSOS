@@ -23,6 +23,7 @@ class Repository {
 
         offer(State.loading())
         //get poliza data
+
         val docRef = mUsersCollection.document(user)
         docRef.get()
             .addOnSuccessListener { document ->
