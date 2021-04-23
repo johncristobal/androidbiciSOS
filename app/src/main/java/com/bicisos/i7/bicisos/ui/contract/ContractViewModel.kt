@@ -37,6 +37,7 @@ class ContractViewModel constructor(private val repository : Repository, private
         //get data, validate, send, back to login
         //validate
         if(validarGenericForm()){
+            modelData.fechaContratacion = Date().toString()
             //send whatsapp with data
             Log.w("ok","form ok")
             var message = "Hola, quisiera iniciar mi contratacion para SEGUROSGTT\n\n"

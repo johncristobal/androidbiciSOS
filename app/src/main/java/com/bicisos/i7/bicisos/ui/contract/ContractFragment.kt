@@ -77,12 +77,11 @@ class ContractFragment : Fragment() {
 
                         dpd.datePicker.maxDate = c.timeInMillis
                         dpd.show()
-
                     }
                     else -> {
                         //message to whatApp
                         //val uri = Uri.parse("smsto:" + "525586140593");
-                        val uri = Uri.parse("https://api.whatsapp.com/send?phone=525586140593&text=" + it)
+                        val uri = Uri.parse("https://api.whatsapp.com/send?phone=525511994379&text=" + it)
                         val intent = Intent(Intent.ACTION_VIEW, uri)
 
                         if (intent.resolveActivity(requireContext().packageManager) == null) {

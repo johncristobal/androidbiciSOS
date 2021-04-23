@@ -21,6 +21,7 @@ import com.bicisos.i7.bicisos.Fragments.*
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.ui.GraphActivity
 import com.facebook.AccessToken
 import kotlinx.android.synthetic.main.activity_principal.*
 import kotlinx.android.synthetic.main.content_principal.*
@@ -113,7 +114,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         if (sesion!!.equals("1")){
             //ocultar iniciar sesion
             val menu = nav_view.menu
-            menu.getItem(5).title = "Cerrar sesión"
+            menu.getItem(6).title = "Cerrar sesión"
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
@@ -145,9 +146,9 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
         alertAction.setOnClickListener {
 
-            //sesion = prefs.getString("sesion","null")
-            if (true) {
-            //if (sesion.equals("1")) {
+            //if (true) {
+            sesion = prefs.getString("sesion","null")
+            if (sesion.equals("1")) {
                 val intent = Intent(this, AlertActivity::class.java)
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     this,
@@ -234,9 +235,17 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                 val intent = Intent(this,AcercaActivity::class.java)
                 startActivity(intent)
             }
-            /*R.id.nav_settings -> {
+            R.id.segurosmenuitem -> {
                 //ajustes
-            }*/
+                val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val sesion = prefs.getString("sesion","null")
+                if (sesion!!.equals("1")) {
+                    // TODO: validar que ya este iniciado en seguros gtt
+                    startActivity(Intent(this, GraphActivity::class.java))
+                }else{
+                    alertaIniciarSesion()
+                }
+            }
             R.id.nav_login -> {
                 //sesion
                 val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -261,7 +270,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
                         nav_view.getHeaderView(0).nombrText.text = "SOS Ciclista"
                         nav_view.getHeaderView(0).imageViewBici.setImageResource(R.drawable.loginiconuno)
                         val menu = nav_view.menu
-                        menu.getItem(5).title = "Iniciar sesión"
+                        menu.getItem(6).title = "Iniciar sesión"
 
                         //reload mapfragment
                         supportFragmentManager.beginTransaction().remove(mapFragment).commit()
@@ -298,7 +307,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
             //ocultar iniciar sesion
             val menu = nav_view.menu
-            menu.getItem(5).title = "Cerrar sesión"
+            menu.getItem(6).title = "Cerrar sesión"
             nav_view.getHeaderView(0).nombrText.text = nombre
             val biciRes = prefs.getInt("biciRes",0)
             nav_view.getHeaderView(0).imageViewBici.setImageResource(biciRes)
