@@ -4,8 +4,11 @@ import android.util.Log
 import com.bicisos.i7.bicisos.Model.ContrataModel
 import com.bicisos.i7.bicisos.utils.Constants
 import com.bicisos.i7.bicisos.utils.State
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
@@ -49,10 +52,14 @@ class Repository {
 
     @ExperimentalCoroutinesApi
     fun addCotizacion(data: ContrataModel) : Flow<State<String>> = callbackFlow {
-        //mPostsCollection
+
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+
         offer(State.loading())
 
-        mPostsCollection.add(data)
+        db.collection(Constants.COLLECTION_DATA).add(data)
+            //mPostsCollection.add(data)
             .addOnCompleteListener {
                 offer(State.success("Success"))
             }
