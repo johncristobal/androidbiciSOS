@@ -1,4 +1,4 @@
-package com.bicisos.i7.bicisos.ui.contract
+package com.bicisos.i7.bicisos.ui.contract.client
 
 import android.content.Context
 import android.util.Log
@@ -11,7 +11,6 @@ import com.bicisos.i7.bicisos.Model.ContrataModel
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
 import com.bicisos.i7.bicisos.utils.State
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

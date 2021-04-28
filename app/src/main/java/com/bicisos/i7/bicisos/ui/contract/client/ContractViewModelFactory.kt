@@ -1,7 +1,6 @@
-package com.bicisos.i7.bicisos.ui.contract
+package com.bicisos.i7.bicisos.ui.contract.client
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bicisos.i7.bicisos.repository.Repository
@@ -12,6 +11,9 @@ class ContractViewModelFactory constructor(
 ) : ViewModelProvider.NewInstanceFactory(){
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ContractViewModel(repository, context) as T
+        return ContractViewModel(
+            repository,
+            context
+        ) as T
     }
 }

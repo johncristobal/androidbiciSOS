@@ -6,14 +6,14 @@
     <data>
         <variable
             name="contractViewModel"
-            type="com.bicisos.i7.bicisos.ui.contract.ContractViewModel" />
+            type="com.bicisos.i7.bicisos.ui.contract.client.ContractViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#0d60a0"
-            tools:context=".ui.contract.ContractFragment">
+            tools:context=".ui.contract.client.ContractFragment">
 
         <ScrollView
                 android:layout_width="match_parent"

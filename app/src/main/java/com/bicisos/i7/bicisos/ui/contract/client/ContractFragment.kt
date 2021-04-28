@@ -1,4 +1,4 @@
-package com.bicisos.i7.bicisos.ui.contract
+package com.bicisos.i7.bicisos.ui.contract.client
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -22,7 +22,8 @@ import java.util.*
 class ContractFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ContractFragment()
+        fun newInstance() =
+            ContractFragment()
     }
 
     private lateinit var viewModel: ContractViewModel
@@ -36,7 +37,11 @@ class ContractFragment : Fragment() {
         //return inflater.inflate(R.layout.contract_fragment, container, false)
         val binding : ContractFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.contract_fragment, container, false)
         val repo = Repository()
-        val factory = ContractViewModelFactory(repo, requireActivity())
+        val factory =
+            ContractViewModelFactory(
+                repo,
+                requireActivity()
+            )
 
         viewModel = ViewModelProvider(this, factory).get(ContractViewModel::class.java)
         binding.contractViewModel = viewModel

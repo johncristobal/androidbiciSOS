@@ -30,7 +30,7 @@
             tools:layout="@layout/onboarding_gtt_fragment" />
     <fragment
             android:id="@+id/contractFragment"
-            android:name="com.bicisos.i7.bicisos.ui.contract.ContractFragment"
+            android:name="com.bicisos.i7.bicisos.ui.contract.client.ContractFragment"
             android:label="ContractFragment"
             tools:layout="@layout/contract_fragment"/>
 
