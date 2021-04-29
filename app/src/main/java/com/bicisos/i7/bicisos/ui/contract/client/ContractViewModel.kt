@@ -33,38 +33,39 @@ class ContractViewModel constructor(private val repository : Repository, private
     @ExperimentalCoroutinesApi
     fun sendDataAction(){
 
+        _uploadUI.value = Event("ok")
         //get data, validate, send, back to login
         //validate
-        if(validarGenericForm()){
-            modelData.fechaContratacion = Date().toString()
-            //send whatsapp with data
-            Log.w("ok","form ok")
-            var message = "Hola, quisiera iniciar mi contratacion para SEGUROSGTT\n\n"
-            message += "*Ejecutivo:*\nSOS Ciclista\n"
-            message += "*Fecha:*\n${Date()}\n\n"
-            message += "*Nombre:*\n${modelData.nombreTitular}\n"
-            if(!modelData.segundoTitular.equals("")){
-                message += "*Segundo titular:*\n${modelData.segundoTitular}\n"
-            }
-            message += "*Fecha nacimiento:*\n${modelData.fechaNacimiento}\n"
-            if(!modelData.rfc.equals("")){
-                message += "*RFC:*\n${modelData.rfc}\n"
-            }
-            message += "*Teléfono:*\n${modelData.telefono}\n"
-            message += "*Correo:*\n${modelData.correo}\n"
-            message += "*Calle y número:*\n${modelData.direccion}\n"
-            message += "*C.P.:*\n${modelData.cp}\n"
-            message += "*Colonia:*\n${modelData.colonia}\n"
-            message += "*Alcaldía o municipio:*\n${modelData.alcaldia}\n"
-
-            //save data in our database
-            viewModelScope.launch {
-                addCotizacion(message)
-            }
-
-        }else{
-            Log.e("error","form not set")
-        }
+//        if(validarGenericForm()){
+//            modelData.fechaContratacion = Date().toString()
+//            //send whatsapp with data
+//            Log.w("ok","form ok")
+//            var message = "Hola, quisiera iniciar mi contratacion para SEGUROSGTT\n\n"
+//            message += "*Ejecutivo:*\nSOS Ciclista\n"
+//            message += "*Fecha:*\n${Date()}\n\n"
+//            message += "*Nombre:*\n${modelData.nombreTitular}\n"
+//            if(!modelData.segundoTitular.equals("")){
+//                message += "*Segundo titular:*\n${modelData.segundoTitular}\n"
+//            }
+//            message += "*Fecha nacimiento:*\n${modelData.fechaNacimiento}\n"
+//            if(!modelData.rfc.equals("")){
+//                message += "*RFC:*\n${modelData.rfc}\n"
+//            }
+//            message += "*Teléfono:*\n${modelData.telefono}\n"
+//            message += "*Correo:*\n${modelData.correo}\n"
+//            message += "*Calle y número:*\n${modelData.direccion}\n"
+//            message += "*C.P.:*\n${modelData.cp}\n"
+//            message += "*Colonia:*\n${modelData.colonia}\n"
+//            message += "*Alcaldía o municipio:*\n${modelData.alcaldia}\n"
+//
+//            //save data in our database
+//            viewModelScope.launch {
+//                addCotizacion(message)
+//            }
+//
+//        }else{
+//            Log.e("error","form not set")
+//        }
     }
 
     @ExperimentalCoroutinesApi

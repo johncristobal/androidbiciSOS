@@ -32,7 +32,16 @@
             android:id="@+id/contractFragment"
             android:name="com.bicisos.i7.bicisos.ui.contract.client.ContractFragment"
             android:label="ContractFragment"
-            tools:layout="@layout/contract_fragment"/>
+            tools:layout="@layout/contract_fragment">
+        <action
+                android:id="@+id/action_contractFragment_to_photosContractFragment"
+                app:destination="@id/photosContractFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/photosContractFragment"
+            android:name="com.bicisos.i7.bicisos.ui.contract.photos.PhotosContractFragment"
+            android:label="fragment_photos_contract"
+            tools:layout="@layout/fragment_photos_contract" />
 
 
 </navigation>

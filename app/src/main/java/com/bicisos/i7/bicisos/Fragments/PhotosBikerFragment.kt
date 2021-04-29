@@ -1,5 +1,6 @@
-package com.bicisos.i7.bicisos.ui.contract.photos
+package com.bicisos.i7.bicisos.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,13 +17,15 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PhotosContractFragment.newInstance] factory method to
+ * Use the [PhotosBikerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PhotosContractFragment : Fragment() {
+class PhotosBikerFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    var imagesEncodedList : ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +36,42 @@ class PhotosContractFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photos_contract, container, false)
+        return inflater.inflate(R.layout.fragment_photos_biker, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
+        val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+        val set = prefs.getString("photos", null)
+        if (set == null)
+        {
+            imagesEncodedList = ArrayList<String>()
+            imagesEncodedList!!.add("a")
+            imagesEncodedList!!.add("b")
+            imagesEncodedList!!.add("c")
+            imagesEncodedList!!.add("d")
+
+            loadPohots()
+
+        }
+        else{
+
+            imagesEncodedList = set.split(",").toCollection(ArrayList())
+            for (i in imagesEncodedList!!.size..3){
+                imagesEncodedList!!.add("x")
+            }
+
+            loadPohots()
+        }
+    }
+
+    fun sendData(view: View){
+        Log.w("bici1","Click para el primer icono photos frag")
+    }
+
+    fun loadPohots(){
 
     }
 
@@ -50,12 +82,12 @@ class PhotosContractFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment PhotosContractFragment.
+         * @return A new instance of fragment PhotosBikerFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PhotosContractFragment().apply {
+            PhotosBikerFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

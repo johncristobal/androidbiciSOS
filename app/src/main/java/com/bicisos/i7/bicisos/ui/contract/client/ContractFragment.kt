@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.ContractFragmentBinding
@@ -84,19 +85,21 @@ class ContractFragment : Fragment() {
                         dpd.show()
                     }
                     else -> {
+                        findNavController().navigate(R.id.action_contractFragment_to_photosContractFragment)
+
                         //message to whatApp
                         //val uri = Uri.parse("smsto:" + "525586140593");
-                        val uri = Uri.parse("https://api.whatsapp.com/send?phone=525511994379&text=" + it)
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-
-                        if (intent.resolveActivity(requireContext().packageManager) == null) {
-                            Toast.makeText(requireContext(),
-                                "Necesitamos que tenga WhatsApp instalado.",
-                                Toast.LENGTH_SHORT).show()
-                        }else {
-                            // Starting Whatsapp
-                            startActivity(intent)
-                        }
+//                        val uri = Uri.parse("https://api.whatsapp.com/send?phone=525511994379&text=" + it)
+//                        val intent = Intent(Intent.ACTION_VIEW, uri)
+//
+//                        if (intent.resolveActivity(requireContext().packageManager) == null) {
+//                            Toast.makeText(requireContext(),
+//                                "Necesitamos que tenga WhatsApp instalado.",
+//                                Toast.LENGTH_SHORT).show()
+//                        }else {
+//                            // Starting Whatsapp
+//                            startActivity(intent)
+//                        }
                     }
                 }
             }
