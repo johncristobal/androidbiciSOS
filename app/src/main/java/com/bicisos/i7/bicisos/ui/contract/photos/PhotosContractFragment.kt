@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.bicisos.i7.bicisos.Fragments.PhotosBikerFragment
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.fragment_photos_biker.*
 
@@ -19,8 +21,10 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PhotosContractFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PhotosContractFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+class PhotosContractFragment : Fragment(),
+    PhotosBikerFragment.photosSaved
+{
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -61,5 +65,10 @@ class PhotosContractFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun saveDataArrayPhotos(data: ArrayList<String>?) {
+        Log.w("data", data.toString())
+        Toast.makeText(activity, "Data saved", Toast.LENGTH_LONG).show()
     }
 }

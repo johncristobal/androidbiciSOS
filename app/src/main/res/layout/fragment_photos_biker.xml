@@ -36,7 +36,6 @@
                     android:layout_height="110dp"
                     android:src="@drawable/cameraicon"
                     android:id="@+id/bici1"
-                    android:onClick="sendData"
                     android:layout_weight="1"
                     android:layout_marginEnd="5dp"
                     />
@@ -83,7 +82,8 @@
                 android:text="Aceptar"
                 android:layout_gravity="center"
                 android:background="@drawable/backbutton"
-                android:layout_height="30dp" android:id="@+id/aceptarAction"/>
+                android:layout_height="30dp"
+                android:id="@+id/aceptarActionPhotos"/>
 
     </LinearLayout>
 
