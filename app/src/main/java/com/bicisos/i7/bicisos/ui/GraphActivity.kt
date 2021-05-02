@@ -2,7 +2,9 @@ package com.bicisos.i7.bicisos.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
+import com.bicisos.i7.bicisos.Fragments.PhotosBikerFragment
 import com.bicisos.i7.bicisos.R
 
 class GraphActivity : AppCompatActivity() {
@@ -13,4 +15,5 @@ class GraphActivity : AppCompatActivity() {
         //window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
     }
+
 }

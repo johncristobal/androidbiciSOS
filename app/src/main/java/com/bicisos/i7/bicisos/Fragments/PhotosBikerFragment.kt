@@ -11,16 +11,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
 import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.utils.Constants
+import com.bicisos.i7.bicisos.utils.Event
+import com.bicisos.i7.bicisos.utils.photosViewModel
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.fragment_photos_biker.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_COLOR = "arg_color"
 
 /**
  * A simple [Fragment] subclass.
@@ -29,8 +32,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class PhotosBikerFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var color_param: Int? = null
 
     lateinit var view_fragment: View
 
@@ -41,19 +43,19 @@ class PhotosBikerFragment : Fragment() {
     lateinit var bici_trasea: ImageView
     lateinit var bici_derecha: ImageView
     lateinit var bici_izquierda: ImageView
+    lateinit var aceptarActionPhotosButton: Button
     lateinit var imageTempView : ImageView
 
     var index: Int = -1
     var bici = -1
     var photosBool: ArrayList<Boolean>? = null
 
-    private var listener: photosSaved? = null
+    private val viewModel: photosViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            color_param = it.getInt(ARG_COLOR)
         }
     }
 
@@ -72,6 +74,15 @@ class PhotosBikerFragment : Fragment() {
         bici_trasea = view_fragment.findViewById(R.id.bici2)
         bici_izquierda = view_fragment.findViewById(R.id.bici3)
         bici_derecha = view_fragment.findViewById(R.id.bici4)
+        aceptarActionPhotosButton = view_fragment.findViewById(R.id.aceptarActionPhotos)
+
+        val linear: LinearLayout = view_fragment.findViewById(R.id.borderLinear)
+        if(color_param == Constants.GTT_Seguros){
+
+            linear.background = ResourcesCompat.getDrawable(resources, R.drawable.back_gtt_photos, null)
+            aceptarActionPhotosButton.background = ResourcesCompat.getDrawable(resources, R.drawable.backgoogle, null)
+            aceptarActionPhotosButton.setTextColor(ResourcesCompat.getColor(resources, R.color.blanco, null))
+        }
 
         val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
         val set = prefs.getString("photos", null)
@@ -97,7 +108,29 @@ class PhotosBikerFragment : Fragment() {
         bici_izquierda.setOnClickListener { picture_action(2, it as ImageView) }
         bici_derecha.setOnClickListener { picture_action(3, it as ImageView) }
 
-        aceptarActionPhotos.setOnClickListener { listener?.saveDataArrayPhotos(this.imagesEncodedList) }
+        // aceptar action
+        aceptarActionPhotosButton.setOnClickListener {
+
+            var requieredPhotos = true
+            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+            var photosString = ""
+            for(item in imagesEncodedList!!){
+                if(item.length > 1)
+                    photosString += item+","
+                else {
+                    requieredPhotos = false
+                }
+            }
+
+            if(!requieredPhotos){
+                viewModel._uploadUI.value = Event("-1")
+            }else {
+                photosString = photosString.dropLast(1)
+                editor.putString("photos", photosString)
+                editor.apply()
+            }
+        }
+
         return view_fragment
     }
 
@@ -223,24 +256,6 @@ class PhotosBikerFragment : Fragment() {
         }
     }
 
-    interface photosSaved{
-        fun saveDataArrayPhotos(data: ArrayList<String>?)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is photosSaved) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement photosSaved")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
     companion object {
 
         /**
@@ -253,11 +268,10 @@ class PhotosBikerFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: Int) =
             PhotosBikerFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(ARG_COLOR, param1)
                 }
             }
     }

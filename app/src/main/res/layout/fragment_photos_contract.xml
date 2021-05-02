@@ -31,16 +31,20 @@
             app:layout_constraintTop_toBottomOf="@id/imageView8"
             app:layout_constraintStart_toStartOf="parent" />
 
+<!--
+    android:name="com.bicisos.i7.bicisos.Fragments.PhotosBikerFragment"
+-->
+
     <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentPhotos"
-            android:name="com.bicisos.i7.bicisos.Fragments.PhotosBikerFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textviewtitle"
-            tools:layout="@layout/fragment_photos_biker" />
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintTop_toBottomOf="@id/textviewtitle" />
 
 
 

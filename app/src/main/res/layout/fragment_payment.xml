@@ -1,14 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="#0d60a0"
         tools:context=".ui.contract.payment.PaymentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+    <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="32dp"
+            android:transitionName="imageView"
+            android:src="@drawable/logogtta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:text="Procedemos con la parte del pago de tu póliza"
+            android:id="@+id/textviewtitle"
+            android:theme="@style/textTheme"
+            app:layout_constraintTop_toBottomOf="@id/imageView8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+            android:id="@+id/textView33"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Te pedimos que lleves a cabo el pago a la siguiente cuenta bancaria o transferencia electrónica"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:theme="@style/textTheme"
+            app:layout_constraintTop_toBottomOf="@+id/textviewtitle" />
+
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textView33">
+
+        <TextView
+                android:id="@+id/textView34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Banco"
+                android:theme="@style/textThemeBold"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+        <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Banco Inbursa"
+                android:theme="@style/textTheme"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:text="Número de cuenta"
+                android:theme="@style/textThemeBold"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+        <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="50030378995"
+                android:theme="@style/textTheme"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:text="Número de cuenta"
+                android:theme="@style/textThemeBold"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+        <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="50030378995"
+                android:theme="@style/textTheme"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+                android:id="@+id/textView40"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:text="CLABE"
+                android:theme="@style/textThemeBold"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+        <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="036180500303789959"
+                android:theme="@style/textTheme"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+                android:id="@+id/textView43"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:theme="@style/textThemeBold"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+        <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Administradora de Riesgos en hechos de transito terrestre de grupo de GTT A.C."
+                android:theme="@style/textTheme"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.bicisos.i7.bicisos.Fragments.PhotosBikerFragment
 import com.bicisos.i7.bicisos.R
-import kotlinx.android.synthetic.main.fragment_photos_biker.*
+import com.bicisos.i7.bicisos.utils.Constants.Companion.GTT_Seguros
+import com.bicisos.i7.bicisos.utils.photosViewModel
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,12 +24,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PhotosContractFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PhotosContractFragment : Fragment(),
-    PhotosBikerFragment.photosSaved
-{
-
+class PhotosContractFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+
+    private val viewModel: photosViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,22 @@ class PhotosContractFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fragmentInstace = PhotosBikerFragment.newInstance(GTT_Seguros)
+        childFragmentManager.beginTransaction().add(R.id.fragmentPhotos,fragmentInstace).commit()
 
+        viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let{
+                Log.w("from...","data arriving $it")
+                when(it){
+                    "-1" -> {
+                        Snackbar.make(view, "Favor de subir las cuatro fotos de tu bici para continuar", Snackbar.LENGTH_LONG).show();
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+        })
     }
 
     companion object {
@@ -65,10 +82,5 @@ class PhotosContractFragment : Fragment(),
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
-
-    override fun saveDataArrayPhotos(data: ArrayList<String>?) {
-        Log.w("data", data.toString())
-        Toast.makeText(activity, "Data saved", Toast.LENGTH_LONG).show()
     }
 }

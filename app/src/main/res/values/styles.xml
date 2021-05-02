@@ -60,6 +60,13 @@
         <item name="android:textColor">@color/blanco</item>
     </style>
 
+    <style name="textThemeBold" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">17sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/blanco</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="textThemeSOS" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/helvetica</item>
@@ -77,6 +84,13 @@
         <item name="fontFamily">@font/helvetica</item>
         <item name="android:textColor">@color/blanco</item>
         <item name="android:background">@drawable/backgoogle</item>
+    </style>
+
+    <style name="textButtonThemeSos" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/cafe</item>
+        <item name="android:background">@drawable/backbutton</item>
     </style>
 
     <style name="textInputTheme" parent="Theme.AppCompat.Light.DarkActionBar">
