@@ -25,7 +25,8 @@
         <TextView
                 android:text="Fotos de tu bicicleta"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView6" android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6" android:textAlignment="center"
                 android:padding="10dp" android:fontFamily="@font/roboto" android:textSize="16sp"/>
         <LinearLayout
                 android:orientation="horizontal"

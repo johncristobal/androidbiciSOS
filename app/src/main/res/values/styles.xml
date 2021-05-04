@@ -60,6 +60,12 @@
         <item name="android:textColor">@color/blanco</item>
     </style>
 
+    <style name="textThemeButton" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/helvetica</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
     <style name="textThemeBold" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textSize">17sp</item>
         <item name="fontFamily">@font/helvetica</item>

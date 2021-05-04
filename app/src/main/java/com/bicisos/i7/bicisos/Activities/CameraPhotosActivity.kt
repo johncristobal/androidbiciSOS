@@ -5,14 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -30,6 +30,9 @@ typealias LumaListener = (luma: Double) -> Unit
 class CameraPhotosActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
+    private var camera: Camera? = null
+    private var flash: Boolean = false
+    private var preview: Preview? = null
 
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
@@ -48,13 +51,33 @@ class CameraPhotosActivity : AppCompatActivity() {
         // Set up the listener for take photo button
         camera_capture_button.setOnClickListener { takePhoto() }
 
+        camera_flash_button.setOnClickListener { turnOnOffFlash() }
+
         outputDirectory = getOutputDirectory()
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
+    private fun turnOnOffFlash(){
+        if(camera!!.cameraInfo.hasFlashUnit()){
+            if(flash) {
+                camera_flash_button.setImageResource(R.mipmap.flashon)
+                camera!!.cameraControl.enableTorch(false)
+            } else {
+                camera_flash_button.setImageResource(R.mipmap.flashoff)
+                camera!!.cameraControl.enableTorch(true)
+            }
+            flash = !flash
+        }else{
+            Toast.makeText(this, "Su dispositivo no cuenta con flash",Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun takePhoto() {
         // Get a stable reference of the modifiable image capture use case
+        progressCam.visibility = View.VISIBLE
+        camera_capture_button.visibility = View.INVISIBLE
+
         val imageCapture = imageCapture ?: return
 
         // Create time-stamped output file to hold the image
@@ -71,7 +94,12 @@ class CameraPhotosActivity : AppCompatActivity() {
         imageCapture.takePicture(
             outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
+                    progressCam.visibility = View.INVISIBLE
+                    camera_capture_button.visibility = View.VISIBLE
+
+                    Toast.makeText(applicationContext, "Tuvimos un problema al capturar la foto. Intente más tarde.", Toast.LENGTH_LONG).show()
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    finish()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
@@ -82,6 +110,15 @@ class CameraPhotosActivity : AppCompatActivity() {
                     val returnIntent = Intent()
                     returnIntent.putExtra("result", savedUri.path)
                     setResult(Activity.RESULT_OK, returnIntent)
+
+                    if(camera!!.cameraInfo.hasFlashUnit()) {
+                        if (flash) {
+                            camera_flash_button.setImageResource(R.mipmap.flashon)
+                            camera!!.cameraControl.enableTorch(false)
+                        }
+                        flash = false
+                    }
+
                     finish()
                 }
             })
@@ -91,7 +128,6 @@ class CameraPhotosActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener(Runnable {
-            // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             // Preview
@@ -113,8 +149,24 @@ class CameraPhotosActivity : AppCompatActivity() {
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
+                camera = cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture)
+
+                val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
+                    viewFinder.width.toFloat(), viewFinder.height.toFloat())
+                val centerWidth = viewFinder.width.toFloat() / 2
+                val centerHeight = viewFinder.height.toFloat() / 2
+
+                val autoFocusPoint = factory.createPoint(centerWidth, centerHeight)
+
+                camera!!.cameraControl.startFocusAndMetering(
+                    FocusMeteringAction.Builder(
+                        autoFocusPoint,
+                        FocusMeteringAction.FLAG_AF
+                    ).apply {
+                        setAutoCancelDuration(1, TimeUnit.SECONDS)
+                    }.build()
+                )
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
@@ -129,23 +181,26 @@ class CameraPhotosActivity : AppCompatActivity() {
     }
 
     private fun getOutputDirectory(): File {
-        val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val mediaDir = externalMediaDirs.firstOrNull()?.let {
+                File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+            }
+            return if (mediaDir != null && mediaDir.exists())
+                mediaDir
+            else filesDir
+        } else {
+            return filesDir
         }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir
-        else filesDir
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
                 Toast.makeText(this,
-                    "Permissions not granted by the user.",
+                    "Conceda permisos para acceder a la cámara",
                     Toast.LENGTH_SHORT).show()
                 finish()
             }

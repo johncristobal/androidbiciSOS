@@ -92,6 +92,10 @@ class ContractViewModel constructor(private val repository : Repository, private
         }
     }
 
+    fun backDash(){
+        _uploadUI.value = Event("cerrar")
+    }
+
     val MESSAGE = "Llena este campo correctamente"
     val MESSAGE_EMAIL = "Verifica tu correo"
     var nombreTitularErrorMessage: MutableLiveData<String> = MutableLiveData()

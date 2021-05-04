@@ -8,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.bicisos.i7.bicisos.Fragments.PhotosBikerFragment
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.utils.Constants.Companion.GTT_Seguros
 import com.bicisos.i7.bicisos.utils.photosViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_photos_contract.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,7 +41,6 @@ class PhotosContractFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_photos_contract, container, false)
     }
 
@@ -49,6 +50,10 @@ class PhotosContractFragment : Fragment() {
         val fragmentInstace = PhotosBikerFragment.newInstance(GTT_Seguros)
         childFragmentManager.beginTransaction().add(R.id.fragmentPhotos,fragmentInstace).commit()
 
+        textButtonBackClient.setOnClickListener {
+
+        }
+
         viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let{
                 Log.w("from...","data arriving $it")
@@ -57,7 +62,7 @@ class PhotosContractFragment : Fragment() {
                         Snackbar.make(view, "Favor de subir las cuatro fotos de tu bici para continuar", Snackbar.LENGTH_LONG).show();
                     }
                     else -> {
-
+                        findNavController().navigate(R.id.action_photosContractFragment_to_paymentFragment)
                     }
                 }
             }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -35,7 +36,7 @@ class ContractFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //return inflater.inflate(R.layout.contract_fragment, container, false)
+
         val binding : ContractFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.contract_fragment, container, false)
         val repo = Repository()
         val factory =
@@ -83,6 +84,9 @@ class ContractFragment : Fragment() {
 
                         dpd.datePicker.maxDate = c.timeInMillis
                         dpd.show()
+                    }
+                    "cerrar" -> {
+
                     }
                     else -> {
                         findNavController().navigate(R.id.action_contractFragment_to_photosContractFragment)

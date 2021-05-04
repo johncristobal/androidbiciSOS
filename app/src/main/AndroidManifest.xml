@@ -38,7 +38,8 @@
                 android:theme="@style/AppTheme.NoActionBar"
                 android:windowSoftInputMode="adjustResize" />
 
-        <activity android:name=".Activities.CameraPhotosActivity" />
+        <activity android:name=".Activities.CameraPhotosActivity"
+                android:theme="@style/AppTheme.NoActionBar" />
         <activity
                 android:name=".Activities.AlertActivity"
                 android:screenOrientation="portrait"

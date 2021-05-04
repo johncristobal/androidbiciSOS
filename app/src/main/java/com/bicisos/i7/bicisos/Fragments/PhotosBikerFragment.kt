@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
@@ -78,10 +79,12 @@ class PhotosBikerFragment : Fragment() {
 
         val linear: LinearLayout = view_fragment.findViewById(R.id.borderLinear)
         if(color_param == Constants.GTT_Seguros){
-
             linear.background = ResourcesCompat.getDrawable(resources, R.drawable.back_gtt_photos, null)
             aceptarActionPhotosButton.background = ResourcesCompat.getDrawable(resources, R.drawable.backgoogle, null)
             aceptarActionPhotosButton.setTextColor(ResourcesCompat.getColor(resources, R.color.blanco, null))
+
+            val textView6: TextView = view_fragment.findViewById(R.id.textView6)
+            textView6.setTextColor(ResourcesCompat.getColor(resources, R.color.blanco, null))
         }
 
         val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
@@ -128,6 +131,8 @@ class PhotosBikerFragment : Fragment() {
                 photosString = photosString.dropLast(1)
                 editor.putString("photos", photosString)
                 editor.apply()
+
+                viewModel._uploadUI.value = Event("1")
             }
         }
 

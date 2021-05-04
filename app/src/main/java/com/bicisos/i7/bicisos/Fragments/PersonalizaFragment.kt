@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.fragment_personaliza.*
 import kotlinx.android.synthetic.main.photos.view.*
 import java.io.File
 import java.io.IOException
+import kotlin.jvm.Throws
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -486,7 +487,7 @@ class PersonalizaFragment : Fragment() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            context!!, it) == PackageManager.PERMISSION_GRANTED
+            requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
     //CODE - onactivityresult ==========================================================================

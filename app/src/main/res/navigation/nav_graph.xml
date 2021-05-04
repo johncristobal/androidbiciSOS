@@ -41,7 +41,16 @@
             android:id="@+id/photosContractFragment"
             android:name="com.bicisos.i7.bicisos.ui.contract.photos.PhotosContractFragment"
             android:label="fragment_photos_contract"
-            tools:layout="@layout/fragment_photos_contract" />
+            tools:layout="@layout/fragment_photos_contract" >
+        <action
+                android:id="@+id/action_photosContractFragment_to_paymentFragment"
+                app:destination="@id/paymentFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/paymentFragment"
+            android:name="com.bicisos.i7.bicisos.ui.contract.payment.PaymentFragment"
+            android:label="fragment_payment"
+            tools:layout="@layout/fragment_payment" />
 
 
 </navigation>
