@@ -50,7 +50,16 @@
             android:id="@+id/paymentFragment"
             android:name="com.bicisos.i7.bicisos.ui.contract.payment.PaymentFragment"
             android:label="fragment_payment"
-            tools:layout="@layout/fragment_payment" />
+            tools:layout="@layout/fragment_payment" >
+        <action
+                android:id="@+id/action_paymentFragment_to_resumeFragment"
+                app:destination="@id/resumeFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/resumeFragment"
+            android:name="com.bicisos.i7.bicisos.ui.contract.resume.ResumeFragment"
+            android:label="ResumeFragment"
+            tools:layout="@layout/fragment_resume"/>
 
 
 </navigation>

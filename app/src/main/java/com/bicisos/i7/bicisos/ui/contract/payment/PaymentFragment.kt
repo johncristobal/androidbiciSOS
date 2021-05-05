@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
 import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide
@@ -51,8 +52,9 @@ class PaymentFragment : Fragment() {
             if(flagPhoto){
                 // TODO: send action to resume
             }else{
-                val myIntent = Intent(activity, CameraPhotosActivity::class.java)
-                startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)
+                //val myIntent = Intent(activity, CameraPhotosActivity::class.java)
+                //startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)
+                findNavController().navigate(R.id.action_paymentFragment_to_resumeFragment)
             }
         }
     }

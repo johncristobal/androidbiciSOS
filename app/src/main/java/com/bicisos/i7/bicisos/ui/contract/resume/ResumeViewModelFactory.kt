@@ -1,0 +1,19 @@
+package com.bicisos.i7.bicisos.ui.contract.resume
+
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.bicisos.i7.bicisos.repository.Repository
+
+class ResumeViewModelFactory constructor(
+    private val repository: Repository,
+    private val context: Context,
+    ) : ViewModelProvider.NewInstanceFactory() {
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return ResumeViewModel(
+            repository,
+            context
+        ) as T
+    }
+}

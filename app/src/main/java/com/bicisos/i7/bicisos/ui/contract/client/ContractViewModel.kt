@@ -8,9 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bicisos.i7.bicisos.Model.ContrataModel
+import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
 import com.bicisos.i7.bicisos.utils.State
+import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,7 +35,14 @@ class ContractViewModel constructor(private val repository : Repository, private
     @ExperimentalCoroutinesApi
     fun sendDataAction(){
 
+        modelData.fechaContratacion = Date().toString()
+        val jsonString = Gson().toJson(modelData)
+        val prefs = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE)
+        prefs.edit().putString("dataModelContract", jsonString).apply()
+        //var data = Gson().fromJson(jsonString, ContrataModel::class.java)
+
         _uploadUI.value = Event("ok")
+
         //get data, validate, send, back to login
         //validate
 //        if(validarGenericForm()){
@@ -171,6 +180,4 @@ class ContractViewModel constructor(private val repository : Repository, private
         _datePickerData.value = value
         modelData.fechaNacimiento = value
     }
-
-
 }
