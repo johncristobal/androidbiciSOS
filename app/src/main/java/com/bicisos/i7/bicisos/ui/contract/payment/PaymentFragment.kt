@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.ui.contract.payment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -50,11 +51,10 @@ class PaymentFragment : Fragment() {
 
         buttonPaymentSet.setOnClickListener {
             if(flagPhoto){
-                // TODO: send action to resume
-            }else{
-                //val myIntent = Intent(activity, CameraPhotosActivity::class.java)
-                //startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)
                 findNavController().navigate(R.id.action_paymentFragment_to_resumeFragment)
+            }else{
+                val myIntent = Intent(activity, CameraPhotosActivity::class.java)
+                startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)
             }
         }
     }
@@ -68,12 +68,10 @@ class PaymentFragment : Fragment() {
                 val result = data!!.getStringExtra("result")
                 Log.w("tag...",result)
 
-                flagPhoto = true
-                //get uri data, show photo
-//                Glide.with(requireActivity())
-//                    .load(result)
-//                    .into(imageTempView)
+                val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
+                prefs.edit().putString("payment_photo",result).apply()
 
+                flagPhoto = true
                 buttonPaymentSet.text = "Continuar"
             }
             if (resultCode == Activity.RESULT_CANCELED) {

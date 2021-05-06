@@ -4,6 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
                 name="viewModelResume"
                 type="com.bicisos.i7.bicisos.ui.contract.resume.ResumeViewModel" />
@@ -15,9 +16,9 @@
             android:background="#0d60a0"
             tools:context=".ui.contract.resume.ResumeFragment">
 
-<!--        <ScrollView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent">-->
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -60,6 +61,7 @@
                         app:layout_constraintTop_toBottomOf="@id/textviewtitle" />
 
                 <LinearLayout
+                        android:id="@+id/linearDataResume"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -71,20 +73,198 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Nombre del titular"
+                            android:text="@string/nombre_titular"
                             android:theme="@style/textTheme" />
 
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{ viewModelResume.modelData.ejecutivo }"
+                            android:text="@{ viewModelResume.modelData.nombreTitular }"
                             android:theme="@style/textThemeButton"/>
+
+                    <LinearLayout
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="@{ (viewModelResume.modelData.segundoTitular.length() == 0) ? View.GONE : View.VISIBLE }"
+                            android:layout_height="wrap_content">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Segundo titular"
+                                android:theme="@style/textTheme" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{ viewModelResume.modelData.segundoTitular }"
+                                android:theme="@style/textThemeButton"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fecha_nacimiento"
+                            android:theme="@style/textTheme" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{ viewModelResume.modelData.fechaNacimiento }"
+                            android:theme="@style/textThemeButton"/>
+
+                    <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/textTheme"
+                            android:text="@string/t_lefono"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{ viewModelResume.modelData.telefono }"
+                            android:theme="@style/textThemeButton"/>
+
+                    <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/textTheme"
+                            android:text="@string/correo"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{ viewModelResume.modelData.telefono }"
+                            android:theme="@style/textThemeButton"/>
+
+                    <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/textTheme"
+                            android:text="Dirección"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{ viewModelResume.modelData.direccion + ' ' + viewModelResume.modelData.alcaldia + ' ' + viewModelResume.modelData.colonia + ' ' + viewModelResume.modelData.cp }"
+                            android:theme="@style/textThemeButton"/>
+
+                    <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/textTheme"
+                            android:text="Fotos de tu bicicleta"/>
+
+                    <HorizontalScrollView
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+
+                            <ImageView
+                                    app:src="@{ viewModelResume.imagesEncodedList[0] }"
+                                    android:layout_width="@dimen/width_resume_photo"
+                                    android:src="@mipmap/cam_button"
+                                    android:layout_marginHorizontal="8dp"
+                                    android:layout_height="@dimen/height_resume_photo" />
+
+                            <ImageView
+                                    app:src="@{ viewModelResume.imagesEncodedList[1] }"
+                                    android:layout_width="@dimen/width_resume_photo"
+                                    android:layout_marginHorizontal="8dp"
+                                    android:src="@mipmap/cam_button"
+                                    android:layout_height="@dimen/height_resume_photo" />
+
+                            <ImageView
+                                    app:src="@{ viewModelResume.imagesEncodedList[2] }"
+                                    android:layout_width="@dimen/width_resume_photo"
+                                    android:layout_marginHorizontal="8dp"
+                                    android:src="@mipmap/cam_button"
+                                    android:layout_height="@dimen/height_resume_photo" />
+
+                            <ImageView
+                                    app:src="@{ viewModelResume.imagesEncodedList[3] }"
+                                    android:layout_width="@dimen/width_resume_photo"
+                                    android:layout_marginHorizontal="8dp"
+                                    android:src="@mipmap/cam_button"
+                                    android:layout_height="@dimen/height_resume_photo" />
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+                    <TextView
+                            android:layout_marginTop="16dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/textTheme"
+                            android:text="Foto de tu comprobante de pago"/>
+
+                    <ImageView
+                            app:src="@{ viewModelResume.payment_photo }"
+                            android:layout_width="200dp"
+                            android:layout_marginHorizontal="8dp"
+                            android:src="@mipmap/cam_button"
+                            android:layout_height="200dp" />
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/blanco" />
+
+                    <TextView
+                            android:layout_marginTop="32dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/textTheme"
+                            android:text="Si todo es correcto, da click a continuación para enviar la información"/>
 
                 </LinearLayout>
 
+                <Button
+                        android:id="@+id/buttonSendDataResume"
+                        android:layout_width="160dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Enviar información"
+                        style="@style/textButtonTheme"
+                        android:onClick="@{ () -> viewModelResume.sendData() }"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearDataResume" />
+
+                <Button
+                        android:id="@+id/textButtonBack"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_height="44dp"
+                        android:text="Verificar datos"
+                        android:theme="@style/textThemeButton"
+                        android:textColor="@color/blanco"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/buttonSendDataResume"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        </ScrollView>-->
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
