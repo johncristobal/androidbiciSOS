@@ -195,7 +195,7 @@ class LoginFragment : Fragment() {
             Facebutton.visibility = View.GONE
 
             if (AccessToken.getCurrentAccessToken() != null) {
-                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","null")
                 editor.apply()
             } else {
@@ -293,13 +293,13 @@ class LoginFragment : Fragment() {
         Log.d("tag", "handleFacebookAccessToken:$token")
 
         val credential = FacebookAuthProvider.getCredential(token)
-        auth.signInWithCredential(credential).addOnCompleteListener(activity!!) { task ->
+        auth.signInWithCredential(credential).addOnCompleteListener(requireActivity()) { task ->
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("tag", "signInWithCredential:success")
                 val user = auth.currentUser
                 //Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
-                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","1")
                 editor.putString("reloadData","1")
                 editor.putString("nombre",user!!.displayName)
@@ -333,22 +333,22 @@ class LoginFragment : Fragment() {
                     val token = user.uid
                     Log.w("token to document", token)
                 }
-                //Toast.makeText(activity,"Inicio de sesión exitoso:  "+user!!.displayName, Toast.LENGTH_SHORT).show()
-                val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+
+                val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
                 editor.putString("sesion","1")
                 editor.putString("reloadData","1")
                 editor.putString("nombre",user!!.displayName)
                 editor.apply()
 
                 listener!!.sendActivity("login")
-                //startActivity(HomeActivity.getLaunchIntent(this))
+
             } else {
-                Log.e("errro to login", it.exception.toString())
+                Log.e("errrrro __ login", it.exception.toString())
 
                 progressBarGoogle!!.visibility = View.INVISIBLE
                 Googlebutton.visibility = View.VISIBLE
                 Googlebutton!!.text = "Continuar con google"
-                Toast.makeText(activity!!, "Google sign in failed:(", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), "Google sign in fallo. Intente más tarde.", Toast.LENGTH_LONG).show()
             }
         }
     }
