@@ -35,27 +35,20 @@ class ContractViewModel constructor(private val repository : Repository, private
     @ExperimentalCoroutinesApi
     fun sendDataAction(){
 
-        modelData.fechaContratacion = Date().toString()
-        val jsonString = Gson().toJson(modelData)
-        val prefs = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE)
-        prefs.edit().putString("dataModelContract", jsonString).apply()
-        //var data = Gson().fromJson(jsonString, ContrataModel::class.java)
-
-        _uploadUI.value = Event("ok")
-
-        //get data, validate, send, back to login
         //validate
-//        if(validarGenericForm()){
-//            modelData.fechaContratacion = Date().toString()
-//            //send whatsapp with data
+        if(validarGenericForm()){
+            modelData.fechaContratacion = Date().toString()
+            val jsonString = Gson().toJson(modelData)
+            val prefs = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE)
+            prefs.edit().putString("dataModelContract", jsonString).apply()
+            //var data = Gson().fromJson(jsonString, ContrataModel::class.java)
+            _uploadUI.value = Event("ok")
+
 //            Log.w("ok","form ok")
 //            var message = "Hola, quisiera iniciar mi contratacion para SEGUROSGTT\n\n"
 //            message += "*Ejecutivo:*\nSOS Ciclista\n"
 //            message += "*Fecha:*\n${Date()}\n\n"
 //            message += "*Nombre:*\n${modelData.nombreTitular}\n"
-//            if(!modelData.segundoTitular.equals("")){
-//                message += "*Segundo titular:*\n${modelData.segundoTitular}\n"
-//            }
 //            message += "*Fecha nacimiento:*\n${modelData.fechaNacimiento}\n"
 //            if(!modelData.rfc.equals("")){
 //                message += "*RFC:*\n${modelData.rfc}\n"
@@ -71,10 +64,10 @@ class ContractViewModel constructor(private val repository : Repository, private
 //            viewModelScope.launch {
 //                addCotizacion(message)
 //            }
-//
-//        }else{
-//            Log.e("error","form not set")
-//        }
+
+        }else{
+            Log.e("error","form not set")
+        }
     }
 
     @ExperimentalCoroutinesApi

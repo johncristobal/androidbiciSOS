@@ -180,39 +180,39 @@
                     </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
 
 <!-- //////////////////  Data segundo al data  //////////////////////////////// -->
-                    <TextView
-                            android:id="@+id/textView37"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="@string/y_o_segundo_titular"
-                            android:theme="@style/textTheme"
-                            app:layout_constraintTop_toBottomOf="@+id/textView35"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+<!--                    <TextView-->
+<!--                            android:id="@+id/textView37"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="4dp"-->
+<!--                            android:text="@string/y_o_segundo_titular"-->
+<!--                            android:theme="@style/textTheme"-->
+<!--                            app:layout_constraintTop_toBottomOf="@+id/textView35"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent" />-->
 
-                    <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
-                            android:id="@+id/editTextNameSegundo"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            app:hintEnabled="false"
-                            android:background="@null"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView36">
+<!--                    <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout-->
+<!--                            android:id="@+id/editTextNameSegundo"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="60dp"-->
+<!--                            app:hintEnabled="false"-->
+<!--                            android:background="@null"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toBottomOf="@+id/textView36">-->
 
-                        <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:theme="@style/textInputTheme"
-                                android:background="@drawable/backinput"
-                                android:paddingEnd="10dp"
-                                android:paddingStart="10dp"
-                                android:text="@={ contractViewModel.modelData.segundoTitular }"
-                                android:hint="@string/hint_nombre_y_apellidos"
-                                android:inputType="textPersonName" />
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="40dp"-->
+<!--                                android:theme="@style/textInputTheme"-->
+<!--                                android:background="@drawable/backinput"-->
+<!--                                android:paddingEnd="10dp"-->
+<!--                                android:paddingStart="10dp"-->
+<!--                                android:text="@={ contractViewModel.modelData.segundoTitular }"-->
+<!--                                android:hint="@string/hint_nombre_y_apellidos"-->
+<!--                                android:inputType="textPersonName" />-->
 
-                    </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
+<!--                    </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>-->
 
 
 <!-- //////////////////  First fecha nac rfc  //////////////////////////////// -->

@@ -69,9 +69,9 @@ class ResumeFragment : Fragment() {
     fun showAlert(){
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setTitle("Listo")
-        alertDialogBuilder.setMessage("Hemos enviado la información, pronto te daremos mas noticias")
+        alertDialogBuilder.setMessage("Hemos enviado la información, pronto te daremos mas noticias.")
         alertDialogBuilder.setPositiveButton("Gracias") { _, _ ->
-
+            findNavController().navigate(R.id.action_resumeFragment_to_loginViewModelFragment)
         }
 
         alertDialogBuilder.create().show()
