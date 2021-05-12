@@ -62,7 +62,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
+class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
@@ -106,7 +106,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
         val v = inflater.inflate(R.layout.fragment_map, container, false)
 
-        locationManager = activity!!.getSystemService(LOCATION_SERVICE) as LocationManager?
+        locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
 
         val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -116,66 +116,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-
-//        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-//        }else {
-//            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
-
-//            try {
-//                if (lastLocation != null) {
-//                    listener?.onFragmentInteractionMap(
-//                        lastLocation.latitude,
-//                        lastLocation.longitude,
-//                        view,
-//                        "0"
-//                    )
-//                } else {
-//                    listener?.onFragmentInteractionMap(99.0, 99.0, view, "0")
-//                }
-//            } catch (e: java.lang.Exception) {
-//
-//                listener?.onFragmentInteractionMap(99.0, 99.0, view, "0")
-//            }
-        }
-
-//        alertAction.setOnClickListener {
-//
-//            if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-//
-//            }else {
-//                try {
-//                    if (lastLocation != null) {
-//                        listener?.onFragmentInteractionMap(
-//                            lastLocation.latitude,
-//                            lastLocation.longitude,
-//                            alertAction,
-//                            "0"
-//                        )
-//                    } else {
-//                        listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
-//                    }
-//                } catch (e: java.lang.Exception) {
-//
-//                    listener?.onFragmentInteractionMap(99.0, 99.0, alertAction, "0")
-//                }
-//            }
-//        }
-//    }
-
-//    private val locationListener: LocationListener = object : LocationListener {
-//        override fun onLocationChanged(location: Location) {
-//            Log.w("TAG LOCATION",  ""+ location.longitude + ":" + location.latitude + "")
-//            lastLocation = location
-//            listener?.onFragmentInteractionMap(location.latitude, location.longitude, null, "0")
-//        }
-//        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-//        override fun onProviderEnabled(provider: String) {}
-//        override fun onProviderDisabled(provider: String) {}
-//    }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+    }
 
     private fun listenerReports(){
         //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
@@ -415,21 +357,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     private fun setUpMap() {
 
-        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
                 arrayOf(
-                    android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
                 ), LOCATION_PERMISSION_REQUEST_CODE
             )
             return
         }
-//
-//        if (checkSelfPermission(activity!!,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            Log.e("permisos","pidiendo permisos ubicacion...")
-//            requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
-//            return
-//        }
 
         if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
@@ -447,12 +384,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
             }
         }
 
-        try {
-            // Request location updates
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
-        } catch(ex: SecurityException) {
-            Log.d("myTag", "Security Exception, no location available")
-        }
+//        try {
+//            // Request location updates
+//            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
+//        } catch(ex: SecurityException) {
+//            Log.d("myTag", "Security Exception, no location available")
+//        }
 
         mMap.setOnInfoWindowClickListener {
 
@@ -463,7 +400,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 Log.w("taller","No es taller")
             }else {
                 //get direcion
-                val geocoder = Geocoder(activity!!, Locale.getDefault())
+                val geocoder = Geocoder(requireActivity(), Locale.getDefault())
                 val addresses = geocoder.getFromLocation(
                     it!!.position.latitude,
                     it!!.position.longitude,
@@ -482,7 +419,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
                 //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                 intent.setPackage("com.google.android.apps.maps")
-                if (intent.resolveActivity(activity!!.packageManager) != null) {
+                if (intent.resolveActivity(requireActivity().packageManager) != null) {
                     startActivity(intent)
                 }
             }
@@ -495,7 +432,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            val success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(activity!!, R.raw.style_json))
+            val success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity(), R.raw.style_json))
 
             if (!success) {
                 Log.e("TAG", "Style parsing failed.");
@@ -508,7 +445,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
     }
 
     fun buildAlertMessageNoGps(){
-        val builder = AlertDialog.Builder(activity!!);
+        val builder = AlertDialog.Builder(requireActivity());
         builder.setMessage("¿Deseas habilitar tu ubicacion para mejorar el funcionamiento de la app?")
             .setCancelable(false)
             .setPositiveButton("Si", { dialog, which ->
@@ -528,7 +465,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         when(requestCode){
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if(!grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(activity!!,"Permiso denegado.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(),"Permiso denegado.",Toast.LENGTH_SHORT).show()
                 }else{
                     setUpMap()
                 }
@@ -583,30 +520,30 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
         //listenerBikers()
     }
 
-    override fun onLocationChanged(location: Location?) {
-
-        Log.e("location", location!!.latitude.toString())
-        lastLocation = location
-        listener?.onFragmentInteractionMap(location.latitude, location.longitude, null, "0")
-
-    }
-
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-    }
-
-    override fun onProviderEnabled(provider: String?) {
-    }
-
-    override fun onProviderDisabled(provider: String?) {
-
-    }
+//    override fun onLocationChanged(location: Location?) {
+//
+//        Log.e("location", location!!.latitude.toString())
+//        lastLocation = location
+//        listener?.onFragmentInteractionMap(location.latitude, location.longitude, null, "0")
+//
+//    }
+//
+//    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+//
+//    }
+//
+//    override fun onProviderEnabled(provider: String?) {
+//    }
+//
+//    override fun onProviderDisabled(provider: String?) {
+//
+//    }
 
 
 
     //al abrir app, se manda ubicacion con el bike
     private fun initListenerBike() {
-        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
         val sesion = prefs.getString("sesion","null")
         if (sesion!!.equals("1")){
             val name = prefs.getString("nombre", "null")
@@ -635,7 +572,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, LocationListener {
 
     //send location bike
     private fun initListenerBikeOnce() {
-        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
         val sesion = prefs.getString("sesion","null")
         if (sesion!!.equals("1")){
             val name = prefs.getString("nombre", "null")
