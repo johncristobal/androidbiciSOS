@@ -357,11 +357,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun setUpMap() {
 
-        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(requireActivity(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//            && checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
                 arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    //Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ), LOCATION_PERMISSION_REQUEST_CODE
             )
@@ -369,7 +370,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
+            buildAlertMessageNoGps()
         }
 
         mMap.isMyLocationEnabled = true
@@ -378,7 +379,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             if (location != null) {
                 mapaListo = true
                 lastLocation = location
-                initListenerBike()
+                //initListenerBike()
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
             }
@@ -542,61 +543,61 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
 
     //al abrir app, se manda ubicacion con el bike
-    private fun initListenerBike() {
-        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
-        val sesion = prefs.getString("sesion","null")
-        if (sesion!!.equals("1")){
-            val name = prefs.getString("nombre", "null")
-            val bici = prefs.getInt("bici", -1)
-
-            //primero enviar mi bike para que este en fierbase
-            //si y solo si estoy logueado
-            //mando nombre, bike, ubication
-            val database = FirebaseDatabase.getInstance()
-            val bikersRef = database.getReference("bikers")
-            val lat = lastLocation.latitude
-            val long = lastLocation.longitude
-
-            val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
-                prefs.edit().putString("enviado", "1").apply()
-                prefs.edit().putString("keySelf", key).apply()
-                //listenerBikers()
-            }.addOnFailureListener {
-                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-            }
-        }else{
-            //iniicar sesion
-        }
-    }
+//    private fun initListenerBike() {
+//        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
+//        val sesion = prefs.getString("sesion","null")
+//        if (sesion!!.equals("1")){
+//            val name = prefs.getString("nombre", "null")
+//            val bici = prefs.getInt("bici", -1)
+//
+//            //primero enviar mi bike para que este en fierbase
+//            //si y solo si estoy logueado
+//            //mando nombre, bike, ubication
+//            val database = FirebaseDatabase.getInstance()
+//            val bikersRef = database.getReference("bikers")
+//            val lat = lastLocation.latitude
+//            val long = lastLocation.longitude
+//
+//            val key = bikersRef.push().key
+//            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
+//                prefs.edit().putString("enviado", "1").apply()
+//                prefs.edit().putString("keySelf", key).apply()
+//                //listenerBikers()
+//            }.addOnFailureListener {
+//                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+//            }
+//        }else{
+//            //iniicar sesion
+//        }
+//    }
 
     //send location bike
-    private fun initListenerBikeOnce() {
-        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
-        val sesion = prefs.getString("sesion","null")
-        if (sesion!!.equals("1")){
-            val name = prefs.getString("nombre", "null")
-            val bici = prefs.getInt("bici", -1)
-
-            //primero enviar mi bike para que este en fierbase
-            //si y solo si estoy logueado
-            //mando nombre, bike, ubication
-            val database = FirebaseDatabase.getInstance()
-            val bikersRef = database.getReference("bikers")
-            val lat = lastLocation.latitude
-            val long = lastLocation.longitude
-
-            val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
-                prefs.edit().putString("enviado", "1").apply()
-                prefs.edit().putString("keySelf", key).apply()
-            }.addOnFailureListener {
-                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-            }
-        }else{
-            //no envia nada
-        }
-    }
+//    private fun initListenerBikeOnce() {
+//        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
+//        val sesion = prefs.getString("sesion","null")
+//        if (sesion!!.equals("1")){
+//            val name = prefs.getString("nombre", "null")
+//            val bici = prefs.getInt("bici", -1)
+//
+//            //primero enviar mi bike para que este en fierbase
+//            //si y solo si estoy logueado
+//            //mando nombre, bike, ubication
+//            val database = FirebaseDatabase.getInstance()
+//            val bikersRef = database.getReference("bikers")
+//            val lat = lastLocation.latitude
+//            val long = lastLocation.longitude
+//
+//            val key = bikersRef.push().key
+//            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
+//                prefs.edit().putString("enviado", "1").apply()
+//                prefs.edit().putString("keySelf", key).apply()
+//            }.addOnFailureListener {
+//                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
+//            }
+//        }else{
+//            //no envia nada
+//        }
+//    }
 
     public fun reloadData(){
         Log.w("tag","info from main")
