@@ -59,8 +59,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- *
+https://github.com/android/location-samples/blob/main/CurrentLocationKotlin/app/src/main/java/com/example/android/location/currentlocationkotlin/MainActivity.kt *
  */
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -75,10 +74,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var listener: OnFragmentMapListener? = null
 
     public var flagReadMapa = false
-    private var locationManager : LocationManager? = null
+    //private var locationManager : LocationManager? = null
 
     companion object {
-        //val bikers = ArrayList<Biker>()
         val reportes = ArrayList<Report>()
         val stringIds = ArrayList<String>()
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -106,7 +104,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val v = inflater.inflate(R.layout.fragment_map, container, false)
 
-        locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
+        //locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
 
         val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -119,197 +117,67 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
     }
 
-    private fun listenerReports(){
-        //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
-        val reference = FirebaseDatabase.getInstance().getReference("reportes")
-        reference.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("error",p0.message)
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-
-                reportes.clear()
-                val newIdS = ArrayList<String>()
-
-                p0.children.mapNotNullTo(reportes) {
-                    it.getValue<Report>(Report::class.java)
-                }
-
-                reportes.forEach {
-
-                    //nueva lista de strings con los que esten vivos
-                    newIdS.add(it.id)
-
-                    //punto nuevo
-                    //if(!stringIds.contains(it.id)) {
-
-                    //    stringIds.add(it.id)
-
-                        //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
-                        //despues de enviar, recupero bikes activas...
-                        //agregar marcadores al mapa con los bikers
-                        val bici = it.tipo
-                        var mipmap = 0
-
-                        when (bici) {
-                            0 -> mipmap = R.mipmap.bicia
-                            1 -> mipmap = R.drawable.alertafinal
-                            2 -> mipmap = R.drawable.averiaicon
-                            3 -> mipmap = R.drawable.cicloviaicon
-                            4 -> mipmap = R.drawable.apoyoicon
-                            5 -> mipmap = R.drawable.panic
-                        }
-
-                        val height = 100
-                        val width = 100
-                        val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
-                        val b = bitmapdraw.getBitmap()
-                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-
-                        /*val mark = mMap.addMarker(
-                            MarkerOptions()
-                                .position(LatLng(it.latitude, it.longitude))
-                                .title(it.name)
-                                //.snippet("Population: 4,627,300")
-                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                        )*/
-
-                        val markerOptions = MarkerOptions()
-                        markerOptions.position(LatLng(it.latitude, it.longitude))
-                            .title(it.name)
-                            //.snippet("I am custom Location Marker.")
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-
-                        /*val info = InfoWindowData("Developine", "Islamabad Pakistan",
-                            "hammadtariq.me@gmail.com",
-                            "92 333 8456598",
-                            "8 AM to 6 PM",
-                            "0404"
-                        )*/
-
-                        val mark = mMap.addMarker(markerOptions)
-                        mark.tag = it
-
-                        //hashMapMarker.put(it.id, mark)
-                    //}
-                    //}
-                }
-
-                //los puntos que se eliminaran
-                /*val justIds = stringIds.minus(newIdS)
-                var keyHere = ""
-                if(hashMapMarker.size > 0) {
-                    for ((key, value) in hashMapMarker) {
-                        if (justIds.contains(key)) {
-                            val marker = hashMapMarker.get(key)
-                            marker!!.remove()
-                            keyHere = key
-                            stringIds.remove(key)
-                        }
-                    }
-                    hashMapMarker.remove(keyHere)
-                }*/
-            }
-        })
-    }
-
-    /*
-    private fun listenerBikers() {
-        //val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-
-        val reference = FirebaseDatabase.getInstance().getReference("bikers")
-        reference.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("error",p0.message)
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-
-                bikers.clear()
-                val newIdS = ArrayList<String>()
-
-                p0.children.mapNotNullTo(bikers) {
-                    it.getValue<Biker>(Biker::class.java)
-                }
-
-                bikers.forEach {
-
-                    //nueva lista de strings con los que esten vivos
-                    newIdS.add(it.id)
-
-                    //punto nuevo
-                    if(!stringIds.contains(it.id)) {
-
-                        stringIds.add(it.id)
-
-                        //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
-                        //despues de enviar, recupero bikes activas...
-                        //agregar marcadores al mapa con los bikers
-                        val bici = it.bici
-                        var mipmap = 0
-                        when (bici) {
-                            0 -> mipmap = R.mipmap.bicia
-                            1 -> mipmap = R.mipmap.bicib
-                            2 -> mipmap = R.mipmap.bicic
-                            3 -> mipmap = R.mipmap.bicid
-                            4 -> mipmap = R.mipmap.bicie
-                            5 -> mipmap = R.mipmap.bicif
-                            else -> mipmap = R.mipmap.bicia
-                        }
-                        val height = 50
-                        val width = 70
-                        val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
-                        val b = bitmapdraw.getBitmap()
-                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-
-                        val mark = mMap.addMarker(
-                            MarkerOptions()
-                                .position(LatLng(it.latitud, it.longitude))
-                                .title(it.name)
-                                //.snippet("Population: 4,627,300")
-                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                        )
-                        mMap.setInfoWindowAdapter(null)
-
-                        //mark.tag = it
-
-                        hashMapMarker.put(it.id, mark)
-                    }
-                    //}
-                }
-
-                //los puntos que se eliminaran
-                val justIds = stringIds.minus(newIdS)
-                var keyHere = ""
-                if(hashMapMarker.size > 0) {
-                    for ((key, value) in hashMapMarker) {
-                        if (justIds.contains(key)) {
-                            val marker = hashMapMarker.get(key)
-                            marker!!.remove()
-                            keyHere = key
-                            stringIds.remove(key)
-                        }
-                    }
-                    hashMapMarker.remove(keyHere)
-                }
-            }
-        })
-    }
-    */
-
     override fun onResume() {
         super.onResume()
 
         Log.e("mapfrgment","onresume map")
+    }
 
-        //if(mapaListo)
-        //    initListenerBikeOnce()
+    override fun onPause() {
+        super.onPause()
+
     }
 
     override fun onStop() {
         super.onStop()
         Log.e("mapfrgment","onstop map")
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+
+        mMap = p0
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
+            override fun onMarkerClick(p0: Marker?): Boolean {
+                if(p0!!.tag is Report) {
+
+                    val report = p0.tag as Report
+
+                    if(report.tipo == 1){
+                        mMap.setInfoWindowAdapter(null)
+
+                        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                        prefs.edit().putString("detalleMapFragment","1").apply()
+
+                        val detailtFrag = DetailReportFragment.newInstance(report)
+                        childFragmentManager.beginTransaction()
+                            .addToBackStack("detalles")
+                            .replace(R.id.containerAlertas,detailtFrag)
+                            .commit()
+
+                        //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
+
+                        //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+                        return true
+                    }else {
+                        val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
+                        mMap.setInfoWindowAdapter(customInfoWindow)
+                    }
+
+                    return false
+                }else{
+                    mMap.setInfoWindowAdapter(null)
+                    return false
+
+                }
+            }
+        })
+
+        //mMap.setOnMarkerClickListener(activity!!)
+        setUpMap()
+        setTalleres()
+        listenerReports()
+        //listenerBikers()
     }
 
     private fun setTalleres(){
@@ -355,12 +223,108 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun listenerReports(){
+        //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
+        val reference = FirebaseDatabase.getInstance().getReference("reportes")
+        reference.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                Log.e("error",p0.message)
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+
+                reportes.clear()
+                val newIdS = ArrayList<String>()
+
+                p0.children.mapNotNullTo(reportes) {
+                    it.getValue<Report>(Report::class.java)
+                }
+
+                reportes.forEach {
+
+                    //nueva lista de strings con los que esten vivos
+                    newIdS.add(it.id)
+
+                    //punto nuevo
+                    //if(!stringIds.contains(it.id)) {
+
+                    //    stringIds.add(it.id)
+
+                    //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
+                    //despues de enviar, recupero bikes activas...
+                    //agregar marcadores al mapa con los bikers
+                    val bici = it.tipo
+                    var mipmap = 0
+
+                    when (bici) {
+                        0 -> mipmap = R.mipmap.bicia
+                        1 -> mipmap = R.drawable.alertafinal
+                        2 -> mipmap = R.drawable.averiaicon
+                        3 -> mipmap = R.drawable.cicloviaicon
+                        4 -> mipmap = R.drawable.apoyoicon
+                        5 -> mipmap = R.drawable.panic
+                    }
+
+                    val height = 100
+                    val width = 100
+                    val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
+                    val b = bitmapdraw.getBitmap()
+                    val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+
+                    /*val mark = mMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(it.latitude, it.longitude))
+                            .title(it.name)
+                            //.snippet("Population: 4,627,300")
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    )*/
+
+                    val markerOptions = MarkerOptions()
+                    markerOptions.position(LatLng(it.latitude, it.longitude))
+                        .title(it.name)
+                        //.snippet("I am custom Location Marker.")
+                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+
+                    /*val info = InfoWindowData("Developine", "Islamabad Pakistan",
+                        "hammadtariq.me@gmail.com",
+                        "92 333 8456598",
+                        "8 AM to 6 PM",
+                        "0404"
+                    )*/
+
+                    val mark = mMap.addMarker(markerOptions)
+                    mark.tag = it
+
+                    //hashMapMarker.put(it.id, mark)
+                    //}
+                    //}
+                }
+
+                //los puntos que se eliminaran
+                /*val justIds = stringIds.minus(newIdS)
+                var keyHere = ""
+                if(hashMapMarker.size > 0) {
+                    for ((key, value) in hashMapMarker) {
+                        if (justIds.contains(key)) {
+                            val marker = hashMapMarker.get(key)
+                            marker!!.remove()
+                            keyHere = key
+                            stringIds.remove(key)
+                        }
+                    }
+                    hashMapMarker.remove(keyHere)
+                }*/
+            }
+        })
+    }
+
     private fun setUpMap() {
 
 //        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
 //            && checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         if (checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
+                requireActivity(),
                 arrayOf(
                     //Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
@@ -369,21 +333,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             return
         }
 
-        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps()
-        }
+//        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            buildAlertMessageNoGps()
+//        }
 
         mMap.isMyLocationEnabled = true
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                mapaListo = true
-                lastLocation = location
-                //initListenerBike()
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+        fusedLocationClient.lastLocation
+            .addOnCompleteListener { taskLocation ->
+                if (taskLocation.isSuccessful && taskLocation.result != null) {
+
+                    val location = taskLocation.result
+
+                    mapaListo = true
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+
+                } else {
+                    Log.w("Error location", "getLastLocation:exception", taskLocation.exception)
+                }
             }
-        }
 
 //        try {
 //            // Request location updates
@@ -474,52 +444,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    override fun onMapReady(p0: GoogleMap) {
 
-        mMap = p0
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
-            override fun onMarkerClick(p0: Marker?): Boolean {
-                if(p0!!.tag is Report) {
-
-                    val report = p0.tag as Report
-
-                    if(report.tipo == 1){
-                        mMap.setInfoWindowAdapter(null)
-
-                        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-                        prefs.edit().putString("detalleMapFragment","1").apply()
-
-                        val detailtFrag = DetailReportFragment.newInstance(report)
-                        childFragmentManager.beginTransaction()
-                            .addToBackStack("detalles")
-                            .replace(R.id.containerAlertas,detailtFrag)
-                            .commit()
-
-                        //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
-
-                        //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
-                        return true
-                    }else {
-                        val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
-                        mMap.setInfoWindowAdapter(customInfoWindow)
-                    }
-
-                    return false
-                }else{
-                    mMap.setInfoWindowAdapter(null)
-                    return false
-
-                }
-            }
-        })
-
-        //mMap.setOnMarkerClickListener(activity!!)
-        setUpMap()
-        setTalleres()
-        listenerReports()
-        //listenerBikers()
-    }
 
 //    override fun onLocationChanged(location: Location?) {
 //
