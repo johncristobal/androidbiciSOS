@@ -40,6 +40,7 @@ import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.Model.Taller
 import com.facebook.AccessToken
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
@@ -51,7 +52,8 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_map.*
 import java.util.*
 import kotlin.collections.ArrayList
-
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.Task
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,7 +76,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var listener: OnFragmentMapListener? = null
 
     public var flagReadMapa = false
-    //private var locationManager : LocationManager? = null
+    private var cancellationTokenSource = CancellationTokenSource()
+
+    private var locationManager : LocationManager? = null
 
     companion object {
         val reportes = ArrayList<Report>()
@@ -104,7 +108,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         val v = inflater.inflate(R.layout.fragment_map, container, false)
 
-        //locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
+        locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
 
         val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -123,14 +127,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         Log.e("mapfrgment","onresume map")
     }
 
-    override fun onPause() {
-        super.onPause()
-
-    }
-
     override fun onStop() {
         super.onStop()
-        Log.e("mapfrgment","onstop map")
+        // Cancels location request (if in flight).
+        cancellationTokenSource.cancel()
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -320,40 +320,57 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun setUpMap() {
 
-//        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//            && checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        if (checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //if (checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(
-                requireActivity(),
                 arrayOf(
-                    //Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ), LOCATION_PERMISSION_REQUEST_CODE
             )
             return
         }
 
-//        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            buildAlertMessageNoGps()
-//        }
+        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps()
+        }
 
         mMap.isMyLocationEnabled = true
 
-        fusedLocationClient.lastLocation
-            .addOnCompleteListener { taskLocation ->
-                if (taskLocation.isSuccessful && taskLocation.result != null) {
+        val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
+            PRIORITY_HIGH_ACCURACY,
+            cancellationTokenSource.token
+        )
 
-                    val location = taskLocation.result
-
-                    mapaListo = true
-                    lastLocation = location
-                    val currentLatLng = LatLng(location.latitude, location.longitude)
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-
-                } else {
-                    Log.w("Error location", "getLastLocation:exception", taskLocation.exception)
-                }
+        currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+            if (task.isSuccessful && task.result != null) {
+            val location = task.result
+            mapaListo = true
+            lastLocation = location
+            val currentLatLng = LatLng(location.latitude, location.longitude)
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+            } else {
+                Log.w("Error location", "getLastLocation:exception", task.exception)
             }
+        }
+
+
+//        fusedLocationClient.lastLocation
+//            .addOnCompleteListener { taskLocation ->
+//                if (taskLocation.isSuccessful && taskLocation.result != null) {
+//
+//                    val location = taskLocation.result
+//
+//                    mapaListo = true
+//                    lastLocation = location
+//                    val currentLatLng = LatLng(location.latitude, location.longitude)
+//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+//
+//                } else {
+//                    Log.w("Error location", "getLastLocation:exception", taskLocation.exception)
+//                }
+//            }
 
 //        try {
 //            // Request location updates
