@@ -3,7 +3,6 @@ package com.bicisos.i7.bicisos.Fragments
 
 import android.Manifest
 import android.os.Bundle
-//import androidx.core.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,30 +13,32 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import android.R.raw
-import android.content.Context
+import android.content.*
 import android.content.Context.LOCATION_SERVICE
-import android.content.DialogInterface
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import androidx.core.app.ActivityCompat
+import android.os.IBinder
 import androidx.core.content.ContextCompat.checkSelfPermission
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bicisos.i7.bicisos.Activities.SesionActivity
 import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
 import com.bicisos.i7.bicisos.Api.ApiClient
 import com.bicisos.i7.bicisos.Model.Biker
 import com.bicisos.i7.bicisos.Model.Report
 import com.bicisos.i7.bicisos.Model.Taller
+import com.bicisos.i7.bicisos.service.ForegroundOnlyLocationService
+import com.bicisos.i7.bicisos.utils.SharedPreferenceUtil
+import com.bicisos.i7.bicisos.utils.toText
 import com.facebook.AccessToken
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -49,7 +50,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_map.*
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -63,11 +63,12 @@ private const val ARG_PARAM2 = "param2"
 /**
 https://github.com/android/location-samples/blob/main/CurrentLocationKotlin/app/src/main/java/com/example/android/location/currentlocationkotlin/MainActivity.kt *
  */
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    //private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private var justOne: Boolean = false
     private var mapaListo: Boolean = false
     private lateinit var talleres : List<Taller>
@@ -76,9 +77,56 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var listener: OnFragmentMapListener? = null
 
     public var flagReadMapa = false
-    private var cancellationTokenSource = CancellationTokenSource()
+    //private var cancellationTokenSource = CancellationTokenSource()
 
     private var locationManager : LocationManager? = null
+
+    private var foregroundOnlyLocationServiceBound = false
+
+    // Provides location updates for while-in-use feature.
+    private var foregroundOnlyLocationService: ForegroundOnlyLocationService? = null
+
+    // Listens for location broadcasts from ForegroundOnlyLocationService.
+    private lateinit var foregroundOnlyBroadcastReceiver: ForegroundOnlyBroadcastReceiver
+
+    private lateinit var sharedPreferences: SharedPreferences
+
+    private var TAG = "fragmentMap"
+    private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+
+    private inner class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            val location = intent.getParcelableExtra<Location>(
+                ForegroundOnlyLocationService.EXTRA_LOCATION
+            )
+
+            if (location != null) {
+                Log.w("location.....",location.toText())
+                lastLocation = location
+                mapaListo = true
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+            }
+        }
+    }
+
+    // Monitors connection to the while-in-use service.
+    private val foregroundOnlyServiceConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {
+            val binder = service as ForegroundOnlyLocationService.LocalBinder
+            foregroundOnlyLocationService = binder.service
+            foregroundOnlyLocationServiceBound = true
+
+            getLocationService()
+        }
+
+        override fun onServiceDisconnected(name: ComponentName) {
+            foregroundOnlyLocationService = null
+            foregroundOnlyLocationServiceBound = false
+        }
+    }
 
     companion object {
         val reportes = ArrayList<Report>()
@@ -113,24 +161,166 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
+        sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+
         return v
+    }
+
+    fun getLocationService(){
+
+        if (foregroundPermissionApproved()) {
+            setUpMap()
+            foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                ?: Log.d("FragmenLoc", "Service Not Bound")
+        } else {
+            requestForegroundPermissions()
+        }
+
+//        val enabled = sharedPreferences.getBoolean(SharedPreferenceUtil.KEY_FOREGROUND_ENABLED, false)
+
+//        if (enabled) {
+//            foregroundOnlyLocationService?.unsubscribeToLocationUpdates()
+//        } else {
+//            // TODO: Step 1.0, Review Permissions: Checks and requests if needed.
+//            if (foregroundPermissionApproved()) {
+//                setUpMap()
+//                foregroundOnlyLocationService?.subscribeToLocationUpdates()
+//                    ?: Log.d("FragmenLoc", "Service Not Bound")
+//            } else {
+//                requestForegroundPermissions()
+//            }
+//        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+
+        val serviceIntent = Intent(requireContext(), ForegroundOnlyLocationService::class.java)
+        requireContext().bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+    }
+
+    private fun requestForegroundPermissions() {
+        val provideRationale = foregroundPermissionApproved()
+
+        // If the user denied a previous request, but didn't check "Don't ask again", provide
+        // additional rationale.
+        if (provideRationale) {
+            Toast.makeText(requireContext(),"Ve a configuraciones para activar ubicación", Toast.LENGTH_LONG).show()
+//            Snackbar.make(
+//                findViewById(R.id.activity_main),
+//                R.string.permission_rationale,
+//                Snackbar.LENGTH_LONG
+//            )
+//                .setAction(R.string.ok) {
+//                    // Request permission
+//                    requestPermissions(
+//                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+//                    )
+//                }
+//                .show()
+        } else {
+            Log.d(TAG, "Request foreground only permission")
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
+
+    // TODO: Step 1.0, Review Permissions: Handles permission result.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        Log.d(TAG, "onRequestPermissionResult")
+
+        when (requestCode) {
+            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+                grantResults.isEmpty() ->
+                    // If user interaction was interrupted, the permission request
+                    // is cancelled and you receive empty arrays.
+                    Log.d(TAG, "User interaction was cancelled.")
+
+                grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+                    // Permission was granted.
+                    foregroundOnlyLocationService?.subscribeToLocationUpdates()
+                    setUpMap()
+                }
+
+                else -> {
+                    // Permission denied.
+                    Toast.makeText(requireActivity(),"Permiso denegado.",Toast.LENGTH_SHORT).show()
+//                    updateButtonState(false)
+//
+//                    Snackbar.make(
+//                        findViewById(R.id.activity_main),
+//                        R.string.permission_denied_explanation,
+//                        Snackbar.LENGTH_LONG
+//                    )
+//                        .setAction(R.string.settings) {
+//                            // Build intent that displays the App settings screen.
+//                            val intent = Intent()
+//                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+//                            val uri = Uri.fromParts(
+//                                "package",
+//                                BuildConfig.APPLICATION_ID,
+//                                null
+//                            )
+//                            intent.data = uri
+//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                            startActivity(intent)
+//                        }
+//                        .show()
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
-
         Log.e("mapfrgment","onresume map")
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
+            foregroundOnlyBroadcastReceiver,
+            IntentFilter(
+                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+        )
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(
+            foregroundOnlyBroadcastReceiver
+        )
+        super.onPause()
     }
 
     override fun onStop() {
+
+        if (foregroundOnlyLocationServiceBound) {
+            requireContext().unbindService(foregroundOnlyServiceConnection)
+            foregroundOnlyLocationServiceBound = false
+        }
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+
         super.onStop()
-        // Cancels location request (if in flight).
-        cancellationTokenSource.cancel()
+    }
+
+    private fun foregroundPermissionApproved(): Boolean {
+
+        return PackageManager.PERMISSION_GRANTED == checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     override fun onMapReady(p0: GoogleMap) {
@@ -174,7 +364,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         })
 
         //mMap.setOnMarkerClickListener(activity!!)
-        setUpMap()
         setTalleres()
         listenerReports()
         //listenerBikers()
@@ -320,63 +509,37 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun setUpMap() {
 
-        if (checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        //if (checkSelfPermission(requireActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ), LOCATION_PERMISSION_REQUEST_CODE
-            )
-            return
-        }
+        if (checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED) {
 
-        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps()
+            return
         }
 
         mMap.isMyLocationEnabled = true
 
-        val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
-            PRIORITY_HIGH_ACCURACY,
-            cancellationTokenSource.token
-        )
-
-        currentLocationTask.addOnCompleteListener { task: Task<Location> ->
-            if (task.isSuccessful && task.result != null) {
-            val location = task.result
-            mapaListo = true
-            lastLocation = location
-            val currentLatLng = LatLng(location.latitude, location.longitude)
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-            } else {
-                Log.w("Error location", "getLastLocation:exception", task.exception)
-            }
-        }
-
-
-//        fusedLocationClient.lastLocation
-//            .addOnCompleteListener { taskLocation ->
-//                if (taskLocation.isSuccessful && taskLocation.result != null) {
+//        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            buildAlertMessageNoGps()
+//        }
 //
-//                    val location = taskLocation.result
+//        mMap.isMyLocationEnabled = true
 //
-//                    mapaListo = true
-//                    lastLocation = location
-//                    val currentLatLng = LatLng(location.latitude, location.longitude)
-//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+//        val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
+//            PRIORITY_HIGH_ACCURACY,
+//            cancellationTokenSource.token
+//        )
 //
-//                } else {
-//                    Log.w("Error location", "getLastLocation:exception", taskLocation.exception)
-//                }
+//        currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+//            if (task.isSuccessful && task.result != null) {
+//            val location = task.result
+//            mapaListo = true
+//            lastLocation = location
+//            val currentLatLng = LatLng(location.latitude, location.longitude)
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+//            } else {
+//                Log.w("Error location", "getLastLocation:exception", task.exception)
 //            }
-
-//        try {
-//            // Request location updates
-//            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
-//        } catch(ex: SecurityException) {
-//            Log.d("myTag", "Security Exception, no location available")
 //        }
 
         mMap.setOnInfoWindowClickListener {
@@ -447,19 +610,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         alert.show();
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when(requestCode){
-            LOCATION_PERMISSION_REQUEST_CODE -> {
-                if(!grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(requireActivity(),"Permiso denegado.",Toast.LENGTH_SHORT).show()
-                }else{
-                    setUpMap()
-                }
-            }
-        }
-    }
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//
+//        when(requestCode){
+//            LOCATION_PERMISSION_REQUEST_CODE -> {
+//                if(!grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED){
+//                    Toast.makeText(requireActivity(),"Permiso denegado.",Toast.LENGTH_SHORT).show()
+//                }else{
+//                    setUpMap()
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -546,5 +709,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         listenerReports()
         //listenerBikers()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+
     }
 }

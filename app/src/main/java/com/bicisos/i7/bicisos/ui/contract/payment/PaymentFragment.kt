@@ -66,13 +66,15 @@ class PaymentFragment : Fragment() {
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
                 val result = data!!.getStringExtra("result")
-                Log.w("tag...",result)
+                if (result != null) {
+                    Log.w("tag...",result)
 
-                val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
-                prefs.edit().putString("payment_photo",result).apply()
+                    val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
+                    prefs.edit().putString("payment_photo",result).apply()
 
-                flagPhoto = true
-                buttonPaymentSet.text = "Continuar"
+                    flagPhoto = true
+                    buttonPaymentSet.text = "Continuar"
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result

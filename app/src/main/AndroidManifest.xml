@@ -7,6 +7,9 @@
          location permissions for the 'MyLocation' functionality.
          896536123930-urso97v5qngkqsf3gos084ptr7gkbv4j.apps.googleusercontent.com
     -->
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -161,6 +164,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Foreground services in Q+ require type. -->
+        <service
+                android:name=".service.ForegroundOnlyLocationService"
+                android:enabled="true"
+                android:exported="false"
+                android:foregroundServiceType="location" />
 
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"

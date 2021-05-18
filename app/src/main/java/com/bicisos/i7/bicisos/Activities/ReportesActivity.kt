@@ -191,7 +191,8 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         super.onResume()
 
         //regresa de sesion y checamos user
-        Log.e("sesion",getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).getString("sesion","null"))
+        getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).getString("sesion","null")
+            ?.let { Log.e("sesion", it) }
     }
 
     fun saveReporte(){

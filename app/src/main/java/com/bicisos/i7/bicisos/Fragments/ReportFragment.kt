@@ -271,12 +271,14 @@ class ReportFragment : BottomSheetDialogFragment() {
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
             if (resultCode == Activity.RESULT_OK) {
                 val result = data!!.getStringExtra("result")
-                Log.w("tag...",result)
-                imagesEncodedList!![index] = result
-                //get uri data, show photo
-                Glide.with(activity!!)
-                    .load(result)
-                    .into(imageTempView)
+                if (result != null) {
+                    Log.w("tag...",result)
+                    imagesEncodedList!![index] = result
+                    //get uri data, show photo
+                    Glide.with(requireActivity())
+                        .load(result)
+                        .into(imageTempView)
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
