@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.ui.contract.resume
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,7 @@ class ResumeViewModel constructor(
 
     init {
         val prefs = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE)
+        prefs.getString("dataModelContract","")?.let { Log.w("dataModelContract", it) }
         modelData = Gson().fromJson(prefs.getString("dataModelContract",""), ContrataModel::class.java)
 
         val set = prefs.getString("photos", null)
