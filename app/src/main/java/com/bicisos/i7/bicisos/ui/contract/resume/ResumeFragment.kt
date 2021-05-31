@@ -1,6 +1,5 @@
 package com.bicisos.i7.bicisos.ui.contract.resume
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.FragmentResumeBinding
 import com.bicisos.i7.bicisos.repository.Repository
-import java.util.*
 
 class ResumeFragment : Fragment() {
 
@@ -37,7 +36,7 @@ class ResumeFragment : Fragment() {
             false
         )
 
-        val repo = Repository()
+        val repo = Repository(ServiceApi())
         val factory = ResumeViewModelFactory(repo, requireActivity())
 
         viewModel = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)

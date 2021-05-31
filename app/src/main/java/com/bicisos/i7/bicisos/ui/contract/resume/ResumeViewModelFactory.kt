@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bicisos.i7.bicisos.repository.Repository
 
+@Suppress("UNCHECKED_CAST")
 class ResumeViewModelFactory constructor(
     private val repository: Repository,
     private val context: Context,

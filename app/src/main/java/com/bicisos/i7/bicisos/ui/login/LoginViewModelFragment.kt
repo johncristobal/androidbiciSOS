@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.LoginViewModelFragmentBinding
 import com.bicisos.i7.bicisos.repository.Repository
@@ -28,7 +29,7 @@ class LoginViewModelFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //return inflater.inflate(R.layout.login_view_model_fragment, container, false)
         val binding : LoginViewModelFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.login_view_model_fragment, container, false)
-        val repo = Repository()
+        val repo = Repository(ServiceApi())
         val factory = LoginViewModelFactory(repo)
 
         viewModel = ViewModelProvider(this, factory).get(LoginViewModelViewModel::class.java)

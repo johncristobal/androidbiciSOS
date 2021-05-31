@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.ContractFragmentBinding
 import com.bicisos.i7.bicisos.repository.Repository
@@ -38,7 +39,7 @@ class ContractFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val binding : ContractFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.contract_fragment, container, false)
-        val repo = Repository()
+        val repo = Repository(ServiceApi())
         val factory =
             ContractViewModelFactory(
                 repo,
