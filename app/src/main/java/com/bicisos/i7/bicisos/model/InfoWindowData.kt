@@ -1,8 +1,6 @@
-package com.bicisos.i7.bicisos.Model
+package com.bicisos.i7.bicisos.model
 
-import java.io.Serializable
-
-data class Report (
+data class InfoWindowData (
     val id: String,
     val name: String,
     val serie: String,
@@ -12,7 +10,4 @@ data class Report (
     val fotos: String,
     val tipo:Int,
     val latitude: Double,
-    val longitude: Double) : Serializable {
-
-    constructor() : this ("","","","",-1,"","",-1,0.0,0.0)
-}
+    val longitude: Double)

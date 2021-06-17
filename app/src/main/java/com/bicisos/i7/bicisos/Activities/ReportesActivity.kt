@@ -2,22 +2,18 @@ package com.bicisos.i7.bicisos.Activities
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.os.AsyncTask
 import android.os.Bundle
 //import android.support.design.widget.Snackbar
 //import android.support.v7.app.AppCompatActivity;
 //import android.support.v7.widget.LinearLayoutManager
 //import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.KeyEvent
-import android.view.MotionEvent
 import android.view.View
 import com.bicisos.i7.bicisos.Adapters.CustomReport
 import com.bicisos.i7.bicisos.Fragments.DetailReportFragment
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.Fragments.ReportFragment
-import com.bicisos.i7.bicisos.Model.Report
+import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.R
 import com.google.firebase.database.*
 

@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.Api
 
-import com.bicisos.i7.bicisos.Model.ContractResponse
+import com.bicisos.i7.bicisos.model.ContractResponse
+import com.bicisos.i7.bicisos.model.PolizasResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -8,16 +9,13 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Header
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 
 interface ServiceApi {
 
     @Multipart
-    @POST("/api/uploads")
+    @POST("/gttapi/contratacion")
     suspend fun sendEmailContract(
         @Header("sos-token") authorization: String?,
         @Part("data") data: RequestBody,
@@ -26,6 +24,18 @@ interface ServiceApi {
         @Part sillin: MultipartBody.Part,
         @Part manubrio: MultipartBody.Part,
         @Part pago: MultipartBody.Part,
+    ): Response<ContractResponse>
+
+    @GET("/gttapi/contratacion/{phone}")
+    suspend fun loginGeneralContract(
+        @Path("phone") phone: String,
+    ): Response<PolizasResponse>
+
+    @POST("/gttapi/contratacion/login")
+    suspend fun loginContract(
+        @Header("sos-token") authorization: String?,
+        @Body phone: String,
+        @Body folio: String,
     ): Response<ContractResponse>
 
     companion object {
@@ -42,7 +52,7 @@ interface ServiceApi {
             }
 
             return Retrofit.Builder()
-                .baseUrl("https://restservernodejohn.herokuapp.com")
+                .baseUrl("https://bicissosapi.herokuapp.com")
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

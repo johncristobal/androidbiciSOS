@@ -11,10 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
-import com.bicisos.i7.bicisos.Model.Report
+import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_detalles_apoyo.*

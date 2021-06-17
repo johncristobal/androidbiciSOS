@@ -54,26 +54,24 @@ class ResumeFragment : Fragment() {
             it.getContentIfNotHandled()?.let{
                 when(it){
                     "cerrar" -> {
-                        showAlert()
-
+                        showAlert("Listo","Hemos enviado la información, pronto te daremos mas noticias de tu contratación.")
                     }
                     else -> {
-
+                        showAlert("Atención",it)
                     }
                 }
             }
         })
     }
 
-    fun showAlert(){
+    fun showAlert(title: String, msg: String){
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
-        alertDialogBuilder.setTitle("Listo")
-        alertDialogBuilder.setMessage("Hemos enviado la información, pronto te daremos mas noticias.")
-        alertDialogBuilder.setPositiveButton("Gracias") { _, _ ->
+        alertDialogBuilder.setTitle(title)
+        alertDialogBuilder.setMessage(msg)
+        alertDialogBuilder.setPositiveButton("Continuar") { _, _ ->
             findNavController().navigate(R.id.action_resumeFragment_to_loginViewModelFragment)
         }
 
         alertDialogBuilder.create().show()
     }
-
 }

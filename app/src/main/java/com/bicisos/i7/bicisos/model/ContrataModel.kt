@@ -1,4 +1,4 @@
-package com.bicisos.i7.bicisos.Model
+package com.bicisos.i7.bicisos.model
 
 import java.io.Serializable
 
@@ -10,6 +10,7 @@ data class ContrataModel (
     var ejecutivo: String,
     var fechaContratacion: String,
     var nombreTitular: String,
+    var segundoTitular: String,
     var fechaNacimiento: String,
     var rfc: String,
     var telefono: String,
@@ -19,6 +20,6 @@ data class ContrataModel (
     var colonia: String,
     var alcaldia: String
 ) : Serializable {
-    constructor() : this ("","","","","","","","","","","")
+    constructor() : this ("","","","","","","","","","","","")
 
 }

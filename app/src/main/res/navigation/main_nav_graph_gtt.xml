@@ -3,13 +3,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main_nav_graph_gtt.xml"
-        app:startDestination="@id/homeFragmentGtt">
+        app:startDestination="@id/polizasFragment">
 
     <fragment
-            android:id="@+id/homeFragmentGtt"
-            android:name="com.bicisos.i7.bicisos.ui.dashboard.home.HomeFragmentGtt"
-            android:label="Seguros Grupo GTT"
-            tools:layout="@layout/fragment_home_gtt" >
+            android:id="@+id/polizasFragment"
+            android:name="com.bicisos.i7.bicisos.ui.dashboard.main.PolizasFragment"
+            android:label="Bienvenido"
+            tools:layout="@layout/polizas_fragment">
+
         <action
                 android:id="@+id/action_homeFragmentGtt_to_contactFragmentGtt"
                 app:destination="@id/contactFragmentGtt" />
@@ -37,5 +38,10 @@
             android:label="Misión/Visión/Valores"
             tools:layout="@layout/fragment_mision_gtt" />
 
+    <fragment
+            android:id="@+id/homeFragmentGtt"
+            android:name="com.bicisos.i7.bicisos.ui.dashboard.home.HomeFragmentGtt"
+            android:label="Seguros Grupo GTT"
+            tools:layout="@layout/fragment_home_gtt" />
 
 </navigation>

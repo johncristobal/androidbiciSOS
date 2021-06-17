@@ -204,22 +204,22 @@ class PhotosBikerFragment : Fragment() {
                     when (index) {
                         0 -> {
                             photosBool!![0] = false
-                            bici_frontal.setImageResource(R.drawable.cameraicon)
+                            bici_frontal.setImageResource(R.drawable.bici_lateral)
                             imagesEncodedList!![index] = "a"
                         }
                         1 -> {
                             photosBool!![1] = false
-                            bici_trasea.setImageResource(R.drawable.cameraicon)
+                            bici_trasea.setImageResource(R.drawable.bici_manubrio)
                             imagesEncodedList!![index] = "b"
                         }
                         2 -> {
                             photosBool!![2] = false
-                            bici_izquierda.setImageResource(R.drawable.cameraicon)
+                            bici_izquierda.setImageResource(R.drawable.bici_sillin)
                             imagesEncodedList!![index] = "c"
                         }
                         3 -> {
                             photosBool!![3] = false
-                            bici_derecha.setImageResource(R.drawable.cameraicon)
+                            bici_derecha.setImageResource(R.drawable.bici_pedal)
                             imagesEncodedList!![index] = "d"
                         }
                     }

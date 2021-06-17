@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
-import com.bicisos.i7.bicisos.utils.SingleLiveEvent
 import com.bicisos.i7.bicisos.utils.State
+import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,15 +22,14 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
     val launch: LiveData<String>
         get() = _launch
 
-    val _uploadUI = MutableLiveData<Event<String>>()
-    val uploadUI: LiveData<Event<String>>
+    val _uploadUI = MutableLiveData<Event<ArrayList<String>>>()
+    val uploadUI: LiveData<Event<ArrayList<String>>>
         get() = _uploadUI
 
     private val _progress = MutableLiveData<Boolean>()
     val progress: LiveData<Boolean>
         get() = _progress
 
-    @ExperimentalCoroutinesApi
     fun loginAction(){
 
         val name: String = if (userName.value != null) userName.value!! else ""
@@ -40,6 +39,7 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
 
         viewModelScope.launch {
             try {
+                _progress.value = true
                 //Log.w("tag...",_userName.value!!)
                 //Log.w("tag...",_password.value!!)
 //                val data = repository.updateStatus(type)
@@ -48,12 +48,20 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
 //                }else{
 //                    Log.w("error","Error al actualizar data")
 //                }
-                getUserPoliza(name, pass)
+                //getUserPoliza(name, pass)
                 //getUserPoliza("DB7-1-89-351", "xkd928CD?")
+                val call = repository.loginGeneral(name)
+                val gson = Gson()
+                val jsonString = gson.toJson(call)
+                Log.w("data", jsonString)
+
+                _progress.value = false
+                _uploadUI.value = Event(arrayListOf("dashboard",name))
 
             }catch (e: Exception){
-                _progress.value = false
                 e.printStackTrace()
+                _progress.value = false
+                _uploadUI.value = Event(arrayListOf("error",e.toString()))
             }
         }
     }
@@ -74,7 +82,7 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
                     Log.w("EXITO","todo guardado en firestore")
                     Log.w("DATA","todo guardado en firestore ${state.data}")
                     if(pass.equals(state.data?.get("pass_temp"))){
-                        _uploadUI.value = Event("dashboard")
+                        _uploadUI.value = Event(arrayListOf("dashboard",""))
                     }else{
                         Log.w("ERROR","pass not match")
                     }

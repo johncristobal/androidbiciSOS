@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
-import com.bicisos.i7.bicisos.Model.Report
+import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.ktx.database

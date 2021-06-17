@@ -1,4 +1,4 @@
-package com.bicisos.i7.bicisos.Model
+package com.bicisos.i7.bicisos.model
 
 public class Tip (
     var name: String,

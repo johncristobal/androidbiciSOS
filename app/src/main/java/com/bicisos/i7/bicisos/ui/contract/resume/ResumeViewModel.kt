@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bicisos.i7.bicisos.Model.ContrataModel
+import com.bicisos.i7.bicisos.model.ContrataModel
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
@@ -27,6 +27,8 @@ class ResumeViewModel constructor(
     var imagesEncodedList : ArrayList<String>? = null
     var payment_photo : String? = null
 
+    val _progress = MutableLiveData<Boolean>()
+
     val _uploadUI = MutableLiveData<Event<String>>()
     val uploadUI: LiveData<Event<String>>
         get() = _uploadUI
@@ -37,6 +39,7 @@ class ResumeViewModel constructor(
             stringData = it
             Log.w("dataModelContract", it)
         }
+        _progress.value = false
         modelData = Gson().fromJson(prefs.getString("dataModelContract",""), ContrataModel::class.java)
 
         val set = prefs.getString("photos", null)
@@ -96,7 +99,9 @@ class ResumeViewModel constructor(
         viewModelScope.launch {
             Log.w("start","sending data...")
             try {
-                repository.sendDataContract(
+                _progress.value = true
+
+                val call = repository.sendDataContract(
                     filePartLateral,
                     filePartSillin,
                     filePartManubrio,
@@ -104,12 +109,23 @@ class ResumeViewModel constructor(
                     filePartPago,
                     bodyData
                 )
+
+                _progress.value = false
+
+//                if(call.status){
+//                    _uploadUI.value = Event("cerrar")
+//                }else{
+//                    _uploadUI.value = Event(call.error)
+//                }
+                _uploadUI.value = Event("cerrar")
+
             }catch (e: Exception){
                 e.printStackTrace()
+                _uploadUI.value = Event("Tuvimos un problema, intente más tarde.")
             }
 
             Log.w("finish","data sent...")
-            _uploadUI.value = Event("cerrar")
+
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.bicisos.i7.bicisos.Model
+package com.bicisos.i7.bicisos.model
 
 import com.google.firebase.database.Exclude
 import java.io.Serializable

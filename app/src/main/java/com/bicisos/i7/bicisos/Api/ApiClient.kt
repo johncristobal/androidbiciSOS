@@ -1,8 +1,7 @@
 package com.bicisos.i7.bicisos.Api
 
 import android.util.Log
-import com.bicisos.i7.bicisos.Model.Taller
-import com.google.firebase.auth.FirebaseAuth
+import com.bicisos.i7.bicisos.model.Taller
 import com.google.gson.Gson
 import java.io.*
 import java.net.HttpURLConnection

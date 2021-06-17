@@ -1,7 +1,6 @@
 package com.bicisos.i7.bicisos.Fragments
 
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -14,24 +13,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bicisos.i7.bicisos.Adapters.CustomPager
-import com.bicisos.i7.bicisos.Model.Report
+import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.google.firebase.database.core.utilities.Utilities
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_detail_report.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.io.OutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 

@@ -6,8 +6,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.bicisos.i7.bicisos.Model.ContrataModel
+import com.bicisos.i7.bicisos.model.ContrataModel
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
@@ -15,7 +14,6 @@ import com.bicisos.i7.bicisos.utils.State
 import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.util.*
 
 class ContractViewModel constructor(private val repository : Repository, private val context: Context) : ViewModel() {

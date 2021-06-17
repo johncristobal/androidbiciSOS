@@ -1,4 +1,4 @@
-package com.bicisos.i7.bicisos.Model
+package com.bicisos.i7.bicisos.model
 
 data class ContractResponse (
     val msg: String,

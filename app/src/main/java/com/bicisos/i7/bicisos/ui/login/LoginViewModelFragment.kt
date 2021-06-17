@@ -61,13 +61,13 @@ class LoginViewModelFragment : Fragment() {
 
         viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let{
-                when(it){
+                when(it[0]){
                     "dashboard" -> {
-
+                        // TODO save login to 1 de gttseguros and phone it[1]
                         startActivity(Intent(requireActivity(), DashboardGttActivity::class.java))
                     }
-                    else -> {
-
+                    "error" -> {
+                        //TODO show alert with error
                     }
                 }
             }

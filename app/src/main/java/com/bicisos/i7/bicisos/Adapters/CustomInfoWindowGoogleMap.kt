@@ -3,7 +3,7 @@ package com.bicisos.i7.bicisos.Adapters
 import android.app.Activity
 import android.content.Context
 import android.view.View
-import com.bicisos.i7.bicisos.Model.Report
+import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker

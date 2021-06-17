@@ -36,7 +36,7 @@
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
-                    android:src="@drawable/cameraicon"
+                    android:src="@drawable/bici_lateral"
                     android:id="@+id/bici1"
                     android:layout_weight="1"
                     android:layout_marginEnd="5dp"
@@ -44,7 +44,7 @@
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
-                    android:src="@drawable/cameraicon"
+                    android:src="@drawable/bici_manubrio"
                     android:id="@+id/bici2"
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"
@@ -61,7 +61,7 @@
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
-                    android:src="@drawable/cameraicon"
+                    android:src="@drawable/bici_sillin"
                     android:id="@+id/bici3"
                     android:layout_weight="1"
                     android:layout_marginEnd="5dp"
@@ -70,7 +70,7 @@
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="110dp"
-                    android:src="@drawable/cameraicon"
+                    android:src="@drawable/bici_pedal"
                     android:id="@+id/bici4"
                     android:layout_weight="1"
                     android:layout_marginStart="5dp"

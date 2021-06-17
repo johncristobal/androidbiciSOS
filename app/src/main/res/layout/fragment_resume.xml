@@ -235,33 +235,71 @@
 
                 </LinearLayout>
 
-                <Button
-                        android:id="@+id/buttonSendDataResume"
-                        android:layout_width="160dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="16dp"
-                        android:text="Enviar información"
-                        style="@style/textButtonTheme"
-                        android:onClick="@{ () -> viewModelResume.sendData() }"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearDataResume" />
-
-                <Button
-                        android:id="@+id/textButtonBack"
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_height="44dp"
-                        android:text="Verificar datos"
-                        android:theme="@style/textThemeButton"
-                        android:textColor="@color/blanco"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/buttonSendDataResume"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="8dp"
-                        style="@style/Widget.MaterialComponents.Button.TextButton" />
+                        app:layout_constraintTop_toBottomOf="@+id/linearDataResume" >
 
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="@{ viewModelResume._progress ? View.GONE : View.VISIBLE }"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_height="wrap_content">
+
+                        <Button
+                                android:id="@+id/buttonSendDataResume"
+                                android:layout_width="160dp"
+                                android:layout_height="40dp"
+                                android:text="Enviar información"
+                                style="@style/textButtonTheme"
+                                android:onClick="@{ () -> viewModelResume.sendData() }"/>
+
+                        <Button
+                                android:id="@+id/textButtonBack"
+                                android:layout_width="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:layout_height="44dp"
+                                android:text="Verificar datos"
+                                android:theme="@style/textThemeButton"
+                                android:textColor="@color/blanco"
+                                android:layout_marginBottom="8dp"
+                                style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="@{ viewModelResume._progress ? View.VISIBLE : View.GONE }"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content">
+
+                        <ProgressBar
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:indeterminateTint="@color/blanco" />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="44dp"
+                                android:text="Subiendo información, espere un momento"
+                                android:theme="@style/textThemeButton"
+                                android:textColor="@color/blanco"
+                                android:layout_marginBottom="8dp"
+                                style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

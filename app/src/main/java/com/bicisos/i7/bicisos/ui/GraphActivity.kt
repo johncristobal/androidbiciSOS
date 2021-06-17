@@ -16,15 +16,19 @@ class GraphActivity : AppCompatActivity() {
 
 /*
     falta detalles de diseno y ajuste precios
-    volver a agregar segundo titular
-    quitar rfc y acomoda la fecha nacimienot
-    agregar imagenes sillin, pedal, etc
     loading al darle click en finish
     agregar imagne para comprobante / subir nueva foto / mostrar foto
-    colocar monto anualidad
 
-    back:
-    - guardar json de la contratacion...
+    login que obtenga polizas o muestre error
+        progress
 
-    necesitmoas una lista de polizas...
+    vista con lista de polizas...
+        imagen top
+        estas son tus polizas
+        click en ojo para ver pdf
+        boton bottom emergencia
+        ocultar polizas no activas
+        formato fecha
+        contraseña => numero de folio de la poliza
+            tutorial
  */

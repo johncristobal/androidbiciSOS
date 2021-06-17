@@ -3,7 +3,7 @@ package com.bicisos.i7.bicisos.repository
 import android.util.Log
 import com.bicisos.i7.bicisos.Api.SafeRequest
 import com.bicisos.i7.bicisos.Api.ServiceApi
-import com.bicisos.i7.bicisos.Model.ContrataModel
+import com.bicisos.i7.bicisos.model.ContrataModel
 import com.bicisos.i7.bicisos.utils.Constants
 import com.bicisos.i7.bicisos.utils.State
 import com.google.firebase.auth.ktx.auth
@@ -73,6 +73,10 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
         awaitClose {
             cancel()
         }
+    }
+
+    suspend fun loginGeneral(phone: String) = apiRequest {
+        api.loginGeneralContract(phone)
     }
 
     suspend fun sendDataContract(

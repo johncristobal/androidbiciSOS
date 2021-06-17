@@ -12,7 +12,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import android.R.raw
 import android.content.*
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
@@ -27,22 +26,14 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.bicisos.i7.bicisos.Activities.SesionActivity
 import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
 import com.bicisos.i7.bicisos.Api.ApiClient
-import com.bicisos.i7.bicisos.Model.Biker
-import com.bicisos.i7.bicisos.Model.Report
-import com.bicisos.i7.bicisos.Model.Taller
+import com.bicisos.i7.bicisos.model.Report
+import com.bicisos.i7.bicisos.model.Taller
 import com.bicisos.i7.bicisos.service.ForegroundOnlyLocationService
-import com.bicisos.i7.bicisos.utils.SharedPreferenceUtil
 import com.bicisos.i7.bicisos.utils.toText
-import com.facebook.AccessToken
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -52,8 +43,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.*
 import kotlin.collections.ArrayList
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.Task
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

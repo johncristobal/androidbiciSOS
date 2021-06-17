@@ -2,7 +2,6 @@ package com.bicisos.i7.bicisos.Adapters
 
 import android.app.Activity
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 //import android.support.v7.widget.RecyclerView
@@ -11,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.Activities.DetalleTipActivity
-import com.bicisos.i7.bicisos.Model.Tip
+import com.bicisos.i7.bicisos.model.Tip
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.imagen_tip.view.*
 
