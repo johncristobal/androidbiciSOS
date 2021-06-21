@@ -5,19 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bicisos.i7.bicisos.model.polizas.Login
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.utils.Event
 import com.bicisos.i7.bicisos.utils.State
-import com.google.gson.Gson
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import org.json.JSONObject
 
-class LoginViewModelViewModel constructor(private val repository : Repository) : ViewModel() {
 
-    var userName = MutableLiveData<String>()
-    var password = MutableLiveData<String>()
+class LoginViewModelViewModel constructor(private val repository: Repository) : ViewModel() {
+
+    var userName:String = ""
+    var password :String = ""
     val _launch = MutableLiveData<String>()
     val launch: LiveData<String>
         get() = _launch
@@ -30,61 +31,77 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
     val progress: LiveData<Boolean>
         get() = _progress
 
-    fun loginAction(){
+    fun loginAction() {
+        if (validarGenericForm()) {
 
-        val name: String = if (userName.value != null) userName.value!! else ""
-        Log.w("tag...",name)
-        val pass: String = if (password.value != null) password.value!! else ""
-        Log.w("tag...",pass)
+            viewModelScope.launch {
+                try {
+                    _progress.value = true
 
-        viewModelScope.launch {
-            try {
-                _progress.value = true
-                //Log.w("tag...",_userName.value!!)
-                //Log.w("tag...",_password.value!!)
-//                val data = repository.updateStatus(type)
-//                if (data){
-//                    updateDash(type.toString())
-//                }else{
-//                    Log.w("error","Error al actualizar data")
-//                }
-                //getUserPoliza(name, pass)
-                //getUserPoliza("DB7-1-89-351", "xkd928CD?")
-                val call = repository.loginGeneral(name)
-                val gson = Gson()
-                val jsonString = gson.toJson(call)
-                Log.w("data", jsonString)
+                    val _pass = password.replace('/', '_')
+                    val call = repository.loginFolioPoliza(Login(userName, _pass))
+    //                val gson = Gson()
+    //                val jsonString = gson.toJson(call)
+    //                Log.w("data", jsonString)
 
-                _progress.value = false
-                _uploadUI.value = Event(arrayListOf("dashboard",name))
+                    _progress.value = false
+                    _uploadUI.value = Event(arrayListOf("dashboard", userName))
 
-            }catch (e: Exception){
-                e.printStackTrace()
-                _progress.value = false
-                _uploadUI.value = Event(arrayListOf("error",e.toString()))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    _progress.value = false
+                    _uploadUI.value = Event(arrayListOf("error", e.localizedMessage))
+                }
             }
         }
+    }
+
+    var phoneErrorMessage: MutableLiveData<String> = MutableLiveData()
+    var passErrorMessage: MutableLiveData<String> = MutableLiveData()
+    val MESSAGE = "Llena este campo correctamente."
+
+    private fun validarGenericForm() : Boolean {
+        var resp = true
+
+        if(validFieldGeneric(this.userName)){
+            phoneErrorMessage.value = MESSAGE; resp = false
+        }
+        else { phoneErrorMessage.value = null }
+
+        if(validFieldGeneric(this.password)){
+            passErrorMessage.value = MESSAGE; resp = false
+        }
+        else { passErrorMessage.value = null }
+
+        return resp
+    }
+
+    fun validFieldGeneric(value: String?) : Boolean {
+        if (value == null){
+            return true
+        }
+        return (value.trim().isEmpty() || value.length < 3)
     }
 
     @ExperimentalCoroutinesApi
     private suspend fun getUserPoliza(user: String, pass: String){
         repository.loginGtt(user, pass).collect { state ->
 
-            Log.w("state",state.toString())
+            Log.w("state", state.toString())
             when (state) {
                 is State.Loading -> {
-                    Log.w("GUARDANDO","guardando data")
+                    Log.w("GUARDANDO", "guardando data")
                     _progress.value = true
                 }
 
                 is State.Success -> {
 
-                    Log.w("EXITO","todo guardado en firestore")
-                    Log.w("DATA","todo guardado en firestore ${state.data}")
-                    if(pass.equals(state.data?.get("pass_temp"))){
-                        _uploadUI.value = Event(arrayListOf("dashboard",""))
-                    }else{
-                        Log.w("ERROR","pass not match")
+                    Log.w("EXITO", "todo guardado en firestore")
+                    Log.w("DATA", "todo guardado en firestore ${state.data}")
+                    if (pass.equals(state.data?.get("pass_temp"))) {
+                        _uploadUI.value = Event(arrayListOf("dashboard", ""))
+                    } else {
+                        Log.w("ERROR", "pass not match")
                     }
                     _progress.value = false
 
@@ -93,7 +110,7 @@ class LoginViewModelViewModel constructor(private val repository : Repository) :
                 is State.Failed -> {
                     _progress.value = false
                     //state.message
-                    Log.w("ERROR","tuvimos un error")
+                    Log.w("ERROR", "tuvimos un error")
                 }
             }
         }

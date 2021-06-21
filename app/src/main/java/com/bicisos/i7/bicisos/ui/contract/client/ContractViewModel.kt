@@ -30,7 +30,6 @@ class ContractViewModel constructor(private val repository : Repository, private
         modelData.ejecutivo = "sos_ciclista"
     }
 
-    @ExperimentalCoroutinesApi
     fun sendDataAction(){
 
         //validate
@@ -120,9 +119,9 @@ class ContractViewModel constructor(private val repository : Repository, private
             fechaNacimientoErrorMessage.value = MESSAGE; resp = false
         } else { fechaNacimientoErrorMessage.value = null }
 
-        if(validFieldGeneric(this.modelData.rfc)){
-            rfcErrorMessage.value = MESSAGE; resp = false }
-        else { rfcErrorMessage.value = null }
+//        if(validFieldGeneric(this.modelData.rfc)){
+//            rfcErrorMessage.value = MESSAGE; resp = false }
+//        else { rfcErrorMessage.value = null }
 
         if(validFieldGeneric(this.modelData.telefono)){
             telefonoErrorMessage.value = MESSAGE; resp = false }

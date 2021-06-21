@@ -11,8 +11,8 @@ apply plugin: "androidx.navigation.safeargs"
 android {
     signingConfigs {
         release {
-            //storeFile file('/Users/macbook/Documents/sosciclistarele')
-            storeFile file('/Users/jcristobalj/Documents/sosciclistarele')
+            storeFile file('/Users/macbook/Documents/sosciclistarele')
+            //storeFile file('/Users/jcristobalj/Documents/sosciclistarele')
             storePassword 'sosciclista'
             keyAlias = 'sosciclista'
             keyPassword 'sosciclista'
@@ -60,7 +60,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     implementation 'com.google.android.gms:play-services-basement:17.6.0'
-    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    implementation platform('com.google.firebase:firebase-bom:28.0.1')
     // Firebase Cloud Messaging (Java)
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'

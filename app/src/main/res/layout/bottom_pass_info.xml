@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:layout_margin="2dp">
+
+        <!--image view for displaying course image-->
+        <ImageView
+                android:id="@+id/idIVCourse"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/logo_gtt_menu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <!--text view for displaying course name-->
+        <TextView
+                android:id="@+id/idTVCourseName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/idIVCourse"
+                android:text="Atención"
+                android:layout_marginStart="16dp"
+                android:textColor="@color/colorPrimaryGtt"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/idIVCourse"
+                app:layout_constraintTop_toTopOf="@+id/idIVCourse" />
+
+        <TextView
+                android:id="@+id/idTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/idIVCourse"
+                android:text="El número de folio viene en la póliza que llego a tu correo electrónico, en el siguiente formato:"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/colorPrimaryGtt"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintStart_toEndOf="@+id/idIVCourse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/idTVCourseName" />
+
+        <TextView
+                android:id="@+id/idTVFormat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/idIVCourse"
+                android:text="XX/XX/XXXX"
+                android:gravity="center"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/colorPrimaryGtt"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/idIVCourse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/idTV" />
+
+        <!--button for dismissing our dialog-->
+        <TextView
+                android:id="@+id/idBtnDismiss"
+                android:layout_width="0dp"
+                android:padding="4dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/idTVFormat"
+                android:layout_margin="10dp"
+                android:textColor="@color/colorPrimaryGtt"
+                android:text="Cerrar"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

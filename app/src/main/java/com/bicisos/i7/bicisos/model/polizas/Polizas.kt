@@ -4,7 +4,7 @@ data class Polizas (
     val estado: Boolean,
     val id: String,
     val cliente: Cliente,
-    val polizasInfo: List<PolizasInfo>,
+    var polizasInfo: List<PolizasInfo>,
     val correo: String,
     val telefono: String,
     val fechaUpdate: String,

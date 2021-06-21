@@ -1,14 +1,25 @@
 package com.bicisos.i7.bicisos.ui.dashboard
 
+import android.content.Context
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.bicisos.i7.bicisos.Fragments.MapFragment
 import com.bicisos.i7.bicisos.R
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_dashboard_gtt.*
+import kotlinx.android.synthetic.main.activity_dashboard_gtt.drawer_layout
+import kotlinx.android.synthetic.main.activity_dashboard_gtt.nav_view
+import kotlinx.android.synthetic.main.activity_principal.*
+import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 class DashboardGttActivity : AppCompatActivity() {
 
@@ -41,13 +52,31 @@ class DashboardGttActivity : AppCompatActivity() {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.contactFragmentGtt)
                 }
                 R.id.aboutFragmentGtt -> {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.aboutFragmentGtt)
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.homeFragmentGtt)
                 }
                 R.id.misionFragmentGtt -> {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.misionFragmentGtt)
                 }
+                R.id.contrata_gtt -> {
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.contractFragment2)
+                }
                 R.id.salirFragment -> {
-                    finish()
+                    val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                    val alertbuilder = AlertDialog.Builder(this)
+                    alertbuilder.setTitle("Atención")
+                    alertbuilder.setMessage("¿Deseas cerrar sesión de GTT Seguros?")
+                    alertbuilder.setPositiveButton("Si") { _, i ->
+
+                        prefs.edit().putString("gttseguros", "0").apply()
+                        finish()
+                    }
+
+                    alertbuilder.setNegativeButton("No") { _, i ->
+
+                    }
+
+                    val alert = alertbuilder.create()
+                    alert.show()
                 }
                 else -> {
 

@@ -4,6 +4,7 @@ import android.util.Log
 import com.bicisos.i7.bicisos.Api.SafeRequest
 import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.model.ContrataModel
+import com.bicisos.i7.bicisos.model.polizas.Login
 import com.bicisos.i7.bicisos.utils.Constants
 import com.bicisos.i7.bicisos.utils.State
 import com.google.firebase.auth.ktx.auth
@@ -77,6 +78,10 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
 
     suspend fun loginGeneral(phone: String) = apiRequest {
         api.loginGeneralContract(phone)
+    }
+
+    suspend fun loginFolioPoliza(body: Login) = apiRequest {
+        api.loginContract("token-sos",body)
     }
 
     suspend fun sendDataContract(

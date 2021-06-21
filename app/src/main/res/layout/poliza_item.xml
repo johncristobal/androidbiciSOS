@@ -11,19 +11,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:paddingBottom="10dp"
+            android:paddingBottom="8dp"
+            android:id="@+id/clickView"
+            android:background="#0d60a0"
             android:layout_height="wrap_content">
 
 
         <ImageView
                 android:id="@+id/imageView11"
-                android:layout_width="99dp"
-                android:layout_height="84dp"
+                android:padding="8dp"
+                android:background="@drawable/backwhite"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icongtt" />
+                app:lateralimg="@{ poliza.folio }" />
 
         <TextView
                 android:id="@+id/textView47"
@@ -31,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Folio:"
+                android:text="Póliza: "
                 android:textSize="16sp"
                 android:theme="@style/textThemeBold"
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
@@ -54,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
-                android:text="Vigencia:"
+                android:text="Vigencia: "
                 android:textSize="16sp"
                 android:theme="@style/textThemeBold"
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
@@ -65,12 +69,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@{ poliza.fecha_vigencia }"
+                app:formatText="@{ poliza.fecha_vigencia }"
                 android:textSize="14sp"
                 android:theme="@style/textTheme"
                 app:layout_constraintStart_toEndOf="@+id/textView49"
                 app:layout_constraintTop_toTopOf="@+id/textView49" />
 
+        <TextView
+                android:id="@+id/textView499"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:text="Da click para más información."
+                android:textSize="12sp"
+                android:theme="@style/textTheme"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toBottomOf="@+id/textView49" />
+
+        <ImageView
+                android:id="@+id/imageView16"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:srcCompat="@mipmap/next_image" />
+
+        <View android:id="@+id/tile_divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textView499"
+                android:background="@drawable/backwhite" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

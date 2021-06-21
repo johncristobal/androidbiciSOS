@@ -10,7 +10,10 @@ import com.bicisos.i7.bicisos.utils.Event
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class PolizasViewModel constructor(private val repository : Repository) : ViewModel() {
+class PolizasViewModel constructor(
+    private val repository : Repository,
+    private val phone: String
+) : ViewModel() {
 
     val _uploadUI = MutableLiveData<Event<ArrayList<String>>>()
     val uploadUI: LiveData<Event<ArrayList<String>>>
@@ -39,7 +42,7 @@ class PolizasViewModel constructor(private val repository : Repository) : ViewMo
         viewModelScope.launch {
             try {
                 _progress.value = true
-                val call = repository.loginGeneral("5511112222")
+                val call = repository.loginGeneral(phone)
                 _polizas.postValue(call)
                 //recyclcer set data
                 _progress.value = false

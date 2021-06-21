@@ -85,7 +85,7 @@ class LoginFragment : Fragment() {
             .requestEmail()
             .build()
 
-        mGoogleSignInClient = GoogleSignIn.getClient(activity!!, mGoogleSignInOptions)
+        mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), mGoogleSignInOptions)
     }
 
     interface Datalistener {
@@ -148,10 +148,10 @@ class LoginFragment : Fragment() {
                 Facebutton.visibility = View.GONE
             }
         })*/
-        //login_button.setReadPermissions("email","public_profile")
-        login_button.setReadPermissions(
-            Arrays.asList("public_profile", "email")
-        );
+        login_button.setReadPermissions("email","public_profile")
+//        login_button.setReadPermissions(
+//            Arrays.asList("public_profile", "email")
+//        );
 
         // If using in a fragment
         login_button.setFragment(this)
@@ -175,15 +175,15 @@ class LoginFragment : Fragment() {
             override fun onCancel() {
                 // App code
                 Log.w("access","not works")
-                progressBarFace.visibility = View.VISIBLE
-                Facebutton.visibility = View.GONE
+                progressBarFace.visibility = View.GONE
+                Facebutton.visibility = View.VISIBLE
             }
 
             override fun onError(exception: FacebookException) {
                 // App code
                 Log.w("access","not works eeror"+exception.localizedMessage)
-                progressBarFace.visibility = View.VISIBLE
-                Facebutton.visibility = View.GONE
+                progressBarFace.visibility = View.GONE
+                Facebutton.visibility = View.VISIBLE
             }
         })
 

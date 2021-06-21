@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="loginViewModel"
             type="com.bicisos.i7.bicisos.ui.login.LoginViewModelViewModel" />
@@ -113,29 +114,43 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                         android:id="@+id/editTextUser"
                         android:layout_width="0dp"
-                        android:layout_height="44dp"
+                        android:layout_height="60dp"
                         android:layout_marginStart="32dp"
+                        android:layout_marginEnd="16dp"
                         app:hintEnabled="false"
-                        android:layout_marginEnd="32dp"
-                        android:theme="@style/textInputTheme"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:enabled="@{ !loginViewModel.progress }"
+                        app:errorEnabled="true"
+                        android:background="@null"
+                        app:errorText="@{ loginViewModel.phoneErrorMessage }"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/telefonoInfo"
                         app:layout_constraintTop_toBottomOf="@+id/textView36">
 
                     <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
+                            android:layout_height="40dp"
+                            android:theme="@style/textInputTheme"
+                            android:background="@drawable/backinput"
                             android:paddingEnd="10dp"
                             android:paddingStart="10dp"
                             android:hint="@string/hint_user"
                             android:text="@={ loginViewModel.userName }"
-                            android:inputType="textPersonName" />
+                            android:inputType="phone" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
+
+                <ImageButton
+                        android:id="@+id/telefonoInfo"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@mipmap/info_icon_gtt"
+                        android:background="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/textView36"/>
 
                 <TextView
                         android:id="@+id/textView37"
@@ -150,42 +165,71 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout
                         android:id="@+id/editTextPassword"
                         android:layout_width="0dp"
-                        android:layout_height="44dp"
+                        android:layout_height="60dp"
                         android:layout_marginStart="32dp"
-                        android:layout_marginEnd="32dp"
+                        android:layout_marginEnd="16dp"
                         app:passwordToggleEnabled="true"
-                        android:theme="@style/textInputTheme"
+                        android:enabled="@{ !loginViewModel.progress }"
                         app:hintEnabled="false"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:errorEnabled="true"
+                        android:background="@null"
+                        app:errorText="@{ loginViewModel.passErrorMessage }"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/passwordInfo"
                         app:layout_constraintTop_toBottomOf="@+id/textView37">
 
                     <com.google.android.material.textfield.TextInputEditText
 
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
+                            android:layout_height="40dp"
+                            android:theme="@style/textInputTheme"
+                            android:background="@drawable/backinput"
                             android:paddingEnd="10dp"
                             android:paddingStart="10dp"
                             android:hint="@string/hint_pass"
                             android:text="@={ loginViewModel.password }"
                             android:inputType="textPassword" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.bicisos.i7.bicisos.utils.NoChangingBackgroundTextInputLayout>
+
+                <ImageButton
+                        android:id="@+id/passwordInfo"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:src="@mipmap/info_icon_gtt"
+                        android:background="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/textView37"/>
 
                 <Button
                         android:id="@+id/buttonLogin"
                         android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_weight="1"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="32dp"
                         android:layout_marginBottom="16dp"
                         android:text="Ingresar"
                         style="@style/textButtonTheme"
+                        android:visibility="@{ loginViewModel.progress ? View.GONE : View.VISIBLE }"
                         android:onClick="@{ () -> loginViewModel.loginAction() }"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+                <ProgressBar
+                        android:id="@+id/progressLoad"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:indeterminate="true"
+                        android:theme="@style/progressBarWhite"
+                        android:visibility="@{ loginViewModel.progress ? View.VISIBLE : View.GONE }"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />

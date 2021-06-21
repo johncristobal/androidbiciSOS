@@ -21,6 +21,7 @@ import com.bicisos.i7.bicisos.Fragments.*
 import com.bicisos.i7.bicisos.Fragments.alertas.*
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.ui.GraphActivity
+import com.bicisos.i7.bicisos.ui.dashboard.DashboardGttActivity
 import com.facebook.AccessToken
 import kotlinx.android.synthetic.main.activity_principal.*
 import kotlinx.android.synthetic.main.content_principal.*
@@ -230,19 +231,19 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
             R.id.segurosmenuitem -> {
                 //ajustes
                 val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-                val sesion = prefs.getString("sesion","null")
-                if (sesion!!.equals("1")) {
-                    // TODO: validar que ya este iniciado en seguros gtt
-                    startActivity(Intent(this, GraphActivity::class.java))
+                val sesion = prefs.getString("gttseguros","null")
+                if (sesion!! == "1") {  // ya tenemos sesino de gtt, lanzamos view
+                    startActivity(Intent(this, DashboardGttActivity::class.java))
                 }else{
-                    alertaIniciarSesion()
+                    startActivity(Intent(this, GraphActivity::class.java))
+//                    alertaIniciarSesion()
                 }
             }
             R.id.nav_login -> {
                 //sesion
                 val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                 val sesion = prefs.getString("sesion","null")
-                if (sesion!!.equals("1")) {
+                if (sesion!! == "1") {
                     //cerrar sesion auth....
                     //alerta para cerrar sesion
                     val alertbuilder = AlertDialog.Builder(this)

@@ -15,20 +15,16 @@ class GraphActivity : AppCompatActivity() {
 }
 
 /*
-    falta detalles de diseno y ajuste precios
-    loading al darle click en finish
+
+
+    ===== BACKLOG =======
+    Login google / facebook / mail&pass node.js
+    login
+        - fondo rojo en progress...
+    password login
+        - quiza un tutorial mas a doc
+    cancelar view
     agregar imagne para comprobante / subir nueva foto / mostrar foto
 
-    login que obtenga polizas o muestre error
-        progress
-
-    vista con lista de polizas...
-        imagen top
-        estas son tus polizas
-        click en ojo para ver pdf
-        boton bottom emergencia
-        ocultar polizas no activas
-        formato fecha
-        contraseña => numero de folio de la poliza
-            tutorial
+    activity y navigation para contratar
  */

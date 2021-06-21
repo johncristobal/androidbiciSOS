@@ -2,16 +2,6 @@ package com.bicisos.i7.bicisos.Fragments
 
 
 import android.Manifest
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
-import com.bicisos.i7.bicisos.R
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import android.content.*
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
@@ -21,26 +11,35 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Bundle
 import android.os.IBinder
-import androidx.core.content.ContextCompat.checkSelfPermission
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
 import com.bicisos.i7.bicisos.Api.ApiClient
+import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.model.Taller
 import com.bicisos.i7.bicisos.service.ForegroundOnlyLocationService
 import com.bicisos.i7.bicisos.utils.toText
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -62,7 +61,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     private var mapaListo: Boolean = false
     private lateinit var talleres : List<Taller>
     //private lateinit var bikers : List<Biker>
-    private var hashMapMarker = HashMap<String,Marker>()
+    private var hashMapMarker = HashMap<String, Marker>()
     private var listener: OnFragmentMapListener? = null
 
     public var flagReadMapa = false
@@ -91,7 +90,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
             )
 
             if (location != null) {
-                Log.w("location.....",location.toText())
+                Log.w("location.....", location.toText())
                 lastLocation = location
                 mapaListo = true
                 val currentLatLng = LatLng(location.latitude, location.longitude)
@@ -124,7 +123,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     }
 
     interface OnFragmentMapListener {
-        fun onFragmentInteractionMap(latitud: Double, longitud: Double, sharedElement: View?, opt: String)
+        fun onFragmentInteractionMap(
+            latitud: Double,
+            longitud: Double,
+            sharedElement: View?,
+            opt: String
+        )
     }
 
     override fun onAttach(context: Context) {
@@ -141,7 +145,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         listener = null
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val v = inflater.inflate(R.layout.fragment_map, container, false)
 
@@ -151,7 +159,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         mapFragment.getMapAsync(this)
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
-        sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences(
+            getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
 
         return v
     }
@@ -192,7 +203,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         val serviceIntent = Intent(requireContext(), ForegroundOnlyLocationService::class.java)
-        requireContext().bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        requireContext().bindService(
+            serviceIntent,
+            foregroundOnlyServiceConnection,
+            Context.BIND_AUTO_CREATE
+        )
     }
 
     private fun requestForegroundPermissions() {
@@ -201,7 +216,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         // If the user denied a previous request, but didn't check "Don't ask again", provide
         // additional rationale.
         if (provideRationale) {
-            Toast.makeText(requireContext(),"Ve a configuraciones para activar ubicación", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "Ve a configuraciones para activar ubicación",
+                Toast.LENGTH_LONG
+            ).show()
 //            Snackbar.make(
 //                findViewById(R.id.activity_main),
 //                R.string.permission_rationale,
@@ -218,7 +237,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         } else {
             Log.d(TAG, "Request foreground only permission")
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
                 ),
                 REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
             )
@@ -248,7 +269,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
                 else -> {
                     // Permission denied.
-                    Toast.makeText(requireActivity(),"Permiso denegado.",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "Permiso denegado.", Toast.LENGTH_SHORT)
+                        .show()
 //                    updateButtonState(false)
 //
 //                    Snackbar.make(
@@ -277,12 +299,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
     override fun onResume() {
         super.onResume()
-        Log.e("mapfrgment","onresume map")
+        Log.e("mapfrgment", "onresume map")
 
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
             foregroundOnlyBroadcastReceiver,
             IntentFilter(
-                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+                ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
+            )
         )
     }
 
@@ -316,38 +339,48 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
         mMap = p0
         mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
+        mMap.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    19.43276264361115,
+                    -99.13312616956577
+                ), 12.0f
+            )
+        )
+        mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(p0: Marker?): Boolean {
-                if(p0!!.tag is Report) {
+                if (p0!!.tag is Report) {
 
                     val report = p0.tag as Report
 
-                    if(report.tipo == 1){
+                    if (report.tipo == 1) {
                         mMap.setInfoWindowAdapter(null)
 
-                        val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-                        prefs.edit().putString("detalleMapFragment","1").apply()
+                        val prefs = activity!!.getSharedPreferences(
+                            getString(R.string.preferences),
+                            Context.MODE_PRIVATE
+                        )
+                        prefs.edit().putString("detalleMapFragment", "1").apply()
 
                         val detailtFrag = DetailReportFragment.newInstance(report)
                         childFragmentManager.beginTransaction()
                             .addToBackStack("detalles")
-                            .replace(R.id.containerAlertas,detailtFrag)
+                            .replace(R.id.containerAlertas, detailtFrag)
                             .commit()
 
                         //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
 
                         //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
                         return true
-                    }else {
+                    } else {
                         val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)
                         mMap.setInfoWindowAdapter(customInfoWindow)
                     }
 
                     return false
-                }else{
+                } else {
                     mMap.setInfoWindowAdapter(null)
                     return false
-
                 }
             }
         })
@@ -404,9 +437,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     private fun listenerReports(){
         //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
         val reference = FirebaseDatabase.getInstance().getReference("reportes")
-        reference.addValueEventListener(object: ValueEventListener {
+        reference.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
-                Log.e("error",p0.message)
+                Log.e("error", p0.message)
             }
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -537,7 +570,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
             if((tag is Report))
             {
-                Log.w("taller","No es taller")
+                Log.w("taller", "No es taller")
             }else {
                 //get direcion
                 val geocoder = Geocoder(requireActivity(), Locale.getDefault())
@@ -572,7 +605,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            val success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity(), R.raw.style_json))
+            val success = mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireActivity(),
+                    R.raw.style_json
+                )
+            )
 
             if (!success) {
                 Log.e("TAG", "Style parsing failed.");
@@ -694,7 +732,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 //    }
 
     public fun reloadData(){
-        Log.w("tag","info from main")
+        Log.w("tag", "info from main")
 
         listenerReports()
         //listenerBikers()

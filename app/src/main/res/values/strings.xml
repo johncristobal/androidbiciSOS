@@ -25,8 +25,8 @@
     <string name="beneficios">+Beneficios</string>
     <string name="contrata">Contrata</string>
     <string name="sesion_gtt">Ya tienes cuenta, inicia sesión</string>
-    <string name="hint_user">Correo o telefono</string>
-    <string name="hint_pass">Password</string>
+    <string name="hint_user">Telefono</string>
+    <string name="hint_pass">Número de folio de póliza</string>
     <string name="sos_ciclista">SOS Ciclista</string>
     <string name="nombre_titular">Nombre titular</string>
     <string name="hint_nombre_y_apellidos">Nombre y apellidos</string>
@@ -56,7 +56,7 @@
     <string name="comentarios">COMENTARIOS</string>
     <string name="porcontact">O CONTACTANOS POR</string>
     <string name="web_gtt">www.asistenciavialgtt.com</string>
-    <string name="tel_gtt">55-1207-7818 (19)</string>
+    <string name="tel_gtt">5512077819</string>
     <string name="acercadetext">Es una administradora de\nriesgos en hechos de tránsito\nterrestres especializada en\naccidentes viales con más de \n16 años de experiencia</string>
     <string name="misi_n">MISIÓN</string>
     <string name="misiongtt">Satisfacer de manera efectiva y\neficiente las necesidades de\nnuestros clientes</string>
@@ -83,6 +83,8 @@
     <string name="no_location_text">No hay ubicación</string>
     <string name="stop_location_updates_button_text">Detener ubicación</string>
     <string name="ok">Ok</string>
+    <string name="tokem">safd124214·$%·SWLD!="$SD!"$</string>
+
 
     <string-array name="onboarding_titles">
         <item>Perjuicios a la unidad</item>
@@ -95,9 +97,9 @@
     <string-array name="onboarding_descriptions">
         <item>En caso de accidente vial, te apoyamos con un monto de hasta $2,500.00 MXN, y en caso de ser necesario se trasladará al bici-tallermecánico más cercano</item>
         <item>En caso de accidente vial y de ser necesaria la asistencia, llegará un paramédico en moto para brindarte los primeros auxilios y evaluará la gravedad de la situación.</item>
-        <item>En enviará un asesor jurídico en caso de ser requerido por accidnete vial, para asesorarte ante una autoridad compenente.</item>
-        <item>En caso de accidente vial, llegará un ajustador al lugar del accidente, si resultamos ser responsables, se extenderá un pase que cubra los daños que ocasione a un tercero en sus bienes y/o personas.</item>
-        <item>En caso de hospitalización y/o fallecimiento, te reembolsamos los gastos generados.</item>
+        <item>Se enviará un asesor jurídico en caso de ser requerido por accidente vial, para asesorarte ante una autoridad competente.</item>
+        <item>En caso de accidente vial, llegará un ajustador al lugar del accidente, si resultamos ser responsables, se extenderá un pase que cubra los daños por un monto de hasta $150,000.00 MXN.</item>
+        <item>En caso de hospitalización y/o fallecimiento, te reembolsamos gastos hasta por un monto de $5,000.00 MXN</item>
     </string-array>
 
     <integer-array name="onboarding_imgs">

@@ -31,6 +31,14 @@
 
 
     <group
+            android:id="@+id/grp_"
+            android:checkableBehavior="single">
+        <item
+                android:id="@+id/contrata_gtt"
+                android:title="@string/contrata" />
+    </group>
+
+    <group
             android:id="@+id/grp_5"
             android:checkableBehavior="single">
         <item

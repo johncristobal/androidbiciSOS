@@ -10,7 +10,7 @@ data class ContrataModel (
     var ejecutivo: String,
     var fechaContratacion: String,
     var nombreTitular: String,
-    var segundoTitular: String,
+    var segundoTitular: String = "",
     var fechaNacimiento: String,
     var rfc: String,
     var telefono: String,

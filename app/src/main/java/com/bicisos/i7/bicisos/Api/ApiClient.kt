@@ -8,8 +8,6 @@ import java.net.HttpURLConnection
 import java.net.URL
 import org.json.JSONObject
 
-
-
 class ApiClient //: AsyncTask<String, String, String>() {
 {
     var urlConnection: HttpURLConnection? = null

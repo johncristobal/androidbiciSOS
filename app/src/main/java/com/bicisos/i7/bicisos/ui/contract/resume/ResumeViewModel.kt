@@ -28,6 +28,8 @@ class ResumeViewModel constructor(
     var payment_photo : String? = null
 
     val _progress = MutableLiveData<Boolean>()
+    val progress: LiveData<Boolean>
+        get() = _progress
 
     val _uploadUI = MutableLiveData<Event<String>>()
     val uploadUI: LiveData<Event<String>>
@@ -111,16 +113,11 @@ class ResumeViewModel constructor(
                 )
 
                 _progress.value = false
-
-//                if(call.status){
-//                    _uploadUI.value = Event("cerrar")
-//                }else{
-//                    _uploadUI.value = Event(call.error)
-//                }
                 _uploadUI.value = Event("cerrar")
 
             }catch (e: Exception){
                 e.printStackTrace()
+                _progress.value = false
                 _uploadUI.value = Event("Tuvimos un problema, intente más tarde.")
             }
 

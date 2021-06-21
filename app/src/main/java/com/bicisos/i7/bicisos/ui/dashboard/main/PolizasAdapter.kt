@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.model.PolizasResponse
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.PolizaItemBinding
+import com.bicisos.i7.bicisos.utils.clickPoliza
 
 class PolizasAdapter(
     private val data: PolizasResponse,
-    private val polizasFragment: Context
+    private val polizasFragment: Context,
+    val listener : clickPoliza
 ) : RecyclerView.Adapter<PolizasAdapter.ViewHolderPoliza>() {
 
     inner class ViewHolderPoliza(
@@ -32,11 +34,9 @@ class PolizasAdapter(
     override fun onBindViewHolder(holder: ViewHolderPoliza, position: Int) {
         holder.recyclerBinding.poliza = data.polizas.polizasInfo[position]
 
-        //TODO click en todo el elemento o ver si ponemos un ojo
-        holder.recyclerBinding.imageView11.setOnClickListener {
-            //click solo en la imagen...pum
-            //listener.onClickMovieListener(holder.recyclerviewBinding.backInsurance, movies[position])
-        }
+       holder.recyclerBinding.clickView.setOnClickListener {
+            listener.openPDF(data.polizas.polizasInfo[position].folio)
+      }
 
         holder.recyclerBinding.executePendingBindings()
     }

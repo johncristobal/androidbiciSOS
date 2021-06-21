@@ -246,7 +246,7 @@
                     <LinearLayout
                             android:layout_width="wrap_content"
                             android:orientation="vertical"
-                            android:visibility="@{ viewModelResume._progress ? View.GONE : View.VISIBLE }"
+                            android:visibility="@{ viewModelResume.progress ? View.GONE : View.VISIBLE }"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -276,7 +276,7 @@
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:orientation="vertical"
-                            android:visibility="@{ viewModelResume._progress ? View.VISIBLE : View.GONE }"
+                            android:visibility="@{ viewModelResume.progress ? View.VISIBLE : View.GONE }"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"

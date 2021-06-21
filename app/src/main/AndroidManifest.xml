@@ -39,8 +39,8 @@
         <activity
                 android:name=".ui.GraphActivity"
                 android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.NoActionBar"
-                android:windowSoftInputMode="adjustResize" />
+                android:windowSoftInputMode="stateHidden"
+                android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".Activities.CameraPhotosActivity"
                 android:theme="@style/AppTheme.NoActionBar" />

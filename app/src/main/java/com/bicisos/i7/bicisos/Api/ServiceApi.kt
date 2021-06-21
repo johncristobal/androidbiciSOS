@@ -1,7 +1,9 @@
 package com.bicisos.i7.bicisos.Api
 
+import com.bicisos.i7.bicisos.model.ContractResp
 import com.bicisos.i7.bicisos.model.ContractResponse
 import com.bicisos.i7.bicisos.model.PolizasResponse
+import com.bicisos.i7.bicisos.model.polizas.Login
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -24,18 +26,17 @@ interface ServiceApi {
         @Part sillin: MultipartBody.Part,
         @Part manubrio: MultipartBody.Part,
         @Part pago: MultipartBody.Part,
-    ): Response<ContractResponse>
+    ): Response<ContractResp>
 
-    @GET("/gttapi/contratacion/{phone}")
+    @GET("/gttapi/polizas/{phone}")
     suspend fun loginGeneralContract(
         @Path("phone") phone: String,
     ): Response<PolizasResponse>
 
-    @POST("/gttapi/contratacion/login")
+    @POST("/gttapi/polizas/login")
     suspend fun loginContract(
         @Header("sos-token") authorization: String?,
-        @Body phone: String,
-        @Body folio: String,
+        @Body body: Login,
     ): Response<ContractResponse>
 
     companion object {
@@ -52,7 +53,7 @@ interface ServiceApi {
             }
 
             return Retrofit.Builder()
-                .baseUrl("https://bicissosapi.herokuapp.com")
+                .baseUrl(ApiUrls.urlApi)
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
