@@ -18,6 +18,7 @@ import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.databinding.LoginViewModelFragmentBinding
 import com.bicisos.i7.bicisos.repository.Repository
+import com.bicisos.i7.bicisos.ui.contract.ContractActivity
 import com.bicisos.i7.bicisos.ui.dashboard.DashboardGttActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -73,10 +74,11 @@ class LoginViewModelFragment : Fragment() {
         }
 
         buttonContrata.setOnClickListener {
-            val extras = FragmentNavigatorExtras(
-                imageView8 to "imageView"
-            )
-            findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment, null, null, extras)
+//            val extras = FragmentNavigatorExtras(
+//                imageView8 to "imageView"
+//            )
+//            findNavController().navigate(R.id.action_loginViewModelFragment_to_contractFragment, null, null, extras)
+            startActivity(Intent(requireContext(), ContractActivity::class.java))
         }
 
         telefonoInfo.setOnClickListener {

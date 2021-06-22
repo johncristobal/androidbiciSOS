@@ -62,7 +62,7 @@ class PhotosContractFragment : Fragment() {
                         Snackbar.make(view, "Favor de subir las cuatro fotos de tu bici para continuar", Snackbar.LENGTH_LONG).show();
                     }
                     else -> {
-                        findNavController().navigate(R.id.action_photosContractFragment_to_paymentFragment)
+                        findNavController().navigate(R.id.action_photosContractFragment2_to_paymentFragment2)
                     }
                 }
             }

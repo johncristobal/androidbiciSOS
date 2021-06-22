@@ -51,7 +51,7 @@ class PaymentFragment : Fragment() {
 
         buttonPaymentSet.setOnClickListener {
             if(flagPhoto){
-                findNavController().navigate(R.id.action_paymentFragment_to_resumeFragment)
+                findNavController().navigate(R.id.action_paymentFragment2_to_resumeFragment2)
             }else{
                 val myIntent = Intent(activity, CameraPhotosActivity::class.java)
                 startActivityForResult(myIntent,LAUNCH_SECOND_ACTIVITY)

@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.ui.contract.resume
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,7 @@ class ResumeFragment : Fragment() {
 
         viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let{
+                Log.w("data", it)
                 when(it){
                     "cerrar" -> {
                         showAlert("Listo","Hemos enviado la información, pronto te daremos mas noticias de tu contratación.")
@@ -69,7 +71,8 @@ class ResumeFragment : Fragment() {
         alertDialogBuilder.setTitle(title)
         alertDialogBuilder.setMessage(msg)
         alertDialogBuilder.setPositiveButton("Continuar") { _, _ ->
-            findNavController().navigate(R.id.action_resumeFragment_to_loginViewModelFragment)
+            //findNavController().navigate(R.id.action_resumeFragment_to_loginViewModelFragment)
+            requireActivity().finishAndRemoveTask()
         }
 
         alertDialogBuilder.create().show()

@@ -10,9 +10,7 @@ import java.io.IOException
 abstract class SafeRequest {
     suspend fun <T: Any> apiRequest(call: suspend () -> Response<T>) : T {
         val response = call.invoke()
-
         if (response.isSuccessful){
-
             return response.body()!!
         }else{
             val gson = Gson()

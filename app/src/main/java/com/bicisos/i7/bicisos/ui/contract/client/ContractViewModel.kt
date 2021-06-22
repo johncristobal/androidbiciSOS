@@ -28,6 +28,12 @@ class ContractViewModel constructor(private val repository : Repository, private
 
     init {
         modelData.ejecutivo = "sos_ciclista"
+        val prefs = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE)
+        prefs.getString("dataModelContract","")?.let {
+           if (it != ""){
+               modelData = Gson().fromJson(it, ContrataModel::class.java)
+           }
+        }
     }
 
     fun sendDataAction(){

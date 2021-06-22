@@ -13,13 +13,6 @@
         <action
                 android:id="@+id/action_loginViewModelFragment_to_onboardingGttFragment"
                 app:destination="@id/onboardingGttFragment" />
-        <action
-                android:id="@+id/action_loginViewModelFragment_to_contractFragment"
-                app:destination="@id/contractFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     </fragment>
 
@@ -28,45 +21,6 @@
             android:name="com.bicisos.i7.bicisos.ui.onboarding_gtt.OnboardingGttFragment"
             android:label="onboarding_gtt_fragment"
             tools:layout="@layout/onboarding_gtt_fragment" />
-    <fragment
-            android:id="@+id/contractFragment"
-            android:name="com.bicisos.i7.bicisos.ui.contract.client.ContractFragment"
-            android:label="ContractFragment"
-            tools:layout="@layout/contract_fragment">
-        <action
-                android:id="@+id/action_contractFragment_to_photosContractFragment"
-                app:destination="@id/photosContractFragment" />
-    </fragment>
-    <fragment
-            android:id="@+id/photosContractFragment"
-            android:name="com.bicisos.i7.bicisos.ui.contract.photos.PhotosContractFragment"
-            android:label="fragment_photos_contract"
-            tools:layout="@layout/fragment_photos_contract" >
-        <action
-                android:id="@+id/action_photosContractFragment_to_paymentFragment"
-                app:destination="@id/paymentFragment" />
-    </fragment>
-    <fragment
-            android:id="@+id/paymentFragment"
-            android:name="com.bicisos.i7.bicisos.ui.contract.payment.PaymentFragment"
-            android:label="fragment_payment"
-            tools:layout="@layout/fragment_payment" >
-        <action
-                android:id="@+id/action_paymentFragment_to_resumeFragment"
-                app:destination="@id/resumeFragment" />
-    </fragment>
-    <fragment
-            android:id="@+id/resumeFragment"
-            android:name="com.bicisos.i7.bicisos.ui.contract.resume.ResumeFragment"
-            android:label="ResumeFragment"
-            tools:layout="@layout/fragment_resume">
-        <action
-                android:id="@+id/action_resumeFragment_to_loginViewModelFragment"
-                app:launchSingleTop="true"
-                app:popUpTo="@+id/nav_graph"
-                app:popUpToInclusive="true"
-                app:destination="@id/loginViewModelFragment" />
-    </fragment>
 
 
 </navigation>

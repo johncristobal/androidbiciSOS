@@ -118,7 +118,7 @@ class ResumeViewModel constructor(
             }catch (e: Exception){
                 e.printStackTrace()
                 _progress.value = false
-                _uploadUI.value = Event("Tuvimos un problema, intente más tarde.")
+                _uploadUI.value = Event(e.localizedMessage)
             }
 
             Log.w("finish","data sent...")

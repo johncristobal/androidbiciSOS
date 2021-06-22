@@ -2,6 +2,7 @@ package com.bicisos.i7.bicisos.ui.dashboard
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +13,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bicisos.i7.bicisos.Fragments.MapFragment
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.ui.contract.ContractActivity
 import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
@@ -58,7 +60,7 @@ class DashboardGttActivity : AppCompatActivity() {
                     findNavController(R.id.nav_host_fragment).navigate(R.id.misionFragmentGtt)
                 }
                 R.id.contrata_gtt -> {
-                    findNavController(R.id.nav_host_fragment).navigate(R.id.contractFragment2)
+                    startActivity(Intent(this, ContractActivity::class.java))
                 }
                 R.id.salirFragment -> {
                     val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)

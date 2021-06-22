@@ -23,9 +23,6 @@
         <action
                 android:id="@+id/action_polizasFragment_to_homeFragmentGtt"
                 app:destination="@id/homeFragmentGtt" />
-        <action
-                android:id="@+id/action_polizasFragment_to_contractFragment2"
-                app:destination="@id/contractFragment2" />
     </fragment>
 
     <fragment
@@ -47,12 +44,7 @@
     <fragment
             android:id="@+id/homeFragmentGtt"
             android:name="com.bicisos.i7.bicisos.ui.dashboard.home.HomeFragmentGtt"
-            android:label="Seguros Grupo GTT"
+            android:label="Acerca de"
             tools:layout="@layout/fragment_home_gtt" />
-    <fragment
-            android:id="@+id/contractFragment2"
-            android:name="com.bicisos.i7.bicisos.ui.contract.client.ContractFragment"
-            android:label="Contrata"
-            tools:layout="@layout/contract_fragment" />
 
 </navigation>

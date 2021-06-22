@@ -90,7 +90,7 @@ class ContractFragment : Fragment() {
 
                     }
                     else -> {
-                        findNavController().navigate(R.id.action_contractFragment_to_photosContractFragment)
+                        findNavController().navigate(R.id.action_contractFragment3_to_photosContractFragment2)
 
                         //message to whatApp
                         //val uri = Uri.parse("smsto:" + "525586140593");

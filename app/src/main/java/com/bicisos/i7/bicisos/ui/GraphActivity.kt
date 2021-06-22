@@ -26,5 +26,4 @@ class GraphActivity : AppCompatActivity() {
     cancelar view
     agregar imagne para comprobante / subir nueva foto / mostrar foto
 
-    activity y navigation para contratar
  */

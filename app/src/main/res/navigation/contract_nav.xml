@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/contract_nav"
+        app:startDestination="@id/contractFragment3">
+
+    <fragment
+            android:id="@+id/contractFragment3"
+            android:name="com.bicisos.i7.bicisos.ui.contract.client.ContractFragment"
+            android:label="ContractFragment"
+            tools:layout="@layout/contract_fragment">
+        <action
+                android:id="@+id/action_contractFragment3_to_photosContractFragment2"
+                app:destination="@id/photosContractFragment2" />
+    </fragment>
+    <fragment
+            android:id="@+id/photosContractFragment2"
+            android:name="com.bicisos.i7.bicisos.ui.contract.photos.PhotosContractFragment"
+            android:label="fragment_photos_contract"
+            tools:layout="@layout/fragment_photos_contract" >
+        <action
+                android:id="@+id/action_photosContractFragment2_to_paymentFragment2"
+                app:destination="@id/paymentFragment2" />
+    </fragment>
+    <fragment
+            android:id="@+id/paymentFragment2"
+            android:name="com.bicisos.i7.bicisos.ui.contract.payment.PaymentFragment"
+            android:label="fragment_payment"
+            tools:layout="@layout/fragment_payment" >
+        <action
+                android:id="@+id/action_paymentFragment2_to_resumeFragment2"
+                app:destination="@id/resumeFragment2" />
+    </fragment>
+    <fragment
+            android:id="@+id/resumeFragment2"
+            android:name="com.bicisos.i7.bicisos.ui.contract.resume.ResumeFragment"
+            android:label="ResumeFragment"
+            tools:layout="@layout/fragment_resume"/>
+</navigation>
