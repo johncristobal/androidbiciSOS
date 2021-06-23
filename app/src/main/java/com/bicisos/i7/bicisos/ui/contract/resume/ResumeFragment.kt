@@ -45,7 +45,6 @@ class ResumeFragment : Fragment() {
         binding.lifecycleOwner = this
 
         return binding.root
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,7 +70,6 @@ class ResumeFragment : Fragment() {
         alertDialogBuilder.setTitle(title)
         alertDialogBuilder.setMessage(msg)
         alertDialogBuilder.setPositiveButton("Continuar") { _, _ ->
-            //findNavController().navigate(R.id.action_resumeFragment_to_loginViewModelFragment)
             requireActivity().finishAndRemoveTask()
         }
 

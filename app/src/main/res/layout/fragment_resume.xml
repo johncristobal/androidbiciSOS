@@ -266,6 +266,7 @@
                                 android:layout_marginTop="8dp"
                                 android:layout_height="44dp"
                                 android:text="Verificar datos"
+                                android:visibility="gone"
                                 android:theme="@style/textThemeButton"
                                 android:textColor="@color/blanco"
                                 android:layout_marginBottom="8dp"

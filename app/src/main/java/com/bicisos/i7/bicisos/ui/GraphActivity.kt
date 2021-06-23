@@ -15,15 +15,18 @@ class GraphActivity : AppCompatActivity() {
 }
 
 /*
-
+    - comprobnate de pago - buscar imagen
 
     ===== BACKLOG =======
     Login google / facebook / mail&pass node.js
     login
         - fondo rojo en progress...
+
     password login
         - quiza un tutorial mas a doc
+
     cancelar view
+
     agregar imagne para comprobante / subir nueva foto / mostrar foto
 
  */
