@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bicisos.i7.bicisos.Api.ApiUrls
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,8 +26,11 @@ fun loadImage(view: ImageView, value: String?) {
 @BindingAdapter("lateralimg")
 fun loadImagelateral(view: ImageView, value: String?) {
     val urlImg = ApiUrls.urlApi+"/"+value+"/lateral.png"
-    Log.e("irlumg",urlImg)
-    Glide.with(view.context).load(urlImg).into(view)
+
+    Glide.with(view.context)
+        .load(urlImg)
+        .signature(ObjectKey(System.currentTimeMillis()))
+        .into(view)
 }
 
 @BindingAdapter("visible")

@@ -19,7 +19,7 @@
     <string name="preferences">SOSCiclista</string>
     <string name="title_activity_serie_bici">SerieBiciActivity</string>
     <string name="title_activity_tips">TipsActivity</string>
-    <string name="loginTitle">¿Qué pensarías si te dijera que en caso de accidente vial te pagamos la reparación de tu bicicleta, te transladamos al bici-taller más cercano y te mandamos paramédico en motocicleta…?\nEsto y otros beneficios obtendrás con GRUPOT GTT</string>
+    <string name="loginTitle">¿Qué pensarías si en caso de accidente vial te pagamos la reparación de tu bicicleta, te transladamos al bici-taller más cercano y te mandamos paramédico en motocicleta…?\nEsto y otros beneficios obtendrás con GRUPO GTT</string>
 
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="beneficios">+Beneficios</string>
