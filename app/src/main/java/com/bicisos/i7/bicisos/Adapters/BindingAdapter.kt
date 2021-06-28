@@ -29,6 +29,7 @@ fun loadImagelateral(view: ImageView, value: String?) {
 
     Glide.with(view.context)
         .load(urlImg)
+        .circleCrop()
         .signature(ObjectKey(System.currentTimeMillis()))
         .into(view)
 }
