@@ -17,30 +17,30 @@ class GraphActivity : AppCompatActivity() {
 /*
     - comprobnate de pago - buscar imagen
 
-    ===== BACKLOG =======
-    server noDejs
+    ===== BACKLOG ======= prioridad =========
+    *** app ios
+        - mvvm
+        - cuenta ios???
+
+    *** server noDejs
         * Login google / facebook / mail&pass node.js
+            - igual con pass y correo (registro)
+            - jwa token
         * node js hostinger un mes
         * contacto msg
 
-    login
-        - fondo rojo en progress...
-    recycler view - refresh
-    cache images
-    ajustes y enviar pantallazos
-
-    * agregar imagne para comprobante / subir nueva foto / mostrar foto
-    * password login
-        - quiza un tutorial mas a doc
-    * cancelar view
+    *** app android
+        login
+            - fondo rojo en progress...
+        recycler view - refresh
+        * agregar imagne para comprobante / subir nueva foto / mostrar foto
+        * password login
+            - quiza un tutorial mas a doc
+        * cancelar view
 
     *** web admin
-    - angular
-     - login
-     - put contract
-
-    *** app ios
-     - mvvm
-     - cuenta ios???
+        - angular
+        - login
+        - put contract
 
  */
