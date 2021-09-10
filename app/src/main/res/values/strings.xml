@@ -91,11 +91,11 @@
         <item>Paramédico en motocicleta</item>
         <item>Asistencia legal</item>
         <item>Responsabilidad civil terceros</item>
-        <item>Gastos médicos y/o funerarios</item>
+        <item>Apoyo de gastos médicos y/o funerarios</item>
     </string-array>
 
     <string-array name="onboarding_descriptions">
-        <item>En caso de accidente vial, te apoyamos con un monto de hasta $2,500.00 MXN, y en caso de ser necesario se trasladará al bici-tallermecánico más cercano</item>
+        <item>En caso de accidente vial, te apoyamos con un monto de hasta $2,500.00 MXN, y en caso de ser necesario se trasladará al bici-tallermecánico más cercano. Aplica condiciones generales.</item>
         <item>En caso de accidente vial y de ser necesaria la asistencia, llegará un paramédico en moto para brindarte los primeros auxilios y evaluará la gravedad de la situación.</item>
         <item>Se enviará un asesor jurídico en caso de ser requerido por accidente vial, para asesorarte ante una autoridad competente.</item>
         <item>En caso de accidente vial, llegará un ajustador al lugar del accidente, si resultamos ser responsables, se extenderá un pase que cubra los daños por un monto de hasta $150,000.00 MXN.</item>
