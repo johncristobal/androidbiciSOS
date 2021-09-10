@@ -7,7 +7,7 @@ import com.bicisos.i7.bicisos.R
 
 fun Location?.toText(): String {
     return if (this != null) {
-        "Ultima ubicación: ($latitude, $longitude)"
+        "Ubicación activa..."
     } else {
         "Ubicación desconocida"
     }
