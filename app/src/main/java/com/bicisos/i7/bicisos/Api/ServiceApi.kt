@@ -12,6 +12,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.concurrent.TimeUnit
 
 
 interface ServiceApi {
@@ -44,6 +45,9 @@ interface ServiceApi {
         operator fun invoke(): ServiceApi {
 
             val builder = OkHttpClient().newBuilder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+
             builder.addInterceptor { chain ->
                 val request: Request = chain.request().newBuilder().addHeader(
                     "sos-token",

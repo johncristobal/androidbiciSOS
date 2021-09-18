@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +20,8 @@ import androidx.core.content.ContextCompat
 import com.bicisos.i7.bicisos.R
 import kotlinx.android.synthetic.main.activity_camera_photos.*
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -45,7 +49,8 @@ class CameraPhotosActivity : AppCompatActivity() {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
         }
 
         // Set up the listener for take photo button
@@ -69,7 +74,7 @@ class CameraPhotosActivity : AppCompatActivity() {
             }
             flash = !flash
         }else{
-            Toast.makeText(this, "Su dispositivo no cuenta con flash",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Su dispositivo no cuenta con flash", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -83,8 +88,10 @@ class CameraPhotosActivity : AppCompatActivity() {
         // Create time-stamped output file to hold the image
         val photoFile = File(
             outputDirectory,
-            SimpleDateFormat(FILENAME_FORMAT, Locale.US
-            ).format(System.currentTimeMillis()) + ".jpg")
+            SimpleDateFormat(
+                FILENAME_FORMAT, Locale.US
+            ).format(System.currentTimeMillis()) + ".jpg"
+        )
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
@@ -92,36 +99,74 @@ class CameraPhotosActivity : AppCompatActivity() {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     progressCam.visibility = View.INVISIBLE
                     camera_capture_button.visibility = View.VISIBLE
 
-                    Toast.makeText(applicationContext, "Tuvimos un problema al capturar la foto. Intente más tarde.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Tuvimos un problema al capturar la foto. Intente más tarde.",
+                        Toast.LENGTH_LONG
+                    ).show()
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                     finish()
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Log.d(TAG, msg)
-                    //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    val returnIntent = Intent()
-                    returnIntent.putExtra("result", savedUri.path)
-                    setResult(Activity.RESULT_OK, returnIntent)
 
-                    if(camera!!.cameraInfo.hasFlashUnit()) {
-                        if (flash) {
-                            camera_flash_button.setImageResource(R.mipmap.flashon)
-                            camera!!.cameraControl.enableTorch(false)
+                    try{
+                        val savedUri = Uri.fromFile(photoFile)
+                        val options = BitmapFactory.Options()
+                        options.inSampleSize = 4
+                        val bitmapReduce = BitmapFactory.decodeFile(savedUri.path, options);
+
+                        val tempFileReturn = File(
+                            outputDirectory,
+                            SimpleDateFormat(
+                                FILENAME_FORMAT, Locale.US
+                            ).format(System.currentTimeMillis()) + ".jpg"
+                        )
+
+                        FileOutputStream(tempFileReturn).use { out ->
+                            bitmapReduce.compress(
+                                Bitmap.CompressFormat.JPEG,
+                                90,
+                                out
+                            ) // bmp is your Bitmap instance
                         }
-                        flash = false
-                    }
 
-                    finish()
+                        val msg = "Photo capture succeeded: ${tempFileReturn.path}"
+                        Log.d(TAG, msg)
+
+                        val returnIntent = Intent()
+                        returnIntent.putExtra("result", tempFileReturn.path)
+                        setResult(Activity.RESULT_OK, returnIntent)
+
+                        if (camera!!.cameraInfo.hasFlashUnit()) {
+                            if (flash) {
+                                camera_flash_button.setImageResource(R.mipmap.flashon)
+                                camera!!.cameraControl.enableTorch(false)
+                            }
+                            flash = false
+                        }
+
+                        finish()
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        Toast.makeText(
+                            applicationContext,
+                            "Tuvimos un problema al capturar la foto. Intente más tarde.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        finish()
+                    }
                 }
-            })
+            }
+        )
     }
 
     private fun startCamera() {
@@ -150,10 +195,12 @@ class CameraPhotosActivity : AppCompatActivity() {
 
                 // Bind use cases to camera
                 camera = cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture)
+                    this, cameraSelector, preview, imageCapture
+                )
 
                 val factory: MeteringPointFactory = SurfaceOrientedMeteringPointFactory(
-                    viewFinder.width.toFloat(), viewFinder.height.toFloat())
+                    viewFinder.width.toFloat(), viewFinder.height.toFloat()
+                )
                 val centerWidth = viewFinder.width.toFloat() / 2
                 val centerHeight = viewFinder.height.toFloat() / 2
 
@@ -168,7 +215,7 @@ class CameraPhotosActivity : AppCompatActivity() {
                     }.build()
                 )
 
-            } catch(exc: Exception) {
+            } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
@@ -177,7 +224,8 @@ class CameraPhotosActivity : AppCompatActivity() {
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            baseContext, it) == PackageManager.PERMISSION_GRANTED
+            baseContext, it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun getOutputDirectory(): File {
@@ -193,15 +241,21 @@ class CameraPhotosActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this,
+                Toast.makeText(
+                    this,
                     "Conceda permisos para acceder a la cámara",
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }
         }
@@ -211,6 +265,8 @@ class CameraPhotosActivity : AppCompatActivity() {
         super.onDestroy()
         cameraExecutor.shutdown()
     }
+
+//*********** size reduce ******************
 
     companion object {
         private const val TAG = "CameraXBasic"

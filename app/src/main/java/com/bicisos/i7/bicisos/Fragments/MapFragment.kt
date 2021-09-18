@@ -538,71 +538,69 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
             return
         }
+        try {
+            mMap.isMyLocationEnabled = true
 
-        mMap.isMyLocationEnabled = true
+    //        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+    //            buildAlertMessageNoGps()
+    //        }
+    //
+    //        mMap.isMyLocationEnabled = true
+    //
+    //        val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
+    //            PRIORITY_HIGH_ACCURACY,
+    //            cancellationTokenSource.token
+    //        )
+    //
+    //        currentLocationTask.addOnCompleteListener { task: Task<Location> ->
+    //            if (task.isSuccessful && task.result != null) {
+    //            val location = task.result
+    //            mapaListo = true
+    //            lastLocation = location
+    //            val currentLatLng = LatLng(location.latitude, location.longitude)
+    //            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+    //            } else {
+    //                Log.w("Error location", "getLastLocation:exception", task.exception)
+    //            }
+    //        }
 
-//        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            buildAlertMessageNoGps()
-//        }
-//
-//        mMap.isMyLocationEnabled = true
-//
-//        val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
-//            PRIORITY_HIGH_ACCURACY,
-//            cancellationTokenSource.token
-//        )
-//
-//        currentLocationTask.addOnCompleteListener { task: Task<Location> ->
-//            if (task.isSuccessful && task.result != null) {
-//            val location = task.result
-//            mapaListo = true
-//            lastLocation = location
-//            val currentLatLng = LatLng(location.latitude, location.longitude)
-//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-//            } else {
-//                Log.w("Error location", "getLastLocation:exception", task.exception)
-//            }
-//        }
+            mMap.setOnInfoWindowClickListener {
 
-        mMap.setOnInfoWindowClickListener {
+                val tag = it.tag
 
-            val tag = it.tag
+                if((tag is Report))
+                {
+                    Log.w("taller", "No es taller")
+                }else {
+                    //get direcion
+                    val geocoder = Geocoder(requireActivity(), Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(
+                        it!!.position.latitude,
+                        it!!.position.longitude,
+                        1
+                    ); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-            if((tag is Report))
-            {
-                Log.w("taller", "No es taller")
-            }else {
-                //get direcion
-                val geocoder = Geocoder(requireActivity(), Locale.getDefault())
-                val addresses = geocoder.getFromLocation(
-                    it!!.position.latitude,
-                    it!!.position.longitude,
-                    1
-                ); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    val address = addresses.get(0)
+                        .getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-                val address = addresses.get(0)
-                    .getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-
-                val uri = String.format(
-                    Locale.ENGLISH,
-                    "http://maps.google.com/maps?daddr=%f,%f",
-                    it!!.position.latitude,
-                    it!!.position.longitude
-                );
-                //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-                intent.setPackage("com.google.android.apps.maps")
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
+                    val uri = String.format(
+                        Locale.ENGLISH,
+                        "http://maps.google.com/maps?daddr=%f,%f",
+                        it!!.position.latitude,
+                        it!!.position.longitude
+                    );
+                    //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                    intent.setPackage("com.google.android.apps.maps")
+                    if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                        startActivity(intent)
+                    }
                 }
             }
-        }
 
-        /*
-        Style to map json
-         */
-        
-        try {
+            /*
+            Style to map json
+             */
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = mMap.setMapStyle(
@@ -618,6 +616,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                 Log.e("TAG", "Style parsing success.");
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             Log.e("tag", "Can't find style. Error: ", e);
         }
     }
