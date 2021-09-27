@@ -17,16 +17,17 @@ class GraphActivity : AppCompatActivity() {
 /*
     - comprobnate de pago - buscar imagen
 
+    node js digitalOcean $5 USD al mes
+
     ===== BACKLOG ======= prioridad =========
     *** app ios
         - mvvm
         - cuenta ios???
 
-    *** server noDejs
+    *** server nodeJS
         * Login google / facebook / mail&pass node.js
             - igual con pass y correo (registro)
             - jwa token
-        * node js hostinger un mes
         * contacto msg
 
     *** app android
@@ -39,7 +40,7 @@ class GraphActivity : AppCompatActivity() {
         * cancelar view
 
     *** web admin
-        - angular
+        - angular/react
         - login
         - put contract
 
