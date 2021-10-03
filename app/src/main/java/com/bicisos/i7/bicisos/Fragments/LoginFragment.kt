@@ -219,53 +219,55 @@ class LoginFragment : Fragment() {
                 progressBarIngresar.visibility = View.VISIBLE
                 buttonIngresar.visibility = View.GONE
 
-                val mAuth = FirebaseAuth.getInstance()
-                mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(object : OnCompleteListener<AuthResult> {
+                //TODO: login con pass mail nodejs backend
 
-                    override fun onComplete(task: Task<AuthResult>) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success")
-                            val user = mAuth.currentUser
-                            val editor =
-                                activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-                                    .edit()
-                            editor.putString("sesion", "1")
-                            editor.putString("reloadData", "1")
-                            editor.putString("nombre", user!!.displayName)
-                            editor.apply()
-
-                            listener!!.sendActivity("login")
-                            //updateUI(user)
-                        } else {
-                            progressBarIngresar.visibility = View.INVISIBLE
-                            buttonIngresar.visibility = View.VISIBLE
-
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
-                            try {
-                                throw task.exception!!
-                            } /*catch (weakPassword: FirebaseAuthWeakPasswordException) {
-                                //Log.d(TAG, "onComplete: weak_password")
-                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
-                            }*/ /*catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
-                            }*/ catch (existEmail: FirebaseAuthUserCollisionException) {
-                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT)
-                                    .show()
-                            } catch (e: Exception) {
-                                Toast.makeText(
-                                    activity,
-                                    "Error al crear usuario, intente más tarde...",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                            // if user enters wrong email.
-                            // if user enters wrong password.
-                            //updateUI(null)
-                        }
-                    }
-                })
+//                val mAuth = FirebaseAuth.getInstance()
+//                mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(object : OnCompleteListener<AuthResult> {
+//
+//                    override fun onComplete(task: Task<AuthResult>) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d("TAG", "createUserWithEmail:success")
+//                            val user = mAuth.currentUser
+//                            val editor =
+//                                activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+//                                    .edit()
+//                            editor.putString("sesion", "1")
+//                            editor.putString("reloadData", "1")
+//                            editor.putString("nombre", user!!.displayName)
+//                            editor.apply()
+//
+//                            listener!!.sendActivity("login")
+//                            //updateUI(user)
+//                        } else {
+//                            progressBarIngresar.visibility = View.INVISIBLE
+//                            buttonIngresar.visibility = View.VISIBLE
+//
+//                            // If sign in fails, display a message to the user.
+//                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
+//                            try {
+//                                throw task.exception!!
+//                            } /*catch (weakPassword: FirebaseAuthWeakPasswordException) {
+//                                //Log.d(TAG, "onComplete: weak_password")
+//                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
+//                            }*/ /*catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+//                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
+//                            }*/ catch (existEmail: FirebaseAuthUserCollisionException) {
+//                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT)
+//                                    .show()
+//                            } catch (e: Exception) {
+//                                Toast.makeText(
+//                                    activity,
+//                                    "Error al crear usuario, intente más tarde...",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//                            // if user enters wrong email.
+//                            // if user enters wrong password.
+//                            //updateUI(null)
+//                        }
+//                    }
+//                })
             }
         }
 
@@ -322,35 +324,39 @@ class LoginFragment : Fragment() {
             // ...
         }
     }
+
     //IxaVxtokczUwYHRUvcsO6Zsi2g23
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
 
-                val user = auth.currentUser
-                if (user != null) {
-                    val token = user.uid
-                    Log.w("token to document", token)
-                }
+        //TODO: login gogole nodejsBackend
 
-                val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-                editor.putString("sesion","1")
-                editor.putString("reloadData","1")
-                editor.putString("nombre",user!!.displayName)
-                editor.apply()
-
-                listener!!.sendActivity("login")
-
-            } else {
-                Log.e("errrrro __ login", it.exception.toString())
-
-                progressBarGoogle!!.visibility = View.INVISIBLE
-                Googlebutton.visibility = View.VISIBLE
-                Googlebutton!!.text = "Continuar con google"
-                Toast.makeText(requireActivity(), "Google sign in fallo. Intente más tarde.", Toast.LENGTH_LONG).show()
-            }
-        }
+//        auth.signInWithCredential(credential).addOnCompleteListener {
+//            if (it.isSuccessful) {
+//
+//                val user = auth.currentUser
+//                if (user != null) {
+//                    val token = user.uid
+//                    Log.w("token to document", token)
+//                }
+//
+//                val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+//                editor.putString("sesion","1")
+//                editor.putString("reloadData","1")
+//                editor.putString("nombre",user!!.displayName)
+//                editor.apply()
+//
+//                listener!!.sendActivity("login")
+//
+//            } else {
+//                Log.e("errrrro __ login", it.exception.toString())
+//
+//                progressBarGoogle!!.visibility = View.INVISIBLE
+//                Googlebutton.visibility = View.VISIBLE
+//                Googlebutton!!.text = "Continuar con google"
+//                Toast.makeText(requireActivity(), "Google sign in fallo. Intente más tarde.", Toast.LENGTH_LONG).show()
+//            }
+//        }
     }
 
     //896536123930-033nq8h3t1bglkpe1mrfckjmhad1d0sp.apps.googleusercontent.com

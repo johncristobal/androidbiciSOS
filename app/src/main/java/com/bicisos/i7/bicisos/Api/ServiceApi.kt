@@ -3,6 +3,7 @@ package com.bicisos.i7.bicisos.Api
 import com.bicisos.i7.bicisos.model.ContractResp
 import com.bicisos.i7.bicisos.model.ContractResponse
 import com.bicisos.i7.bicisos.model.PolizasResponse
+import com.bicisos.i7.bicisos.model.TallerResponse
 import com.bicisos.i7.bicisos.model.polizas.Login
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -33,6 +34,9 @@ interface ServiceApi {
     suspend fun loginGeneralContract(
         @Path("phone") phone: String,
     ): Response<PolizasResponse>
+
+    @GET("/gttapi/talleres/readFile")
+    suspend fun getTalleres(): Response<TallerResponse>
 
     @POST("/gttapi/polizas/login")
     suspend fun loginContract(

@@ -85,44 +85,45 @@ class RegisterFragment : Fragment() {
                 buttonIngresarRegistro.text = "Registrarse"
             }
             else {
-                val mAuth = FirebaseAuth.getInstance()
-                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(object: OnCompleteListener<AuthResult>{
-                    override fun onComplete(task: Task<AuthResult>) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success")
-                            val user = mAuth.currentUser
-                            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
-                            editor.putString("sesion","1")
-                            editor.putString("reloadData","1")
-                            editor.putString("nombre",name)
-                            editor.apply()
-                            listener?.onFragmentInteractionRegister("login")
-                            //updateUI(user)
-                        } else {
-                            progressBarRegister.visibility = View.INVISIBLE
-                            buttonIngresarRegistro.text = "Registrarse"
-
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
-                            try {
-                                throw task.exception!!
-                            } catch (weakPassword: FirebaseAuthWeakPasswordException) {
-                                //Log.d(TAG, "onComplete: weak_password")
-                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
-                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
-                            } catch (existEmail: FirebaseAuthUserCollisionException) {
-                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT).show()
-                            } catch (e: Exception) {
-                                Toast.makeText(activity, "Error al crear usuario, intente más tarde...", Toast.LENGTH_SHORT).show()
-                            }
-                            // if user enters wrong email.
-                            // if user enters wrong password.
-                            //updateUI(null)
-                        }
-                    }
-                })
+                //TODO: register node js
+//                val mAuth = FirebaseAuth.getInstance()
+//                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(object: OnCompleteListener<AuthResult>{
+//                    override fun onComplete(task: Task<AuthResult>) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d("TAG", "createUserWithEmail:success")
+//                            val user = mAuth.currentUser
+//                            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+//                            editor.putString("sesion","1")
+//                            editor.putString("reloadData","1")
+//                            editor.putString("nombre",name)
+//                            editor.apply()
+//                            listener?.onFragmentInteractionRegister("login")
+//                            //updateUI(user)
+//                        } else {
+//                            progressBarRegister.visibility = View.INVISIBLE
+//                            buttonIngresarRegistro.text = "Registrarse"
+//
+//                            // If sign in fails, display a message to the user.
+//                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
+//                            try {
+//                                throw task.exception!!
+//                            } catch (weakPassword: FirebaseAuthWeakPasswordException) {
+//                                //Log.d(TAG, "onComplete: weak_password")
+//                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
+//                            } catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
+//                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
+//                            } catch (existEmail: FirebaseAuthUserCollisionException) {
+//                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT).show()
+//                            } catch (e: Exception) {
+//                                Toast.makeText(activity, "Error al crear usuario, intente más tarde...", Toast.LENGTH_SHORT).show()
+//                            }
+//                            // if user enters wrong email.
+//                            // if user enters wrong password.
+//                            //updateUI(null)
+//                        }
+//                    }
+//                })
             }
         }
     }

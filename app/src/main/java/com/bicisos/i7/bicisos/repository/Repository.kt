@@ -103,5 +103,8 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
         )
     }
 
+    suspend fun getTalleres() = apiRequest {
+        api.getTalleres()
+    }
 
 }

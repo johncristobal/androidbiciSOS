@@ -21,12 +21,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bicisos.i7.bicisos.Adapters.CustomInfoWindowGoogleMap
 import com.bicisos.i7.bicisos.Api.ApiClient
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.model.Taller
+import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.service.ForegroundOnlyLocationService
 import com.bicisos.i7.bicisos.utils.toText
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -38,6 +41,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
@@ -59,13 +66,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
     private var justOne: Boolean = false
     private var mapaListo: Boolean = false
-    private lateinit var talleres : List<Taller>
-    //private lateinit var bikers : List<Biker>
-    private var hashMapMarker = HashMap<String, Marker>()
     private var listener: OnFragmentMapListener? = null
-
-    public var flagReadMapa = false
-    //private var cancellationTokenSource = CancellationTokenSource()
 
     private var locationManager : LocationManager? = null
 
@@ -82,6 +83,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     private var TAG = "fragmentMap"
     private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
+
     private inner class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
@@ -93,8 +98,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                 Log.w("location.....", location.toText())
                 lastLocation = location
                 mapaListo = true
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                if (!justOne) {
+                    justOne = true
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+                }
             }
         }
     }
@@ -145,6 +153,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         listener = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -155,7 +168,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
         locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager?
 
-        val mapFragment = getChildFragmentManager().findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         foregroundOnlyBroadcastReceiver = ForegroundOnlyBroadcastReceiver()
@@ -193,11 +206,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 //        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-    }
-
     override fun onStart() {
         super.onStart()
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -221,19 +229,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                 "Ve a configuraciones para activar ubicación",
                 Toast.LENGTH_LONG
             ).show()
-//            Snackbar.make(
-//                findViewById(R.id.activity_main),
-//                R.string.permission_rationale,
-//                Snackbar.LENGTH_LONG
-//            )
-//                .setAction(R.string.ok) {
-//                    // Request permission
-//                    requestPermissions(
-//                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-//                        REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
-//                    )
-//                }
-//                .show()
+
         } else {
             Log.d(TAG, "Request foreground only permission")
             requestPermissions(
@@ -271,27 +267,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                     // Permission denied.
                     Toast.makeText(requireActivity(), "Permiso denegado.", Toast.LENGTH_SHORT)
                         .show()
-//                    updateButtonState(false)
-//
-//                    Snackbar.make(
-//                        findViewById(R.id.activity_main),
-//                        R.string.permission_denied_explanation,
-//                        Snackbar.LENGTH_LONG
-//                    )
-//                        .setAction(R.string.settings) {
-//                            // Build intent that displays the App settings screen.
-//                            val intent = Intent()
-//                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-//                            val uri = Uri.fromParts(
-//                                "package",
-//                                BuildConfig.APPLICATION_ID,
-//                                null
-//                            )
-//                            intent.data = uri
-//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                            startActivity(intent)
-//                        }
-//                        .show()
                 }
             }
         }
@@ -386,49 +361,35 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         })
 
         //mMap.setOnMarkerClickListener(activity!!)
+        //listenerReports()
         setTalleres()
-        listenerReports()
         //listenerBikers()
     }
 
     private fun setTalleres(){
-        /*
-            Anko
-            async task, it's so good!!!
-        */
-        doAsync {
-            val result = ApiClient().callTalleres()
-            uiThread {
+        val repo = Repository(ServiceApi())
+        scopeIO.launch {
+            val talleres = repo.getTalleres()
+            scopeMainThread.launch {
+                talleres.talleres.map { taller ->
+                    //val datos = taller.coordinates.split(",")
+                    val lon = taller.latitud
+                    val lat = taller.longitud
 
-                if (result != null) {
+                    val height = 50
+                    val width = 50
 
-                    Log.e("main", result!![0].coordinates)
-                    talleres = result
+                    val bitmapdraw = getResources().getDrawable(R.drawable.llaveicono) as BitmapDrawable
+                    val b = bitmapdraw.getBitmap()
+                    val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
-                    result.forEach { taller ->
-                        val datos = taller.coordinates.split(",")
-                        val lat = datos[1]
-                        val lon = datos[0]
-
-                        val height = 50
-                        val width = 50
-                        val bitmapdraw = getResources().getDrawable(R.drawable.llaveicono) as BitmapDrawable
-                        val b = bitmapdraw.getBitmap()
-                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-
-                        mMap.addMarker(
-                            MarkerOptions()
-                                .position(LatLng(lat.toDouble(), lon.toDouble()))
-                                .title(taller.name)
-                                .snippet("Da click para ver ruta...")
-                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                        ).showInfoWindow()
-
-
-
-                        //mark.tag
-                        //.anchor(0.5f, 1F));
-                    }
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(lat.toDouble(), lon.toDouble()))
+                            .title(taller.nombre)
+                            .snippet("Da click para ver ruta...")
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    )//.showInfoWindow()
                 }
             }
         }
@@ -478,8 +439,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
 
                     val height = 100
                     val width = 100
-                    val bitmapdraw = getResources().getDrawable(mipmap) as BitmapDrawable
-                    val b = bitmapdraw.getBitmap()
+                    val bitmapdraw = resources.getDrawable(mipmap) as BitmapDrawable
+                    val b = bitmapdraw.bitmap
                     val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
 
                     /*val mark = mMap.addMarker(
@@ -541,29 +502,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         try {
             mMap.isMyLocationEnabled = true
 
-    //        if (!locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-    //            buildAlertMessageNoGps()
-    //        }
-    //
-    //        mMap.isMyLocationEnabled = true
-    //
-    //        val currentLocationTask: Task<Location> = fusedLocationClient.getCurrentLocation(
-    //            PRIORITY_HIGH_ACCURACY,
-    //            cancellationTokenSource.token
-    //        )
-    //
-    //        currentLocationTask.addOnCompleteListener { task: Task<Location> ->
-    //            if (task.isSuccessful && task.result != null) {
-    //            val location = task.result
-    //            mapaListo = true
-    //            lastLocation = location
-    //            val currentLatLng = LatLng(location.latitude, location.longitude)
-    //            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
-    //            } else {
-    //                Log.w("Error location", "getLastLocation:exception", task.exception)
-    //            }
-    //        }
-
             mMap.setOnInfoWindowClickListener {
 
                 val tag = it.tag
@@ -575,20 +513,20 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                     //get direcion
                     val geocoder = Geocoder(requireActivity(), Locale.getDefault())
                     val addresses = geocoder.getFromLocation(
-                        it!!.position.latitude,
-                        it!!.position.longitude,
+                        it.position.latitude,
+                        it.position.longitude,
                         1
-                    ); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
                     val address = addresses.get(0)
-                        .getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                        .getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
                     val uri = String.format(
                         Locale.ENGLISH,
                         "http://maps.google.com/maps?daddr=%f,%f",
-                        it!!.position.latitude,
-                        it!!.position.longitude
-                    );
+                        it.position.latitude,
+                        it.position.longitude
+                    )
                     //var uri = String.format(Locale.ENGLISH, "google.navigation:q=%s", address);
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
                     intent.setPackage("com.google.android.apps.maps")
@@ -611,126 +549,32 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
             )
 
             if (!success) {
-                Log.e("TAG", "Style parsing failed.");
+                Log.e("TAG", "Style parsing failed.")
             }else{
-                Log.e("TAG", "Style parsing success.");
+                Log.e("TAG", "Style parsing success.")
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("tag", "Can't find style. Error: ", e);
+            Log.e("tag", "Can't find style. Error: ", e)
         }
     }
 
     fun buildAlertMessageNoGps(){
-        val builder = AlertDialog.Builder(requireActivity());
+        val builder = AlertDialog.Builder(requireActivity())
         builder.setMessage("¿Deseas habilitar tu ubicacion para mejorar el funcionamiento de la app?")
             .setCancelable(false)
-            .setPositiveButton("Si", { dialog, which ->
+            .setPositiveButton("Si") { dialog, which ->
                 startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            })
-            .setNegativeButton("No", { dialog, which ->
+            }
+            .setNegativeButton("No") { dialog, which ->
                 dialog.cancel()
-            })
+            }
 
-        val alert = builder.create();
-        alert.show();
+        val alert = builder.create()
+        alert.show()
     }
 
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//
-//        when(requestCode){
-//            LOCATION_PERMISSION_REQUEST_CODE -> {
-//                if(!grantResults.isEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED){
-//                    Toast.makeText(requireActivity(),"Permiso denegado.",Toast.LENGTH_SHORT).show()
-//                }else{
-//                    setUpMap()
-//                }
-//            }
-//        }
-//    }
-
-
-
-//    override fun onLocationChanged(location: Location?) {
-//
-//        Log.e("location", location!!.latitude.toString())
-//        lastLocation = location
-//        listener?.onFragmentInteractionMap(location.latitude, location.longitude, null, "0")
-//
-//    }
-//
-//    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-//
-//    }
-//
-//    override fun onProviderEnabled(provider: String?) {
-//    }
-//
-//    override fun onProviderDisabled(provider: String?) {
-//
-//    }
-
-
-
-    //al abrir app, se manda ubicacion con el bike
-//    private fun initListenerBike() {
-//        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
-//        val sesion = prefs.getString("sesion","null")
-//        if (sesion!!.equals("1")){
-//            val name = prefs.getString("nombre", "null")
-//            val bici = prefs.getInt("bici", -1)
-//
-//            //primero enviar mi bike para que este en fierbase
-//            //si y solo si estoy logueado
-//            //mando nombre, bike, ubication
-//            val database = FirebaseDatabase.getInstance()
-//            val bikersRef = database.getReference("bikers")
-//            val lat = lastLocation.latitude
-//            val long = lastLocation.longitude
-//
-//            val key = bikersRef.push().key
-//            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
-//                prefs.edit().putString("enviado", "1").apply()
-//                prefs.edit().putString("keySelf", key).apply()
-//                //listenerBikers()
-//            }.addOnFailureListener {
-//                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-//            }
-//        }else{
-//            //iniicar sesion
-//        }
-//    }
-
-    //send location bike
-//    private fun initListenerBikeOnce() {
-//        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
-//        val sesion = prefs.getString("sesion","null")
-//        if (sesion!!.equals("1")){
-//            val name = prefs.getString("nombre", "null")
-//            val bici = prefs.getInt("bici", -1)
-//
-//            //primero enviar mi bike para que este en fierbase
-//            //si y solo si estoy logueado
-//            //mando nombre, bike, ubication
-//            val database = FirebaseDatabase.getInstance()
-//            val bikersRef = database.getReference("bikers")
-//            val lat = lastLocation.latitude
-//            val long = lastLocation.longitude
-//
-//            val key = bikersRef.push().key
-//            bikersRef.child(key!!).setValue(Biker(key, name!!, bici, lat, long)).addOnSuccessListener {
-//                prefs.edit().putString("enviado", "1").apply()
-//                prefs.edit().putString("keySelf", key).apply()
-//            }.addOnFailureListener {
-//                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-//            }
-//        }else{
-//            //no envia nada
-//        }
-//    }
-
-    public fun reloadData(){
+    fun reloadData(){
         Log.w("tag", "info from main")
 
         listenerReports()

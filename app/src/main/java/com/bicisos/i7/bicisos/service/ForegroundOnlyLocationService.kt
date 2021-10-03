@@ -111,11 +111,11 @@ class ForegroundOnlyLocationService : Service() {
 
                 // Updates notification content if this service is running as a foreground
                 // service.
-                if (serviceRunningInForeground) {
-                    notificationManager.notify(
-                        NOTIFICATION_ID,
-                        generateNotification(currentLocation))
-                }
+//                if (serviceRunningInForeground) {
+//                    notificationManager.notify(
+//                        NOTIFICATION_ID,
+//                        generateNotification(currentLocation))
+//                }
             }
         }
 
@@ -164,12 +164,12 @@ class ForegroundOnlyLocationService : Service() {
         // to maintain the 'while-in-use' label.
         // NOTE: If this method is called due to a configuration change in MainActivity,
         // we do nothing.
-        if (!configurationChange && SharedPreferenceUtil.getLocationTrackingPref(this)) {
-            Log.d(TAG, "Start foreground service")
-            val notification = generateNotification(currentLocation)
-            startForeground(NOTIFICATION_ID, notification)
-            serviceRunningInForeground = true
-        }
+//        if (!configurationChange && SharedPreferenceUtil.getLocationTrackingPref(this)) {
+//            Log.d(TAG, "Start foreground service")
+//            val notification = generateNotification(currentLocation)
+//            startForeground(NOTIFICATION_ID, notification)
+//            serviceRunningInForeground = true
+//        }
 
         // Ensures onRebind() is called if MainActivity (client) rebinds.
         return true
