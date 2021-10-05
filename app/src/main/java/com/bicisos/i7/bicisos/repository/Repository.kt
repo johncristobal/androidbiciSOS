@@ -4,6 +4,8 @@ import android.util.Log
 import com.bicisos.i7.bicisos.Api.SafeRequest
 import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.model.ContrataModel
+import com.bicisos.i7.bicisos.model.LoginBicis
+import com.bicisos.i7.bicisos.model.RegisterBicis
 import com.bicisos.i7.bicisos.model.polizas.Login
 import com.bicisos.i7.bicisos.utils.Constants
 import com.bicisos.i7.bicisos.utils.State
@@ -78,6 +80,18 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
 
     suspend fun loginGeneral(phone: String) = apiRequest {
         api.loginGeneralContract(phone)
+    }
+
+    suspend fun loginBicis(body: LoginBicis) = apiRequest {
+        api.loginBicis(body)
+    }
+
+    suspend fun registerBicis(body: RegisterBicis) = apiRequest {
+        api.registerBicis(body)
+    }
+
+    suspend fun loginGoogle(body: RegisterBicis) = apiRequest {
+        api.loginGoogle(body)
     }
 
     suspend fun loginFolioPoliza(body: Login) = apiRequest {

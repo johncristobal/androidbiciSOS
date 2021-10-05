@@ -19,11 +19,20 @@ import com.google.firebase.auth.AuthResult
 import androidx.annotation.NonNull
 import android.R.attr.password
 import android.util.Log
+import com.bicisos.i7.bicisos.Api.ServiceApi
+import com.bicisos.i7.bicisos.model.RegisterBicis
+import com.bicisos.i7.bicisos.repository.Repository
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
 //import jdk.nashorn.internal.runtime.ECMAException.getException
 
 
@@ -48,6 +57,10 @@ class RegisterFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListenerRegister? = null
+
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,14 +91,43 @@ class RegisterFragment : Fragment() {
             val name = editTextName.text.toString()
             val mail = editTextCorreo.text.toString()
             val pass = editTextPass.text.toString()
-            val pas2 = editTextPassConfirm.text.toString()
 
             if(!validarDatos()){
                 progressBarRegister.visibility = View.INVISIBLE
                 buttonIngresarRegistro.text = "Registrarse"
             }
             else {
-                //TODO: register node js
+                val repo = Repository(ServiceApi())
+                scopeIO.launch {
+                    try {
+                        val user = repo.registerBicis(RegisterBicis(
+                            name, mail, pass, "123"
+                        ))
+                        scopeMainThread.launch {
+                            progressBarRegister.visibility = View.INVISIBLE
+                            buttonIngresarRegistro.text = "Registrarse"
+
+                            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                            editor.putString("sesion", "1")
+                            editor.putString("reloadData", "1")
+                            editor.putString("nombre", user.user.nombre)
+                            editor.putString("user", Gson().toJson(user))
+                            editor.apply()
+
+                            listener?.onFragmentInteractionRegister("login")
+                        }
+                    }catch (e: Exception){
+                        scopeMainThread.launch {
+                            progressBarRegister.visibility = View.INVISIBLE
+                            buttonIngresarRegistro.text = "Registrarse"
+                            Toast.makeText(
+                                activity,
+                                e.localizedMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
 //                val mAuth = FirebaseAuth.getInstance()
 //                mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(object: OnCompleteListener<AuthResult>{
 //                    override fun onComplete(task: Task<AuthResult>) {

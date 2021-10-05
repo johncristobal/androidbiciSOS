@@ -24,8 +24,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Api.ApiClient
+import com.bicisos.i7.bicisos.Api.ServiceApi
 
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.LoginBicis
+import com.bicisos.i7.bicisos.model.RegisterBicis
+import com.bicisos.i7.bicisos.model.UserResponse
+import com.bicisos.i7.bicisos.repository.Repository
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -43,7 +48,12 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*
@@ -72,6 +82,10 @@ class LoginFragment : Fragment() {
     lateinit var mGoogleSignInOptions: GoogleSignInOptions
 
     private var listener : Datalistener? = null
+
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -219,55 +233,37 @@ class LoginFragment : Fragment() {
                 progressBarIngresar.visibility = View.VISIBLE
                 buttonIngresar.visibility = View.GONE
 
-                //TODO: login con pass mail nodejs backend
+                val repo = Repository(ServiceApi())
+                scopeIO.launch {
+                    try{
+                        val user = repo.loginBicis(LoginBicis(
+                            mail, pass, "123"
+                        ))
+                        scopeMainThread.launch {
+                            progressBarIngresar.visibility = View.INVISIBLE
+                            buttonIngresar.visibility = View.VISIBLE
 
-//                val mAuth = FirebaseAuth.getInstance()
-//                mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(object : OnCompleteListener<AuthResult> {
-//
-//                    override fun onComplete(task: Task<AuthResult>) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d("TAG", "createUserWithEmail:success")
-//                            val user = mAuth.currentUser
-//                            val editor =
-//                                activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-//                                    .edit()
-//                            editor.putString("sesion", "1")
-//                            editor.putString("reloadData", "1")
-//                            editor.putString("nombre", user!!.displayName)
-//                            editor.apply()
-//
-//                            listener!!.sendActivity("login")
-//                            //updateUI(user)
-//                        } else {
-//                            progressBarIngresar.visibility = View.INVISIBLE
-//                            buttonIngresar.visibility = View.VISIBLE
-//
-//                            // If sign in fails, display a message to the user.
-//                            Log.w("TAG", "createUserWithEmail:failure", task.getException())
-//                            try {
-//                                throw task.exception!!
-//                            } /*catch (weakPassword: FirebaseAuthWeakPasswordException) {
-//                                //Log.d(TAG, "onComplete: weak_password")
-//                                Toast.makeText(activity, "La contraseña es incorrecta....", Toast.LENGTH_SHORT).show()
-//                            }*/ /*catch (malformedEmail: FirebaseAuthInvalidCredentialsException) {
-//                                Toast.makeText(activity, "Validar correo....", Toast.LENGTH_SHORT).show()
-//                            }*/ catch (existEmail: FirebaseAuthUserCollisionException) {
-//                                Toast.makeText(activity, "El correo ya existe, inicia sesión...", Toast.LENGTH_SHORT)
-//                                    .show()
-//                            } catch (e: Exception) {
-//                                Toast.makeText(
-//                                    activity,
-//                                    "Error al crear usuario, intente más tarde...",
-//                                    Toast.LENGTH_SHORT
-//                                ).show()
-//                            }
-//                            // if user enters wrong email.
-//                            // if user enters wrong password.
-//                            //updateUI(null)
-//                        }
-//                    }
-//                })
+                            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                            editor.putString("sesion", "1")
+                            editor.putString("reloadData", "1")
+                            editor.putString("nombre", user.user.nombre)
+                            editor.putString("user", Gson().toJson(user))
+                            editor.apply()
+
+                            listener!!.sendActivity("login")
+                        }
+                    }catch(e: Exception){
+                        scopeMainThread.launch {
+                            progressBarIngresar.visibility = View.INVISIBLE
+                            buttonIngresar.visibility = View.VISIBLE
+                            Toast.makeText(
+                                activity,
+                                e.localizedMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
             }
         }
 
@@ -326,10 +322,39 @@ class LoginFragment : Fragment() {
     }
 
     //IxaVxtokczUwYHRUvcsO6Zsi2g23
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+    private fun serverAuthWithGoogle(acct: GoogleSignInAccount) {
+        val repo = Repository(ServiceApi())
+        scopeIO.launch {
+            try{
+                val user = repo.loginGoogle(RegisterBicis(
+                    acct.displayName,
+                    acct.email,
+                    ":P",
+                    "123"
+                ))
+                scopeMainThread.launch {
+                    progressBarGoogle!!.visibility = View.INVISIBLE
+                    Googlebutton.visibility = View.VISIBLE
+                    Googlebutton!!.text = "Google"
 
-        //TODO: login gogole nodejsBackend
+                    val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+                    editor.putString("sesion","1")
+                    editor.putString("reloadData","1")
+                    editor.putString("nombre", user.user.nombre)
+                    editor.putString("user", Gson().toJson(user))
+                    editor.apply()
+
+                    listener!!.sendActivity("login")
+                }
+            }catch(e: Exception){
+                scopeMainThread.launch {
+                    progressBarGoogle!!.visibility = View.INVISIBLE
+                    Googlebutton.visibility = View.VISIBLE
+                    Googlebutton!!.text = "Google"
+                    Toast.makeText(requireActivity(), e.localizedMessage, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
 
 //        auth.signInWithCredential(credential).addOnCompleteListener {
 //            if (it.isSuccessful) {
@@ -369,7 +394,7 @@ class LoginFragment : Fragment() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account!!)
+                serverAuthWithGoogle(account!!)
             } catch (e: ApiException) {
                 progressBarGoogle!!.visibility = View.INVISIBLE
                 Googlebutton.visibility = View.VISIBLE

@@ -1,9 +1,6 @@
 package com.bicisos.i7.bicisos.Api
 
-import com.bicisos.i7.bicisos.model.ContractResp
-import com.bicisos.i7.bicisos.model.ContractResponse
-import com.bicisos.i7.bicisos.model.PolizasResponse
-import com.bicisos.i7.bicisos.model.TallerResponse
+import com.bicisos.i7.bicisos.model.*
 import com.bicisos.i7.bicisos.model.polizas.Login
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -43,6 +40,21 @@ interface ServiceApi {
         @Header("sos-token") authorization: String?,
         @Body body: Login,
     ): Response<ContractResponse>
+
+    @POST("/gttapi/auth/login")
+    suspend fun loginBicis(
+        @Body body: LoginBicis,
+    ): Response<UserResponse>
+
+    @POST("/gttapi/auth/register")
+    suspend fun registerBicis(
+        @Body body: RegisterBicis,
+    ): Response<UserResponse>
+
+    @POST("/gttapi/auth/login/google")
+    suspend fun loginGoogle(
+        @Body body: RegisterBicis,
+    ): Response<UserResponse>
 
     companion object {
 

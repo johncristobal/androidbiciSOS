@@ -25,9 +25,8 @@ class GraphActivity : AppCompatActivity() {
         - cuenta ios???
 
     *** server nodeJS
-        * Login google / facebook / mail&pass node.js
-            - igual con pass y correo (registro)
-            - jwa token
+        * logout - quiza poner el usuario en active:false al cerrar sesion
+        * al login again - si ya existe, solo ponerlo de nuevo en true
         * contacto msg
 
     *** app android
