@@ -24,9 +24,15 @@ class GraphActivity : AppCompatActivity() {
         - mvvm
         - cuenta ios???
 
+    *** reportes bicis
+        * crearemos services para subir reportes (solo si login ojo)
+        * ojo con reporte de bici robadas - subir fotos reducidas
+        * service para visualizar reportes bicis robadas
+        * service para recuperar reportes para mostrar mapa
+
     *** server nodeJS
-        * logout - quiza poner el usuario en active:false al cerrar sesion
         * al login again - si ya existe, solo ponerlo de nuevo en true
+        * logout - quiza poner el usuario en active:false al cerrar sesion
         * contacto msg
 
     *** app android
