@@ -7,6 +7,7 @@ import com.bicisos.i7.bicisos.model.ContrataModel
 import com.bicisos.i7.bicisos.model.LoginBicis
 import com.bicisos.i7.bicisos.model.RegisterBicis
 import com.bicisos.i7.bicisos.model.polizas.Login
+import com.bicisos.i7.bicisos.model.reportes.Reporte
 import com.bicisos.i7.bicisos.utils.Constants
 import com.bicisos.i7.bicisos.utils.State
 import com.google.firebase.auth.ktx.auth
@@ -119,6 +120,15 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
 
     suspend fun getTalleres() = apiRequest {
         api.getTalleres()
+    }
+
+    suspend fun getReportes() = apiRequest {
+        api.getReportes()
+    }
+
+// ============ Reporte ==========
+    suspend fun reporteBici(body: Reporte) = apiRequest {
+        api.reporteBici(body)
     }
 
 }

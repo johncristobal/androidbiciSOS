@@ -135,6 +135,7 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
             // Get new FCM registration token
             val token = task.result
+            Log.w("TAG SOS", token)
         })
 
         alertAction.setOnClickListener {
@@ -430,23 +431,6 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
 
         this.longitud = longitud
         this.latitud = latitud
-
-//        if(opt.equals("menu")){
-//            openMenu.visibility = View.INVISIBLE
-//        }else {
-//            val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-//            val sesion = prefs.getString("sesion", "null")
-//            if (sesion!!.equals("1")) {
-//                openMenu.visibility = View.INVISIBLE
-//                val manager = supportFragmentManager.beginTransaction()
-//                manager.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up)
-//                manager.addSharedElement(sharedElement, "alert")
-//                alertasFrag = AlertaFragment.newInstance(latitud, longitud, prefs.getString("name", "null")!!)
-//                manager.add(R.id.containerAlertas, alertasFrag).commit()
-//            } else {
-//                alertaIniciarSesion()
-//            }
-//        }
     }
 
     fun alertaIniciarSesion(){

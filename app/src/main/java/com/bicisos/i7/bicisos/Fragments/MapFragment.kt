@@ -84,8 +84,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     private val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
 
     private val job = Job()
+    private val jobReportes = Job()
     private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
     private val scopeIO = CoroutineScope(job + Dispatchers.IO)
+    private val scopeMainThreadReportes = CoroutineScope(jobReportes + Dispatchers.Main)
+    private val scopeIOReportes = CoroutineScope(jobReportes + Dispatchers.IO)
+
+    val repo = Repository(ServiceApi())
 
     private inner class ForegroundOnlyBroadcastReceiver : BroadcastReceiver() {
 
@@ -98,6 +103,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                 Log.w("location.....", location.toText())
                 lastLocation = location
                 mapaListo = true
+                listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,null,"menu")
                 if (!justOne) {
                     justOne = true
                     val currentLatLng = LatLng(location.latitude, location.longitude)
@@ -156,6 +162,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
+        jobReportes.cancel()
     }
 
     override fun onCreateView(
@@ -253,8 +260,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         when (requestCode) {
             REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
                 grantResults.isEmpty() ->
-                    // If user interaction was interrupted, the permission request
-                    // is cancelled and you receive empty arrays.
                     Log.d(TAG, "User interaction was cancelled.")
 
                 grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
@@ -343,8 +348,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                             .replace(R.id.containerAlertas, detailtFrag)
                             .commit()
 
-                        //listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,alertAction,"menu")
-
                         //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
                         return true
                     } else {
@@ -361,13 +364,13 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         })
 
         //mMap.setOnMarkerClickListener(activity!!)
-        //listenerReports()
+        listenerReports()
         setTalleres()
         //listenerBikers()
     }
 
     private fun setTalleres(){
-        val repo = Repository(ServiceApi())
+
         scopeIO.launch {
             val talleres = repo.getTalleres()
             scopeMainThread.launch {
@@ -396,98 +399,51 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
     }
 
     private fun listenerReports(){
-        //Log.w("facebbbok", AccessToken.getCurrentAccessToken().token)
-        val reference = FirebaseDatabase.getInstance().getReference("reportes")
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.e("error", p0.message)
-            }
+        val prefs = requireActivity().getSharedPreferences(
+            getString(R.string.preferences),
+            Context.MODE_PRIVATE
+        )
+        if (prefs.getString("sesion","null").equals("1")) {
+            scopeIOReportes.launch {
+                val reportes = repo.getReportes()
+                scopeMainThreadReportes.launch {
+                    reportes.reportes.forEach {
 
-            override fun onDataChange(p0: DataSnapshot) {
+                        Log.e("reoprete", it.description)
+                        val bici = it.typeReport
+                        var mipmap = 0
 
-                reportes.clear()
-                val newIdS = ArrayList<String>()
-
-                p0.children.mapNotNullTo(reportes) {
-                    it.getValue<Report>(Report::class.java)
-                }
-
-                reportes.forEach {
-
-                    //nueva lista de strings con los que esten vivos
-                    newIdS.add(it.id)
-
-                    //punto nuevo
-                    //if(!stringIds.contains(it.id)) {
-
-                    //    stringIds.add(it.id)
-
-                    //if (!it.id.equals(keySelf) && !keySelf!!.equals("null")) {
-                    //despues de enviar, recupero bikes activas...
-                    //agregar marcadores al mapa con los bikers
-                    val bici = it.tipo
-                    var mipmap = 0
-
-                    when (bici) {
-                        0 -> mipmap = R.mipmap.bicia
-                        1 -> mipmap = R.drawable.alertafinal
-                        2 -> mipmap = R.drawable.averiaicon
-                        3 -> mipmap = R.drawable.cicloviaicon
-                        4 -> mipmap = R.drawable.apoyoicon
-                        5 -> mipmap = R.drawable.panic
-                    }
-
-                    val height = 100
-                    val width = 100
-                    val bitmapdraw = resources.getDrawable(mipmap) as BitmapDrawable
-                    val b = bitmapdraw.bitmap
-                    val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
-
-                    /*val mark = mMap.addMarker(
-                        MarkerOptions()
-                            .position(LatLng(it.latitude, it.longitude))
-                            .title(it.name)
-                            //.snippet("Population: 4,627,300")
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                    )*/
-
-                    val markerOptions = MarkerOptions()
-                    markerOptions.position(LatLng(it.latitude, it.longitude))
-                        .title(it.name)
-                        //.snippet("I am custom Location Marker.")
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-
-                    /*val info = InfoWindowData("Developine", "Islamabad Pakistan",
-                        "hammadtariq.me@gmail.com",
-                        "92 333 8456598",
-                        "8 AM to 6 PM",
-                        "0404"
-                    )*/
-
-                    val mark = mMap.addMarker(markerOptions)
-                    mark.tag = it
-
-                    //hashMapMarker.put(it.id, mark)
-                    //}
-                    //}
-                }
-
-                //los puntos que se eliminaran
-                /*val justIds = stringIds.minus(newIdS)
-                var keyHere = ""
-                if(hashMapMarker.size > 0) {
-                    for ((key, value) in hashMapMarker) {
-                        if (justIds.contains(key)) {
-                            val marker = hashMapMarker.get(key)
-                            marker!!.remove()
-                            keyHere = key
-                            stringIds.remove(key)
+                        when (bici) {
+                            "0" -> mipmap = R.mipmap.bicia
+                            "1" -> mipmap = R.drawable.alertafinal
+                            "2" -> mipmap = R.drawable.averiaicon
+                            "3" -> mipmap = R.drawable.cicloviaicon
+                            "4" -> mipmap = R.drawable.apoyoicon
+                            "5" -> mipmap = R.drawable.panic
                         }
+
+                        val height = 100
+                        val width = 100
+                        val bitmapdraw = resources.getDrawable(mipmap) as BitmapDrawable
+                        val b = bitmapdraw.bitmap
+                        val smallMarker = Bitmap.createScaledBitmap(b, width, height, false)
+
+                        val markerOptions = MarkerOptions()
+                        markerOptions.position(
+                            LatLng(
+                                it.latitude.toDouble(),
+                                it.longitude.toDouble()
+                            )
+                        )
+                            .title(it.description)
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+
+                        val mark = mMap.addMarker(markerOptions)
+                        mark.tag = it
                     }
-                    hashMapMarker.remove(keyHere)
-                }*/
+                }
             }
-        })
+        }
     }
 
     private fun setUpMap() {
