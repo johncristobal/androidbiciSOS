@@ -66,7 +66,7 @@ class DashboardGttActivity : AppCompatActivity() {
                     val prefs = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
                     val alertbuilder = AlertDialog.Builder(this)
                     alertbuilder.setTitle("Atención")
-                    alertbuilder.setMessage("¿Deseas cerrar sesión de GTT Seguros?")
+                    alertbuilder.setMessage("¿Deseas cerrar sesión de GTT asistencia?")
                     alertbuilder.setPositiveButton("Si") { _, i ->
 
                         prefs.edit().putString("gttseguros", "0").apply()

@@ -26,6 +26,11 @@ class GraphActivity : AppCompatActivity() {
 
     *** reportes bicis
         * crearemos services para subir reportes (solo si login ojo)
+           - robo bici 1
+           - averia 2
+           - ciclovia 3
+           - apoyo 4
+           - panic 5
         * ojo con reporte de bici robadas - subir fotos reducidas
         * service para visualizar reportes bicis robadas
         * service para recuperar reportes para mostrar mapa
