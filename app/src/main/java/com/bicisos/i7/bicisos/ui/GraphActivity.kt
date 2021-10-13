@@ -25,15 +25,15 @@ class GraphActivity : AppCompatActivity() {
         - cuenta ios???
 
     *** reportes bicis
+        *** generalizar el rollo de las fotos, solo usar el fragment y ya
         * crearemos services para subir reportes (solo si login ojo)
            - robo bici 1
            - averia 2
            - ciclovia 3
            - apoyo 4
            - panic 5
-        * ojo con reporte de bici robadas - subir fotos reducidas
+
         * service para visualizar reportes bicis robadas
-        * service para recuperar reportes para mostrar mapa
 
     *** server nodeJS
         * al login again - si ya existe, solo ponerlo de nuevo en true
