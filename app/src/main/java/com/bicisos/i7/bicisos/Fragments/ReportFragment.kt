@@ -18,19 +18,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Activities.CameraPhotosActivity
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.UserResponse
+import com.bicisos.i7.bicisos.model.reportes.Reporte
+import com.bicisos.i7.bicisos.model.reportes.Robery
+import com.bicisos.i7.bicisos.repository.Repository
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_report.*
 import kotlinx.android.synthetic.main.photos.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.text.SimpleDateFormat
@@ -69,6 +83,10 @@ class ReportFragment : BottomSheetDialogFragment() {
     lateinit var imageTempView : ImageView
     var index: Int = -1
 
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -76,7 +94,7 @@ class ReportFragment : BottomSheetDialogFragment() {
             longitude = it.getDouble(ARG_PARAM2)
             name = it.getString(ARG_PARAM3)
         }
-        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -87,7 +105,7 @@ class ReportFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val prefs = activity!!.getSharedPreferences(activity!!.getString(R.string.preferences), Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences(requireActivity().getString(R.string.preferences), Context.MODE_PRIVATE)
         val name = prefs.getString("nombre","null")
         if (!name!!.equals("null")) {
             reportNombre.setText(name)
@@ -102,17 +120,6 @@ class ReportFragment : BottomSheetDialogFragment() {
         }
 
         buttonCancelar.setOnClickListener{
-
-//            val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-//            val fromReporte = preferences.getString("fromReporte","null")
-//
-//            if (fromReporte.equals("null")){
-//
-//            }else if (fromReporte.equals("reporteActivity")){
-//                listener?.onFragmentInteraction("")
-//            }else{
-//                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
-//            }
             dismiss()
         }
 
@@ -123,76 +130,149 @@ class ReportFragment : BottomSheetDialogFragment() {
             editor.putString("desc",ReporteDesc.text.toString())
             editor.apply()
 
-            val fecha = Date()
-            val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-            val dateFinal = stringfecha.format(fecha)
-
-            val database = Firebase.database
-            val reportesRef = database.getReference("reportes")
+            val user = prefs.getString("user", "null")
+            val iduser = Gson().fromJson(user, UserResponse::class.java).user.id
 
             val set = prefs.getString("photos", null)
-            var fotos = ""
+            var arrayPhotos : Array<String> = arrayOf("x","x","x","x",)
+            var fileCompleta : File? = null
+            var fileManubrio : File? = null
+            var fileSillin : File? = null
+            var filePedal : File? = null
+
             if (set != null)
             {
                 val images = set.split(",").toCollection(ArrayList())
                 var i=0
                 for(item in images){
                     if(item.length > 1){
-                        fotos += "bici_"+i+".png,"
+                        when(i){
+                            0 -> { fileCompleta = File(item); arrayPhotos[0] = "lateral" }
+                            1 -> { fileManubrio = File(item); arrayPhotos[1] = "manubrio" }
+                            2 -> { fileSillin = File(item); arrayPhotos[2] = "sillin" }
+                            3 -> { filePedal = File(item); arrayPhotos[3] = "pedal" }
+                        }
                         i++
                     }
                 }
             }else{
-                fotos = ""
+                Toast.makeText(requireContext(), "No podemos reportar sin fotos", Toast.LENGTH_SHORT).show()
             }
 
-//            for(i in 0..3){
-//                val fotoTemp = prefs.getString("bici"+i,"null")
-//                //val temp = File(directory,"bici"+i+".png")
-//                val temp = File(fotoTemp)
-//                if(temp.exists()){
-//                    //reportesStRef!!.child("bici_"+i+".png")
-//                    fotos += "bici_"+i+".png,"
-//                }
-//            }
-
-            val key = reportesRef.push().key
-            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos,1,latitude!!,longitude!!)).addOnSuccessListener {
-                prefs.edit().putString("reportado","1").apply()
-                Log.d("success","Reporte hecho")
-            }.addOnFailureListener {
-                Log.e("error","No se pudo subir archivo: "+it.stackTrace)
+            val arrayFiltered = arrayPhotos.filter { e ->
+                !e.equals("x")
             }
 
-            val storage = FirebaseStorage.getInstance().getReference()
-            val reportesStRef: StorageReference? = storage.child("reportes").child(key)
+            val reporte = Reporte(
+                iduser,
+                "1",
+                latitude!!.toString(),
+                longitude!!.toString(),
+                ReporteDesc.text.toString(),
+                Robery(
+                    ReporteSerie.text.toString(),
+                    arrayFiltered.toList()
+                )
+            )
 
-            if (set != null)
-            {
-                val images = set.split(",").toCollection(ArrayList())
-                var i = 0
-                for(item in images){
-                    val fotoTemp = item//prefs.getString("bici"+i,"null")
-                    //val temp = File(directory,"bici"+i+".png")
-                    val temp = File(fotoTemp)
-                    if(temp.exists()){
-                        //reportesStRef!!.child("bici_"+i+".png")
-                        val stream = FileInputStream(File(temp.absolutePath))
+            val dataReporte = Gson().toJson(reporte)
+            val bodyData = RequestBody.create(MultipartBody.FORM, dataReporte)
+            val repo = Repository(ServiceApi())
 
-                        val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
-                        taski.addOnFailureListener{
-                            Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
-                        }.addOnSuccessListener {
+            scopeIO.launch {
+                try {
+                    var filePartLateral : MultipartBody.Part? = null
+                    var filePartManubrio : MultipartBody.Part? = null
+                    var filePartSillin : MultipartBody.Part? = null
+                    var filePartPedal : MultipartBody.Part? = null
 
-                        }
+                    if(fileCompleta != null){
+                        filePartLateral = MultipartBody.Part.createFormData(
+                            "lateral",
+                            fileCompleta.name,
+                            RequestBody.create(
+                                MediaType.parse("image/*"),fileCompleta)
+                        )
                     }
-                    i++
+                    if(fileManubrio != null){
+                        filePartManubrio = MultipartBody.Part.createFormData(
+                            "manubrio",
+                            fileManubrio.name,
+                            RequestBody.create(
+                                MediaType.parse("image/*"),fileManubrio)
+                        )
+                    }
+                    if(fileSillin != null){
+                        filePartSillin = MultipartBody.Part.createFormData(
+                            "sillin",
+                            fileSillin.name,
+                            RequestBody.create(
+                                MediaType.parse("image/*"),fileSillin)
+                        )
+                    }
+                    if(filePedal != null){
+                        filePartPedal = MultipartBody.Part.createFormData(
+                            "pedal",
+                            filePedal.name,
+                            RequestBody.create(
+                                MediaType.parse("image/*"),filePedal)
+                        )
+                    }
+
+                    repo.reporteBiciRobo(
+                        filePartLateral,
+                        filePartManubrio,
+                        filePartSillin,
+                        filePartPedal,
+                        bodyData
+                    )
+                    scopeMainThread.launch {
+                        prefs.edit().putString("reportado","1").apply()
+                        containerOkReport.visibility = View.VISIBLE
+                        viewDataReport.visibility = View.INVISIBLE
+                        childFragmentManager.beginTransaction().replace(R.id.containerOkReport,FinalReporteFragment.newInstance("","")).commit()
+                    }
+
+                }catch (e: Exception){
+                    scopeMainThread.launch {
+                        Toast.makeText(requireContext(), "Error al reportar, intente mas tarde", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
-            containerOkReport.visibility = View.VISIBLE
-            viewDataReport.visibility = View.INVISIBLE
-            childFragmentManager.beginTransaction().replace(R.id.containerOkReport,FinalReporteFragment.newInstance("","")).commit()
+//            val key = reportesRef.push().key
+//            reportesRef.child(key!!).setValue(Report(key,reportNombre.text.toString(),ReporteSerie.text.toString(),ReporteDesc.text.toString(),1,dateFinal,fotos,1,latitude!!,longitude!!)).addOnSuccessListener {
+//                prefs.edit().putString("reportado","1").apply()
+//                Log.d("success","Reporte hecho")
+//            }.addOnFailureListener {
+//                Log.e("error","No se pudo subir archivo: "+it.stackTrace)
+//            }
+
+//            val storage = FirebaseStorage.getInstance().getReference()
+//            val reportesStRef: StorageReference? = storage.child("reportes").child(key)
+//
+//            if (set != null)
+//            {
+//                val images = set.split(",").toCollection(ArrayList())
+//                var i = 0
+//                for(item in images){
+//                    val fotoTemp = item//prefs.getString("bici"+i,"null")
+//                    //val temp = File(directory,"bici"+i+".png")
+//                    val temp = File(fotoTemp)
+//                    if(temp.exists()){
+//                        //reportesStRef!!.child("bici_"+i+".png")
+//                        val stream = FileInputStream(File(temp.absolutePath))
+//
+//                        val taski = reportesStRef!!.child("bici_"+i+".png").putStream(stream)
+//                        taski.addOnFailureListener{
+//                            Log.e("error","No se pudo subir archivo: "+temp.absolutePath)
+//                        }.addOnSuccessListener {
+//
+//                        }
+//                    }
+//                    i++
+//                }
+//            }
 
             //listener?.onFragmentInteraction("listo")
         }
@@ -212,7 +292,7 @@ class ReportFragment : BottomSheetDialogFragment() {
         imagesEncodedList!!.add("")
 
         takePicturesReporte.setOnClickListener {
-            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val fotos : String = editor.getString("fotos","null")!!
             //val set = prefs.getStringSet("photos", null)
             val set = prefs.getString("photos", null)
@@ -279,7 +359,7 @@ class ReportFragment : BottomSheetDialogFragment() {
 
     //CODE: - open layout photos =======================================================================
     fun loadPohots(){
-        mDialogView = LayoutInflater.from(activity!!).inflate(R.layout.photos, null)
+        mDialogView = LayoutInflater.from(requireActivity()).inflate(R.layout.photos, null)
 
         var i = -1
 
@@ -322,7 +402,7 @@ class ReportFragment : BottomSheetDialogFragment() {
 //                                .resize(finalW, finalH)
 //                                //.centerCrop()
 //                                .into(mDialogView.bici1)
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici1)
                         }
@@ -336,7 +416,7 @@ class ReportFragment : BottomSheetDialogFragment() {
                                 .into(mDialogView.bici2);*/
                             //mDialogView.bici2.setImageBitmap(compressedBitmap)
 
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici2)
                         }
@@ -349,13 +429,13 @@ class ReportFragment : BottomSheetDialogFragment() {
                                 .centerCrop() // this cropping technique scales the image so that it fills the requested bounds and then crops the extra.
                                 .into(mDialogView.bici3);*/
                             //mDialogView.bici3.setImageBitmap(compressedBitmap)
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici3)
                         }
                         3 -> {
                             photosBool!![3] = true
-                            Glide.with(activity!!)
+                            Glide.with(requireActivity())
                                 .load(imgFile)
                                 .into(mDialogView.bici4)
                             //mDialogView.bici4.setImageBitmap(compressedBitmap)
@@ -395,7 +475,7 @@ class ReportFragment : BottomSheetDialogFragment() {
             //preguntar por borrar foto o tomar nueva
             if ((imagesEncodedList!![index].length > 1)){
 
-                val alertanother = AlertDialog.Builder(activity!!)
+                val alertanother = AlertDialog.Builder(requireActivity())
                 alertanother.setTitle("Tu bici...")
                 val options = arrayOf<CharSequence>("Tomar otra foto", "Borrar foto", "Cancelar")
                 alertanother.setItems(options) { dialog, item ->
@@ -443,7 +523,7 @@ class ReportFragment : BottomSheetDialogFragment() {
         }
 
         //AlertDialogBuilder
-        mBuilder = AlertDialog.Builder(activity!!).setView(mDialogView)
+        mBuilder = AlertDialog.Builder(requireActivity()).setView(mDialogView)
         val wrapper = ContextWrapper(context)
 
         mDialogView.bici1.setOnClickListener(click)
@@ -455,7 +535,7 @@ class ReportFragment : BottomSheetDialogFragment() {
             Log.e("tag","aceptar action--guardando fotos en carpeta de app ")
             mAlertDialog.dismiss()
 
-            val editor = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
+            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
             var photosString = ""
             for(item in imagesEncodedList!!){
                 photosString += item+","

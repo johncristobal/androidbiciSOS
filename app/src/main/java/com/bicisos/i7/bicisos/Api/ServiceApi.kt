@@ -66,6 +66,17 @@ interface ServiceApi {
         @Body body: Reporte,
     ): Response<ContractResp>
 
+    @Multipart
+    @POST("/gttapi/reportes/robo")
+    suspend fun reporteBiciRobo(
+        @Header("sos-token") authorization: String?,
+        @Part("data") data: RequestBody,
+        @Part lateral: MultipartBody.Part?,
+        @Part pedal: MultipartBody.Part?,
+        @Part sillin: MultipartBody.Part?,
+        @Part manubrio: MultipartBody.Part?
+    ): Response<ContractResp>
+
     companion object {
 
         operator fun invoke(): ServiceApi {

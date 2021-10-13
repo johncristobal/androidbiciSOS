@@ -131,4 +131,21 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
         api.reporteBici(body)
     }
 
+    suspend fun reporteBiciRobo(
+        lateral: MultipartBody.Part?,
+        sillin: MultipartBody.Part?,
+        manubrio: MultipartBody.Part?,
+        pedal: MultipartBody.Part?,
+        data: RequestBody,
+    ) = apiRequest {
+        api.reporteBiciRobo(
+            "safd124214",
+            data,
+            lateral,
+            pedal,
+            sillin,
+            manubrio,
+        )
+    }
+
 }
