@@ -8,8 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".Fragments.MapFragment">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+    <fragment
               xmlns:map="http://schemas.android.com/apk/res-auto"
               android:layout_width="0dp"
               android:layout_height="0dp"

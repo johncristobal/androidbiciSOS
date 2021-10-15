@@ -27,16 +27,29 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bicisos.i7.bicisos.Api.ServiceApi
+import com.bicisos.i7.bicisos.model.reportes.Reporte
+import com.bicisos.i7.bicisos.repository.Repository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
-class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal, DetailReportFragment.FragmentDetalleListener {
+class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteractionListener, FinalReporteFragment.OnFragmentInteractionListenerFinal
+    //,DetailReportFragment.FragmentDetalleListener
+{
 
     var context = this
     val reportFrag = ReportFragment.newInstance(0.0,0.0,"")
     val finalReportFrag = FinalReporteFragment.newInstance("","")
-    var detailtFrag = DetailReportFragment.newInstance(Report())
+    //lateinit var detailtFrag : DetailReportFragment //.newInstance(Reporte())
 
     var flagShow = false
+
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
 
     companion object {
         val reportes = ArrayList<Report>()
@@ -49,14 +62,6 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         supportActionBar!!.hide()
 
         setContentView(R.layout.activity_reportes)
-        //toolbar.title = ""
-        //setSupportActionBar(toolbar)
-        
-        /*fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
-
         serieText.clearFocus()
 
         serieText.setOnClickListener {
@@ -77,7 +82,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             }
         })
 
-        reportarButton.setOnClickListener {
+/*        reportarButton.setOnClickListener {
             //validar sesion
             val preferences = getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             val sesion = preferences.getString("sesion","null")
@@ -89,7 +94,7 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
                 intent.putExtra("from","Reportes")
                 startActivity(intent)
             }
-        }
+        }*/
 
         /*serieText.setOnFocusChangeListener( object: View.OnFocusChangeListener{
             override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -110,62 +115,62 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
             if (serieText.text.toString().equals("")){
                 Log.w("no","No hya reporte")
             }else{
-                layoutBuscador.clearFocus()
-                //onBackPressed()
-
-                val mDatabase = FirebaseDatabase.getInstance().getReference()
-                val mDatabaseData = mDatabase.child("reportes").orderByChild("serie").equalTo(serieText.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
-                    override fun onCancelled(p0: DatabaseError) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun onDataChange(p0: DataSnapshot) {
-                        //elementtLayout.visibility = View.INVISIBLE
-                        //var mfragmentTransaction = supportFragmentManager.beginTransaction()
-                        //mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
-
-                        if(p0.exists()){
-                            Log.w("data",p0.value.toString())
-
-                            reportes.clear()
-                            p0.children.forEach{
-                                val rep = it.getValue<Report>(Report::class.java)
-                                if (rep!!.tipo == 1){
-                                    reportes.add(rep)
-                                }
-                            }
-
-                            /*reportes.clear()
-                            p0.children.mapNotNullTo(reportes) {
-                                it.getValue<Report>(Report::class.java)
-                            }*/
-
-                            reportes.reverse()
-
-                            val adapter = CustomReport(context,reportes) {
-                                Log.w("dato", it.name)
-                                listaReportes.visibility = View.GONE
-                                reportarButton.visibility = View.GONE
-                                detailtFrag = DetailReportFragment.newInstance(it)
-                                supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
-                            }
-
-                            listaReportes.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
-                            listaReportes.adapter = adapter
-
-                            //serieBuscadoText.setText("# Serie reportado como robado")
-                            //resultFrag = ResultFragment.newInstance("# Serie no encontrado","Sin reporte de robo")
-                            //mfragmentTransaction.replace(R.id.reporte,resultFrag)
-                            //mfragmentTransaction.addToBackStack(null).commit()
-                        }else{
-                            Toast.makeText(context,"# Serie no encontrado",Toast.LENGTH_SHORT).show()
-                            //serieBuscadoText.setText("")
-                            //resultFrag = ResultFragment.newInstance("# Serie reportado como robado",serieText.text.toString())
-                            //mfragmentTransaction.replace(R.id.reporte,resultFrag)
-                            //mfragmentTransaction.addToBackStack(null).commit()
-                        }
-                    }
-                })
+//                layoutBuscador.clearFocus()
+//                //onBackPressed()
+//
+//                val mDatabase = FirebaseDatabase.getInstance().getReference()
+//                val mDatabaseData = mDatabase.child("reportes").orderByChild("serie").equalTo(serieText.text.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
+//                    override fun onCancelled(p0: DatabaseError) {
+//                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun onDataChange(p0: DataSnapshot) {
+//                        //elementtLayout.visibility = View.INVISIBLE
+//                        //var mfragmentTransaction = supportFragmentManager.beginTransaction()
+//                        //mfragmentTransaction.setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_up);
+//
+//                        if(p0.exists()){
+//                            Log.w("data",p0.value.toString())
+//
+//                            reportes.clear()
+//                            p0.children.forEach{
+//                                val rep = it.getValue<Report>(Report::class.java)
+//                                if (rep!!.tipo == 1){
+//                                    reportes.add(rep)
+//                                }
+//                            }
+//
+//                            /*reportes.clear()
+//                            p0.children.mapNotNullTo(reportes) {
+//                                it.getValue<Report>(Report::class.java)
+//                            }*/
+//
+//                            reportes.reverse()
+//
+//                            val adapter = CustomReport(context,reportes) {
+//                                Log.w("dato", it.name)
+//                                listaReportes.visibility = View.GONE
+//                                reportarButton.visibility = View.GONE
+//                                detailtFrag = DetailReportFragment.newInstance(it)
+//                                supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+//                            }
+//
+//                            listaReportes.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
+//                            listaReportes.adapter = adapter
+//
+//                            //serieBuscadoText.setText("# Serie reportado como robado")
+//                            //resultFrag = ResultFragment.newInstance("# Serie no encontrado","Sin reporte de robo")
+//                            //mfragmentTransaction.replace(R.id.reporte,resultFrag)
+//                            //mfragmentTransaction.addToBackStack(null).commit()
+//                        }else{
+//                            Toast.makeText(context,"# Serie no encontrado",Toast.LENGTH_SHORT).show()
+//                            //serieBuscadoText.setText("")
+//                            //resultFrag = ResultFragment.newInstance("# Serie reportado como robado",serieText.text.toString())
+//                            //mfragmentTransaction.replace(R.id.reporte,resultFrag)
+//                            //mfragmentTransaction.addToBackStack(null).commit()
+//                        }
+//                    }
+//                })
             }
         }
 
@@ -208,49 +213,75 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
 
     fun getDataReportes(){
 
-        //var mDatabase : DatabaseReference;
         progressBar.visibility = View.VISIBLE
-        val mDatabase = FirebaseDatabase.getInstance().getReference()
-        val mDatabaseData = mDatabase.child("reportes")//.orderByChild("tipo").equalTo("1")
-        //weeeeeeee
-        //que pex con eso del object : ????
-        mDatabaseData.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                Log.w("cancel",p0.details)
-                progressBar.visibility = View.INVISIBLE
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
+        val repo = Repository(ServiceApi())
+        scopeIO.launch {
+            try{
                 reportes.clear()
-                p0.children.forEach{
-                    val rep = it.getValue<Report>(Report::class.java)
-                    if (rep!!.tipo == 1){
-                        reportes.add(rep)
+                val reportes = repo.getReportes()
+                scopeMainThread.launch {
+                    val robadas = reportes.reportes.filter { r -> r.typeReport == "1" }
+                    val adapter = CustomReport(context, robadas) {
+
+//                        listaReportes.visibility = View.GONE
+//                        reportarButton.visibility = View.GONE
+//                        detailtFrag = DetailReportFragment.newInstance(it)
+//                        supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
                     }
+
+                    listaReportes.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
+                    listaReportes.adapter = adapter
+
+                    progressBar.visibility = View.INVISIBLE
                 }
-
-                Log.w("datos","exito")
-
-                /*p0.children.mapNotNullTo(reportes) {
-                    it.getValue<Report>(Report::class.java)
-                }*/
-
-                reportes.reverse()
-
-                val adapter = CustomReport(context,reportes) {
-                    Log.w("dato", it.name)
-                    listaReportes.visibility = View.GONE
-                    reportarButton.visibility = View.GONE
-                    detailtFrag = DetailReportFragment.newInstance(it)
-                    supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+            }catch (e:Exception){
+                scopeMainThread.launch {
+                    progressBar.visibility = View.INVISIBLE
                 }
-
-                listaReportes.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
-                listaReportes.adapter = adapter
-
-                progressBar.visibility = View.INVISIBLE
             }
-        })
+        }
+
+//        val mDatabase = FirebaseDatabase.getInstance().getReference()
+//        val mDatabaseData = mDatabase.child("reportes")//.orderByChild("tipo").equalTo("1")
+//        //weeeeeeee
+//        //que pex con eso del object : ????
+//        mDatabaseData.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onCancelled(p0: DatabaseError) {
+//                Log.w("cancel",p0.details)
+//                progressBar.visibility = View.INVISIBLE
+//            }
+//
+//            override fun onDataChange(p0: DataSnapshot) {
+//                reportes.clear()
+//                p0.children.forEach{
+//                    val rep = it.getValue<Report>(Report::class.java)
+//                    if (rep!!.tipo == 1){
+//                        reportes.add(rep)
+//                    }
+//                }
+//
+//                Log.w("datos","exito")
+//
+//                /*p0.children.mapNotNullTo(reportes) {
+//                    it.getValue<Report>(Report::class.java)
+//                }*/
+//
+//                reportes.reverse()
+//
+//                val adapter = CustomReport(context,reportes) {
+//                    Log.w("dato", it.name)
+//                    listaReportes.visibility = View.GONE
+//                    reportarButton.visibility = View.GONE
+//                    detailtFrag = DetailReportFragment.newInstance(it)
+//                    supportFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+//                }
+//
+//                listaReportes.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
+//                listaReportes.adapter = adapter
+//
+//                progressBar.visibility = View.INVISIBLE
+//            }
+//        })
     }
 
     override fun onFragmentInteraction(message: String) {
@@ -275,21 +306,19 @@ class ReportesActivity : AppCompatActivity(), ReportFragment.OnFragmentInteracti
         getDataReportes()
     }
 
-    override fun detalleInteraction(message: String) {
-        listaReportes.visibility = View.VISIBLE
-
-        if(message.equals("")){
-            supportFragmentManager.beginTransaction().remove(detailtFrag).commit();
-            listaReportes.visibility = View.VISIBLE
-            reportarButton.visibility = View.VISIBLE
-        }
-    }
+//    override fun detalleInteraction(message: String) {
+//        listaReportes.visibility = View.VISIBLE
+//
+//        if(message.equals("")){
+//            supportFragmentManager.beginTransaction().remove(detailtFrag).commit();
+//            listaReportes.visibility = View.VISIBLE
+//            reportarButton.visibility = View.VISIBLE
+//        }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
-
         Log.e("HOME Reportes","Destroy")
-
     }
 
 }

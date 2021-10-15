@@ -29,6 +29,7 @@ import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.R
 import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.model.Taller
+import com.bicisos.i7.bicisos.model.reportes.Reporte
 import com.bicisos.i7.bicisos.repository.Repository
 import com.bicisos.i7.bicisos.service.ForegroundOnlyLocationService
 import com.bicisos.i7.bicisos.utils.toText
@@ -55,10 +56,11 @@ import kotlin.collections.ArrayList
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
-https://github.com/android/location-samples/blob/main/CurrentLocationKotlin/app/src/main/java/com/example/android/location/currentlocationkotlin/MainActivity.kt *
- */
-class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPreferenceChangeListener {
+class MapFragment : Fragment()
+    , OnMapReadyCallback
+    , SharedPreferences.OnSharedPreferenceChangeListener
+
+{
 
     private lateinit var mMap: GoogleMap
     private lateinit var lastLocation: Location
@@ -329,11 +331,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
         )
         mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(p0: Marker?): Boolean {
-                if (p0!!.tag is Report) {
+                if (p0!!.tag is Reporte) {
 
-                    val report = p0.tag as Report
+                    val report = p0.tag as Reporte
 
-                    if (report.tipo == 1) {
+                    if (report.typeReport == "1") {
                         mMap.setInfoWindowAdapter(null)
 
                         val prefs = activity!!.getSharedPreferences(
@@ -343,12 +345,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, SharedPreferences.OnSharedPr
                         prefs.edit().putString("detalleMapFragment", "1").apply()
 
                         val detailtFrag = DetailReportFragment.newInstance(report)
-                        childFragmentManager.beginTransaction()
-                            .addToBackStack("detalles")
-                            .replace(R.id.containerAlertas, detailtFrag)
-                            .commit()
 
-                        //childFragmentManager.beginTransaction().add(R.id.reporte,detailtFrag).commit()
+                        childFragmentManager.beginTransaction()
+                             //.addToBackStack("detalles")
+                            .replace(R.id.containerAlertas, detailtFrag)
+                            .commitAllowingStateLoss()
+
                         return true
                     } else {
                         val customInfoWindow = CustomInfoWindowGoogleMap(activity!!)

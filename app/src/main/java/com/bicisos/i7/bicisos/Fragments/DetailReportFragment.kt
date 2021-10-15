@@ -19,6 +19,7 @@ import com.bicisos.i7.bicisos.Adapters.CustomPager
 import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.reportes.Reporte
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -48,13 +49,13 @@ class DetailReportFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var id: String? = null
     private var fotos: String? = null
-    private var report: Report? = null
-    private var listener: FragmentDetalleListener? = null
+    private var report: Reporte? = null
+    //private var listener: FragmentDetalleListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            report = it.getSerializable(ARG_PARAM1) as Report
+            report = it.getSerializable(ARG_PARAM1) as Reporte
             //id = it.getString(ARG_PARAM1)
             //fotos = it.getString(ARG_PARAM2)
         }
@@ -67,82 +68,87 @@ class DetailReportFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val storage = FirebaseStorage.getInstance()
-        Log.w("id", report!!.id)
 
         //recuperar las fotos de storage
         val imagenes = ArrayList<String>()
         val uris = ArrayList<Uri>()
 
-        val pictures = report!!.fotos.split(",")
         loadingShare.visibility = View.VISIBLE
         viewpager.visibility = View.INVISIBLE
-        var contTemp = 0
-        pictures.forEach {
-            if(!it.isEmpty()) {
-                imagenes.add(it)
-                contTemp++
 
-                val storageRef = storage.reference.child("reportes").child(report!!.id).child(it)
-                val tempName = it
-                storageRef.downloadUrl.addOnSuccessListener { uriTemp ->
-                    Glide.with(this)
-                        .asBitmap()
-                        .load(uriTemp)
-                        .into(object : CustomTarget<Bitmap>(){
-                            override fun onLoadCleared(placeholder: Drawable?) {
-
-                            }
-
-                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-
-                                try {
-                                    val file = File(activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${tempName}.jpg");
-                                    val stream = FileOutputStream(file);
-                                    resource.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                                    stream.close();
-                                    val uri = Uri.fromFile(file)
-                                    uris.add(uri)
-
-                                    if (uris.size == imagenes.size){
-                                        loadingShare.visibility = View.GONE
-                                        viewpager.visibility = View.VISIBLE
-
-                                    }
-                                } catch (e: IOException) {
-                                    Log.d("TAG", "IOException while trying to write file for sharing: " + e);
-                                    loadingShare.visibility = View.GONE
-                                    viewpager.visibility = View.VISIBLE
-                                }
-                            }
-                        })
-
-                    //.override(100,200)
-                }.addOnFailureListener {
-                    loadingShare.visibility = View.GONE
-                    viewpager.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        viewpager.layoutManager = LinearLayoutManager(activity!!,LinearLayoutManager.HORIZONTAL,false)
-        val adapter = CustomPager(activity!!,imagenes, report!!.id)
+        val pictures = report!!.robery!!.photos
+        viewpager.layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.HORIZONTAL,false)
+        val adapter = CustomPager(requireActivity(),pictures, report!!.id)
         viewpager.adapter = adapter
 
+        loadingShare.visibility = View.GONE
+        viewpager.visibility = View.VISIBLE
+
+//        pictures.forEach {
+//            if(!it.isEmpty()) {
+//                imagenes.add(it)
+//                contTemp++
+//
+//                val storageRef = storage.reference.child("reportes").child(report!!.id).child(it)
+//                val tempName = it
+//                storageRef.downloadUrl.addOnSuccessListener { uriTemp ->
+//                    Glide.with(this)
+//                        .asBitmap()
+//                        .load(uriTemp)
+//                        .into(object : CustomTarget<Bitmap>(){
+//                            override fun onLoadCleared(placeholder: Drawable?) {
+//
+//                            }
+//
+//                            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+//
+//                                try {
+//                                    val file = File(activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "${tempName}.jpg");
+//                                    val stream = FileOutputStream(file);
+//                                    resource.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+//                                    stream.close();
+//                                    val uri = Uri.fromFile(file)
+//                                    uris.add(uri)
+//
+//                                    if (uris.size == imagenes.size){
+//                                        loadingShare.visibility = View.GONE
+//                                        viewpager.visibility = View.VISIBLE
+//
+//                                    }
+//                                } catch (e: IOException) {
+//                                    Log.d("TAG", "IOException while trying to write file for sharing: " + e);
+//                                    loadingShare.visibility = View.GONE
+//                                    viewpager.visibility = View.VISIBLE
+//                                }
+//                            }
+//                        })
+//
+//                    //.override(100,200)
+//                }.addOnFailureListener {
+//                    loadingShare.visibility = View.GONE
+//                    viewpager.visibility = View.VISIBLE
+//                }
+//            }
+//        }
+
+//
         buttonCerrar.setOnClickListener {
-            val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+
+            val prefs = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             if(prefs.getString("detalleMapFragment","null").equals("null")){
 
-                listener?.detalleInteraction("")
+                //listener?.detalleInteraction("")
             }else{
                 prefs.edit().putString("detalleMapFragment","null").apply()
-                childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
-                listener?.detalleInteraction("")
+                //popBackStack()
+                parentFragmentManager.beginTransaction().remove(this).commit()
+                //childFragmentManager.beginTransaction().remove(this).commit()
+                //listener?.detalleInteraction("")
             }
         }
 
-        textViewNombreDetalle.setText(report!!.name)
-        textViewSerieDetalle.setText(report!!.serie)
+        textViewNombreDetalle.setText("Bici robada")
+        textViewSerieDetalle.setText(report!!.robery!!.serie)
         textViewDescripcionDetalle.setText(report!!.description)
 
         buttonShare.setOnClickListener {
@@ -155,7 +161,7 @@ class DetailReportFragment : Fragment() {
                 shareIntent.action = Intent.ACTION_SEND_MULTIPLE
                 shareIntent.type = "image/*"
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "Detalles de bici: ${report!!.description}")
-                shareIntent.putExtra(Intent.EXTRA_TITLE, "Reporte de robo: ${report!!.serie}")
+                shareIntent.putExtra(Intent.EXTRA_TITLE, "Reporte de robo: ${report!!.robery!!.serie}")
                 //shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file))
                 //shareIntent.putExtra(Intent.EXTRA_STREAM, uris)
                 shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM,uris)
@@ -258,16 +264,16 @@ class DetailReportFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is FragmentDetalleListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener") as Throwable
-        }
+//        if (context is FragmentDetalleListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener") as Throwable
+//        }
     }
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        //listener = null
     }
 
     /**
@@ -281,10 +287,10 @@ class DetailReportFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface FragmentDetalleListener {
-        // TODO: Update argument type and name
-        fun detalleInteraction(message: String)
-    }
+//    interface FragmentDetalleListener {
+//        // TODO: Update argument type and name
+//        fun detalleInteraction(message: String)
+//    }
 
     companion object {
         /**
@@ -297,7 +303,7 @@ class DetailReportFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: Report) =
+        fun newInstance(param1: Reporte) =
             DetailReportFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_PARAM1, param1)

@@ -8,15 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.UserResponse
+import com.bicisos.i7.bicisos.model.reportes.Reporte
+import com.bicisos.i7.bicisos.repository.Repository
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_averia.*
 import kotlinx.android.synthetic.main.fragment_averia.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,6 +51,10 @@ class AveriaFragment : BottomSheetDialogFragment() {
     private var name: String? = null
     private var listener: OnFragmentInteractionListenerAveria? = null
 
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -66,46 +79,44 @@ class AveriaFragment : BottomSheetDialogFragment() {
         }
 
         buttonEnviar.setOnClickListener {
+
             Log.w("vamonos","Adios fragment averia")
             if (editTextAveria.text.toString().equals("")){
-                Toast.makeText(activity!!,"Describe tu averia...",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"Describe tu averia...",Toast.LENGTH_SHORT).show()
             }else {
                 buttonEnviar.visibility = View.INVISIBLE
                 loadingBarAv.visibility = View.VISIBLE
 
-                val fecha = Date()
-                val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-                val dateFinal = stringfecha.format(fecha)
+                val prefs = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val user = prefs.getString("user", "null")
+                val iduser = Gson().fromJson(user, UserResponse::class.java).user.id
 
-                //primero enviar mi bike para que este en fierbase
-                //si y solo si estoy logueado
-                //mando nombre, bike, ubication
-                val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-                val serie = prefs.getString("serie", "null")
-
-                val database = Firebase.database
-                val bikersRef = database.getReference("reportes")
                 val lat = latitude
                 val long = longitude
                 val bici = 2 // averia
+                val description = editTextAveria.text.toString()
+                val repo = Repository(ServiceApi())
+                scopeIO.launch {
+                    try {
+                        val user = repo.reporteBici(
+                            Reporte(iduser, bici.toString(), "",lat.toString(),long.toString(), description, null)
+                        )
+                        scopeMainThread.launch {
+                            buttonEnviar.visibility = View.VISIBLE
+                            loadingBarAv.visibility = View.INVISIBLE
 
-                val key = bikersRef.push().key
-                bikersRef.child(key!!).setValue(Report(key, name!!, serie!!, editTextAveria.text.toString(), 1,dateFinal,"sinfotos", bici, lat!!, long!!)).addOnSuccessListener {
+                            containerOkAv.visibility = View.VISIBLE
+                            viewDataSendAv.visibility = View.INVISIBLE
+                            childFragmentManager.beginTransaction().replace(R.id.containerOkAv,FinalReporteFragment.newInstance("","")).commit()
+                        }
+                    }catch(e: Exception) {
+                        scopeMainThread.launch {
+                            buttonEnviar.visibility = View.VISIBLE
+                            loadingBarAv.visibility = View.INVISIBLE
 
-                    buttonEnviar.visibility = View.VISIBLE
-                    loadingBarAv.visibility = View.INVISIBLE
-
-                    containerOkAv.visibility = View.VISIBLE
-                    viewDataSendAv.visibility = View.INVISIBLE
-                    childFragmentManager.beginTransaction().replace(R.id.containerOkAv,FinalReporteFragment.newInstance("","")).commit()
-
-                }.addOnFailureListener {
-                    Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-
-                    buttonEnviar.visibility = View.VISIBLE
-                    loadingBarAv.visibility = View.INVISIBLE
-
-                    Toast.makeText(activity!!,"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(),"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
@@ -123,6 +134,11 @@ class AveriaFragment : BottomSheetDialogFragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     /**

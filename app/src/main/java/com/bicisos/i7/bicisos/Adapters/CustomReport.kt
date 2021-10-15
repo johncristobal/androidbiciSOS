@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bicisos.i7.bicisos.Api.ApiUrls
 import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.reportes.Reporte
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.custom_reporte.view.*
 
-class CustomReport(val context: Context, val reportes: ArrayList<Report>,val clickListener: (Report) -> Unit) : RecyclerView.Adapter<CustomReport.ViewHolder>(){
-
+class CustomReport(val context: Context, val reportes: List<Reporte>, val clickListener: (Reporte) -> Unit) : RecyclerView.Adapter<CustomReport.ViewHolder>(){
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val view = ViewHolder(LayoutInflater.from(context).inflate(R.layout.custom_reporte,p0,false))
@@ -28,28 +29,25 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>,val cli
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
 
-        p0.textTitle.text = "# Serie: "+reportes[p1].serie
+        p0.textTitle.text = "# Serie: "+ (reportes[p1].robery?.serie ?: "")
         p0.textDetalle.text = reportes[p1].description
 
-        val idd =  reportes[p1].id
-        val storage = FirebaseStorage.getInstance().getReference()
-        val reportesStRef: StorageReference? = storage.child("reportes").child(idd).child("bici_0.png")
-        reportesStRef!!.downloadUrl.addOnSuccessListener {
-            Glide.with(context)
-                .load(it.toString())
+        var foto = ""
+        if(reportes[p1].robery?.photos!!.contains("sillin"))
+            foto = "sillin.png"
+        if(reportes[p1].robery?.photos!!.contains("manubrio"))
+            foto = "manubrio.png"
+        if(reportes[p1].robery?.photos!!.contains("lateral"))
+            foto = "lateral.png"
+
+        Glide.with(context)
+                .load(ApiUrls.urlApi+"/"+reportes[p1].id+"/"+foto)
                 .override(100,100)
                 .into(p0.imagenDetalle)
-        }.addOnFailureListener {
-            Glide.with(context)
-                .load(R.drawable.loginiconuno)
-                .override(100,100)
-                .into(p0.imagenDetalle)
-        }
 
         p0.layi.setOnClickListener {
             clickListener(reportes[p1])
         }
-
     }
 
 
@@ -59,8 +57,6 @@ class CustomReport(val context: Context, val reportes: ArrayList<Report>,val cli
         val textTitle = view.textViewTitle
         val textDetalle = view.textViewDetalle
         val layi = view.layiItem
-
-
     }
 
 }

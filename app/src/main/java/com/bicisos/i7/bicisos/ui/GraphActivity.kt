@@ -25,7 +25,12 @@ class GraphActivity : AppCompatActivity() {
         - cuenta ios???
 
     *** reportes bicis
-        *** generalizar el rollo de las fotos, solo usar el fragment y ya
+        *** FOTOS DE reporte de robo
+        - abrir detalle y obtener las fotos (liga iduser) o deberai ser id de
+
+        *** generalizar el rollo de las fotos...
+        - para personaliza falta, ya quedo en reporte
+
         * crearemos services para subir reportes (solo si login ojo)
            - robo bici 1
            - averia 2

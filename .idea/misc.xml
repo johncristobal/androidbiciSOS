@@ -5,15 +5,22 @@
       <map>
         <entry key="app/src/main/res/layout/activity_alert.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_principal.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_reportes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/app_bar_principal.xml" value="0.1" />
         <entry key="app/src/main/res/layout/content_principal.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_detail_report.xml" value="0.13451086956521738" />
+        <entry key="app/src/main/res/layout/content_reportes.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout/custommarker.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_alerta.xml" value="0.129981884057971" />
+        <entry key="app/src/main/res/layout/fragment_averia.xml" value="0.129981884057971" />
+        <entry key="app/src/main/res/layout/fragment_detail_report.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.27264636676952725" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.10170050332539825" />
         <entry key="app/src/main/res/layout/fragment_photos_biker.xml" value="0.11133694670280037" />
         <entry key="app/src/main/res/layout/fragment_photos_contract.xml" value="0.11133694670280037" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.23839009287925697" />
-        <entry key="app/src/main/res/layout/fragment_report.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_report.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/imagen_bici.xml" value="0.5593042423209624" />
+        <entry key="app/src/main/res/layout/imagen_reporte.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/layout/welcome_new1.xml" value="0.17481884057971014" />
         <entry key="app/src/main/res/menu/activity_principal_drawer.xml" value="0.2046875" />
       </map>

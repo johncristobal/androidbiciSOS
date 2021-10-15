@@ -10,24 +10,18 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
-import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
-import com.bicisos.i7.bicisos.model.RegisterBicis
 import com.bicisos.i7.bicisos.model.UserResponse
 import com.bicisos.i7.bicisos.model.reportes.Reporte
 import com.bicisos.i7.bicisos.repository.Repository
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_ciclovia.*
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -103,7 +97,7 @@ class CicloviaFragment : BottomSheetDialogFragment() {
                 scopeIO.launch {
                     try{
                         val user = repo.reporteBici(
-                            Reporte(iduser, bici.toString(), lat.toString(),long.toString(), description, null)
+                            Reporte(iduser, bici.toString(), "",lat.toString(),long.toString(), description, null)
                         )
                         scopeMainThread.launch {
                             buttonEnviar.visibility = View.VISIBLE
@@ -124,39 +118,6 @@ class CicloviaFragment : BottomSheetDialogFragment() {
                         }
                     }
                 }
-//                val key = bikersRef.push().key
-//                bikersRef.child(key!!).setValue(
-//                    Report(
-//                        key,
-//                        name!!,
-//                        serie!!,
-//                        editTextAveria.text.toString(),
-//                        1,
-//                        dateFinal,
-//                        "sinfotos",
-//                        bici,
-//                        lat!!,
-//                        long!!
-//                    )
-//                ).addOnSuccessListener {
-//                    //listener?.onFragmentInteractionCiclovia("enviado")
-//
-//                    buttonEnviar.visibility = View.VISIBLE
-//                    loadingBarCiclo.visibility = View.INVISIBLE
-//
-//                    containerOkCiclo.visibility = View.VISIBLE
-//                    viewDataSendCiclo.visibility = View.INVISIBLE
-//
-//                    childFragmentManager.beginTransaction().replace(R.id.containerOkCiclo,
-//                        FinalReporteFragment.newInstance("","")).commit()
-//
-//                }.addOnFailureListener {
-//                    Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-//                    buttonEnviar.visibility = View.VISIBLE
-//                    loadingBarCiclo.visibility = View.INVISIBLE
-//
-//                    Toast.makeText(requireActivity(),"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
-//                }
             }
         }
     }
@@ -173,6 +134,11 @@ class CicloviaFragment : BottomSheetDialogFragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     /**

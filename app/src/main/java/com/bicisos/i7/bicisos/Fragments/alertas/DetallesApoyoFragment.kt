@@ -10,13 +10,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.model.Report
 
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.UserResponse
+import com.bicisos.i7.bicisos.model.reportes.Reporte
+import com.bicisos.i7.bicisos.repository.Repository
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_detalles_apoyo.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,6 +51,10 @@ class DetallesApoyoFragment : Fragment() {
     private var name: String? = null
     private var listener: OnFragmentInteractionListenerDetalles? = null
 
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -59,63 +72,44 @@ class DetallesApoyoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*buttonRegresar.setOnClickListener {
-            childFragmentManager.popBackStack()
-        }*/
-
         buttonEnviar.setOnClickListener {
             Log.w("vamonos", "Adios fragment apoyo")
             if (editTextDesc.text.toString().equals("")) {
-                Toast.makeText(activity!!, "Describe tu apoyo...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Describe tu apoyo...", Toast.LENGTH_SHORT).show()
             } else {
                 buttonsSendDataApoyo.visibility = View.GONE
                 loadingViewApoyo.visibility = View.VISIBLE
 
-                val fecha = Date()
-                val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-                val dateFinal = stringfecha.format(fecha)
+                val prefs = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+                val user = prefs.getString("user", "null")
+                val iduser = Gson().fromJson(user, UserResponse::class.java).user.id
 
-                //primero enviar mi bike para que este en fierbase
-                //si y solo si estoy logueado
-                //mando nombre, bike, ubication
-                val prefs = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-                val serie = prefs.getString("serie", "null")
-
-                val database = Firebase.database
-                val bikersRef = database.getReference("reportes")
                 val lat = latitude
                 val long = longitude
                 val bici = 4 // averia
+                val description = editTextDesc.text.toString()
+                val repo = Repository(ServiceApi())
 
-                val key = bikersRef.push().key
-                bikersRef.child(key!!).setValue(
-                    Report(
-                        key,
-                        name!!,
-                        serie!!,
-                        editTextDesc.text.toString(),
-                        1,
-                        dateFinal,
-                        "sinfotos",
-                        bici,
-                        lat!!,
-                        long!!
-                    )
-                ).addOnSuccessListener {
-                    //listener?.onFragmentInteractionDetalles("listo")
-                    //childFragmentManager.beginTransaction().remove(this).commit()//popBackStack()
+                scopeIO.launch {
+                    try{
+                        val user = repo.reporteBici(
+                            Reporte(iduser, bici.toString(), "",lat.toString(),long.toString(), description, null)
+                        )
+                        scopeMainThread.launch {
+                            containerOkApo.visibility = View.VISIBLE
+                            viewDataSendApo.visibility = View.INVISIBLE
+                            childFragmentManager.beginTransaction().replace(R.id.containerOkApo,
+                                FinalReporteFragment.newInstance("","")).commit()
+                        }
+                    }catch (e: Exception){
+                        scopeMainThread.launch {
+                            Log.e("error", "No se pudo subir archivo: " + e.message)
+                            buttonsSendDataApoyo.visibility = View.VISIBLE
+                            loadingViewApoyo.visibility = View.GONE
 
-                    containerOkApo.visibility = View.VISIBLE
-                    viewDataSendApo.visibility = View.INVISIBLE
-                    childFragmentManager.beginTransaction().replace(R.id.containerOkApo,
-                        FinalReporteFragment.newInstance("","")).commit()
-
-                }.addOnFailureListener {
-                    Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-                    buttonsSendDataApoyo.visibility = View.VISIBLE
-                    loadingViewApoyo.visibility = View.GONE
-
-                    Toast.makeText(activity!!,"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(),"Tuvimos un problema. Intenta más tarde.",Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
         }
@@ -138,6 +132,11 @@ class DetallesApoyoFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 
     /**

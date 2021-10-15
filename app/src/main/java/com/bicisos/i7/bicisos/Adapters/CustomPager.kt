@@ -9,15 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bicisos.i7.bicisos.Api.ApiClient
+import com.bicisos.i7.bicisos.Api.ApiUrls
 import com.bicisos.i7.bicisos.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.imagen_bici.view.*
 
-class CustomPager (val context: Context, val imagenes: ArrayList<String>, val id: String) : RecyclerView.Adapter<CustomPager.ViewHolder>() {
-
-    val storage = FirebaseStorage.getInstance()
-    val storageRef = storage.reference.child("reportes").child(id!!)
+class CustomPager (val context: Context, val imagenes: List<String>, val id: String) : RecyclerView.Adapter<CustomPager.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
 
@@ -27,20 +27,23 @@ class CustomPager (val context: Context, val imagenes: ArrayList<String>, val id
     }
 
     override fun getItemCount(): Int {
-        // :)
         return imagenes.size
     }
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         //asignar elementos a viewhlder
-        storageRef.child(imagenes[p1]).downloadUrl.addOnSuccessListener {
-            Glide.with(context)
-                .load(it.toString())
-                //.override(100,200)
-                .into(p0.imagenBici)
-        }.addOnFailureListener {
+        val urlImage = ApiUrls.urlApi+"/"+id+"/"+imagenes[p1]+".png"
+        Picasso
+            .get()
+            .load(urlImage)
+            //.centerCrop()
+            .into(p0.imagenBici)
 
-        }
+//        Glide.with(context)
+//            .load(urlImage)
+//            //.override(100,200)
+//            .signature(ObjectKey(System.currentTimeMillis()))
+//            .into(p0.imagenBici)
     }
 
     //clase viewholder con elementos de lista

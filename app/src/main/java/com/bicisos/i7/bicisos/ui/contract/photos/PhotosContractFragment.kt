@@ -54,7 +54,7 @@ class PhotosContractFragment : Fragment() {
 
         }
 
-        viewModel.uploadUI.observe(viewLifecycleOwner, Observer {
+        viewModel.uploadUI.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let{
                 Log.w("from...","data arriving $it")
                 when(it){

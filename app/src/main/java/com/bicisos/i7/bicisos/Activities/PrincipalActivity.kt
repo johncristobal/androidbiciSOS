@@ -38,7 +38,19 @@ import kotlinx.android.synthetic.main.nav_header_principal.*
 import kotlinx.android.synthetic.main.nav_header_principal.view.*
 
 
-class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDetalleListener,FinalReporteFragment.OnFragmentInteractionListenerFinal, NavigationView.OnNavigationItemSelectedListener, AlertaFragment.OnFragmentAlertasListener, AveriaFragment.OnFragmentInteractionListenerAveria, CicloviaFragment.OnFragmentInteractionListenerCiclovia, MapFragment.OnFragmentMapListener, HelpFragment.OnFragmentInteractionListenerHelp, ApoyoFragment.OnFragmentInteractionListenerApoyo , ReportFragment.OnFragmentInteractionListener, DetallesApoyoFragment.OnFragmentInteractionListenerDetalles {
+class PrincipalActivity : AppCompatActivity(),
+    FinalReporteFragment.OnFragmentInteractionListenerFinal
+    ,NavigationView.OnNavigationItemSelectedListener
+    ,AlertaFragment.OnFragmentAlertasListener
+    ,AveriaFragment.OnFragmentInteractionListenerAveria
+    ,CicloviaFragment.OnFragmentInteractionListenerCiclovia
+    ,MapFragment.OnFragmentMapListener
+    ,HelpFragment.OnFragmentInteractionListenerHelp
+    ,ApoyoFragment.OnFragmentInteractionListenerApoyo
+    ,ReportFragment.OnFragmentInteractionListener
+    ,DetallesApoyoFragment.OnFragmentInteractionListenerDetalles
+    //,DetailReportFragment.FragmentDetalleListener
+{
 
     var mapFragment = MapFragment()
     var alertasFrag = AlertaFragment()
@@ -439,9 +451,19 @@ class PrincipalActivity : AppCompatActivity(), DetailReportFragment.FragmentDeta
         startActivity(intent)
     }
 
-    override fun detalleInteraction(message: String) {
-        openMenu.visibility = View.VISIBLE
-    }
+    //override fun detalleInteraction(message: String) {
+        //openMenu.visibility = View.VISIBLE
+    //}
+
+    //override fun detalleInteraction(message: String) {
+        //listaReportes.visibility = View.VISIBLE
+
+//        if(message.equals("")){
+//            supportFragmentManager.beginTransaction().remove(detailtFrag).commit();
+//            listaReportes.visibility = View.VISIBLE
+//            reportarButton.visibility = View.VISIBLE
+//        }
+    //}
 
     //listo fragmetn listener
     override fun onFragmentInteractionFinal(message: String) {

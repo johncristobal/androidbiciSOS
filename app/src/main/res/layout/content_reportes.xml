@@ -228,6 +228,7 @@
             app:srcCompat="@drawable/alertafinal"
             android:id="@+id/reportarButton"
             android:layout_marginBottom="28dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/reporte"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="28dp"/>

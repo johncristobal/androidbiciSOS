@@ -8,13 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bicisos.i7.bicisos.Api.ServiceApi
 import com.bicisos.i7.bicisos.Fragments.FinalReporteFragment
 import com.bicisos.i7.bicisos.model.Report
 import com.bicisos.i7.bicisos.R
+import com.bicisos.i7.bicisos.model.UserResponse
+import com.bicisos.i7.bicisos.model.reportes.Reporte
+import com.bicisos.i7.bicisos.repository.Repository
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_panic.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +42,10 @@ class PanicFragment : BottomSheetDialogFragment() {
     private var latitude: Double? = null
     private var longitude: Double? = null
     private var name: String? = null
+
+    private val job = Job()
+    private val scopeMainThread = CoroutineScope(job + Dispatchers.Main)
+    private val scopeIO = CoroutineScope(job + Dispatchers.IO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,54 +75,59 @@ class PanicFragment : BottomSheetDialogFragment() {
         buttonEnviarPanic.setOnClickListener {
             buttonEnviarPanic.visibility = View.INVISIBLE
             loadingBarPanic.visibility = View.VISIBLE
-            val fecha = Date()
-            val stringfecha = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-            val dateFinal = stringfecha.format(fecha)
 
             val prefs = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
-            val serie = prefs.getString("serie", "null")
+            val user = prefs.getString("user", "null")
+            val iduser = Gson().fromJson(user, UserResponse::class.java).user.id
 
-            val database = Firebase.database
-            val bikersRef = database.getReference("reportes")
             val lat = latitude
             val long = longitude
             val bici = 5 // panic
+            val description = "¡Emergencia!"
 
-            val key = bikersRef.push().key
-            bikersRef.child(key!!).setValue(
-                Report(
-                    key,
-                    name!!,
-                    serie!!,
-                    "Botón de pánico",
-                    1,
-                    dateFinal,
-                    "sinfotos",
-                    bici,
-                    lat!!,
-                    long!!
-                )
-            ).addOnSuccessListener {
-                //listener?.onFragmentInteractionCiclovia("enviado")
+            val repo = Repository(ServiceApi())
+            scopeIO.launch {
+                try {
+                    val user = repo.reporteBici(
+                        Reporte(
+                            iduser,
+                            bici.toString(),
+                            "",
+                            lat.toString(),
+                            long.toString(),
+                            description,
+                            null
+                        )
+                    )
+                    scopeMainThread.launch {
+                        buttonEnviarPanic.visibility = View.VISIBLE
+                        loadingBarPanic.visibility = View.INVISIBLE
 
-                buttonEnviarPanic.visibility = View.VISIBLE
-                loadingBarPanic.visibility = View.INVISIBLE
+                        containerOkPanic.visibility = View.VISIBLE
+                        viewDataSendPanic.visibility = View.INVISIBLE
 
-                containerOkPanic.visibility = View.VISIBLE
-                viewDataSendPanic.visibility = View.INVISIBLE
+                        childFragmentManager.beginTransaction().replace(R.id.containerOkPanic,
+                            FinalReporteFragment.newInstance("","")).commit()
 
-                childFragmentManager.beginTransaction().replace(R.id.containerOkPanic,
-                    FinalReporteFragment.newInstance("","")).commit()
+                    }
+                } catch(e:Exception){
+                    scopeMainThread.launch {
+                        Log.e("error", "No se pudo subir archivo: " + e.message)
+                        buttonEnviarPanic.visibility = View.VISIBLE
+                        loadingBarPanic.visibility = View.INVISIBLE
 
-            }.addOnFailureListener {
-                Log.e("error", "No se pudo subir archivo: " + it.stackTrace)
-                buttonEnviarPanic.visibility = View.VISIBLE
-                loadingBarPanic.visibility = View.INVISIBLE
-
-                Toast.makeText(requireActivity(),"Tuvimos un problema. Intenta más tarde.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(),"Tuvimos un problema. Intenta más tarde.", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

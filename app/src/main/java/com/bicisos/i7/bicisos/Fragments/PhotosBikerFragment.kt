@@ -25,6 +25,7 @@ import com.bicisos.i7.bicisos.utils.photosViewModel
 import com.bumptech.glide.Glide
 
 private const val ARG_COLOR = "arg_color"
+private const val ARG_ROBO = "arg_robo"
 
 /**
  * A simple [Fragment] subclass.
@@ -34,6 +35,7 @@ private const val ARG_COLOR = "arg_color"
 class PhotosBikerFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var color_param: Int? = null
+    private var robo_bici: Boolean = false
 
     lateinit var view_fragment: View
 
@@ -57,6 +59,7 @@ class PhotosBikerFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             color_param = it.getInt(ARG_COLOR)
+            robo_bici = it.getBoolean(ARG_ROBO)
         }
     }
 
@@ -114,25 +117,42 @@ class PhotosBikerFragment : Fragment() {
         // aceptar action
         aceptarActionPhotosButton.setOnClickListener {
 
-            var requieredPhotos = true
-            val editor = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE).edit()
             var photosString = ""
-            for(item in imagesEncodedList!!){
-                if(item.length > 1)
-                    photosString += item+","
-                else {
-                    requieredPhotos = false
-                }
-            }
+            val editor = requireActivity().getSharedPreferences(
+                getString(R.string.preferences),
+                Context.MODE_PRIVATE
+            ).edit()
 
-            if(!requieredPhotos){
-                viewModel._uploadUI.value = Event("-1")
-            }else {
+            if(robo_bici){
+                for (item in imagesEncodedList!!) {
+                    if (item.length > 1)
+                        photosString += item + ","
+                }
                 photosString = photosString.dropLast(1)
                 editor.putString("photos", photosString)
                 editor.apply()
 
                 viewModel._uploadUI.value = Event("1")
+            }else {
+                var requieredPhotos = true
+
+                for (item in imagesEncodedList!!) {
+                    if (item.length > 1)
+                        photosString += item + ","
+                    else {
+                        requieredPhotos = false
+                    }
+                }
+
+                if (!requieredPhotos) {
+                    viewModel._uploadUI.value = Event("-1")
+                } else {
+                    photosString = photosString.dropLast(1)
+                    editor.putString("photos", photosString)
+                    editor.apply()
+
+                    viewModel._uploadUI.value = Event("1")
+                }
             }
         }
 
@@ -275,10 +295,11 @@ class PhotosBikerFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: Int) =
+        fun newInstance(param1: Int, param2: Boolean = false) =
             PhotosBikerFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLOR, param1)
+                    putBoolean(ARG_ROBO, param2)
                 }
             }
     }

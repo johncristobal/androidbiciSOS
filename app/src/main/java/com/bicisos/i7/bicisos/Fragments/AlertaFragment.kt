@@ -190,7 +190,7 @@ class AlertaFragment : Fragment() {
 // =================== action añlerta ==================================================================================
         imageViewAlerta.setOnClickListener {
 
-            val preferences = activity!!.getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
+            val preferences = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             preferences.edit().putString("fromReporte","alertaFragment").apply()
 
             alertaFrag = ReportFragment.newInstance(latitud!!,longitud!!,name!!)
