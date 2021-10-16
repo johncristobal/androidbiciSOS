@@ -23,8 +23,8 @@ android {
         applicationId "com.bicisos.i7.bicisos"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 18
-        versionName "1.6"
+        versionCode 19
+        versionName "1.7"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
