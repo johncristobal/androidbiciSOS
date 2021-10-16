@@ -50,7 +50,7 @@ class DetailReportFragment : Fragment() {
     private var id: String? = null
     private var fotos: String? = null
     private var report: Reporte? = null
-    //private var listener: FragmentDetalleListener? = null
+    private var listener: FragmentDetalleListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,6 +134,7 @@ class DetailReportFragment : Fragment() {
 //
         buttonCerrar.setOnClickListener {
 
+            listener?.detalleInteraction("")
             val prefs = requireActivity().getSharedPreferences(getString(R.string.preferences), Context.MODE_PRIVATE)
             if(prefs.getString("detalleMapFragment","null").equals("null")){
 
@@ -264,11 +265,11 @@ class DetailReportFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-//        if (context is FragmentDetalleListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener") as Throwable
-//        }
+        if (context is FragmentDetalleListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener") as Throwable
+        }
     }
 
     override fun onDetach() {
@@ -287,10 +288,10 @@ class DetailReportFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-//    interface FragmentDetalleListener {
-//        // TODO: Update argument type and name
-//        fun detalleInteraction(message: String)
-//    }
+    interface FragmentDetalleListener {
+        // TODO: Update argument type and name
+        fun detalleInteraction(message: String)
+    }
 
     companion object {
         /**

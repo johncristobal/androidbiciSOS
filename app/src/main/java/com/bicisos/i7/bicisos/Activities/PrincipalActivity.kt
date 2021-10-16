@@ -49,7 +49,7 @@ class PrincipalActivity : AppCompatActivity(),
     ,ApoyoFragment.OnFragmentInteractionListenerApoyo
     ,ReportFragment.OnFragmentInteractionListener
     ,DetallesApoyoFragment.OnFragmentInteractionListenerDetalles
-    //,DetailReportFragment.FragmentDetalleListener
+    ,DetailReportFragment.FragmentDetalleListener
 {
 
     var mapFragment = MapFragment()
@@ -370,7 +370,6 @@ class PrincipalActivity : AppCompatActivity(),
 
     override fun onFragmentAveria(message: String) {
         Log.w("vamonos","Adios fragment averia")
-        //alertAction.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(alertasFrag).commit()
 
 //        if(message.equals("listo")){
@@ -443,6 +442,14 @@ class PrincipalActivity : AppCompatActivity(),
 
         this.longitud = longitud
         this.latitud = latitud
+
+        if(opt.equals("detalle")){
+            alertAction.visibility = View.GONE
+        }
+    }
+
+    override fun detalleInteraction(message: String) {
+        alertAction.visibility = View.VISIBLE
     }
 
     fun alertaIniciarSesion(){
@@ -470,5 +477,6 @@ class PrincipalActivity : AppCompatActivity(),
         openMenu.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().remove(finalReportFrag).commit();
     }
+
     //keytool -list -v -keystore /Users/john.cristobal/Documents/sosciclistarele -alias sosciclista
 }

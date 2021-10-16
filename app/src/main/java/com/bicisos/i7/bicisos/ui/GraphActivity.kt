@@ -25,8 +25,10 @@ class GraphActivity : AppCompatActivity() {
         - cuenta ios???
 
     *** reportes bicis
-        *** FOTOS DE reporte de robo
-        - abrir detalle y obtener las fotos (liga iduser) o deberai ser id de
+         *** recuerda que siemore hay que subir jpg
+
+        - ajustar imagenes del detalle del reporte
+        - busqueda de num serie
 
         *** generalizar el rollo de las fotos...
         - para personaliza falta, ya quedo en reporte
@@ -37,8 +39,6 @@ class GraphActivity : AppCompatActivity() {
            - ciclovia 3
            - apoyo 4
            - panic 5
-
-        * service para visualizar reportes bicis robadas
 
     *** server nodeJS
         * al login again - si ya existe, solo ponerlo de nuevo en true

@@ -25,7 +25,7 @@ fun loadImage(view: ImageView, value: String?) {
 
 @BindingAdapter("lateralimg")
 fun loadImagelateral(view: ImageView, value: String?) {
-    val urlImg = ApiUrls.urlApi+"/"+value+"/lateral.png"
+    val urlImg = ApiUrls.urlApi+"/"+value+"/lateral.jpg"
 
     Glide.with(view.context)
         .load(urlImg)

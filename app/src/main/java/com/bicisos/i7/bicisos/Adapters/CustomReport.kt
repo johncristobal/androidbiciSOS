@@ -1,6 +1,7 @@
 package com.bicisos.i7.bicisos.Adapters
 
 import android.content.Context
+import android.util.Log
 //import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.bicisos.i7.bicisos.model.reportes.Reporte
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.custom_reporte.view.*
 
 class CustomReport(val context: Context, val reportes: List<Reporte>, val clickListener: (Reporte) -> Unit) : RecyclerView.Adapter<CustomReport.ViewHolder>(){
@@ -34,16 +36,23 @@ class CustomReport(val context: Context, val reportes: List<Reporte>, val clickL
 
         var foto = ""
         if(reportes[p1].robery?.photos!!.contains("sillin"))
-            foto = "sillin.png"
+            foto = "sillin.jpg"
         if(reportes[p1].robery?.photos!!.contains("manubrio"))
-            foto = "manubrio.png"
+            foto = "manubrio.jpg"
         if(reportes[p1].robery?.photos!!.contains("lateral"))
-            foto = "lateral.png"
+            foto = "lateral.jpg"
 
-        Glide.with(context)
-                .load(ApiUrls.urlApi+"/"+reportes[p1].id+"/"+foto)
-                .override(100,100)
-                .into(p0.imagenDetalle)
+//        Glide.with(context)
+//                .load(ApiUrls.urlApi+"/"+reportes[p1].id+"/"+foto)
+//                .override(100,100)
+//                .into(p0.imagenDetalle)
+
+        val urlImage = ApiUrls.urlApi+"/"+reportes[p1].id+"/"+foto
+        Picasso
+            .get()
+            .load(urlImage)
+            //.centerCrop()
+            .into(p0.imagenDetalle)
 
         p0.layi.setOnClickListener {
             clickListener(reportes[p1])

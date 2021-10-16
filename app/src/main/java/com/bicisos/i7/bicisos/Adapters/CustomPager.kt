@@ -32,7 +32,7 @@ class CustomPager (val context: Context, val imagenes: List<String>, val id: Str
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         //asignar elementos a viewhlder
-        val urlImage = ApiUrls.urlApi+"/"+id+"/"+imagenes[p1]+".png"
+        val urlImage = ApiUrls.urlApi+"/"+id+"/"+imagenes[p1]+".jpg"
         Picasso
             .get()
             .load(urlImage)

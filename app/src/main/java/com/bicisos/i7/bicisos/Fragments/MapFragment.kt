@@ -289,6 +289,8 @@ class MapFragment : Fragment()
                 ForegroundOnlyLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST
             )
         )
+
+        reloadData()
     }
 
     override fun onPause() {
@@ -337,6 +339,9 @@ class MapFragment : Fragment()
 
                     if (report.typeReport == "1") {
                         mMap.setInfoWindowAdapter(null)
+
+                        listener?.onFragmentInteractionMap(lastLocation.latitude,lastLocation.longitude,null,"detalle")
+
 
                         val prefs = activity!!.getSharedPreferences(
                             getString(R.string.preferences),
