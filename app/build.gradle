@@ -11,7 +11,7 @@ apply plugin: "androidx.navigation.safeargs"
 android {
     signingConfigs {
         release {
-            storeFile file('/Users/macbook/Documents/sosciclistarele')
+            storeFile file('/Users/johncristobal/Documents/sosciclistarele')
             //storeFile file('/Users/jcristobalj/Documents/sosciclistarele')
             storePassword 'sosciclista'
             keyAlias = 'sosciclista'
