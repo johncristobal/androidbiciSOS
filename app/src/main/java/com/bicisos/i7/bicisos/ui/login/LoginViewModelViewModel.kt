@@ -56,8 +56,8 @@ class LoginViewModelViewModel constructor(private val repository: Repository) : 
         }
     }
 
-    var phoneErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var passErrorMessage: MutableLiveData<String> = MutableLiveData()
+    var phoneErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var passErrorMessage: MutableLiveData<String?> = MutableLiveData()
     val MESSAGE = "Llena este campo correctamente."
 
     private fun validarGenericForm() : Boolean {

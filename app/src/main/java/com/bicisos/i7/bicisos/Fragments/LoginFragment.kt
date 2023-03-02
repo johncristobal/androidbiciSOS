@@ -327,8 +327,8 @@ class LoginFragment : Fragment() {
         scopeIO.launch {
             try{
                 val user = repo.loginGoogle(RegisterBicis(
-                    acct.displayName,
-                    acct.email,
+                    acct.displayName!!,
+                    acct.email!!,
                     ":P",
                     "123"
                 ))

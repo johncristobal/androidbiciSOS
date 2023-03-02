@@ -30,7 +30,7 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
     @ExperimentalCoroutinesApi
     fun loginGtt(user: String, pass: String) : Flow<State<out Map<String, Any>?>> = callbackFlow {
 
-        offer(State.loading())
+        trySend(State.loading()).isSuccess
         //get poliza data
 
         val docRef = mUsersCollection.document(user)
@@ -38,16 +38,16 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                    offer(State.success(document.data))
+                    trySend(State.success(document.data)).isSuccess
                 } else {
                     Log.d(TAG, "No such document")
-                    offer(State.failed("No such document"))
+                    trySend(State.failed("No such document")).isSuccess
                     cancel("No such document")
                 }
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
-                offer(State.failed(exception.localizedMessage!!))
+                trySend(State.failed(exception.localizedMessage!!)).isSuccess
                 cancel(exception.message.toString())
             }
 
@@ -62,15 +62,15 @@ class Repository constructor(private val api: ServiceApi) : SafeRequest() {
         val user = Firebase.auth.currentUser
         val db = Firebase.firestore
 
-        offer(State.loading())
+        trySend(State.loading()).isSuccess
 
         db.collection(Constants.COLLECTION_DATA).add(data)
             //mPostsCollection.add(data)
             .addOnCompleteListener {
-                offer(State.success("Success"))
+                trySend(State.success("Success")).isSuccess
             }
             .addOnFailureListener {
-                offer(State.failed(it.localizedMessage!!))
+                trySend(State.failed(it.localizedMessage!!)).isSuccess
                 cancel(it.message.toString())
             }
 

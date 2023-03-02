@@ -12,12 +12,20 @@ import kotlinx.android.synthetic.main.custommarker.view.*
 
 class CustomInfoWindowGoogleMap(val context: Context) : GoogleMap.InfoWindowAdapter {
 
-    override fun getInfoContents(p0: Marker?): View? {
+//    override fun getInfoContents(p0: Marker?): View? {
+//
+//        return null
+//    }
 
+//    override fun getInfoWindow(p0: Marker?): View? {
+//
+//    }
+
+    override fun getInfoContents(p0: Marker): View? {
         return null
     }
 
-    override fun getInfoWindow(p0: Marker?): View? {
+    override fun getInfoWindow(p0: Marker): View? {
         val mInfoView = (context as Activity).layoutInflater.inflate(R.layout.custommarker, null)
         val mInfoWindow: Reporte? = p0?.tag as Reporte?
 

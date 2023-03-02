@@ -103,15 +103,15 @@ class ContractViewModel constructor(private val repository : Repository, private
 
     val MESSAGE = "Llena este campo correctamente"
     val MESSAGE_EMAIL = "Verifica tu correo"
-    var nombreTitularErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var fechaNacimientoErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var rfcErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var telefonoErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var correoErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var direccionErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var cpErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var coloniaErrorMessage: MutableLiveData<String> = MutableLiveData()
-    var alcaldiaErrorMessage: MutableLiveData<String> = MutableLiveData()
+    var nombreTitularErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var fechaNacimientoErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var rfcErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var telefonoErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var correoErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var direccionErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var cpErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var coloniaErrorMessage: MutableLiveData<String?> = MutableLiveData()
+    var alcaldiaErrorMessage: MutableLiveData<String?> = MutableLiveData()
 
     private fun validarGenericForm() : Boolean {
         var resp = true

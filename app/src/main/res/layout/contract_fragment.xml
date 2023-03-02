@@ -161,7 +161,6 @@
                             app:hintEnabled="false"
                             app:errorEnabled="true"
                             android:background="@null"
-                            app:errorText="@{ contractViewModel.nombreTitularErrorMessage }"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView36">

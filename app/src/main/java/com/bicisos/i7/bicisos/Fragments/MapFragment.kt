@@ -332,7 +332,7 @@ class MapFragment : Fragment()
             )
         )
         mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-            override fun onMarkerClick(p0: Marker?): Boolean {
+            override fun onMarkerClick(p0: Marker): Boolean {
                 if (p0!!.tag is Reporte) {
 
                     val report = p0.tag as Reporte
@@ -446,7 +446,7 @@ class MapFragment : Fragment()
                             .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
                         val mark = mMap.addMarker(markerOptions)
-                        mark.tag = it
+                        mark?.tag = it
                     }
                 }
             }
@@ -481,8 +481,8 @@ class MapFragment : Fragment()
                         1
                     ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-                    val address = addresses.get(0)
-                        .getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    val address = addresses?.get(0)
+                        ?.getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
                     val uri = String.format(
                         Locale.ENGLISH,
