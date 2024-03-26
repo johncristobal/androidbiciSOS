@@ -27,7 +27,4 @@
     <!--mabok 1234-->
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyBz8udYk1zhNEw5i93c3V8_-x1favmLBp4</string>
 
-    <!--i7-->
-    <!--string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyADpHJU80NFr6m8WUmNUfTtJasRTSwn4l8</string-->
-
 </resources>
